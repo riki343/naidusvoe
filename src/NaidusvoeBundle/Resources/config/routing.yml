@@ -1,0 +1,3 @@
+naidusvoe_homepage:
+    path:     /
+    defaults: { _controller: NaidusvoeBundle:Index:index }

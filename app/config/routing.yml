@@ -1,0 +1,3 @@
+naidusvoe:
+    resource: "@NaidusvoeBundle/Resources/config/routing.yml"
+    prefix:   /

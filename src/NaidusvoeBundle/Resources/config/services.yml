@@ -1,0 +1,4 @@
+services:
+#    naidusvoe.example:
+#        class: NaidusvoeBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
