@@ -20,3 +20,7 @@ naidusvoe_signup:
 naidusvoe_signup_action:
     path: /signup/signup_action
     defaults: { _controller: NaidusvoeBundle:Index:signupAct }
+
+naidusvoe_default:
+    pattern: /{some}
+    defaults: { _controller: NaidusvoeBundle:Index:index }

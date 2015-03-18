@@ -14,7 +14,7 @@ class IndexController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('@Naidusvoe/layout.html.twig');
+        return $this->render('@Naidusvoe/index.html.twig');
     }
 
     /**
