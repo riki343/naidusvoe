@@ -53,14 +53,14 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="surname", type="string", length=255)
+     * @ORM\Column(name="surname", type="string", length=255, nullable=true)
      */
     private $surname;
 
@@ -181,7 +181,9 @@ class User implements UserInterface, \Serializable
      */
     public function __construct()
     {
-        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles = new ArrayCollection();
+        $this->name = null;
+        $this->surname = null;
     }
 
     /**
@@ -402,5 +404,29 @@ class User implements UserInterface, \Serializable
     public function removeRole(\NaidusvoeBundle\Entity\Role $roles)
     {
         $this->roles->removeElement($roles);
+    }
+
+    /**
+     * @param EntityManager $em
+     * @param EncoderFactory $encoderFactory
+     * @param array $parameters
+     * @return User
+     */
+    public static function addUser($em, $encoderFactory, $parameters)
+    {
+        /** @var User $user */
+        $user = new User();
+        $encoder = $encoderFactory->getEncoder($user);
+        $user->setEmail($parameters['email']);
+        $user->setUsername($parameters['username']);
+        $user->setPassword($encoder->encodePassword($parameters['password'], $user->getSalt()));
+        $user->setRegistered(new \DateTime());
+        $user->setLastActive(new \DateTime());
+        $user->addRole(Role::getUserRole($em));
+        $user->setActive(false);
+        $em->persist($user);
+
+        $em->flush();
+        return $user;
     }
 }

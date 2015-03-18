@@ -1,0 +1,60 @@
+{% extends '@Naidusvoe/layout.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-offset-3 col-xs-6">
+                <form class="form-horizontal" action="{{ path('naidusvoe_signup_action') }}" method="post">
+                    <div class="page-header">
+                        <h3 class="text-center">Регистрация</h3>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <label class="form-control-static" for="sign_user_login">Логин:</label>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon"></div>
+                            <input type="text" name="username" id="sign_user_login" class="form-control">
+                        </div>
+
+                        <div class="input-group">
+                            <label class="form-control-static" for="sign_user_mail">Email:</label>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon"></div>
+                            <input type="email" name="email" id="sign_user_mail" class="form-control">
+                        </div>
+
+                        <div class="input-group">
+                            <label class="form-control-static" for="sign_user_pass">Пароль:</label>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon"></div>
+                            <input type="password" name="password" id="sign_user_pass" class="form-control">
+                        </div>
+
+                        <div class="input-group">
+                            <label class="form-control-static" for="sign_user_pass_repeat">Повторите пароль:</label>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon"></div>
+                            <input type="password" id="sign_user_pass_repeat" class="form-control">
+                        </div>
+
+                        <hr/>
+
+                        <div class="btn-group">
+                            <button type="submit" class="form-control btn btn-default btn-success btn-">Регистрация</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
