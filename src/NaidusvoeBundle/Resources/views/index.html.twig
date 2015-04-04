@@ -1,10 +1,10 @@
 {% extends '@Naidusvoe/layout.html.twig' %}
 
 {% block title %}
-    {% if is_granted('ROLE_USER') %}
-        Hello {{ app.user.username }}
+    {% if app.user and is_granted('ROLE_USER') %}
+        Naidusvoe
     {% else %}
-        Hello guest
+        Naidusvoe
     {% endif %}
 {% endblock %}
 
@@ -12,54 +12,72 @@
     <base href="/">
 {% endblock %}
 
-{% block body %}
+{% block nav %}
     <nav class="navbar navbar-default">
         <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Главная</a>
+                <a class="navbar-brand" href="/">Головна</a>
             </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="collapse navbar-collapse" id="menu-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="/trading">Куплю/Продам</a></li>
                 </ul>
 
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Link</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="{{ path('naidusvoe_logout') }}" style="cursor: pointer;">
-                                    Выход
-                                    <button name="exit-btn" class="btn-link" formaction="{{ path('naidusvoe_logout') }}" type="submit"></button>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                {% if app.user and is_granted('ROLE_USER') %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Меню
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="/">Мій профіль</a>
+                                </li>
+                                <li>
+                                    <a href="/cabinet">Кабінет</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="{{ path('naidusvoe_logout') }}" target="_self">
+                                        Вихід
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                {% else %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{ path('naidusvoe_login') }}" target="_self">Вхід</a></li>
+                        <li><a href="{{ path('naidusvoe_signup') }}" target="_self">Реєстрація</a></li>
+                    </ul>
+                {% endif %}
+
             </div>
         </div>
     </nav>
+{% endblock %}
 
-    <div class="container">
+{% block body %}
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-2 hidden-sm hidden-xs">
+                <h1 align="center">Рекл</h1>
+            </div>
+            <div class="col-md-8 col-xs-12">
                 <div class="content">
-                    <div ng-view class="slide"></div>
+                    <div ng-view></div>
                 </div>
+            </div>
+            <div class="col-md-2 hidden-sm hidden-xs">
+                <h1 align="center">ама!</h1>
             </div>
         </div>
     </div>

@@ -21,6 +21,7 @@ security:
         login:
             pattern:  ^/login$
             security: false
+            anonymous: ~
 
         secured_area:
             pattern:    ^/

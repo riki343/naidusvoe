@@ -21,6 +21,34 @@ naidusvoe_signup_action:
     path: /signup/signup_action
     defaults: { _controller: NaidusvoeBundle:Index:signupAct }
 
-naidusvoe_default:
+
+####################################################################
+############## Default Routes for AngularJS Routing ################
+####################################################################
+naidusvoe_default_level0:
     pattern: /{some}
     defaults: { _controller: NaidusvoeBundle:Index:index }
+
+naidusvoe_default_level1:
+    pattern: /{some}/{some1}
+    defaults: { _controller: NaidusvoeBundle:Index:index }
+
+naidusvoe_default_level2:
+    pattern: /{some}/{some1}/{some2}
+    defaults: { _controller: NaidusvoeBundle:Index:index }
+
+naidusvoe_default_level3:
+    pattern: /{some}/{some1}/{some2}/{some3}
+    defaults: { _controller: NaidusvoeBundle:Index:index }
+
+naidusvoe_default_level4:
+    pattern: /{some}/{some1}/{some2}/{some3}/{some4}
+    defaults: { _controller: NaidusvoeBundle:Index:index }
+
+naidusvoe_default_level5:
+    pattern: /{some}/{some1}/{some2}/{some3}/{some4}/{some5}
+    defaults: { _controller: NaidusvoeBundle:Index:index }
+
+####################################################################
+####################################################################
+####################################################################

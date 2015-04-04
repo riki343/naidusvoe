@@ -96,14 +96,25 @@ class User implements UserInterface, \Serializable
 
     /**
      * @var string
-     *
      * @ORM\Column(name="avatar", type="string", length=255, nullable=true, options={"default" = null})
      */
     private $avatar;
 
     /**
+     * @var int
+     * @ORM\Column(name="language_id", type="integer", nullable=true, options={"default" = null})
+     */
+    private $languageid;
+
+    /**
+     * @var Language
+     * @ORM\ManyToOne(targetEntity="Language")
+     * @ORM\JoinColumn(name="language_id", referencedColumnName="id")
+     */
+    private $language;
+
+    /**
      * Get password
-     *
      * @return string
      */
     public function getPassword()
@@ -113,7 +124,6 @@ class User implements UserInterface, \Serializable
 
     /**
      * Get username
-     *
      * @return string
      */
     public function getUsername()
@@ -176,6 +186,7 @@ class User implements UserInterface, \Serializable
      * @inheritDoc
      */
     public function eraseCredentials() { }
+
     /**
      * Constructor
      */
@@ -184,6 +195,8 @@ class User implements UserInterface, \Serializable
         $this->roles = new ArrayCollection();
         $this->name = null;
         $this->surname = null;
+        $this->language = null;
+        $this->languageid = null;
     }
 
     /**
@@ -428,5 +441,51 @@ class User implements UserInterface, \Serializable
 
         $em->flush();
         return $user;
+    }
+
+    /**
+     * Set languageid
+     *
+     * @param integer $languageid
+     * @return User
+     */
+    public function setLanguageid($languageid)
+    {
+        $this->languageid = $languageid;
+
+        return $this;
+    }
+
+    /**
+     * Get languageid
+     *
+     * @return integer 
+     */
+    public function getLanguageid()
+    {
+        return $this->languageid;
+    }
+
+    /**
+     * Set language
+     *
+     * @param \NaidusvoeBundle\Entity\Language $language
+     * @return User
+     */
+    public function setLanguage(\NaidusvoeBundle\Entity\Language $language = null)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * Get language
+     *
+     * @return \NaidusvoeBundle\Entity\Language 
+     */
+    public function getLanguage()
+    {
+        return $this->language;
     }
 }

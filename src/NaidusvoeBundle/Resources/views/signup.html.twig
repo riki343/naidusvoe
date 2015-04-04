@@ -1,4 +1,4 @@
-{% extends '@Naidusvoe/layout.html.twig' %}
+{% extends '@Naidusvoe/index.html.twig' %}
 
 {% block title %}{% endblock %}
 
@@ -8,11 +8,11 @@
             <div class="col-xs-offset-3 col-xs-6">
                 <form class="form-horizontal" action="{{ path('naidusvoe_signup_action') }}" method="post">
                     <div class="page-header">
-                        <h3 class="text-center">Регистрация</h3>
+                        <h3 class="text-center">Реєстрація</h3>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <label class="form-control-static" for="sign_user_login">Логин:</label>
+                            <label class="form-control-static" for="sign_user_login">Логін:</label>
                         </div>
                         <div class="input-group">
                             <div class="input-group-addon"></div>
@@ -36,7 +36,7 @@
                         </div>
 
                         <div class="input-group">
-                            <label class="form-control-static" for="sign_user_pass_repeat">Повторите пароль:</label>
+                            <label class="form-control-static" for="sign_user_pass_repeat">Повторіть пароль:</label>
                         </div>
                         <div class="input-group">
                             <div class="input-group-addon"></div>
