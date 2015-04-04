@@ -5,6 +5,7 @@ namespace NaidusvoeBundle\Entity;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints\Image;
 
 /**
  * Attachment
@@ -23,16 +24,10 @@ class Attachment
     private $id;
 
     /**
-     * @var string
-     * @ORM\Column(name="file_name", type="string", length=255)
+     * @var resource
+     * @ORM\Column(name="image", type="blob")
      */
-    private $fileName;
-
-    /**
-     * @var string
-     * @ORM\Column(name="path", type="string")
-     */
-    private $path;
+    private $image;
 
     /**
      * @var int
@@ -47,6 +42,34 @@ class Attachment
      */
     private $advertisment;
 
+    public function getInArray() {
+        return array(
+            'id' => $this->getId(),
+            'image' => stream_get_contents($this->getImage()),
+            'advID' => $this->getAdvertismentID(),
+        );
+    }
+
+    /**
+     * @param EntityManager $em
+     * @param array $imagesArray
+     * @param int $advID
+     * @return array
+     */
+    public static function uploadImages(EntityManager $em, $imagesArray, $advID) {
+        $uploadedImages = array();
+        foreach ($imagesArray as $image) {
+            $attachment = new Attachment();
+            $adv = $em->getRepository('NaidusvoeBundle:Advertisment')->find($advID);
+            $attachment->setAdvertisment($adv);
+            $attachment->setImage($image['img']);
+            $em->persist($attachment);
+            $uploadedImages[] = $attachment;
+        }
+        $em->flush();
+        return $uploadedImages;
+    }
+
     /**
      * Get id
      *
@@ -55,52 +78,6 @@ class Attachment
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set fileName
-     *
-     * @param string $fileName
-     * @return Attachment
-     */
-    public function setFileName($fileName)
-    {
-        $this->fileName = $fileName;
-
-        return $this;
-    }
-
-    /**
-     * Get fileName
-     *
-     * @return string 
-     */
-    public function getFileName()
-    {
-        return $this->fileName;
-    }
-
-    /**
-     * Set path
-     *
-     * @param string $path
-     * @return Attachment
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Get path
-     *
-     * @return string 
-     */
-    public function getPath()
-    {
-        return $this->path;
     }
 
     /**
@@ -147,5 +124,28 @@ class Attachment
     public function getAdvertisment()
     {
         return $this->advertisment;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     * @return Attachment
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string 
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

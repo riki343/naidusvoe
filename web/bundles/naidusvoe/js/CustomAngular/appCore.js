@@ -27,8 +27,16 @@ Naidusvoe.config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$l
                 templateUrl: TEMPLATES.cabinetFavorites,
                 controller: 'cabinetController'
             })
+            .when('/cabinet/addAdv', {
+                templateUrl: TEMPLATES.addAdvertisment,
+                controller: 'advertismentController'
+            })
             .when('/trade', {
                 templateUrl: TEMPLATES.trading,
+                controller: 'tradingController'
+            })
+            .when('/trade/:adv_id', {
+                templateUrl: TEMPLATES.tradingAdv,
                 controller: 'tradingController'
             })
             .when('/found', {

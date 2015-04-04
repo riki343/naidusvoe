@@ -30,7 +30,7 @@ class AdvertismentSubCategory
 
     /**
      * @var AdvertismentCategory
-     * @ORM\ManyToOne(targetEntity="AdvertismentCategory")
+     * @ORM\ManyToOne(targetEntity="AdvertismentCategory", inversedBy="subCategories")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category;
@@ -40,6 +40,14 @@ class AdvertismentSubCategory
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $name;
+
+    public function getInArray() {
+        return array(
+            'id' => $this->getId(),
+            'categoryID' => $this->getCategoryID(),
+            'name' => $this->getName(),
+        );
+    }
 
     /**
      * Get id

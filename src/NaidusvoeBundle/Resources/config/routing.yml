@@ -21,6 +21,18 @@ naidusvoe_signup_action:
     path: /signup/signup_action
     defaults: { _controller: NaidusvoeBundle:Index:signupAct }
 
+naidusvoe_get_adv_info:
+    path: /get/adv_info
+    defaults: { _controller: NaidusvoeBundle:Advertisment:getAdvDetails }
+
+naidusvoe_add_adv:
+    path: /add/adv
+    defaults: { _controller: NaidusvoeBundle:Advertisment:addNewAdv }
+
+naidusvoe_get_adv:
+    pattern: /get/adv/{adv_id}
+    defaults: { _controller: NaidusvoeBundle:Advertisment:getAdv }
+
 
 ####################################################################
 ############## Default Routes for AngularJS Routing ################

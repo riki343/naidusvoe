@@ -114,6 +114,18 @@ class User implements UserInterface, \Serializable
     private $language;
 
     /**
+     * @var string
+     * @ORM\Column(name="telephone_number", type="string", nullable=true, options={"default" = null})
+     */
+    private $telephoneNumber;
+
+    /**
+     * @var string
+     * @ORM\Column(name="skype", type="string", nullable=true, options={"default" = null})
+     */
+    private $skype;
+
+    /**
      * Get password
      * @return string
      */
@@ -487,5 +499,51 @@ class User implements UserInterface, \Serializable
     public function getLanguage()
     {
         return $this->language;
+    }
+
+    /**
+     * Set telephoneNumber
+     *
+     * @param string $telephoneNumber
+     * @return User
+     */
+    public function setTelephoneNumber($telephoneNumber)
+    {
+        $this->telephoneNumber = $telephoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get telephoneNumber
+     *
+     * @return string 
+     */
+    public function getTelephoneNumber()
+    {
+        return $this->telephoneNumber;
+    }
+
+    /**
+     * Set skype
+     *
+     * @param string $skype
+     * @return User
+     */
+    public function setSkype($skype)
+    {
+        $this->skype = $skype;
+
+        return $this;
+    }
+
+    /**
+     * Get skype
+     *
+     * @return string 
+     */
+    public function getSkype()
+    {
+        return $this->skype;
     }
 }

@@ -29,6 +29,19 @@ class AdvertismentType
     private $name;
 
     /**
+     * @var string
+     * @ORM\Column(name="en_name", type="string", length=100)
+     */
+    private $enName;
+
+    public function getInArray() {
+        return array(
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+        );
+    }
+
+    /**
      * @param EntityManager $em
      * @return AdvertismentType
      */
@@ -83,5 +96,28 @@ class AdvertismentType
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set enName
+     *
+     * @param string $enName
+     * @return AdvertismentType
+     */
+    public function setEnName($enName)
+    {
+        $this->enName = $enName;
+
+        return $this;
+    }
+
+    /**
+     * Get enName
+     *
+     * @return string 
+     */
+    public function getEnName()
+    {
+        return $this->enName;
     }
 }

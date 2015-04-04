@@ -39,20 +39,7 @@ class Advertisment
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
-
-    /**
-     * @var integer
-     * @ORM\Column(name="type_id", type="integer")
-     */
-    private $typeID;
-
-    /**
-     * @var AdvertismentType
-     * @ORM\ManyToOne(targetEntity="AdvertismentType")
-     * @ORM\JoinColumn(name="type_id", referencedColumnName="id")
-     */
-    private $type;
-
+    
     /**
      * @var integer
      * @ORM\Column(name="category_id", type="integer")
@@ -81,7 +68,7 @@ class Advertisment
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Attachment", mappedBy="advertisment")
+     * @ORM\OneToMany(targetEntity="Attachment", mappedBy="advertisment", cascade={"remove"})
      */
     private $attachments;
 
@@ -151,6 +138,58 @@ class Advertisment
      * @ORM\Column(name="category_top", type="boolean", options={"default" = false})
      */
     private $categoryTop;
+
+    public function getInArray() {
+        return array(
+            'id' => $this->getId(),
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
+            'category' => $this->getCategory()->getInArray(),
+            'subCategory' => $this->getSubCategory()->getInArray(),
+            'attachments' => Functions::arrayToJson($this->getAttachments()),
+            'price' => $this->getPrice(),
+            'priceType' => $this->getPriceType()->getInArray(),
+            'contactPerson' => $this->getContactPerson(),
+            'email' => $this->getEmail(),
+            'telephoneNumber' => $this->getTelephoneNumber(),
+            'skype' => $this->getSkype(),
+            'advBlock' => $this->getAdvertismentBlock(),
+            'advOnMain' => $this->getAdvertismentOnMainPage(),
+            'advColor' => $this->getColorHighlight(),
+            'advTop' => $this->getCategoryTop(),
+        );
+    }
+
+    /**
+     * @param EntityManager $em
+     * @param object $data
+     * @return Advertisment
+     */
+    public static function addNewAdv(EntityManager $em, $data) {
+        $category = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')->find($data->categoryID);
+        $subCategory = $em->getRepository('NaidusvoeBundle:AdvertismentSubCategory')->find($data->subCategoryID);
+        $priceType = $em->getRepository('NaidusvoeBundle:PriceType')->find($data->priceType);
+        $adv = new Advertisment();
+        $adv->setDate(new \DateTime());
+        $adv->setPrice($data->price);
+        $adv->setPriceType($priceType);
+        $adv->setCategory($category);
+        $adv->setSubCategory($subCategory);
+        $adv->setTitle($data->title);
+        $adv->setDescription($data->description);
+        $adv->setContactPerson($data->contactPerson);
+        $adv->setEmail($data->email);
+        $adv->setTelephoneNumber($data->telephoneNumber);
+        $adv->setSkype($data->skype);
+        $adv->setAdvertismentOnMainPage($data->advOnMain);
+        $adv->setAdvertismentBlock($data->advInBlock);
+        $adv->setCategoryTop($data->advOnTop);
+        $adv->setColorHighlight($data->advColor);
+
+        $em->persist($adv);
+        $em->flush();
+        return $adv;
+    }
 
     /**
      * Constructor
@@ -237,29 +276,6 @@ class Advertisment
     public function getDate()
     {
         return $this->date;
-    }
-
-    /**
-     * Set typeID
-     *
-     * @param integer $typeID
-     * @return Advertisment
-     */
-    public function setTypeID($typeID)
-    {
-        $this->typeID = $typeID;
-
-        return $this;
-    }
-
-    /**
-     * Get typeID
-     *
-     * @return integer 
-     */
-    public function getTypeID()
-    {
-        return $this->typeID;
     }
 
     /**

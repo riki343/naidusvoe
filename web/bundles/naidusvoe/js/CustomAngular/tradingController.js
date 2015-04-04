@@ -1,5 +1,16 @@
-Naidusvoe.controller('tradingController', ['$scope', '$http',
-    function ($scope, $http) {
-        $scope.array = [1, 2, 3, 4, 5];
+Naidusvoe.controller('tradingController', ['$scope', '$http', '$routeParams',
+    function ($scope, $http, $routeParams) {
+        $scope.adv_id = $routeParams.adv_id;
+
+        $scope.urlGetAdv = URLS.getAdv;
+
+        $scope.getAdv = function () {
+            var advUrl = $scope.urlGetAdv.replace('adv_id', $scope.adv_id);
+            $http.get(advUrl)
+                .success(function (response) {
+                    $scope.Adv = response;
+                }
+            );
+        };
     }
 ]);

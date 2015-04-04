@@ -28,6 +28,13 @@ class PriceType
      */
     private $name;
 
+    public function getInArray() {
+        return array(
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+        );
+    }
+
     /**
      * @param EntityManager $em
      * @return PriceType

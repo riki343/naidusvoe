@@ -35,17 +35,26 @@
     <script src="{{ asset('bundles/naidusvoe/js/CustomAngular/indexController.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/naidusvoe/js/CustomAngular/tradingController.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/naidusvoe/js/CustomAngular/cabinetController.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/naidusvoe/js/CustomAngular/advertismentController.js') }}" type="text/javascript"></script>
 
     <script type="text/javascript" language="JavaScript">
         var TEMPLATES = {
             'index': "{{ asset('bundles/naidusvoe/templates/index.html') }}",
             'trading': "{{ asset('bundles/naidusvoe/templates/trading.html') }}",
+            'tradingAdv': "{{ asset('bundles/naidusvoe/templates/tradingAdv.html') }}",
             'gift': "{{ asset('bundles/naidusvoe/templates/gift.html') }}",
             'found': "{{ asset('bundles/naidusvoe/templates/found.html') }}",
             'cabinet': "{{ asset('bundles/naidusvoe/templates/cabinet.html') }}",
             'cabinetMessages': "{{ asset('bundles/naidusvoe/templates/cabinetMessages.html') }}",
             'cabinetSettings': "{{ asset('bundles/naidusvoe/templates/cabinetSettings.html') }}",
             'cabinetFavorites': "{{ asset('bundles/naidusvoe/templates/cabinetFavorites.html') }}",
+            'addAdvertisment': "{{ asset('bundles/naidusvoe/templates/addAdvertisment.html') }}",
+        };
+
+        var URLS = {
+            'getAdvDetails': "{{ path('naidusvoe_get_adv_info') }}",
+            'addAdv': "{{ path('naidusvoe_add_adv') }}",
+            'getAdv': "{{ path('naidusvoe_get_adv', { 'adv_id': 'adv_id' }) }}",
         };
     </script>
 
