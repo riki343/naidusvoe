@@ -27,8 +27,16 @@ Naidusvoe.config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$l
                 templateUrl: TEMPLATES.cabinetFavorites,
                 controller: 'cabinetController'
             })
-            .when('/trading', {
+            .when('/trade', {
                 templateUrl: TEMPLATES.trading,
+                controller: 'tradingController'
+            })
+            .when('/found', {
+                templateUrl: TEMPLATES.found,
+                controller: 'tradingController'
+            })
+            .when('/give', {
+                templateUrl: TEMPLATES.gift,
                 controller: 'tradingController'
             })
             .otherwise({
@@ -38,5 +46,3 @@ Naidusvoe.config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$l
         $locationProvider.html5Mode(true);
     }
 ]);
-
-console.log('Core was loaded...');

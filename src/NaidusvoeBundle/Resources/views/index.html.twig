@@ -27,7 +27,9 @@
 
             <div class="collapse navbar-collapse" id="menu-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/trading">Куплю/Продам</a></li>
+                    <li><a href="/trade">Куплю/Продам</a></li>
+                    <li><a href="/found">Знайшов/Загубив</a></li>
+                    <li><a href="/give">Віддам/Потребую</a></li>
                 </ul>
 
                 {% if app.user and is_granted('ROLE_USER') %}
@@ -68,16 +70,85 @@
 {% block body %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2 hidden-sm hidden-xs">
-                <h1 align="center">Рекл</h1>
-            </div>
-            <div class="col-md-8 col-xs-12">
+            <div class="col-md-9 col-xs-12">
                 <div class="content">
                     <div ng-view></div>
                 </div>
             </div>
-            <div class="col-md-2 hidden-sm hidden-xs">
-                <h1 align="center">ама!</h1>
+
+            <div class="col-xs-12 hidden-md hidden-lg" style="padding: 50px;"></div>
+
+            <div class="col-md-3 col-xs-12">
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <h2 align="center">Оголошення!</h2>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <img class="img-responsive" src="{{ asset('bundles/naidusvoe/img/def.jpg') }}" />
+                            </div>
+                            <div class="col-xs-8">
+                                <h4 class="text-info"><a href="">Оголошення 1</a></h4>
+                                <p class="text-muted" style="overflow: hidden; text-overflow: ellipsis;">
+                                    <i>Опис до оголошення 1</i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <img class="img-responsive" src="{{ asset('bundles/naidusvoe/img/def.jpg') }}" />
+                            </div>
+                            <div class="col-xs-8">
+                                <h4 class="text-info"><a href="">Оголошення 2</a></h4>
+                                <p class="text-muted" style="overflow: hidden; text-overflow: ellipsis;">
+                                    <i>Опис до оголошення 2</i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <img class="img-responsive" src="{{ asset('bundles/naidusvoe/img/def.jpg') }}" />
+                            </div>
+                            <div class="col-xs-8">
+                                <h4 class="text-info"><a href="">Оголошення 3</a></h4>
+                                <p class="text-muted" style="overflow: hidden; text-overflow: ellipsis;">
+                                    <i>Опис до оголошення 3</i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <img class="img-responsive" src="{{ asset('bundles/naidusvoe/img/def.jpg') }}" />
+                            </div>
+                            <div class="col-xs-8">
+                                <h4 class="text-info"><a href="">Оголошення 4</a></h4>
+                                <p class="text-muted" style="overflow: hidden; text-overflow: ellipsis;">
+                                    <i>Опис до оголошення 4</i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <img class="img-responsive" src="{{ asset('bundles/naidusvoe/img/def.jpg') }}" />
+                            </div>
+                            <div class="col-xs-8">
+                                <h4 class="text-info"><a href="">Оголошення 5</a></h4>
+                                <p class="text-muted" style="overflow: hidden; text-overflow: ellipsis;">
+                                    <i>Опис до оголошення 5</i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
