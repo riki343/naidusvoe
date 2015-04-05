@@ -27,7 +27,9 @@ class AdvertismentController extends Controller
         /** @var array $categories */
         $categories = Functions::arrayToJson($em->getRepository('NaidusvoeBundle:AdvertismentCategory')->findAll());
         $priceTypes = Functions::arrayToJson($em->getRepository('NaidusvoeBundle:PriceType')->findAll());
+        $advTypes = Functions::arrayToJson($em->getRepository('NaidusvoeBundle:AdvertismentType')->findAll());
         $info = array(
+            'advTypes' => $advTypes,
             'categories' => $categories,
             'priceTypes' => $priceTypes,
             'contactPerson' => $user->getName() . ' ' . $user->getSurname(),
@@ -51,7 +53,7 @@ class AdvertismentController extends Controller
         $em = $this->getDoctrine()->getManager();
         $adv = Advertisment::addNewAdv($em, $data);
         $images = Attachment::uploadImages($em, $data->photos, $adv->getId());
-        return new JsonResponse($adv->getInArray());
+        return new JsonResponse(($adv) ? $adv->getInArray() : null);
     }
 
     /**

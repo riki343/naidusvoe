@@ -58,15 +58,17 @@ class Attachment
      */
     public static function uploadImages(EntityManager $em, $imagesArray, $advID) {
         $uploadedImages = array();
-        foreach ($imagesArray as $image) {
-            $attachment = new Attachment();
-            $adv = $em->getRepository('NaidusvoeBundle:Advertisment')->find($advID);
-            $attachment->setAdvertisment($adv);
-            $attachment->setImage($image['img']);
-            $em->persist($attachment);
-            $uploadedImages[] = $attachment;
+        if ($imagesArray) {
+            foreach ($imagesArray as $image) {
+                $attachment = new Attachment();
+                $adv = $em->getRepository('NaidusvoeBundle:Advertisment')->find($advID);
+                $attachment->setAdvertisment($adv);
+                $attachment->setImage($image['img']);
+                $em->persist($attachment);
+                $uploadedImages[] = $attachment;
+            }
+            $em->flush();
         }
-        $em->flush();
         return $uploadedImages;
     }
 

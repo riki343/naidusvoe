@@ -18,4 +18,16 @@ class Functions {
         }
         return $jsonArray;
     }
+
+    /**
+     * @param $array
+     * @return array
+     */
+    public static function arrayToJsonWithoutParent($array) {
+        $jsonArray = array();
+        foreach ($array as $item) {
+            $jsonArray[] = $item->getInArrayWithoutParent();
+        }
+        return $jsonArray;
+    }
 }

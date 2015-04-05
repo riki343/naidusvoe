@@ -30,7 +30,7 @@ class AdvertismentCategory
 
     /**
      * @var AdvertismentType
-     * @ORM\ManyToOne(targetEntity="AdvertismentType")
+     * @ORM\ManyToOne(targetEntity="AdvertismentType", inversedBy="categories")
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id")
      */
     private $type;
@@ -56,6 +56,24 @@ class AdvertismentCategory
             'subCategories' => Functions::arrayToJson($this->getSubCategories()),
         );
     }
+
+    public function getInArrayWithoutParent() {
+        return array(
+            'id' => $this->getId(),
+            'typeID' => $this->getTypeID(),
+            'name' => $this->getName(),
+            'subCategories' => Functions::arrayToJson($this->getSubCategories()),
+        );
+    }
+
+    public function getInArraySingle() {
+        return array(
+            'id' => $this->getId(),
+            'typeID' => $this->getTypeID(),
+            'name' => $this->getName(),
+        );
+    }
+
     /**
      * Constructor
      */

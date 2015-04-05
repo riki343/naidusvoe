@@ -5,6 +5,7 @@ Naidusvoe.controller('advertismentController', ['$scope', '$http', '$routeParams
             'description': null,
             'categoryID': null,
             'subCategoryID': null,
+            'typeID': null,
             'photos': [],
             'price': null,
             'priceType': 1,
@@ -21,6 +22,7 @@ Naidusvoe.controller('advertismentController', ['$scope', '$http', '$routeParams
         $scope.subCategories = null;
         $scope.priceTypes = null;
         $scope.categories = null;
+        $scope.advTypes = null;
 
         $scope.urlGetAdvDetails = URLS.getAdvDetails;
         $scope.urlAddAdv = URLS.addAdv;
@@ -29,6 +31,7 @@ Naidusvoe.controller('advertismentController', ['$scope', '$http', '$routeParams
         $scope.getAdvDetails = function () {
             $http.get($scope.urlGetAdvDetails)
                 .success(function (response) {
+                    $scope.advTypes = response.advTypes;
                     $scope.categories = response.categories;
                     $scope.priceTypes = response.priceTypes;
                     $scope.addAdv.contactPerson = response.contactPerson;
@@ -43,7 +46,7 @@ Naidusvoe.controller('advertismentController', ['$scope', '$http', '$routeParams
             $http.post($scope.urlAddAdv, { 'adv': adv })
                 .success(function (response) {
                     if (response) {
-                        $location.href = '/adv/' + response.category.type.name + '/' + response.id;
+                        location.href = '/adv/' + response.type.enName + '/' + response.id;
                     }
                 }
             );
@@ -59,20 +62,36 @@ Naidusvoe.controller('advertismentController', ['$scope', '$http', '$routeParams
             }
         };
 
+        $scope.selectedType = function (id) {
+            if (id) {
+                for (var i = 0; i < $scope.advTypes.length; i++) {
+                    if ($scope.advTypes[i].id == id) {
+                        return $scope.advTypes[i].categories;
+                    }
+                }
+            }
+        };
+
         function readURL(input, id) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#' + id + '_img').attr('src', e.target.result);
-                    var exist = false;
+                    var index = -1;
                     for (var i = 0; i < $scope.addAdv.photos.length; i++) {
                         if ($scope.addAdv.photos[i].id == id) {
-                            $scope.addAdv.photos[i].img = e.target.result;
-                            exist = true;
+                            index = i;
+                            break;
                         }
                     }
-                    if (!exist) {
-                        $scope.addAdv.photos.push({ 'img': e.target.result, 'id': id });
+                    if (index == -1) {
+                        $scope.$apply(function () {
+                            $scope.addAdv.photos.push({ 'img': e.target.result, 'id': id });
+                        });
+                    } else {
+                        $scope.$apply(function () {
+                            $scope.addAdv.photos[index].img = e.target.result;
+                        });
                     }
                 };
                 reader.readAsDataURL(input.files[0]);

@@ -1,7 +1,14 @@
-<form name="addAdvForm" enctype="multipart/form-data" ng-init="getAdvDetails();">
+<form name="addAdvForm" ng-init="getAdvDetails();">
     <label>
         Заголовок:
         <input type="text" ng-minlength="3" ng-maxlength="67" name="title" ng-model="addAdv.title" required />
+    </label><br/>
+
+    <label>
+        Тип:
+        <select name="category" ng-model="addAdv.typeID" ng-change="categories = selectedType(addAdv.typeID)" required>
+            <option ng-repeat="type in advTypes" value="[[ type.id ]]">[[ type.name ]]</option>
+        </select>
     </label><br/>
 
     <label>
@@ -24,44 +31,44 @@
     </label><br/>
 
     <label>
-        Фотографії:
+        Фотографії [[ addAdv.photos.length ]] / 6:
     </label><br/>
 
     <div class="row">
         <div class="col-md-2 col-xs-4">
-            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(1);">
+            <input style="position: absolute; width: 85%; height: 100%; opacity: 0;" class="upload_image" id="upload_image_1" type="file"/>
+            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" class="input-hidden">
                 <img src="bundles/naidusvoe/img/plus1.png" class="img-responsive" id="upload_image_1_img"/>
-                <input style="display: none;" class="upload_image" id="upload_image_1" type="file"/>
             </div>
         </div>
         <div class="col-md-2 col-xs-4">
-            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(2);">
+            <input style="position: absolute; width: 85%; height: 100%; opacity: 0;" class="upload_image" id="upload_image_2" type="file"/>
+            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(2);" ng-if="addAdv.photos.length > 0">
                 <img src="bundles/naidusvoe/img/plus1.png" class="img-responsive" id="upload_image_2_img"/>
-                <input style="display: none;" class="upload_image" id="upload_image_2" type="file"/>
             </div>
         </div>
         <div class="col-md-2 col-xs-4">
-            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(3);">
+            <input style="position: absolute; width: 85%; height: 100%; opacity: 0;" class="upload_image" id="upload_image_3" type="file"/>
+            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(3);" ng-if="addAdv.photos.length > 1">
                 <img src="bundles/naidusvoe/img/plus1.png" class="img-responsive" id="upload_image_3_img"/>
-                <input style="display: none;" class="upload_image" id="upload_image_3" type="file"/>
             </div>
         </div>
         <div class="col-md-2 col-xs-4">
-            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(4);">
+            <input style="position: absolute; width: 85%; height: 100%; opacity: 0;" class="upload_image" id="upload_image_4" type="file"/>
+            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(4);" ng-if="addAdv.photos.length > 2">
                 <img src="bundles/naidusvoe/img/plus1.png" class="img-responsive" id="upload_image_4_img"/>
-                <input style="display: none;" class="upload_image" id="upload_image_4" type="file"/>
             </div>
         </div>
         <div class="col-md-2 col-xs-4">
-            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(5);">
+            <input style="position: absolute; width: 85%; height: 100%; opacity: 0;" class="upload_image" id="upload_image_5" type="file"/>
+            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(5);" ng-if="addAdv.photos.length > 3">
                 <img src="bundles/naidusvoe/img/plus1.png" class="img-responsive" id="upload_image_5_img"/>
-                <input style="display: none;" class="upload_image" id="upload_image_5" type="file"/>
             </div>
         </div>
         <div class="col-md-2 col-xs-4">
-            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(6);">
+            <input style="position: absolute; width: 85%; height: 100%; opacity: 0;" class="upload_image" id="upload_image_6" type="file"/>
+            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(6);" ng-if="addAdv.photos.length > 4">
                 <img src="bundles/naidusvoe/img/plus1.png" class="img-responsive" id="upload_image_6_img"/>
-                <input style="display: none;" class="upload_image" id="upload_image_6" type="file"/>
             </div>
         </div>
     </div>
@@ -97,27 +104,23 @@
     <div class="row">
         <div class="col-md-2 col-xs-4">
             <h4>Послуга 1</h4>
-            <input type="checkbox"/>
+            <input type="checkbox" ng-model="addAdv.option1" name="option1"/>
         </div>
         <div class="col-md-2 col-xs-4">
             <h4>Послуга 2</h4>
-            <input type="checkbox"/>
+            <input type="checkbox" ng-model="addAdv.option2" name="option2"/>
         </div>
         <div class="col-md-2 col-xs-4">
             <h4>Послуга 3</h4>
-            <input type="checkbox"/>
+            <input type="checkbox" ng-model="addAdv.option3" name="option3"/>
         </div>
         <div class="col-md-2 col-xs-4">
             <h4>Послуга 4</h4>
-            <input type="checkbox"/>
-        </div>
-        <div class="col-md-2 col-xs-4">
-            <h4>Розмістити</h4>
-            <input type="checkbox" required/>
+            <input type="checkbox" ng-model="addAdv.option4" name="option4"/>
         </div>
 
         <div class="col-md-2 col-xs-4">
-            <a class="btn btn-success" ng-if="addAdvForm.$valid" ng-click="addNewAdv(addAdv);">Опублікувати</a>
+            <a class="btn btn-success" ng-class="{'disabled': !addAdvForm.$valid }" ng-click="addNewAdv(addAdv);">Опублікувати</a>
         </div>
     </div>
 </form>

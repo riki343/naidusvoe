@@ -1,10 +1,12 @@
 var Naidusvoe = angular.module('NaiduSvoe', ['ngRoute', 'ngAnimate']);
 
-Naidusvoe.config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$locationProvider',
-    function ($interpolateProvider, $httpProvider, $routeProvider, $locationProvider) {
+Naidusvoe.config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$locationProvider', '$compileProvider',
+    function ($interpolateProvider, $httpProvider, $routeProvider, $locationProvider, $compileProvider) {
         $interpolateProvider.startSymbol('[[');
         $interpolateProvider.endSymbol(']]');
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|data):/);
 
         $routeProvider
             .when('/', {
@@ -35,7 +37,7 @@ Naidusvoe.config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$l
                 templateUrl: TEMPLATES.trading,
                 controller: 'tradingController'
             })
-            .when('/trade/:adv_id', {
+            .when('/adv/trade/:adv_id', {
                 templateUrl: TEMPLATES.tradingAdv,
                 controller: 'tradingController'
             })
@@ -43,7 +45,7 @@ Naidusvoe.config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$l
                 templateUrl: TEMPLATES.found,
                 controller: 'tradingController'
             })
-            .when('/found/:adv_id', {
+            .when('/adv/found/:adv_id', {
                 templateUrl: TEMPLATES.foundAdv,
                 controller: 'tradingController'
             })
@@ -51,7 +53,7 @@ Naidusvoe.config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$l
                 templateUrl: TEMPLATES.gift,
                 controller: 'tradingController'
             })
-            .when('/give/adv_id', {
+            .when('/adv/give/:adv_id', {
                 templateUrl: TEMPLATES.giftAdv,
                 controller: 'tradingController'
             })

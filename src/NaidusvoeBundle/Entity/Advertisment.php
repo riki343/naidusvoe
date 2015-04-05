@@ -39,6 +39,19 @@ class Advertisment
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
+
+    /**
+     * @var int
+     * @ORM\Column(name="type_id", type="integer", nullable=true, options={"default"=null})
+     */
+    private $typeID;
+
+    /**
+     * @var AdvertismentType
+     * @ORM\ManyToOne(targetEntity="AdvertismentType")
+     * @ORM\JoinColumn(name="type_id", referencedColumnName="id")
+     */
+    private $type;
     
     /**
      * @var integer
@@ -144,7 +157,8 @@ class Advertisment
             'id' => $this->getId(),
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
-            'category' => $this->getCategory()->getInArray(),
+            'type' => $this->getType()->getInArraySingle(),
+            'category' => $this->getCategory()->getInArraySingle(),
             'subCategory' => $this->getSubCategory()->getInArray(),
             'attachments' => Functions::arrayToJson($this->getAttachments()),
             'price' => $this->getPrice(),
@@ -169,10 +183,12 @@ class Advertisment
         $category = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')->find($data->categoryID);
         $subCategory = $em->getRepository('NaidusvoeBundle:AdvertismentSubCategory')->find($data->subCategoryID);
         $priceType = $em->getRepository('NaidusvoeBundle:PriceType')->find($data->priceType);
+        $advType = $em->getRepository('NaidusvoeBundle:AdvertismentType')->find($data->typeID);
         $adv = new Advertisment();
         $adv->setDate(new \DateTime());
         $adv->setPrice($data->price);
         $adv->setPriceType($priceType);
+        $adv->setType($advType);
         $adv->setCategory($category);
         $adv->setSubCategory($subCategory);
         $adv->setTitle($data->title);
@@ -197,6 +213,7 @@ class Advertisment
     public function __construct() {
         $this->skype = null;
         $this->date = new \DateTime();
+        $this->attachments = new ArrayCollection();
     }
 
     /**
@@ -677,5 +694,28 @@ class Advertisment
     public function getPriceType()
     {
         return $this->priceType;
+    }
+
+    /**
+     * Set typeID
+     *
+     * @param integer $typeID
+     * @return Advertisment
+     */
+    public function setTypeID($typeID)
+    {
+        $this->typeID = $typeID;
+
+        return $this;
+    }
+
+    /**
+     * Get typeID
+     *
+     * @return integer 
+     */
+    public function getTypeID()
+    {
+        return $this->typeID;
     }
 }

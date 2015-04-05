@@ -34,10 +34,26 @@ class AdvertismentType
      */
     private $enName;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="AdvertismentCategory", mappedBy="type")
+     */
+    private $categories;
+
     public function getInArray() {
         return array(
             'id' => $this->getId(),
             'name' => $this->getName(),
+            'enName' => $this->getEnName(),
+            'categories' => Functions::arrayToJsonWithoutParent($this->getCategories()),
+        );
+    }
+
+    public function getInArraySingle() {
+        return array(
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'enName' => $this->getEnName(),
         );
     }
 
@@ -119,5 +135,45 @@ class AdvertismentType
     public function getEnName()
     {
         return $this->enName;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add categories
+     *
+     * @param \NaidusvoeBundle\Entity\AdvertismentCategory $categories
+     * @return AdvertismentType
+     */
+    public function addCategory(\NaidusvoeBundle\Entity\AdvertismentCategory $categories)
+    {
+        $this->categories[] = $categories;
+
+        return $this;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param \NaidusvoeBundle\Entity\AdvertismentCategory $categories
+     */
+    public function removeCategory(\NaidusvoeBundle\Entity\AdvertismentCategory $categories)
+    {
+        $this->categories->removeElement($categories);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 }

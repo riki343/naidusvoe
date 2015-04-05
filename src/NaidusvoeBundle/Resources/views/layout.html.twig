@@ -10,6 +10,7 @@
     {% block stylesheets %}
         <link href="{{ asset('bundles/naidusvoe/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('bundles/naidusvoe/css/custom.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('bundles/naidusvoe/css/lightbox.css') }}" rel="stylesheet" type="text/css">
     {% endblock %}
     {% block base %}{% endblock %}
 </head>
@@ -30,6 +31,7 @@
     <script src="{{ asset('bundles/naidusvoe/js/AngularJS/angular.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/naidusvoe/js/AngularJS/angular-route.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/naidusvoe/js/AngularJS/angular-animate.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/naidusvoe/js/lightbox.min.js') }}" type="text/javascript"></script>
 
     <script src="{{ asset('bundles/naidusvoe/js/CustomAngular/appCore.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/naidusvoe/js/CustomAngular/indexController.js') }}" type="text/javascript"></script>
@@ -57,6 +59,7 @@
             'getAdvDetails': "{{ path('naidusvoe_get_adv_info') }}",
             'addAdv': "{{ path('naidusvoe_add_adv') }}",
             'getAdv': "{{ path('naidusvoe_get_adv', { 'adv_id': 'adv_id' }) }}",
+            'asset': "{{ asset('') }}",
         };
     </script>
 
