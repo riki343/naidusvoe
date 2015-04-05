@@ -69,29 +69,69 @@ class AdvertismentController extends Controller
     }
 
     /**
+     * @param int $page_id
      * @return JsonResponse
      */
-    public function getAdvsTradeAction() {
+    public function getAdvsTradeAction($page_id = 1) {
+        $offset = ($page_id - 1) * 10;
+        $limit = $page_id * 10;
+
         $advs = $this->getDoctrine()->getRepository('NaidusvoeBundle:Advertisment')
-            ->findBy(array('typeID' => 1), array('date' => 'DESC'));
-        return new JsonResponse(Functions::arrayToJson($advs));
+            ->findBy(array('typeID' => 1), array('date' => 'DESC'), $limit, $offset);
+
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT COUNT(a.id) ' .
+            'FROM NaidusvoeBundle:Advertisment a ' .
+            'WHERE a.typeID = :param')
+            ->setParameter('param', 1);
+        $count = $query->getSingleScalarResult();
+        $advs = Functions::arrayToJson($advs);
+        return new JsonResponse(array('advs' => $advs, 'pageCount' => intval($count / 10)));
     }
 
     /**
+     * @param int $page_id
      * @return JsonResponse
      */
-    public function getAdvsFoundAction() {
+    public function getAdvsFoundAction($page_id) {
+        $offset = ($page_id - 1) * 10;
+        $limit = $page_id * 10;
         $advs = $this->getDoctrine()->getRepository('NaidusvoeBundle:Advertisment')
-            ->findBy(array('typeID' => 2), array('date' => 'DESC'));
-        return new JsonResponse(Functions::arrayToJson($advs));
+            ->findBy(array('typeID' => 2), array('date' => 'DESC'), $limit, $offset);
+
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT COUNT(a.id) ' .
+            'FROM NaidusvoeBundle:Advertisment a ' .
+            'WHERE a.typeID = :param')
+            ->setParameter('param', 2);
+        $count = $query->getSingleScalarResult();
+        $advs = Functions::arrayToJson($advs);
+        return new JsonResponse(array('advs' => $advs, 'pageCount' => intval($count / 10)));
     }
 
     /**
+     * @param int $page_id
      * @return JsonResponse
      */
-    public function getAdvsGiftAction() {
+    public function getAdvsGiftAction($page_id) {
+        $offset = ($page_id - 1) * 10;
+        $limit = $page_id * 10;
         $advs = $this->getDoctrine()->getRepository('NaidusvoeBundle:Advertisment')
-            ->findBy(array('typeID' => 3), array('date' => 'DESC'));
-        return new JsonResponse(Functions::arrayToJson($advs));
+            ->findBy(array('typeID' => 3), array('date' => 'DESC'), $limit, $offset);
+
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT COUNT(a.id) ' .
+            'FROM NaidusvoeBundle:Advertisment a ' .
+            'WHERE a.typeID = :param')
+            ->setParameter('param', 3);
+        $count = $query->getSingleScalarResult();
+        $advs = Functions::arrayToJson($advs);
+        return new JsonResponse(array('advs' => $advs, 'pageCount' => intval($count / 10)));
     }
 }

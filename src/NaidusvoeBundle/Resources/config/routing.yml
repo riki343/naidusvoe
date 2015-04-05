@@ -34,24 +34,24 @@ naidusvoe_get_adv:
     defaults: { _controller: NaidusvoeBundle:Advertisment:getAdv }
 
 naidusvoe_get_trade_advs:
-    path: /get/advs/trade
+    path: /get/advs/trade/page/{page_id}
     defaults: { _controller: NaidusvoeBundle:Advertisment:getAdvsTrade }
 
 naidusvoe_get_found_advs:
-    path: /get/advs/found
+    path: /get/advs/found/page/{page_id}
     defaults: { _controller: NaidusvoeBundle:Advertisment:getAdvsFound }
 
 naidusvoe_get_gift_advs:
-    path: /get/advs/gift
+    path: /get/advs/gift/page/{page_id}
     defaults: { _controller: NaidusvoeBundle:Advertisment:getAdvsGift }
 
 
 
 
 
-####################################################################
-############## Default Routes for AngularJS Routing ################
-####################################################################
+#############################################################################
+################## Default Routes for AngularJS Routing #####################
+#############################################################################
 naidusvoe_default_level0:
     pattern: /{some}
     defaults: { _controller: NaidusvoeBundle:Index:index }
@@ -76,6 +76,16 @@ naidusvoe_default_level5:
     pattern: /{some}/{some1}/{some2}/{some3}/{some4}/{some5}
     defaults: { _controller: NaidusvoeBundle:Index:index }
 
+naidusvoe_default_level6:
+    pattern: /{some}/{some1}/{some2}/{some3}/{some4}/{some5}/{some6}
+    defaults: { _controller: NaidusvoeBundle:Index:index }
+
+naidusvoe_default_level7:
+    pattern: /{some}/{some1}/{some2}/{some3}/{some4}/{some5}/{some6}/{some7}
+    defaults: { _controller: NaidusvoeBundle:Index:index }
+
+#############################################################################
+
 naidusvoe_default_level_1:
     pattern: /{some}/
     defaults: { _controller: NaidusvoeBundle:Index:index }
@@ -96,6 +106,15 @@ naidusvoe_default_level_5:
     pattern: /{some}/{some1}/{some2}/{some3}/{some4}/
     defaults: { _controller: NaidusvoeBundle:Index:index }
 
-####################################################################
-####################################################################
-####################################################################
+naidusvoe_default_level_6:
+    pattern: /{some}/{some1}/{some2}/{some3}/{some4}/{some5}/
+    defaults: { _controller: NaidusvoeBundle:Index:index }
+
+naidusvoe_default_level_7:
+    pattern: /{some}/{some1}/{some2}/{some3}/{some4}/{some5}/{some6}/
+    defaults: { _controller: NaidusvoeBundle:Index:index }
+
+
+#############################################################################
+#############################################################################
+#############################################################################

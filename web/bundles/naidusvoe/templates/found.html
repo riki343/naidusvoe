@@ -32,3 +32,58 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-xs-12" style="margin-bottom: 25px;">
+        <nav class="panel panel-default text-center">
+            <ul class="pagination">
+                <li ng-if="(paginator.first != paginator.current)
+                    && (paginator.last > 3)
+                    && (paginator.current > paginator.first + 3)">
+                    <a ng-href="/trade/[[ paginator.first ]]">
+                        <span>&laquo;</span>
+                    </a>
+                </li>
+                <li ng-if="(paginator.first + 1 < paginator.current)
+                    && (paginator.last > 3)
+                    && (paginator.current > paginator.first + 3)">
+                    <a ng-href="/trade/[[ paginator.first + 1 ]]">
+                        [[ paginator.first + 1 ]]
+                    </a>
+                </li>
+                <li ng-if="(paginator.first + 1 < paginator.current)
+                    && (paginator.last > 3)
+                    && (paginator.current > paginator.first + 3)">>
+                    <a>...</a>
+                </li>
+
+                <li ng-repeat="i in paginator.pages"
+                    ng-if="(i >= paginator.current - 3) && (i <= paginator.current + 3)"
+                    ng-class="{'active': i == paginator.current }">
+                    <a ng-href="/trade/[[ i ]]">[[ i ]]</a>
+                </li>
+
+                <li ng-if="(paginator.last - 1 > paginator.current)
+                    && (paginator.last > 3)
+                    && (paginator.current < paginator.last - 3)">
+                    <a>...</a>
+                </li>
+
+                <li ng-if="(paginator.last - 1 > paginator.current)
+                    && (paginator.last > 3)
+                    && (paginator.current < paginator.last - 3)">
+                    <a ng-href="/trade/[[ paginator.last - 1 ]]">
+                        [[ paginator.last - 1 ]]
+                    </a>
+                </li>
+                <li ng-if="(paginator.last != paginator.current)
+                    && (paginator.last > 3)
+                    && (paginator.current < paginator.last - 3)">
+                    <a ng-href="/trade/[[ paginator.last ]]">
+                        <span>&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

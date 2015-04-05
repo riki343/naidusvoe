@@ -61,9 +61,9 @@
             'getAdvDetails': "{{ path('naidusvoe_get_adv_info') }}",
             'addAdv': "{{ path('naidusvoe_add_adv') }}",
             'getAdv': "{{ path('naidusvoe_get_adv', { 'adv_id': 'adv_id' }) }}",
-            'getTradeAdvs': "{{ path('naidusvoe_get_trade_advs') }}",
-            'getFoundAdvs': "{{ path('naidusvoe_get_found_advs') }}",
-            'getGiftAdvs': "{{ path('naidusvoe_get_gift_advs') }}",
+            'getTradeAdvs': "{{ path('naidusvoe_get_trade_advs', { 'page_id': 'page_id' }) }}",
+            'getFoundAdvs': "{{ path('naidusvoe_get_found_advs', { 'page_id': 'page_id' }) }}",
+            'getGiftAdvs': "{{ path('naidusvoe_get_gift_advs', { 'page_id': 'page_id' }) }}",
             'asset': "{{ asset('') }}",
         };
     </script>
