@@ -1,3 +1,5 @@
+<div ng-init="getAdvs();"></div>
+
 <div class="page-header">
     <h1>Куплю/Продам</h1>
 </div>
@@ -10,3 +12,25 @@
         </span>
     </div>
 </form>
+
+<div class="row" style="padding: 20px;">
+    <div ng-repeat="adv in advs" class="col-xs-12 img-thumbnail" style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-xs-3">
+                <img class="img-responsive" ng-src="[[ adv.image ]]" />
+            </div>
+            <div class="col-xs-9">
+                <p class="pull-right text-muted">[[ adv.date ]]</p>
+                <div class="clearfix"></div>
+                <h3 class="text-info"><a ng-href="/adv/trade/[[ adv.id ]]">[[ adv.title ]]</a></h3>
+                <p><b>[[ adv.subCategory.name ]]</b></p>
+                <p>
+                    <i>
+                        [[ adv.description.substr(0, 100) ]]...
+                    </i>
+                </p>
+                <p>[[ adv.price + ' ' + adv.priceType.name ]]</p>
+            </div>
+        </div>
+    </div>
+</div>

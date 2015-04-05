@@ -33,6 +33,17 @@ naidusvoe_get_adv:
     pattern: /get/adv/{adv_id}
     defaults: { _controller: NaidusvoeBundle:Advertisment:getAdv }
 
+naidusvoe_get_trade_advs:
+    path: /get/advs/trade
+    defaults: { _controller: NaidusvoeBundle:Advertisment:getAdvsTrade }
+
+naidusvoe_get_found_advs:
+    path: /get/advs/found
+    defaults: { _controller: NaidusvoeBundle:Advertisment:getAdvsFound }
+
+naidusvoe_get_gift_advs:
+    path: /get/advs/gift
+    defaults: { _controller: NaidusvoeBundle:Advertisment:getAdvsGift }
 
 ####################################################################
 ############## Default Routes for AngularJS Routing ################

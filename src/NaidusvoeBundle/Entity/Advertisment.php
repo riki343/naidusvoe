@@ -161,6 +161,7 @@ class Advertisment
             'category' => $this->getCategory()->getInArraySingle(),
             'subCategory' => $this->getSubCategory()->getInArray(),
             'attachments' => Functions::arrayToJson($this->getAttachments()),
+            'date' => $this->getDate()->format('Y-m-d'),
             'price' => $this->getPrice(),
             'priceType' => $this->getPriceType()->getInArray(),
             'contactPerson' => $this->getContactPerson(),

@@ -65,4 +65,31 @@ class AdvertismentController extends Controller
         $adv = $this->getDoctrine()->getManager()->find('NaidusvoeBundle:Advertisment', $adv_id);
         return new JsonResponse($adv->getInArray());
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getAdvsTradeAction() {
+        $advs = $this->getDoctrine()->getRepository('NaidusvoeBundle:Advertisment')
+            ->findBy(array('typeID' => 1), array('date' => 'DESC'));
+        return new JsonResponse(Functions::arrayToJson($advs));
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getAdvsFoundAction() {
+        $advs = $this->getDoctrine()->getRepository('NaidusvoeBundle:Advertisment')
+            ->findBy(array('typeID' => 2), array('date' => 'DESC'));
+        return new JsonResponse(Functions::arrayToJson($advs));
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getAdvsGiftAction() {
+        $advs = $this->getDoctrine()->getRepository('NaidusvoeBundle:Advertisment')
+            ->findBy(array('typeID' => 3), array('date' => 'DESC'));
+        return new JsonResponse(Functions::arrayToJson($advs));
+    }
 }

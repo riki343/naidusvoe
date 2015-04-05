@@ -43,19 +43,19 @@ Naidusvoe.config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$l
             })
             .when('/found', {
                 templateUrl: TEMPLATES.found,
-                controller: 'tradingController'
+                controller: 'foundController'
             })
             .when('/adv/found/:adv_id', {
                 templateUrl: TEMPLATES.foundAdv,
-                controller: 'tradingController'
+                controller: 'foundController'
             })
-            .when('/give', {
+            .when('/gift', {
                 templateUrl: TEMPLATES.gift,
-                controller: 'tradingController'
+                controller: 'giftController'
             })
-            .when('/adv/give/:adv_id', {
+            .when('/adv/gift/:adv_id', {
                 templateUrl: TEMPLATES.giftAdv,
-                controller: 'tradingController'
+                controller: 'giftController'
             })
             .otherwise({
                 redirectTo: '/'
