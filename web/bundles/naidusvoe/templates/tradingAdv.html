@@ -13,7 +13,7 @@
 
     <div class="row">
         <div class="col-md-2 col-xs-4" ng-repeat="image in adv.attachments">
-            <a ng-href="[[ image.image ]]" data-lightbox="someimage">
+            <a ng-href="[[ image.image ]]" rel="lightbox" data-lightbox="someimage">
                 <img class="img-responsive img-thumbnail" ng-src="[[ image.image ]]" alt=""/>
             </a>
         </div>

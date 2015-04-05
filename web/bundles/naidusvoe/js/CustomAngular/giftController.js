@@ -31,8 +31,8 @@ Naidusvoe.controller('giftController', ['$scope', '$http', '$routeParams', '$sce
                     }
 
                     setTimeout(function () {
-                        ImagesPreviewFunction();
-                        return;
+                        InitLightBox();
+                        return false;
                     }, 400);
                 }
             );

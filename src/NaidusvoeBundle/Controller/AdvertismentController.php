@@ -51,7 +51,9 @@ class AdvertismentController extends Controller
         $data = (object) $data['adv'];
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
-        $adv = Advertisment::addNewAdv($em, $data);
+        /** @var User $user */
+        $user = $this->getUser();
+        $adv = Advertisment::addNewAdv($em, $data, $user);
         $images = Attachment::uploadImages($em, $data->photos, $adv->getId());
         return new JsonResponse(($adv) ? $adv->getInArray() : null);
     }

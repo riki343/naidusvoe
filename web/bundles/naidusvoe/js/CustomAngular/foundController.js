@@ -31,8 +31,8 @@ Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sc
                     }
 
                     setTimeout(function () {
-                        ImagesPreviewFunction();
-                        return;
+                        InitLightBox();
+                        return false;
                     }, 400);
                 }
             );

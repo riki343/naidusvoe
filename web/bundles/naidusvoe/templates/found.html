@@ -8,7 +8,7 @@
     <div class="input-group">
         <input type="text" class="form-control" placeholder="Пошук...">
         <span class="input-group-btn">
-            <button class="btn btn-default" type="button">Шукати</button>
+            <button class="btn btn-default btn-warning" type="button">Шукати</button>
         </span>
     </div>
 </form>
@@ -25,9 +25,7 @@
                 <h3 class="text-info"><a ng-href="/adv/trade/[[ adv.id ]]">[[ adv.title ]]</a></h3>
                 <p><b>[[ adv.subCategory.name ]]</b></p>
                 <p>
-                    <i>
-                        [[ adv.description.substr(0, 100) ]]...
-                    </i>
+                    <i>[[ adv.description.substr(0, 100) ]]...</i>
                 </p>
                 <p>[[ adv.price + ' ' + adv.priceType.name ]]</p>
             </div>

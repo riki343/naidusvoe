@@ -31,8 +31,8 @@ Naidusvoe.controller('tradingController', ['$scope', '$http', '$routeParams', '$
                     }
 
                     setTimeout(function () {
-                        ImagesPreviewFunction();
-                        return;
+                        InitLightBox();
+                        return false;
                     }, 400);
                 }
             );

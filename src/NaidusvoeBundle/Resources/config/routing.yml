@@ -45,6 +45,10 @@ naidusvoe_get_gift_advs:
     path: /get/advs/gift
     defaults: { _controller: NaidusvoeBundle:Advertisment:getAdvsGift }
 
+
+
+
+
 ####################################################################
 ############## Default Routes for AngularJS Routing ################
 ####################################################################
@@ -70,6 +74,26 @@ naidusvoe_default_level4:
 
 naidusvoe_default_level5:
     pattern: /{some}/{some1}/{some2}/{some3}/{some4}/{some5}
+    defaults: { _controller: NaidusvoeBundle:Index:index }
+
+naidusvoe_default_level_1:
+    pattern: /{some}/
+    defaults: { _controller: NaidusvoeBundle:Index:index }
+
+naidusvoe_default_level_2:
+    pattern: /{some}/{some1}/
+    defaults: { _controller: NaidusvoeBundle:Index:index }
+
+naidusvoe_default_level_3:
+    pattern: /{some}/{some1}/{some2}/
+    defaults: { _controller: NaidusvoeBundle:Index:index }
+
+naidusvoe_default_level_4:
+    pattern: /{some}/{some1}/{some2}/{some3}/
+    defaults: { _controller: NaidusvoeBundle:Index:index }
+
+naidusvoe_default_level_5:
+    pattern: /{some}/{some1}/{some2}/{some3}/{some4}/
     defaults: { _controller: NaidusvoeBundle:Index:index }
 
 ####################################################################

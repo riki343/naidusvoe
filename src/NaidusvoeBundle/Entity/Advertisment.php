@@ -42,6 +42,19 @@ class Advertisment
 
     /**
      * @var int
+     * @ORM\Column(name="user_id", type="integer", nullable=true, options={"default"=null})
+     */
+    private $userID;
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
+    /**
+     * @var int
      * @ORM\Column(name="type_id", type="integer", nullable=true, options={"default"=null})
      */
     private $typeID;
@@ -68,7 +81,7 @@ class Advertisment
 
     /**
      * @var integer
-     * @ORM\Column(name="sub_category_id", type="integer")
+     * @ORM\Column(name="sub_category_id", type="integer", nullable=true, options={"default" = null})
      */
     private $subCategoryID;
 
@@ -159,7 +172,9 @@ class Advertisment
             'description' => $this->getDescription(),
             'type' => $this->getType()->getInArraySingle(),
             'category' => $this->getCategory()->getInArraySingle(),
-            'subCategory' => $this->getSubCategory()->getInArray(),
+            'subCategory' => ($this->getSubCategory())
+                ? $this->getSubCategory()->getInArray()
+                : null,
             'attachments' => Functions::arrayToJson($this->getAttachments()),
             'date' => $this->getDate()->format('Y-m-d'),
             'price' => $this->getPrice(),
@@ -178,20 +193,26 @@ class Advertisment
     /**
      * @param EntityManager $em
      * @param object $data
+     * @param int $user_id
      * @return Advertisment
      */
-    public static function addNewAdv(EntityManager $em, $data) {
+    public static function addNewAdv(EntityManager $em, $data, $user_id) {
+        $user = $em->find('NaidusvoeBundle:User', $user_id);
         $category = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')->find($data->categoryID);
-        $subCategory = $em->getRepository('NaidusvoeBundle:AdvertismentSubCategory')->find($data->subCategoryID);
         $priceType = $em->getRepository('NaidusvoeBundle:PriceType')->find($data->priceType);
         $advType = $em->getRepository('NaidusvoeBundle:AdvertismentType')->find($data->typeID);
         $adv = new Advertisment();
+        $adv->setUser($user);
         $adv->setDate(new \DateTime());
         $adv->setPrice($data->price);
         $adv->setPriceType($priceType);
         $adv->setType($advType);
         $adv->setCategory($category);
-        $adv->setSubCategory($subCategory);
+        if ($data->subCategoryID) {
+            $subCategory = $em->getRepository('NaidusvoeBundle:AdvertismentSubCategory')
+                ->find($data->subCategoryID);
+            $adv->setSubCategory($subCategory);
+        }
         $adv->setTitle($data->title);
         $adv->setDescription($data->description);
         $adv->setContactPerson($data->contactPerson);
@@ -718,5 +739,51 @@ class Advertisment
     public function getTypeID()
     {
         return $this->typeID;
+    }
+
+    /**
+     * Set userID
+     *
+     * @param integer $userID
+     * @return Advertisment
+     */
+    public function setUserID($userID)
+    {
+        $this->userID = $userID;
+
+        return $this;
+    }
+
+    /**
+     * Get userID
+     *
+     * @return integer 
+     */
+    public function getUserID()
+    {
+        return $this->userID;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \NaidusvoeBundle\Entity\User $user
+     * @return Advertisment
+     */
+    public function setUser(\NaidusvoeBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \NaidusvoeBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
