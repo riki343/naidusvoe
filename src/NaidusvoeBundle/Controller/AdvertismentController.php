@@ -59,6 +59,7 @@ class AdvertismentController extends Controller
      * @return JsonResponse
      */
     public function getAdvAction($adv_id) {
+        /** @var Advertisment $adv */
         $adv = $this->getDoctrine()->getManager()->find('NaidusvoeBundle:Advertisment', $adv_id);
         return new JsonResponse($adv->getInArray());
     }
