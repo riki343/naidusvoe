@@ -95,6 +95,12 @@ class User implements UserInterface, \Serializable
     protected $roles;
 
     /**
+     * @var UserSettings
+     * @ORM\OneToOne(targetEntity="UserSettings", mappedBy="user")
+     */
+    private $settings;
+
+    /**
      * @var string
      * @ORM\Column(name="avatar", type="string", length=255, nullable=true, options={"default" = null})
      */
@@ -124,6 +130,18 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(name="skype", type="string", nullable=true, options={"default" = null})
      */
     private $skype;
+
+    /**
+     * @var string
+     * @ORM\Column(name="region", type="string", length=255, nullable=true, options={"default" = null})
+     */
+    private $region;
+
+    /**
+     * @var string
+     * @ORM\Column(name="city", type="string", length=255, nullable=true, options={"default" = null})
+     */
+    private $city;
 
     /**
      * Get password
@@ -451,6 +469,9 @@ class User implements UserInterface, \Serializable
         $user->setActive(false);
         $em->persist($user);
 
+        $settings = new UserSettings();
+        $settings->setUser($user);
+
         $em->flush();
         return $user;
     }
@@ -545,5 +566,74 @@ class User implements UserInterface, \Serializable
     public function getSkype()
     {
         return $this->skype;
+    }
+
+    /**
+     * Set region
+     *
+     * @param string $region
+     * @return User
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * Get region
+     *
+     * @return string 
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     * @return User
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string 
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set settings
+     *
+     * @param \NaidusvoeBundle\Entity\UserSettings $settings
+     * @return User
+     */
+    public function setSettings(\NaidusvoeBundle\Entity\UserSettings $settings = null)
+    {
+        $this->settings = $settings;
+
+        return $this;
+    }
+
+    /**
+     * Get settings
+     *
+     * @return \NaidusvoeBundle\Entity\UserSettings 
+     */
+    public function getSettings()
+    {
+        return $this->settings;
     }
 }

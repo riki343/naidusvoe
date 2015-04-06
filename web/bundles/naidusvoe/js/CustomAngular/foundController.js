@@ -9,7 +9,7 @@ Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sc
             'current': 1,
             'next': 1,
             'prev': 1,
-            'first': 0,
+            'first': 1,
             'last': 1
         };
 

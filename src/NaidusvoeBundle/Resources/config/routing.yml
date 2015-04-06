@@ -45,6 +45,10 @@ naidusvoe_get_gift_advs:
     path: /get/advs/gift/page/{page_id}
     defaults: { _controller: NaidusvoeBundle:Advertisment:getAdvsGift }
 
+naidusvoe_get_user_info:
+    path: /user/getInfo
+    defaults: { _controller: NaidusvoeBundle:User:getInfo }
+
 
 
 
