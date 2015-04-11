@@ -1,6 +1,7 @@
 <?php
 
 namespace NaidusvoeBundle\Entity;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Class Functions
@@ -29,5 +30,18 @@ class Functions {
             $jsonArray[] = $item->getInArrayWithoutParent();
         }
         return $jsonArray;
+    }
+
+    /**
+     * @param EntityManager $em
+     * @return EntityManager
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public static function getEntityManager(EntityManager $em) {
+        if (!$em->isOpen()) {
+            $em = $em->create(
+                $em->getConnection(), $em->getConfiguration());
+        }
+        return $em;
     }
 }

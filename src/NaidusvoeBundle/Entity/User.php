@@ -133,7 +133,14 @@ class User implements UserInterface, \Serializable
 
     /**
      * @var string
-     * @ORM\Column(name="region", type="string", length=255, nullable=true, options={"default" = null})
+     * @ORM\Column(name="region_id", type="integer", nullable=true, options={"default" = null})
+     */
+    private $regionID;
+
+    /**
+     * @var Region
+     * @ORM\ManyToOne(targetEntity="Region")
+     * @ORM\JoinColumn(name="region_id", referencedColumnName="id")
      */
     private $region;
 
@@ -567,30 +574,7 @@ class User implements UserInterface, \Serializable
     {
         return $this->skype;
     }
-
-    /**
-     * Set region
-     *
-     * @param string $region
-     * @return User
-     */
-    public function setRegion($region)
-    {
-        $this->region = $region;
-
-        return $this;
-    }
-
-    /**
-     * Get region
-     *
-     * @return string 
-     */
-    public function getRegion()
-    {
-        return $this->region;
-    }
-
+    
     /**
      * Set city
      *
@@ -635,5 +619,51 @@ class User implements UserInterface, \Serializable
     public function getSettings()
     {
         return $this->settings;
+    }
+
+    /**
+     * Set regionID
+     *
+     * @param integer $regionID
+     * @return User
+     */
+    public function setRegionID($regionID)
+    {
+        $this->regionID = $regionID;
+
+        return $this;
+    }
+
+    /**
+     * Get regionID
+     *
+     * @return integer 
+     */
+    public function getRegionID()
+    {
+        return $this->regionID;
+    }
+
+    /**
+     * Set region
+     *
+     * @param \NaidusvoeBundle\Entity\Region $region
+     * @return User
+     */
+    public function setRegion(\NaidusvoeBundle\Entity\Region $region = null)
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * Get region
+     *
+     * @return \NaidusvoeBundle\Entity\Region 
+     */
+    public function getRegion()
+    {
+        return $this->region;
     }
 }

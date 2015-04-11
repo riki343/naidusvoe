@@ -2,9 +2,9 @@
 
 {% block title %}
     {% if app.user and is_granted('ROLE_USER') %}
-        Naidusvoe
+        Naidusvoe.com.ua
     {% else %}
-        Naidusvoe
+        Naidusvoe.com.ua
     {% endif %}
 {% endblock %}
 
@@ -34,6 +34,11 @@
 
                 {% if app.user and is_granted('ROLE_USER') %}
                     <ul class="nav navbar-nav navbar-right">
+                        {% if is_granted('ROLE_WEB_DEVELOPER') %}
+                        <li>
+                            <a href="{{ path('naidusvoe_error_logs') }}" target="_self">Error Logs</a>
+                        </li>
+                        {% endif %}
                         <li>
                             <a href="/cabinet">Кабінет</a>
                         </li>

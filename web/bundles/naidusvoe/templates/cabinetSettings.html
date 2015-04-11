@@ -71,27 +71,73 @@
     <div class="col-md-9 col-xs-12 col-sm-8">
         <div class="tab-content" style="padding-top: 20px;">
             <div id="settings-change-contacts" class="tab-pane fade in active">
-                contacts
+                <form name="contactsForm">
+                    <b>Область</b>:
+                    <select name="" ng-model="contactInfo.region">
+                        <option value="1">Автономна Республіка Крим</option>
+                        <option value="2">Вінницька область</option>
+                        <option value="3">Волинська область</option>
+                        <option value="4">Дніпропетровська область</option>
+                        <option value="5">Донецька область</option>
+                        <option value="6">Житомирська область</option>
+                        <option value="7">Закарпатська область</option>
+                        <option value="8">Запорізька область</option>
+                        <option value="9">Івано-Франківська область</option>
+                        <option value="10">Київська область</option>
+                        <option value="11">Кіровоградська область</option>
+                        <option value="12">Луганська область</option>
+                        <option value="13">Львівська область</option>
+                        <option value="14">Миколаївська область</option>
+                        <option value="15">Одеська область</option>
+                        <option value="16">Полтавська область</option>
+                        <option value="17">Рівненська область</option>
+                        <option value="18">Сумська область</option>
+                        <option value="19">Тернопільська область</option>
+                        <option value="20">Харківська область</option>
+                        <option value="21">Херсонська область</option>
+                        <option value="22">Черкаська область</option>
+                        <option value="23">Чернівецька область</option>
+                        <option value="24">Чернігівська область</option>
+                    </select><br/>
+                    <b>Місто/село</b>:
+                    <input type="text" ng-model="contactInfo.city" /><br/>
+                    <b>Ім’я</b>:
+                    <input type="text" ng-model="contactInfo.name" /><br/>
+                    <b>Прізвище</b>: <input type="text" ng-model="contactInfo.surname"/><br/>
+                    <b>Контактний номер</b>: <input type="tel" ng-model="contactInfo.telephoneNumber"/><br/>
+                    <b>Skype</b>:
+                    <input type="text" ng-model="contactInfo.skype"/><br/>
+                    <button type="button" ng-click="saveContactInfo(contactInfo);">Зберегти</button>
+                </form>
             </div>
 
             <div id="settings-change-pass" class="tab-pane fade">
-                password
+                <form name="changePassForm">
+                    <b>Старий пароль</b>: <input type="password"/><br/>
+                    <b>Новий пароль</b>: <input type="password"/><br/>
+                    <b>Повторіть новий пароль</b>: <input type="password"/><br/>
+                    <button type="button" ng-click="changePassword(passChange);">Зберегти</button>
+                </form>
             </div>
 
             <div id="settings-change-email" class="tab-pane fade">
-                email
+                <form name="changeEmailForm">
+                    <b>Новий email</b>: <input type="email"/><br/>
+                    <b>Повторіть новий email</b>: <input type="email"/><br/>
+                    <button type="button" ng-click="changeEmail(emailChange);">Зберегти</button>
+                </form>
             </div>
 
             <div id="settings-notifications-email" class="tab-pane fade">
-                notifications email
+
             </div>
 
             <div id="settings-notifications-sms" class="tab-pane fade">
-                sms
+
             </div>
 
             <div id="settings-delete-account" class="tab-pane fade">
-                account delete
+
             </div>
         </div>
     </div>

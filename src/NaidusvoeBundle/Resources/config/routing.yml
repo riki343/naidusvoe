@@ -49,6 +49,14 @@ naidusvoe_get_user_info:
     path: /user/getInfo
     defaults: { _controller: NaidusvoeBundle:User:getInfo }
 
+naidusvoe_get_error_logs_errors:
+    path: /dev/error_logs/getErrors
+    defaults: { _controller: NaidusvoeBundle:ErrorLog:getErrors }
+
+naidusvoe_error_logs:
+    path: /dev/error_logs
+    defaults: { _controller: NaidusvoeBundle:ErrorLog:index }
+
 
 
 

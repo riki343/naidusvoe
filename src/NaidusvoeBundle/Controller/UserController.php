@@ -3,6 +3,7 @@
 namespace NaidusvoeBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
+use NaidusvoeBundle\Entity\Functions;
 use NaidusvoeBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -20,7 +21,7 @@ class UserController extends Controller
         /** @var User $user */
         $user = $this->getUser();
         $contactInfo = array(
-            'region' => $user->getRegion(),
+            'region' => $user->getRegionID(),
             'city' => $user->getCity(),
             'name' => $user->getName(),
             'surname' => $user->getSurname(),
@@ -35,6 +36,13 @@ class UserController extends Controller
             'numberForSms' => $user->getSettings()->getNumberForSms(),
         );
 
-        return new JsonResponse(array('contactInfo' => $contactInfo, 'addInfo' => $addInfo));
+        $regions = Functions::arrayToJson($this->getDoctrine()
+            ->getRepository('NaidusvoeBundle:Region')->findAll());
+
+        return new JsonResponse(array(
+            'contactInfo' => $contactInfo,
+            'addInfo' => $addInfo,
+            'regions' => $regions
+        ));
     }
 }
