@@ -1,21 +1,20 @@
 Naidusvoe.controller('cabinetController', ['$scope', '$http',
     function ($scope, $http) {
         $scope.urlGetInfo = URLS.getInfo;
-        $scope.urlSaveContactInfo = '';
-        $scope.urlSaveNewEmail = '';
-        $scope.urlSaveNewPass = '';
-        $scope.urlSaveEmailNotificationsSettings = '';
-        $scope.urlSaveSmsNotificationsSettings = '';
-        $scope.urlDeleteAccount = '';
+        $scope.urlSaveContactInfo = URLS.saveInfo;
+        $scope.urlSaveNewEmail = URLS.changeEmail;
+        $scope.urlSaveNewPass = URLS.changePass;
+        $scope.urlSaveEmailNotificationsSettings = URLS.saveEmailSettings;
+        $scope.urlSaveSmsNotificationsSettings = URLS.saveSmsSettings;
 
         $scope.emailChange = {
-            'new_email': null,
-            'repeat_new_email': null
+            'email': null,
+            'remail': null
         };
         $scope.passChange = {
-            'old_pass': null,
-            'new_pass': null,
-            'repeat_new_pass': null
+            'opass': null,
+            'pass': null,
+            'rpass': null
         };
         $scope.emailSettings = {};
         $scope.smsSettings = {};
@@ -54,8 +53,5 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http',
             $http.post($scope.urlSaveSmsNotificationsSettings, { 'settings': settings });
         };
 
-        $scope.deleteAccount = function () {
-            $http.delete($scope.urlDeleteAccount);
-        };
     }
 ]);

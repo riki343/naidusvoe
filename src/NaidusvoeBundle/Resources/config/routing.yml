@@ -57,8 +57,29 @@ naidusvoe_error_logs:
     path: /dev/error_logs
     defaults: { _controller: NaidusvoeBundle:ErrorLog:index }
 
+naidusvoe_save_info:
+    pattern: /user/{user_id}/saveInfo
+    defaults: { _controller: NaidusvoeBundle:User:saveContactInfo }
 
+naidusvoe_change_password:
+    pattern: /user/{user_id}/changePassword
+    defaults: { _controller: NaidusvoeBundle:User:changePassword }
 
+naidusvoe_change_email:
+    pattern: /user/{user_id}/changeEmail
+    defaults: { _controller: NaidusvoeBundle:User:changeEmail }
+
+naidusvoe_save_email_notification_settings:
+    pattern: /user/{user_id}/saveEmailNotificationSettings
+    defaults: { _controller: NaidusvoeBundle:User:saveEmailNotificationSettings }
+
+naidusvoe_save_sms_notification_settings:
+    pattern: /user/{user_id}/saveSmsNotificationSettings
+    defaults: { _controller: NaidusvoeBundle:User:saveSmsNotificationSettings }
+
+naidusvoe_delete_account:
+    path: /user/deleteAccount
+    defaults: { _controller: NaidusvoeBundle:User:deleteAccount }
 
 
 #############################################################################

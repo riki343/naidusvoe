@@ -151,11 +151,90 @@ class User implements UserInterface, \Serializable
     private $city;
 
     /**
+     * @var boolean
+     * @ORM\Column(name="deleted", type="boolean", options={"default" = false})
+     */
+    private $deleted;
+
+    /**
+     * @param EntityManager $em
+     * @param int $user_id
+     * @param object $params
+     */
+    public static function saveContactInfo(EntityManager $em, $user_id, $params) {
+        $user = $em->find('NaidusvoeBundle:User', $user_id);
+        $region = $em->find('NaidusvoeBundle:Region', $params->region);
+        $user->setName($params->name);
+        $user->setSurname($params->surname);
+        $user->setCity($params->city);
+        $user->setRegion($region);
+        $user->setTelephoneNumber($params->telephoneNumber);
+        $user->setSkype($params->skype);
+
+        $em->persist($user);
+        $em->flush();
+    }
+
+    /**
+     * @param EntityManager $em
+     * @param int $user_id
+     * @param string $encodedPass
+     */
+    public static function changePassword(EntityManager $em, $user_id, $encodedPass) {
+        $user = $em->find('NaidusvoeBundle:User', $user_id);
+        $user->setPassword($encodedPass);
+        $em->persist($user);
+        $em->flush();
+    }
+
+    /**
+     * @param EntityManager $em
+     * @param int $user_id
+     * @param string $email
+     */
+    public static function changeEmail(EntityManager $em, $user_id, $email) {
+        $user = $em->find('NaidusvoeBundle:User', $user_id);
+        $user->setEmail($email);
+        $user->setActive(false);
+        $em->persist($user);
+        $em->flush();
+    }
+
+    /**
+     * @param EntityManager $em
+     * @param int $user_id
+     * @param object $params
+     */
+    public static function changeEmailNotificationsSettings(EntityManager $em, $user_id, $params) {
+        /** @var UserSettings $userSettings */
+        $userSettings = $em->getRepository('NaidusvoeBundle:UserSettings')->findBy(array('userID' => $user_id));
+        $userSettings->setNotificationsEmail($params->notificationsEmail);
+        $userSettings->setSpamEmail($params->spamEmail);
+        $em->persist($userSettings);
+        $em->flush();
+    }
+
+    /**
+     * @param EntityManager $em
+     * @param int $user_id
+     * @param object $params
+     */
+    public static function changeSmsNotificationsSettings(EntityManager $em, $user_id, $params) {
+        $userSettings = $em->getRepository('NaidusvoeBundle:UserSettings')
+            ->findOneBy(array('userID', $user_id));
+        $userSettings->setNotificationsSms($params->notificationsSms);
+        if ($params->telephoneNumber) {
+            $userSettings->setNumberForSms($params->telephoneNumber);
+        }
+        $em->persist($userSettings);
+        $em->flush();
+    }
+
+    /**
      * Get password
      * @return string
      */
-    public function getPassword()
-    {
+    public function getPassword() {
         return $this->password;
     }
 
@@ -234,6 +313,7 @@ class User implements UserInterface, \Serializable
         $this->surname = null;
         $this->language = null;
         $this->languageid = null;
+        $this->deleted = false;
     }
 
     /**
@@ -665,5 +745,28 @@ class User implements UserInterface, \Serializable
     public function getRegion()
     {
         return $this->region;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     * @return User
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean 
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
     }
 }
