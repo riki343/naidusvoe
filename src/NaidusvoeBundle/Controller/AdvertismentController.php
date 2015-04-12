@@ -5,6 +5,7 @@ namespace NaidusvoeBundle\Controller;
 use Doctrine\ORM\EntityManager;
 use NaidusvoeBundle\Entity\Advertisment;
 use NaidusvoeBundle\Entity\Attachment;
+use NaidusvoeBundle\Entity\Favorites;
 use NaidusvoeBundle\Entity\Functions;
 use NaidusvoeBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -133,5 +134,22 @@ class AdvertismentController extends Controller
         $count = $query->getSingleScalarResult();
         $advs = Functions::arrayToJson($advs);
         return new JsonResponse(array('advs' => $advs, 'pageCount' => intval($count / 10)));
+    }
+
+    /**
+     * @param int $adv_id
+     * @return JsonResponse
+     */
+    public function addToFavAction($adv_id) {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+        try {
+            Advertisment::addToFav($em, $this->getUser()->getId(), $adv_id);
+        } catch (\Exception $ex) {
+            $from = "Class: Advertisment, function: addToFav";
+            $this->get('error_logger')->registerException($ex, $from);
+            return new JsonResponse(-1);
+        }
+        return new JsonResponse(1);
     }
 }

@@ -65,6 +65,8 @@
             'getTradeAdvs': "{{ path('naidusvoe_get_trade_advs', { 'page_id': 'page_id' }) }}",
             'getFoundAdvs': "{{ path('naidusvoe_get_found_advs', { 'page_id': 'page_id' }) }}",
             'getGiftAdvs': "{{ path('naidusvoe_get_gift_advs', { 'page_id': 'page_id' }) }}",
+            'addToFav': "{{ path('naidusvoe_add_fav', { 'adv_id': 'adv_id' }) }}",
+            'getUser': "{{ path('naidusvoe_get_user') }}",
             {% if app.user %}
                 'getInfo': "{{ path('naidusvoe_get_user_info') }}",
                 'saveInfo': "{{ path('naidusvoe_save_info', { 'user_id': app.user.id }) }}",

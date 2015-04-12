@@ -4,13 +4,18 @@ Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sc
         $scope.adv_id = $routeParams.adv_id;
         $scope.adv = null;
         $scope.advs = null;
-
         $scope.paginator = {
             'current': 1,
             'next': 1,
             'prev': 1,
             'first': 1,
-            'last': 1
+            'last': 1,
+            'pages': []
+        };
+        $scope.notifications = {
+            'body': '',
+            'type': '',
+            'visible': false
         };
 
         if (angular.isDefined($routeParams.page_id)) {
@@ -21,9 +26,10 @@ Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sc
 
         $scope.urlGetAdv = URLS.getAdv;
         $scope.urlGetAdvs = URLS.getFoundAdvs;
+        $scope.urlAddToFav = URLS.addToFav;
 
         $scope.getAdvs = function () {
-            $http.get($scope.urlGetAdvs)
+            $http.get($scope.urlGetAdvs.replace('page_id', $scope.paginator.current))
                 .success(function (response) {
                     $scope.advs = response.advs;
 
@@ -62,6 +68,25 @@ Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sc
                         InitLightBox();
                         return false;
                     }, 400);
+                }
+            );
+        };
+
+        $scope.addToFav = function () {
+            $http.put($scope.urlAddToFav.replace('adv_id', $scope.adv_id))
+                .success(function (response) {
+                    switch(response) {
+                        case 1:
+                            $scope.notifications.body = 'Додано до обраних';
+                            $scope.notifications.type = 'alert-success';
+                            $scope.notifications.visible = true;
+                            break;
+                        case -1:
+                            $scope.notifications.body = 'Невідома помилка, спробуйте пізніше.';
+                            $scope.notifications.type = 'alert-danger';
+                            $scope.notifications.visible = true;
+                            break;
+                    }
                 }
             );
         };

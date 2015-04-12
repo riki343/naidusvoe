@@ -4,7 +4,6 @@ Naidusvoe.controller('tradingController', ['$scope', '$http', '$routeParams', '$
         $scope.adv_id = $routeParams.adv_id;
         $scope.adv = null;
         $scope.advs = null;
-
         $scope.paginator = {
             'current': 1,
             'next': 1,
@@ -13,6 +12,11 @@ Naidusvoe.controller('tradingController', ['$scope', '$http', '$routeParams', '$
             'last': 1,
             'pages': []
         };
+        $scope.notifications = {
+            'body': '',
+            'type': '',
+            'visible': false
+        };
 
         if (angular.isDefined($routeParams.page_id)) {
             $scope.paginator.current = $routeParams.page_id;
@@ -20,6 +24,7 @@ Naidusvoe.controller('tradingController', ['$scope', '$http', '$routeParams', '$
 
         $scope.urlGetAdv = URLS.getAdv;
         $scope.urlGetAdvs = URLS.getTradeAdvs;
+        $scope.urlAddToFav = URLS.addToFav;
 
         $scope.getAdvs = function () {
             $http.get($scope.urlGetAdvs.replace('page_id', $scope.paginator.current))
@@ -61,6 +66,25 @@ Naidusvoe.controller('tradingController', ['$scope', '$http', '$routeParams', '$
                         InitLightBox();
                         return false;
                     }, 400);
+                }
+            );
+        };
+
+        $scope.addToFav = function () {
+            $http.put($scope.urlAddToFav.replace('adv_id', $scope.adv_id))
+                .success(function (response) {
+                    switch(response) {
+                        case 1:
+                            $scope.notifications.body = 'Додано до обраних';
+                            $scope.notifications.type = 'alert-success';
+                            $scope.notifications.visible = true;
+                            break;
+                        case -1:
+                            $scope.notifications.body = 'Невідома помилка, спробуйте пізніше.';
+                            $scope.notifications.type = 'alert-danger';
+                            $scope.notifications.visible = true;
+                            break;
+                    }
                 }
             );
         };

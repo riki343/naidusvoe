@@ -184,4 +184,13 @@ class UserController extends Controller
         $em->flush();
         return $this->redirectToRoute('naidusvoe_logout');
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getUserAction() {
+        /** @var User $user */
+        $user = $this->getUser();
+        return new JsonResponse(($user) ? $user->getInArray() : null);
+    }
 }

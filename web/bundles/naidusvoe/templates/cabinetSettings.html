@@ -83,28 +83,30 @@
             <div id="settings-change-contacts" class="tab-pane fade in active">
                 <form name="contactsForm">
                     <p>
-                        <b>Область</b>:
-                        <select ng-model="contactInfo.region">
+                        <b>Область</b>: <br/>
+                        <select class="form-control" ng-model="contactInfo.region">
                             <option ng-repeat="region in regions" value="[[ region.id ]]">[[ region.name ]]</option>
                         </select><br/>
                     </p>
                     <p>
-                        <b>Місто/село</b>:
-                        <input type="text" ng-model="contactInfo.city" /><br/>
+                        <b>Місто/село</b>: <br/>
+                        <input type="text" class="form-control" ng-model="contactInfo.city" /><br/>
                     </p>
                     <p>
-                        <b>Ім’я</b>:
-                        <input type="text" ng-model="contactInfo.name" /><br/>
+                        <b>Ім’я</b>: <br/>
+                        <input type="text" class="form-control" ng-model="contactInfo.name" /><br/>
                     </p>
                     <p>
-                        <b>Прізвище</b>: <input type="text" ng-model="contactInfo.surname"/><br/>
+                        <b>Прізвище</b>:  <br/>
+                        <input type="text" class="form-control" ng-model="contactInfo.surname"/><br/>
                     </p>
                     <p>
-                        <b>Контактний номер</b>: <input type="tel" ng-model="contactInfo.telephoneNumber"/><br/>
+                        <b>Контактний номер</b>: <br/>
+                        <input type="tel" class="form-control" ng-model="contactInfo.telephoneNumber"/><br/>
                     </p>
                     <p>
-                        <b>Skype</b>:
-                        <input type="text" ng-model="contactInfo.skype"/><br/>
+                        <b>Skype</b>: <br/>
+                        <input type="text" class="form-control" ng-model="contactInfo.skype"/><br/>
                     </p>
                     <button type="button"
                             class="btn btn-default"
@@ -116,9 +118,18 @@
 
             <div id="settings-change-pass" class="tab-pane fade">
                 <form name="changePassForm">
-                    <p><b>Старий пароль</b>: <input type="password" ng-model="passChange.opass"/><br/></p>
-                    <p><b>Новий пароль</b>: <input type="password" ng-model="passChange.pass"/><br/></p>
-                    <p><b>Повторіть новий пароль</b>: <input type="password" ng-model="passChange.rpass"/><br/></p>
+                    <p>
+                        <b>Старий пароль</b>: <br/>
+                        <input type="password" class="form-control" ng-model="passChange.opass"/><br/>
+                    </p>
+                    <p>
+                        <b>Новий пароль</b>: <br/>
+                        <input type="password" class="form-control" ng-model="passChange.pass"/><br/>
+                    </p>
+                    <p>
+                        <b>Повторіть новий пароль</b>: <br/>
+                        <input type="password" class="form-control" ng-model="passChange.rpass"/><br/>
+                    </p>
                     <p>
                         <button type="button"
                                 class="btn btn-default"
@@ -132,13 +143,19 @@
 
             <div id="settings-change-email" class="tab-pane fade">
                 <form name="changeEmailForm">
-                    <b>Новий email</b>: <input type="email" ng-model="emailChange.email"/><br/>
-                    <b>Повторіть новий email</b>: <input type="email" ng-model="emailChange.remail"/><br/>
+                    <p>
+                        <b>Новий email</b>: <br/>
+                        <input type="email" class="form-control" ng-model="emailChange.email"/><br/>
+                    </p>
+                    <p>
+                        <b>Повторіть новий email</b>: <br/>
+                        <input type="email" class="form-control" ng-model="emailChange.remail"/><br/>
+                    </p>
                     <button type="button"
                             class="btn btn-default"
                             ng-class="{'disabled': (emailChange.email != emailChange.remail) || (!emailChange.email) }"
                             ng-click="changeEmail(emailChange);">
-                        Змінити пароль
+                        Змінити email
                     </button>
                 </form>
             </div>
@@ -147,13 +164,13 @@
                 <form>
                     <p>
                         <label>
-                            <input type="checkbox" ng-model="emailSettings.notifications" />
+                            <input type="checkbox" class="checkbox checkbox-inline" ng-model="emailSettings.notifications" />
                             <b>Я хочу отримувати Email про нові повідомлення</b>
                         </label>
                     </p>
                     <p>
                         <label>
-                            <input type="checkbox" ng-model="emailSettings.spam"/>
+                            <input type="checkbox" class="checkbox checkbox-inline" ng-model="emailSettings.spam"/>
                             <b>Я хочу отримувати розсилку</b>
                         </label>
                     </p>
@@ -170,12 +187,12 @@
             <div id="settings-notifications-sms" class="tab-pane fade">
                 <form>
                     <p>
-                        <input type="checkbox" ng-model="smsSettings.notifications" />
+                        <input type="checkbox" class="checkbox checkbox-inline" ng-model="smsSettings.notifications" />
                         <b>Я хочу отримувати Sms про нові повідомлення</b>
                     </p>
                     <p ng-if="smsSettings.notifications">
                         <b>Номер телефону</b>: <br/>
-                        <input type="tel" ng-model="smsSettings.telephoneNumber"/>
+                        <input type="tel" class="form-control" ng-model="smsSettings.telephoneNumber"/>
                     </p>
                     <p>
                         <button type="button"

@@ -176,6 +176,7 @@ class Advertisment
                 ? $this->getSubCategory()->getInArray()
                 : null,
             'attachments' => Functions::arrayToJson($this->getAttachments()),
+            'userID' => $this->getUserID(),
             'date' => $this->getDate()->format('Y-m-d'),
             'price' => $this->getPrice(),
             'priceType' => $this->getPriceType()->getInArray(),
@@ -227,6 +228,27 @@ class Advertisment
         $em->persist($adv);
         $em->flush();
         return $adv;
+    }
+
+    /**
+     * @param EntityManager $em
+     * @param int $user_id
+     * @param int $adv_id
+     * @return Favorites
+     */
+    public static function addToFav(EntityManager $em, $user_id, $adv_id) {
+        /** @var Advertisment $adv */
+        $adv = $em->find('NaidusvoeBundle:Advertisment', $adv_id);
+        /** @var User $user */
+        $user = $em->find('NaidusvoeBundle:User', $user_id);
+
+        $fav = new Favorites();
+        $fav->setUser($user);
+        $fav->setAdvertisment($adv);
+
+        $em->persist($fav);
+        $em->flush();
+        return $fav;
     }
 
     /**

@@ -1,3 +1,44 @@
 <div ng-init="getAdv();">
-    <pre>[[ Adv | json ]]</pre>
+    <b>Назва</b>: [[ adv.title ]]<br/>
+    <b>Опис</b>: <br/>[[ adv.description ]]<br/>
+    <b>Тип</b>: [[ adv.type.name ]]<br/>
+    <b>Категорія</b>: [[ adv.category.name ]]<br/>
+    <b>Під-категорія</b>: [[ adv.subCategory.name ]]<br/>
+    <b>Ціна</b>: [[ adv.price + ' ' + adv.priceType.name ]].<br/>
+    <b>Контактна персона</b>: [[ adv.contactPerson ]]<br/>
+    <b>email</b>: [[ adv.email ]]<br/>
+    <b>Мобільний телефон</b>: [[ adv.telephoneNumber ]]<br/>
+    <div ng-if="adv.skype"><b>Skype</b>: [[ adv.skype ]]</div><br/>
+
+    <div class="row">
+        <div class="col-md-2 col-xs-4" ng-repeat="image in adv.attachments">
+            <a ng-href="[[ image.image ]]" rel="lightbox" data-lightbox="someimage">
+                <img class="img-responsive img-thumbnail" ng-src="[[ image.image ]]" alt=""/>
+            </a>
+        </div>
+    </div>
+
+    <div class="row" ng-if="(user) && (user.id != adv.userID)">
+        <div class="col-xs-12">
+            <div class="btn-group">
+                <button class="btn btn-default" data-target="#add_new_message" data-toggle="modal">
+                    Написати повідомлення
+                </button>
+                <button class="btn btn-default" ng-click="addToFav();">
+                    Додати до обраних
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-if="notifications.visible">
+        <div class="col-xs-12 fade in" style="margin-top: 10px;">
+            <div class="alert" ng-class="notifications.type">
+                <p>[[ notifications.body ]]</p><br/>
+                <button type="button" class="btn btn-default" ng-click="notifications.visible = false;">
+                    Закрити
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

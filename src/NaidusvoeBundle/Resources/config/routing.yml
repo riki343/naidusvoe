@@ -81,6 +81,14 @@ naidusvoe_delete_account:
     path: /user/deleteAccount
     defaults: { _controller: NaidusvoeBundle:User:deleteAccount }
 
+naidusvoe_add_fav:
+    path: /user/fav/add/{adv_id}
+    defaults: { _controller: NaidusvoeBundle:Advertisment:addToFav }
+
+naidusvoe_get_user:
+    path: /get/user
+    defaults: { _controller: NaidusvoeBundle:User:getUser }
+
 
 #############################################################################
 ################## Default Routes for AngularJS Routing #####################
