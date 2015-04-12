@@ -57,6 +57,26 @@ naidusvoe_error_logs:
     path: /dev/error_logs
     defaults: { _controller: NaidusvoeBundle:ErrorLog:index }
 
+naidusvoe_delete_account:
+    path: /user/deleteAccount
+    defaults: { _controller: NaidusvoeBundle:User:deleteAccount }
+
+naidusvoe_add_fav:
+    path: /user/fav/add/{adv_id}
+    defaults: { _controller: NaidusvoeBundle:Advertisment:addToFav }
+
+naidusvoe_get_user:
+    path: /get/user
+    defaults: { _controller: NaidusvoeBundle:User:getUser }
+
+naidusvoe_user_get_favs:
+    path: /user/getFavs
+    defaults: { _controller: NaidusvoeBundle:User:getFavs }
+
+naidusvoe_delete_fav:
+    pattern: /fav/{fav_id}/delete
+    defaults: { _controller: NaidusvoeBundle:User:deleteFav }
+
 naidusvoe_save_info:
     pattern: /user/{user_id}/saveInfo
     defaults: { _controller: NaidusvoeBundle:User:saveContactInfo }
@@ -76,18 +96,6 @@ naidusvoe_save_email_notification_settings:
 naidusvoe_save_sms_notification_settings:
     pattern: /user/{user_id}/saveSmsNotificationSettings
     defaults: { _controller: NaidusvoeBundle:User:saveSmsNotificationSettings }
-
-naidusvoe_delete_account:
-    path: /user/deleteAccount
-    defaults: { _controller: NaidusvoeBundle:User:deleteAccount }
-
-naidusvoe_add_fav:
-    path: /user/fav/add/{adv_id}
-    defaults: { _controller: NaidusvoeBundle:Advertisment:addToFav }
-
-naidusvoe_get_user:
-    path: /get/user
-    defaults: { _controller: NaidusvoeBundle:User:getUser }
 
 
 #############################################################################

@@ -3,6 +3,7 @@
 namespace NaidusvoeBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
+use NaidusvoeBundle\Entity\Favorites;
 use NaidusvoeBundle\Entity\Functions;
 use NaidusvoeBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -192,5 +193,35 @@ class UserController extends Controller
         /** @var User $user */
         $user = $this->getUser();
         return new JsonResponse(($user) ? $user->getInArray() : null);
+    }
+
+    /**
+     * @Security("has_role('ROLE_USER')")
+     * @return JsonResponse
+     */
+    public function getFavsAction() {
+        /** @var User $user */
+        $user = $this->getUser();
+        return new JsonResponse(
+            Functions::arrayToJson($this->getDoctrine()->getRepository('NaidusvoeBundle:Favorites')
+                ->findBy(array('userID' => $user->getId())))
+        );
+    }
+
+    /**
+     * @param int $fav_id
+     * @return JsonResponse
+     */
+    public function deleteFavAction($fav_id) {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+        try {
+            Favorites::deleteFav($em, $fav_id);
+        } catch (\Exception $ex) {
+            $from = "Class: Favorites, function: deleteFav";
+            $this->get('error_logger')->registerException($ex, $from);
+            return new JsonResponse(-1);
+        }
+        return new JsonResponse(1);
     }
 }

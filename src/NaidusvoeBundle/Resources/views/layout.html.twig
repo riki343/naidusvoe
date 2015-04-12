@@ -67,6 +67,8 @@
             'getGiftAdvs': "{{ path('naidusvoe_get_gift_advs', { 'page_id': 'page_id' }) }}",
             'addToFav': "{{ path('naidusvoe_add_fav', { 'adv_id': 'adv_id' }) }}",
             'getUser': "{{ path('naidusvoe_get_user') }}",
+            'getFavs': "{{ path('naidusvoe_user_get_favs') }}",
+            'deleteFav': "{{ path('naidusvoe_delete_fav', { 'fav_id': 'fav_id' }) }}",
             {% if app.user %}
                 'getInfo': "{{ path('naidusvoe_get_user_info') }}",
                 'saveInfo': "{{ path('naidusvoe_save_info', { 'user_id': app.user.id }) }}",

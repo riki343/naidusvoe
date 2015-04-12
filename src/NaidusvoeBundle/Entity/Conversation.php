@@ -64,6 +64,12 @@ class Conversation
     private $advertisment;
 
     /**
+     * @var \DateTime
+     * @ORM\Column(name="last_updated", type="datetime")
+     */
+    private $lastUpdated;
+
+    /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Message", mappedBy="conversation")
      */
@@ -268,5 +274,28 @@ class Conversation
     public function getMessages()
     {
         return $this->messages;
+    }
+
+    /**
+     * Set lastUpdated
+     *
+     * @param \DateTime $lastUpdated
+     * @return Conversation
+     */
+    public function setLastUpdated($lastUpdated)
+    {
+        $this->lastUpdated = $lastUpdated;
+
+        return $this;
+    }
+
+    /**
+     * Get lastUpdated
+     *
+     * @return \DateTime 
+     */
+    public function getLastUpdated()
+    {
+        return $this->lastUpdated;
     }
 }

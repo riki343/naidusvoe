@@ -62,6 +62,18 @@ class Favorites
     }
 
     /**
+     * @param EntityManager $em
+     * @param int $fav_id
+     */
+    public static function deleteFav(EntityManager $em, $fav_id) {
+        $fav = $em->find('NaidusvoeBundle:Favorites', $fav_id);
+        if ($fav) {
+            $em->remove($fav);
+            $em->flush();
+        }
+    }
+
+    /**
      * Get id
      *
      * @return integer 

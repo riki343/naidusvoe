@@ -1,5 +1,5 @@
-Naidusvoe.controller('cabinetController', ['$scope', '$http',
-    function ($scope, $http) {
+Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce',
+    function ($scope, $http, $sce) {
         $scope.urlGetInfo = URLS.getInfo;
         $scope.urlSaveContactInfo = URLS.saveInfo;
         $scope.urlSaveNewEmail = URLS.changeEmail;
@@ -7,6 +7,8 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http',
         $scope.urlSaveEmailNotificationsSettings = URLS.saveEmailSettings;
         $scope.urlSaveSmsNotificationsSettings = URLS.saveSmsSettings;
         $scope.urlDeleteAccount = URLS.deleteAccount;
+        $scope.urlGetFavs = URLS.getFavs;
+        $scope.urlDeleteFav = URLS.deleteFav;
 
         $scope.emailChange = {
             'email': null,
@@ -30,6 +32,7 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http',
             'type': '',
             'visible': false
         };
+        $scope.favs = null;
 
         $scope.contactInfo = null;
         $scope.regions = null;
@@ -43,6 +46,30 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http',
                     $scope.emailSettings.spam = response.addInfo.emailSpam;
                     $scope.smsSettings.telephoneNumber = response.addInfo.telephoneNumber;
                     $scope.smsSettings.notifications = response.addInfo.notificationsSms;
+                }
+            );
+        };
+
+        $scope.getFavs = function () {
+            $http.get($scope.urlGetFavs)
+                .success(function (response) {
+                    $scope.favs = response;
+                    for (var i = 0; i < $scope.favs.length; i++) {
+                        if ($scope.favs[i].advertisment.attachments.length > 0) {
+                            $scope.favs[i].advertisment.image =
+                                $sce.trustAsUrl($scope.favs[i].advertisment.attachments[0].image);
+                        }
+                    }
+                }
+            );
+        };
+        
+        $scope.deleteFav = function (fav_id, index) {
+            $http.delete($scope.urlDeleteFav.replace('fav_id', fav_id))
+                .success(function (response) {
+                    switch (response) {
+                        case 1: $scope.favs.splice(index, 1); break;
+                    }
                 }
             );
         };
