@@ -69,75 +69,128 @@
     </div>
 
     <div class="col-md-9 col-xs-12 col-sm-8">
+        <div class="row" ng-if="notifications.visible">
+            <div class="col-xs-12 fade in" style="margin-top: 10px;">
+                <div class="alert" ng-class="notifications.type">
+                    <p>[[ notifications.body ]]</p><br/>
+                    <button type="button" class="btn btn-default" ng-click="notifications.visible = false;">
+                        Закрити
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="tab-content" style="padding-top: 20px;">
             <div id="settings-change-contacts" class="tab-pane fade in active">
                 <form name="contactsForm">
-                    <b>Область</b>:
-                    <select name="" ng-model="contactInfo.region">
-                        <option value="1">Автономна Республіка Крим</option>
-                        <option value="2">Вінницька область</option>
-                        <option value="3">Волинська область</option>
-                        <option value="4">Дніпропетровська область</option>
-                        <option value="5">Донецька область</option>
-                        <option value="6">Житомирська область</option>
-                        <option value="7">Закарпатська область</option>
-                        <option value="8">Запорізька область</option>
-                        <option value="9">Івано-Франківська область</option>
-                        <option value="10">Київська область</option>
-                        <option value="11">Кіровоградська область</option>
-                        <option value="12">Луганська область</option>
-                        <option value="13">Львівська область</option>
-                        <option value="14">Миколаївська область</option>
-                        <option value="15">Одеська область</option>
-                        <option value="16">Полтавська область</option>
-                        <option value="17">Рівненська область</option>
-                        <option value="18">Сумська область</option>
-                        <option value="19">Тернопільська область</option>
-                        <option value="20">Харківська область</option>
-                        <option value="21">Херсонська область</option>
-                        <option value="22">Черкаська область</option>
-                        <option value="23">Чернівецька область</option>
-                        <option value="24">Чернігівська область</option>
-                    </select><br/>
-                    <b>Місто/село</b>:
-                    <input type="text" ng-model="contactInfo.city" /><br/>
-                    <b>Ім’я</b>:
-                    <input type="text" ng-model="contactInfo.name" /><br/>
-                    <b>Прізвище</b>: <input type="text" ng-model="contactInfo.surname"/><br/>
-                    <b>Контактний номер</b>: <input type="tel" ng-model="contactInfo.telephoneNumber"/><br/>
-                    <b>Skype</b>:
-                    <input type="text" ng-model="contactInfo.skype"/><br/>
-                    <button type="button" ng-click="saveContactInfo(contactInfo);">Зберегти</button>
+                    <p>
+                        <b>Область</b>:
+                        <select ng-model="contactInfo.region">
+                            <option ng-repeat="region in regions" value="[[ region.id ]]">[[ region.name ]]</option>
+                        </select><br/>
+                    </p>
+                    <p>
+                        <b>Місто/село</b>:
+                        <input type="text" ng-model="contactInfo.city" /><br/>
+                    </p>
+                    <p>
+                        <b>Ім’я</b>:
+                        <input type="text" ng-model="contactInfo.name" /><br/>
+                    </p>
+                    <p>
+                        <b>Прізвище</b>: <input type="text" ng-model="contactInfo.surname"/><br/>
+                    </p>
+                    <p>
+                        <b>Контактний номер</b>: <input type="tel" ng-model="contactInfo.telephoneNumber"/><br/>
+                    </p>
+                    <p>
+                        <b>Skype</b>:
+                        <input type="text" ng-model="contactInfo.skype"/><br/>
+                    </p>
+                    <button type="button"
+                            class="btn btn-default"
+                            ng-click="saveContactInfo(contactInfo);">
+                        Зберегти
+                    </button>
                 </form>
             </div>
 
             <div id="settings-change-pass" class="tab-pane fade">
                 <form name="changePassForm">
-                    <b>Старий пароль</b>: <input type="password"/><br/>
-                    <b>Новий пароль</b>: <input type="password"/><br/>
-                    <b>Повторіть новий пароль</b>: <input type="password"/><br/>
-                    <button type="button" ng-click="changePassword(passChange);">Зберегти</button>
+                    <p><b>Старий пароль</b>: <input type="password" ng-model="passChange.opass"/><br/></p>
+                    <p><b>Новий пароль</b>: <input type="password" ng-model="passChange.pass"/><br/></p>
+                    <p><b>Повторіть новий пароль</b>: <input type="password" ng-model="passChange.rpass"/><br/></p>
+                    <p>
+                        <button type="button"
+                                class="btn btn-default"
+                                ng-class="{'disabled': (passChange.pass != passChange.rpass) || (!passChange.pass) }"
+                                ng-click="changePassword(passChange);">
+                            Зберегти
+                        </button>
+                    </p>
                 </form>
             </div>
 
             <div id="settings-change-email" class="tab-pane fade">
                 <form name="changeEmailForm">
-                    <b>Новий email</b>: <input type="email"/><br/>
-                    <b>Повторіть новий email</b>: <input type="email"/><br/>
-                    <button type="button" ng-click="changeEmail(emailChange);">Зберегти</button>
+                    <b>Новий email</b>: <input type="email" ng-model="emailChange.email"/><br/>
+                    <b>Повторіть новий email</b>: <input type="email" ng-model="emailChange.remail"/><br/>
+                    <button type="button"
+                            class="btn btn-default"
+                            ng-class="{'disabled': (emailChange.email != emailChange.remail) || (!emailChange.email) }"
+                            ng-click="changeEmail(emailChange);">
+                        Змінити пароль
+                    </button>
                 </form>
             </div>
 
             <div id="settings-notifications-email" class="tab-pane fade">
-
+                <form>
+                    <p>
+                        <label>
+                            <input type="checkbox" ng-model="emailSettings.notifications" />
+                            <b>Я хочу отримувати Email про нові повідомлення</b>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="checkbox" ng-model="emailSettings.spam"/>
+                            <b>Я хочу отримувати розсилку</b>
+                        </label>
+                    </p>
+                    <p>
+                        <button type="button"
+                                class="btn btn-default"
+                                ng-click="saveEmailNotificationSettings(emailSettings);">
+                            Зберегти
+                        </button>
+                    </p>
+                </form>
             </div>
 
             <div id="settings-notifications-sms" class="tab-pane fade">
-
+                <form>
+                    <p>
+                        <input type="checkbox" ng-model="smsSettings.notifications" />
+                        <b>Я хочу отримувати Sms про нові повідомлення</b>
+                    </p>
+                    <p ng-if="smsSettings.notifications">
+                        <b>Номер телефону</b>: <br/>
+                        <input type="tel" ng-model="smsSettings.telephoneNumber"/>
+                    </p>
+                    <p>
+                        <button type="button"
+                                class="btn btn-default"
+                                ng-click="saveSmsNotificationSettings(smsSettings);">
+                            Зберегти
+                        </button>
+                    </p>
+                </form>
             </div>
 
             <div id="settings-delete-account" class="tab-pane fade">
-                <a href=""></a>
+                <a ng-href="[[ urlDeleteAccount ]]" target="_self">
+                    Видалити аккаунт
+                </a>
             </div>
         </div>
     </div>

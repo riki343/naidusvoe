@@ -2,7 +2,7 @@
 
 {% block title %}Error Logs{% endblock %}
 
-{% block styles %}
+{% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/naidusvoe/css/syntax.css') }}" type="text/css"/>
 {% endblock %}
@@ -10,7 +10,7 @@
 {% block body %}
     <div ng-controller="ErrorLogsController" ng-init="getErrors();">
         <div class="row" ng-repeat="error in errors" style="margin-top: 20px;">
-            <div class="col-md-12">
+            <div class="col-md-offset-1 col-md-11">
                 <div class="img-thumbnail" style="padding: 15px 20px; box-shadow: 0 0 6px 0 darkseagreen;">
                     <p class="pull-right text-muted"><i>[[ error.date ]]</i></p>
                     <h4 class="text-info" style="text-shadow: 1px 0 darkorchid;">Error Message:</h4>

@@ -1,5 +1,5 @@
-Naidusvoe.controller('ErrorLogsController', ['$scope', '$http',
-    function($scope, $http) {
+Naidusvoe.controller('ErrorLogsController', ['$scope', '$http', '$sce',
+    function($scope, $http, $sce) {
         $scope.errors = null;
 
         $scope.urlGetErrors = URLS.getErrors;
@@ -25,9 +25,9 @@ Naidusvoe.controller('ErrorLogsController', ['$scope', '$http',
 
         function prepareErrors(errors) {
             for (var i = 0; i < errors.length; i++) {
-                errors[i].message = highlightSyntax(errors[i].message);
-                errors[i].where = highlightSyntax(errors[i].where);
-                errors[i].from = highlightSyntax(errors[i].from);
+                errors[i].message = $sce.trustAsHtml(highlightSyntax(errors[i].message));
+                errors[i].where = $sce.trustAsHtml(highlightSyntax(errors[i].where));
+                errors[i].from = $sce.trustAsHtml(highlightSyntax(errors[i].from));
             }
             return errors;
         }

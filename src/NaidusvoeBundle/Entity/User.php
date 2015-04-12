@@ -206,10 +206,12 @@ class User implements UserInterface, \Serializable
      * @param object $params
      */
     public static function changeEmailNotificationsSettings(EntityManager $em, $user_id, $params) {
+        /** @var User $user */
+        $user = $em->getRepository('NaidusvoeBundle:User')->find($user_id);
         /** @var UserSettings $userSettings */
-        $userSettings = $em->getRepository('NaidusvoeBundle:UserSettings')->findBy(array('userID' => $user_id));
-        $userSettings->setNotificationsEmail($params->notificationsEmail);
-        $userSettings->setSpamEmail($params->spamEmail);
+        $userSettings = $user->getSettings();
+        $userSettings->setNotificationsEmail($params->notifications);
+        $userSettings->setSpamEmail($params->spam);
         $em->persist($userSettings);
         $em->flush();
     }
@@ -220,9 +222,11 @@ class User implements UserInterface, \Serializable
      * @param object $params
      */
     public static function changeSmsNotificationsSettings(EntityManager $em, $user_id, $params) {
-        $userSettings = $em->getRepository('NaidusvoeBundle:UserSettings')
-            ->findOneBy(array('userID', $user_id));
-        $userSettings->setNotificationsSms($params->notificationsSms);
+        /** @var User $user */
+        $user = $em->getRepository('NaidusvoeBundle:User')->find($user_id);
+        /** @var UserSettings $userSettings */
+        $userSettings = $user->getSettings();
+        $userSettings->setNotificationsSms($params->notifications);
         if ($params->telephoneNumber) {
             $userSettings->setNumberForSms($params->telephoneNumber);
         }

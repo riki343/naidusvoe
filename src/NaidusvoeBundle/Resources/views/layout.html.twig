@@ -34,6 +34,7 @@
     <script src="{{ asset('bundles/naidusvoe/js/lightbox.js') }}" type="text/javascript"></script>
 
     <script src="{{ asset('bundles/naidusvoe/js/CustomAngular/appCore.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/naidusvoe/js/CustomAngular/appController.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/naidusvoe/js/CustomAngular/indexController.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/naidusvoe/js/CustomAngular/tradingController.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/naidusvoe/js/CustomAngular/giftController.js') }}" type="text/javascript"></script>
@@ -65,11 +66,13 @@
             'getFoundAdvs': "{{ path('naidusvoe_get_found_advs', { 'page_id': 'page_id' }) }}",
             'getGiftAdvs': "{{ path('naidusvoe_get_gift_advs', { 'page_id': 'page_id' }) }}",
             {% if app.user %}
-            'saveInfo': "{{ path('naidusvoe_save_info', { 'user_id': app.user.id }) }}",
-            'changePass': "{{ path('naidusvoe_change_password', { 'user_id': app.user.id }) }}",
-            'changeEmail': "{{ path('naidusvoe_change_email', { 'user_id': app.user.id }) }}",
-            'saveEmailSettings': "{{ path('naidusvoe_save_email_notification_settings', { 'user_id': app.user.id }) }}",
-            'saveSmsSettings': "{{ path('naidusvoe_save_sms_notification_settings', { 'user_id': app.user.id }) }}",
+                'getInfo': "{{ path('naidusvoe_get_user_info') }}",
+                'saveInfo': "{{ path('naidusvoe_save_info', { 'user_id': app.user.id }) }}",
+                'changePass': "{{ path('naidusvoe_change_password', { 'user_id': app.user.id }) }}",
+                'changeEmail': "{{ path('naidusvoe_change_email', { 'user_id': app.user.id }) }}",
+                'saveEmailSettings': "{{ path('naidusvoe_save_email_notification_settings', { 'user_id': app.user.id }) }}",
+                'saveSmsSettings': "{{ path('naidusvoe_save_sms_notification_settings', { 'user_id': app.user.id }) }}",
+                'deleteAccount': "{{ path('naidusvoe_delete_account') }}",
             {% endif %}
             'asset': "{{ asset('') }}"
         };

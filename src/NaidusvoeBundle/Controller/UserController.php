@@ -33,10 +33,10 @@ class UserController extends Controller
         );
 
         $addInfo = array(
-            'notificationsOnEmail' => $user->getSettings()->getNotificationsEmail(),
-            'notificationsOnSms' => $user->getSettings()->getNotificationsSms(),
-            'emailForSpam' => $user->getSettings()->getSpamEmail(),
-            'numberForSms' => $user->getSettings()->getNumberForSms(),
+            'notificationsEmail' => $user->getSettings()->getNotificationsEmail(),
+            'notificationsSms' => $user->getSettings()->getNotificationsSms(),
+            'emailSpam' => $user->getSettings()->getSpamEmail(),
+            'telephoneNumber' => $user->getSettings()->getNumberForSms(),
         );
 
         $regions = Functions::arrayToJson($this->getDoctrine()
@@ -65,9 +65,9 @@ class UserController extends Controller
         } catch (\Exception $ex) {
             $from = "Class: User, function: saveContactInfo";
             $this->get('error_logger')->registerException($ex, $from);
-            return new JsonResponse(false);
+            return new JsonResponse(-1);
         }
-        return new JsonResponse(true);
+        return new JsonResponse(1);
     }
 
     /**
