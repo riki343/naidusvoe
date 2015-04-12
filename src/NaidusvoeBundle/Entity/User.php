@@ -157,6 +157,17 @@ class User implements UserInterface, \Serializable
     private $deleted;
 
     /**
+     * @return array
+     */
+    public function getInArray() {
+        return array(
+            'id' => $this->getId(),
+            'avatar' => $this->getAvatar(),
+            'username' => $this->getUsername(),
+        );
+    }
+
+    /**
      * @param EntityManager $em
      * @param int $user_id
      * @param object $params
