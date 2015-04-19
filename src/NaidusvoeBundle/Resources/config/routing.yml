@@ -53,6 +53,10 @@ naidusvoe_get_user_advs:
     path: /user/getAdvs
     defaults: { _controller: NaidusvoeBundle:User:getUserAdvs }
 
+naidusvoe_delete_user_adv:
+    path: /user/deleteUserAdv/{adv_id}
+    defaults: { _controller: NaidusvoeBundle:User:deleteUserAdv }
+
 naidusvoe_get_error_logs_errors:
     path: /dev/error_logs/getErrors
     defaults: { _controller: NaidusvoeBundle:ErrorLog:getErrors }

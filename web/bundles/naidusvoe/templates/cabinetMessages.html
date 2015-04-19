@@ -1,3 +1,5 @@
+<div ng-init="getUserMsgs();"></div>
+
 <div class="row">
     <div class="col-md-12 hidden-sm hidden-xs">
         <div class="btn-group btn-group-justified">
@@ -23,7 +25,13 @@
     <h3>Повідомлення</h3>
 </div>
 
-<div class="row">
+<div class="row" ng-if="spinner">
+    <div class="col-xs-12 text-center" style="padding-top: 150px;">
+        <div class="center-block whirly"></div>
+    </div>
+</div>
+
+<div class="row" ng-if="(!spinner) && (userMsgs) && (userMsgs.length == 0)">
     <div class="col-md-offset-8 col-md-4 col-xs-offset-3 col-xs-6">
         <form class="form-horizontal" role="search">
             <div class="input-group">
@@ -33,5 +41,13 @@
         </span>
             </div>
         </form>
+    </div>
+</div>
+
+<div class="row" ng-if="(!spinner) && (userMsgs) && (userMsgs.length == 0)">
+    <div class="col-xs-12" style="text-align: center;">
+        <div style="margin: 150px;">
+            <h4 class="text-info">У вас немає повідомленнь</h4>
+        </div>
     </div>
 </div>

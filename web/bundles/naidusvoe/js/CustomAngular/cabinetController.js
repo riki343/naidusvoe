@@ -10,6 +10,7 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce',
         $scope.urlGetFavs = URLS.getFavs;
         $scope.urlDeleteFav = URLS.deleteFav;
         $scope.urlGetUserAdvs = URLS.getUserAdvs;
+        $scope.urlDeleteUserAdv = URLS.deleteUserAdv;
 
         $scope.emailChange = {
             'email': null,
@@ -35,10 +36,13 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce',
         };
         $scope.favs = null;
         $scope.userAdvs = null;
+        $scope.userMsgs = null;
         $scope.contactInfo = null;
         $scope.regions = null;
+        $scope.spinner = false;
 
         $scope.getInfo = function () {
+            $scope.spinner = true;
             $http.get($scope.urlGetInfo)
                 .success(function (response) {
                     $scope.contactInfo = response.contactInfo;
@@ -47,19 +51,47 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce',
                     $scope.emailSettings.spam = response.addInfo.emailSpam;
                     $scope.smsSettings.telephoneNumber = response.addInfo.telephoneNumber;
                     $scope.smsSettings.notifications = response.addInfo.notificationsSms;
+                    $scope.spinner = false;
                 }
             );
         };
 
         $scope.getUserAdvs = function () {
+            $scope.spinner = true;
             $http.get($scope.urlGetUserAdvs)
                 .success(function (response) {
                     $scope.userAdvs = response;
+                    for (var i = 0; i < $scope.userAdvs.length; i++) {
+                        if ($scope.userAdvs[i].attachments.length > 0) {
+                            $scope.userAdvs[i].image = $sce.trustAsUrl($scope.userAdvs[i].attachments[0].image);
+                        }
+                    }
+                    $scope.spinner = false;
                 }
             );
         };
 
+        $scope.deleteUserAdv = function (id, index) {
+            $scope.spinner = true;
+            var deleteAdvURL = $scope.urlDeleteUserAdv.replace('adv_id', id);
+            $http.delete(deleteAdvURL)
+                .success(function (response) {
+                    if (response) {
+                        $scope.userAdvs.splice(index, 1);
+                        $scope.spinner = false;
+                    }
+                }
+            );
+        };
+
+        $scope.getUserMsgs = function () {
+            $scope.spinner = true;
+            // Bla bla bla
+            // $scope.spinner = false;
+        };
+
         $scope.getFavs = function () {
+            $scope.spinner = true;
             $http.get($scope.urlGetFavs)
                 .success(function (response) {
                     $scope.favs = response;
@@ -69,6 +101,7 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce',
                                 $sce.trustAsUrl($scope.favs[i].advertisment.attachments[0].image);
                         }
                     }
+                    $scope.spinner = false;
                 }
             );
         };

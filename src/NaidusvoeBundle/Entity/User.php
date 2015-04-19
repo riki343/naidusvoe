@@ -163,6 +163,12 @@ class User implements UserInterface, \Serializable
     private $advertisments;
 
     /**
+     * @var float
+     * @ORM\Column(name="rating", type="float", options={"default" = null})
+     */
+    private $rating;
+
+    /**
      * @return array
      */
     public function getInArray() {
@@ -170,6 +176,8 @@ class User implements UserInterface, \Serializable
             'id' => $this->getId(),
             'avatar' => $this->getAvatar(),
             'username' => $this->getUsername(),
+            'rating' => $this->getRating(),
+            'avatar' => $this->getAvatar(),
         );
     }
 
@@ -336,6 +344,7 @@ class User implements UserInterface, \Serializable
         $this->languageid = null;
         $this->deleted = false;
         $this->advertisments = new ArrayCollection();
+        $this->rating = 0;
     }
 
     /**
@@ -823,5 +832,28 @@ class User implements UserInterface, \Serializable
     public function getAdvertisments()
     {
         return $this->advertisments;
+    }
+
+    /**
+     * Set rating
+     *
+     * @param float $rating
+     * @return User
+     */
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
+     * Get rating
+     *
+     * @return float 
+     */
+    public function getRating()
+    {
+        return $this->rating;
     }
 }

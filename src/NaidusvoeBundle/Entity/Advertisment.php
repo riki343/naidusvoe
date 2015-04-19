@@ -30,7 +30,7 @@ class Advertisment
 
     /**
      * @var string
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="description", type="string", length=2000)
      */
     private $description;
 
@@ -249,6 +249,47 @@ class Advertisment
         $em->persist($fav);
         $em->flush();
         return $fav;
+    }
+
+    /**
+     * @param EntityManager $em
+     * @param int|null $filter
+     * @param int $limit
+     * @param int $offset
+     * @param int $type_id
+     * @return array
+     */
+    public static function getAdvs(EntityManager $em, $filter, $limit, $offset, $type_id) {
+        $qb = $em->createQueryBuilder();
+        $query = $qb->select('a');
+        $query->from('NaidusvoeBundle:Advertisment', 'a');
+        $query->where('a.typeID = :type_id');
+        $query->setParameter('type_id', $type_id);
+        if ($filter != null && $filter != 'null') {
+            $query->andWhere('a.categoryID = :param');
+            $query->setParameter('param', $filter);
+        }
+        $query->orderBy('a.date', 'DESC');
+        $query->setFirstResult($offset);
+        $query->setMaxResults($limit);
+        $query = $query->getQuery();
+
+        $advs = $query->getResult();
+        return Functions::arrayToJson($advs);
+    }
+
+    /**
+     * @param EntityManager $em
+     * @param int $type_id
+     * @return int
+     */
+    public static function getAdvsCount(EntityManager $em, $type_id) {
+        $query = $em->createQuery(
+            'SELECT COUNT(a.id) ' .
+            'FROM NaidusvoeBundle:Advertisment a ' .
+            'WHERE a.typeID = :param')
+            ->setParameter('param', $type_id);
+        return $query->getSingleScalarResult();
     }
 
     /**

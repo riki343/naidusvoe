@@ -67,18 +67,17 @@ Naidusvoe.controller('tradingController', ['$scope', '$http', '$routeParams', '$
         };
 
         $scope.getAdv = function () {
+            $scope.spinner = true;
             var advUrl = $scope.urlGetAdv.replace('adv_id', $scope.adv_id);
             $http.get(advUrl)
                 .success(function (response) {
-                    $scope.adv = response;
+                    $scope.adv = response.adv;
+                    $scope.advUser = response.user;
+                    $scope.advUser.avatar = $scope.asset + $scope.advUser.avatar;
                     for (var i = 0; i < $scope.adv.attachments.length; i++) {
                         $scope.adv.attachments[i].image = $sce.trustAsUrl($scope.adv.attachments[i].image);
                     }
-
-                    setTimeout(function () {
-                        InitLightBox();
-                        return false;
-                    }, 400);
+                    $scope.spinner = false;
                 }
             );
         };

@@ -23,7 +23,14 @@
     <h3>Налаштування</h3>
 </div>
 
-<div class="row">
+<div class="row" ng-if="spinner">
+    <div class="col-xs-12 text-center" style="padding-top: 150px;">
+        <div class="center-block whirly"></div>
+    </div>
+</div>
+
+
+<div class="row" ng-if="!spinner">
     <div class="col-md-3 col-xs-12 col-sm-4">
         <ul class="nav nav-pills btn-group btn-group-justified btn-group-vertical center-block hidden-xs">
             <li class="active" style="width: 100%;">
@@ -69,16 +76,6 @@
     </div>
 
     <div class="col-md-9 col-xs-12 col-sm-8">
-        <div class="row" ng-if="notifications.visible">
-            <div class="col-xs-12 fade in" style="margin-top: 10px;">
-                <div class="alert" ng-class="notifications.type">
-                    <p>[[ notifications.body ]]</p><br/>
-                    <button type="button" class="btn btn-default" ng-click="notifications.visible = false;">
-                        Закрити
-                    </button>
-                </div>
-            </div>
-        </div>
         <div class="tab-content" style="padding-top: 20px;">
             <div id="settings-change-contacts" class="tab-pane fade in active">
                 <form name="contactsForm">
@@ -208,6 +205,16 @@
                 <a ng-href="[[ urlDeleteAccount ]]" target="_self">
                     Видалити аккаунт
                 </a>
+            </div>
+        </div>
+        <div class="row" ng-if="notifications.visible">
+            <div class="col-xs-12 fade in" style="margin-top: 10px;">
+                <div class="alert" ng-class="notifications.type">
+                    <p>[[ notifications.body ]]</p><br/>
+                    <button type="button" class="btn btn-default" ng-click="notifications.visible = false;">
+                        Закрити
+                    </button>
+                </div>
             </div>
         </div>
     </div>

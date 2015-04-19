@@ -33,7 +33,6 @@ Naidusvoe.controller('giftController', ['$scope', '$http', '$routeParams', '$sce
             var getAdvsURL = $scope.urlGetAdvs
                 .replace('page_id', $scope.paginator.current)
                 .replace('category', $scope.tradingFilter);
-
             $http.get(getAdvsURL)
                 .success(function (response) {
                     $scope.advs = response.advs;
@@ -68,6 +67,7 @@ Naidusvoe.controller('giftController', ['$scope', '$http', '$routeParams', '$sce
         };
 
         $scope.getAdv = function () {
+            $scope.spinner = true;
             var advUrl = $scope.urlGetAdv.replace('adv_id', $scope.adv_id);
             $http.get(advUrl)
                 .success(function (response) {
@@ -80,9 +80,11 @@ Naidusvoe.controller('giftController', ['$scope', '$http', '$routeParams', '$sce
                         InitLightBox();
                         return false;
                     }, 400);
+                    $scope.spinner = false;
                 }
             );
         };
+
 
         $scope.addToFav = function () {
             $http.put($scope.urlAddToFav.replace('adv_id', $scope.adv_id))

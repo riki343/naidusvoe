@@ -66,7 +66,11 @@ class AdvertismentController extends Controller
     public function getAdvAction($adv_id) {
         /** @var Advertisment $adv */
         $adv = $this->getDoctrine()->getManager()->find('NaidusvoeBundle:Advertisment', $adv_id);
-        return new JsonResponse($adv->getInArray());
+        $user = $adv->getUser();
+        return new JsonResponse(array(
+            'adv' => $adv->getInArray(),
+            'user' => $user->getInArray(),
+        ));
     }
 
     /**
@@ -80,34 +84,15 @@ class AdvertismentController extends Controller
 
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
-        $qb = $em->createQueryBuilder();
-        $query = $qb->select('a');
-        $query->from('NaidusvoeBundle:Advertisment', 'a');
-        $query->where('a.typeID = 1');
-        if ($filter != null && $filter != 'null') {
-            $query->andWhere('a.categoryID = :param');
-            $query->setParameter('param', $filter);
-        }
-        $query->orderBy('a.date', 'DESC');
-        $query->setFirstResult($offset);
-        $query->setMaxResults($limit);
-        $query = $query->getQuery();
 
-        $advs = $query->getResult();
+        $advs = Advertisment::getAdvs($em, $filter, $limit, $offset, 1);
+        $count = Advertisment::getAdvsCount($em, 1);
 
-        /** @var EntityManager $em */
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-            'SELECT COUNT(a.id) ' .
-            'FROM NaidusvoeBundle:Advertisment a ' .
-            'WHERE a.typeID = :param')
-            ->setParameter('param', 1);
-        $count = $query->getSingleScalarResult();
         $categories = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')
             ->findBy(array('typeID' => 1));
 
         return new JsonResponse(array(
-            'advs' => Functions::arrayToJson($advs),
+            'advs' => $advs,
             'pageCount' => intval($count / 10),
             'categories' => Functions::arrayToJson($categories)
         ));
@@ -124,36 +109,14 @@ class AdvertismentController extends Controller
 
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
-        $qb = $em->createQueryBuilder();
-        $query = $qb->select('a');
-        $query->from('NaidusvoeBundle:Advertisment', 'a');
-        $query->where('a.typeID = 2');
-        if ($filter != null && $filter != 'null') {
-            $query->andWhere('a.categoryID = :param');
-            $query->setParameter('param', $filter);
-        }
-        $query->orderBy('a.date', 'DESC');
-        $query->setFirstResult($offset);
-        $query->setMaxResults($limit);
-        $query = $query->getQuery();
-
-        $advs = $query->getResult();
-
-        /** @var EntityManager $em */
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-            'SELECT COUNT(a.id) ' .
-            'FROM NaidusvoeBundle:Advertisment a ' .
-            'WHERE a.typeID = :param')
-            ->setParameter('param', 2);
-        $count = $query->getSingleScalarResult();
-        $advs = Functions::arrayToJson($advs);
+        $advs = Advertisment::getAdvs($em, $filter, $limit, $offset, 2);
+        $count = Advertisment::getAdvsCount($em, 2);
 
         $categories = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')
             ->findBy(array('typeID' => 2));
 
         return new JsonResponse(array(
-            'advs' => Functions::arrayToJson($advs),
+            'advs' => $advs,
             'pageCount' => intval($count / 10),
             'categories' => Functions::arrayToJson($categories)
         ));
@@ -170,36 +133,14 @@ class AdvertismentController extends Controller
 
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
-        $qb = $em->createQueryBuilder();
-        $query = $qb->select('a');
-        $query->from('NaidusvoeBundle:Advertisment', 'a');
-        $query->where('a.typeID = 3');
-        if ($filter != null && $filter != 'null') {
-            $query->andWhere('a.categoryID = :param');
-            $query->setParameter('param', $filter);
-        }
-        $query->orderBy('a.date', 'DESC');
-        $query->setFirstResult($offset);
-        $query->setMaxResults($limit);
-        $query = $query->getQuery();
-
-        $advs = $query->getResult();
-
-        /** @var EntityManager $em */
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-            'SELECT COUNT(a.id) ' .
-            'FROM NaidusvoeBundle:Advertisment a ' .
-            'WHERE a.typeID = :param')
-            ->setParameter('param', 3);
-        $count = $query->getSingleScalarResult();
-        $advs = Functions::arrayToJson($advs);
+        $advs = Advertisment::getAdvs($em, $filter, $limit, $offset, 3);
+        $count = Advertisment::getAdvsCount($em, 3);
 
         $categories = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')
             ->findBy(array('typeID' => 3));
 
         return new JsonResponse(array(
-            'advs' => Functions::arrayToJson($advs),
+            'advs' => $advs,
             'pageCount' => intval($count / 10),
             'categories' => Functions::arrayToJson($categories)
         ));

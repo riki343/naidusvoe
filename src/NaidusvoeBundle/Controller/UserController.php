@@ -208,6 +208,26 @@ class UserController extends Controller
 
     /**
      * @Security("has_role('ROLE_USER')")
+     * @param int $adv_id
+     * @return JsonResponse
+     */
+    public function deleteUserAdvAction($adv_id) {
+        /** @var User $user */
+        $user = $this->getUser();
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+        $adv = $em->find('NaidusvoeBundle:Advertisment', $adv_id);
+        if ($user->getId() == $adv->getUserID()) {
+            $em->remove($adv);
+            $em->flush();
+            return new JsonResponse(true);
+        } else {
+            return new JsonResponse(false);
+        }
+    }
+
+    /**
+     * @Security("has_role('ROLE_USER')")
      * @return JsonResponse
      */
     public function getFavsAction() {

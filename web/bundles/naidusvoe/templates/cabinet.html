@@ -1,3 +1,4 @@
+<div ng-init="getUserAdvs();"></div>
 <div class="row">
     <div class="col-md-12 hidden-sm hidden-xs">
         <div class="btn-group btn-group-justified">
@@ -23,30 +24,53 @@
     <h3>Оголошення</h3>
 </div>
 
-<div class="row" ng-init="getUserAdvs();">
+<div class="row" ng-if="spinner">
+    <div class="col-xs-12 text-center" style="padding-top: 150px;">
+        <div class="center-block whirly"></div>
+    </div>
+</div>
+
+<div class="row" ng-if="(!spinner) && (userAdvs) && (userAdvs.length == 0)">
+    <div class="col-xs-12" style="text-align: center;">
+        <div style="margin: 150px auto;">
+            <h4 class="text-info">У вас немає оголошень</h4>
+            <a class="btn btn-primary" href="/cabinet/addAdv" style="">
+                <i class="glyphicon glyphicon-plus"></i>
+                Додати оголошення
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="(!spinner) && (userAdvs) && (userAdvs.length > 0)">
     <div class="col-xs-12">
-        <a class="btn btn-primary" href="/cabinet/addAdv">Додати оголошення</a>
+        <div class="center-block">
+            <a class="btn btn-primary" href="/cabinet/addAdv">
+                <i class="glyphicon glyphicon-plus"></i>
+                Додати оголошення
+            </a>
+        </div>
     </div>
 
     <div class="row" style="padding: 20px;">
         <div ng-repeat="adv in userAdvs" class="col-xs-12 img-thumbnail" style="margin-top: 20px;">
             <div class="row">
                 <div class="col-xs-3">
-                    <img class="img-responsive" ng-src="[[ adv.advertisment.image ]]" />
+                    <img class="img-responsive" ng-src="[[ adv.image ]]" />
                 </div>
                 <div class="col-xs-9">
-                    <button type="button" class="close" ng-click="deleteFav(adv.id, $index);">&times;</button>
+                    <button type="button" class="close" ng-click="deleteUserAdv(adv.id, $index);">&times;</button>
                     <div class="clearfix"></div>
-                    <h3 class="text-info"><a ng-href="/adv/trade/[[ adv.advertisment.id ]]">[[ adv.advertisment.title ]]</a></h3>
-                    <p><b>[[ adv.advertisment.subCategory.name ]]</b></p>
+                    <h3 class="text-info"><a ng-href="/adv/trade/[[ adv.id ]]">[[ adv.title ]]</a></h3>
+                    <p><b>[[ adv.subCategory.name ]]</b></p>
                     <p>
                         <i>
-                            [[ adv.advertisment.description.substr(0, 100) ]]...
+                            [[ adv.description.substr(0, 100) ]]...
                         </i>
                     </p>
-                    <p>[[ adv.advertisment.price + ' ' + adv.advertisment.priceType.name ]]</p>
+                    <p>[[ adv.price + ' ' + adv.priceType.name ]]</p>
                     <p class="pull-right text-muted">
-                        <i>[[ adv.advertisment.date ]]</i>
+                        <i>[[ adv.date ]]</i>
                     </p>
                 </div>
             </div>

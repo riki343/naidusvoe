@@ -60,6 +60,7 @@
         };
 
         var URLS = {
+            'lightBoxPlugin': "",
             'getAdvDetails': "{{ path('naidusvoe_get_adv_info') }}",
             'addAdv': "{{ path('naidusvoe_add_adv') }}",
             'getAdv': "{{ path('naidusvoe_get_adv', { 'adv_id': 'adv_id' }) }}",
@@ -69,6 +70,7 @@
             'addToFav': "{{ path('naidusvoe_add_fav', { 'adv_id': 'adv_id' }) }}",
             'getUser': "{{ path('naidusvoe_get_user') }}",
             'getUserAdvs': "{{ path('naidusvoe_get_user_advs') }}",
+            'deleteUserAdv': "{{ path('naidusvoe_delete_user_adv', { 'adv_id': 'adv_id' }) }}",
             'getFavs': "{{ path('naidusvoe_user_get_favs') }}",
             'deleteFav': "{{ path('naidusvoe_delete_fav', { 'fav_id': 'fav_id' }) }}",
             {% if app.user %}

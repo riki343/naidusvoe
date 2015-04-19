@@ -22,9 +22,7 @@ Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sc
 
         if (angular.isDefined($routeParams.page_id)) {
             $scope.paginator.current = $routeParams.page_id;
-        } else {
-            $scope.paginator.current = 1;
-        }
+        } else { }
 
         $scope.urlGetAdv = URLS.getAdv;
         $scope.urlGetAdvs = URLS.getFoundAdvs;
@@ -69,6 +67,7 @@ Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sc
         };
 
         $scope.getAdv = function () {
+            $scope.spinner = true;
             var advUrl = $scope.urlGetAdv.replace('adv_id', $scope.adv_id);
             $http.get(advUrl)
                 .success(function (response) {
@@ -81,9 +80,11 @@ Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sc
                         InitLightBox();
                         return false;
                     }, 400);
+                    $scope.spinner = false;
                 }
             );
         };
+
 
         $scope.addToFav = function () {
             $http.put($scope.urlAddToFav.replace('adv_id', $scope.adv_id))
