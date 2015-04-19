@@ -1,7 +1,7 @@
 <div ng-init="getAdvs();"></div>
 
-<div class="page-header">
-    <h1>Знайшов/Загубив</h1>
+<div class="page-header" style="margin-top: 0;">
+    <h1>Знайшов | Загубив</h1>
 </div>
 
 <form class="form-horizontal" role="search">
@@ -13,77 +13,120 @@
     </div>
 </form>
 
-<div class="row" style="padding: 20px;">
-    <div ng-repeat="adv in advs" class="col-xs-12 img-thumbnail" style="margin-top: 20px;">
+<div class="row" ng-if="spinner">
+    <div class="col-xs-12 text-center" style="padding-top: 150px;">
+        <div class="center-block whirly"></div>
+    </div>
+</div>
+
+<div class="row" ng-cloak ng-if="!spinner">
+    <div class="col-xs-4 col-md-3" style="margin-top: 10px;">
+        <div class="list-group">
+            <h4 class="list-group-item list-group-item-info" align="center" style="color: #000000; padding: 10px 5px;">
+                Категорії
+            </h4>
+            <a class="btn btn-default list-group-item" style="cursor: pointer; text-align: left; white-space: normal;"
+               ng-repeat="category in categories"
+               ng-click="selectCategory(category.id);"
+               ng-class="{'category-selected': category.id == tradingFilter }">
+                [[ category.name ]]
+            </a>
+            <a class="btn btn-default list-group-item" style="cursor: pointer; text-align: left;"
+               ng-click="selectCategory(null);"
+               ng-class="{'category-selected': tradingFilter == null }">
+                Всі
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-8 col-md-9">
         <div class="row">
-            <div class="col-xs-3">
-                <img class="img-responsive" ng-src="[[ adv.image ]]" />
+            <div ng-repeat="adv in advs" class="col-xs-12 col-sm-6 col-md-4" style="margin-top: 20px; height: 100%;">
+                <a class="img-thumbnail adv-shadow" ng-href="/adv/trade/[[ adv.id ]]">
+                    <div class="col-xs-12">
+                        <div style="padding: 15px;">
+                            <img class="img-responsive center-block" style="height: 150px;" ng-src="[[ adv.image ]]" />
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <hr/>
+                        <h3 class="text-info" style="height: 50px;">
+                            [[ adv.title ]]
+                        </h3>
+                        <p style="height: 45px; overflow: hidden; color: #000000;">
+                            <b style="white-space: normal">
+                                [[ adv.subCategory.name ]]
+                            </b>
+                        </p>
+                        <p style="overflow: hidden; text-overflow: ellipsis;">
+                            <i style="white-space: nowrap;" class="text-muted">
+                                [[ adv.description ]]...
+                            </i>
+                        </p>
+                        <hr/>
+                        <p style="color: #000000;">
+                            [[ adv.price + ' ' + adv.priceType.name ]]
+                        </p>
+                    </div>
+                </a>
             </div>
-            <div class="col-xs-9">
-                <p class="pull-right text-muted">[[ adv.date ]]</p>
-                <div class="clearfix"></div>
-                <h3 class="text-info"><a ng-href="/adv/trade/[[ adv.id ]]">[[ adv.title ]]</a></h3>
-                <p><b>[[ adv.subCategory.name ]]</b></p>
-                <p>
-                    <i>[[ adv.description.substr(0, 100) ]]...</i>
-                </p>
-                <p>[[ adv.price + ' ' + adv.priceType.name ]]</p>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" style="margin-bottom: 25px;">
+                <nav class="panel panel-default text-center">
+                    <ul class="pagination">
+                        <li ng-if="(paginator.first != paginator.current)
+                    && (paginator.last > 3)
+                    && (paginator.current > paginator.first + 3)">
+                            <a ng-href="/trade/[[ paginator.first ]]">
+                                <span>&laquo;</span>
+                            </a>
+                        </li>
+                        <li ng-if="(paginator.first + 1 < paginator.current)
+                    && (paginator.last > 3)
+                    && (paginator.current > paginator.first + 3)">
+                            <a ng-href="/trade/[[ paginator.first + 1 ]]">
+                                [[ paginator.first + 1 ]]
+                            </a>
+                        </li>
+                        <li ng-if="(paginator.first + 1 < paginator.current)
+                    && (paginator.last > 3)
+                    && (paginator.current > paginator.first + 3)">>
+                            <a>...</a>
+                        </li>
+
+                        <li ng-repeat="i in paginator.pages"
+                            ng-if="(i >= paginator.current - 3) && (i <= paginator.current + 3)"
+                            ng-class="{'active': i == paginator.current }">
+                            <a ng-href="/trade/[[ i ]]">[[ i ]]</a>
+                        </li>
+
+                        <li ng-if="(paginator.last - 1 > paginator.current)
+                    && (paginator.last > 3)
+                    && (paginator.current < paginator.last - 3)">
+                            <a>...</a>
+                        </li>
+
+                        <li ng-if="(paginator.last - 1 > paginator.current)
+                    && (paginator.last > 3)
+                    && (paginator.current < paginator.last - 3)">
+                            <a ng-href="/trade/[[ paginator.last - 1 ]]">
+                                [[ paginator.last - 1 ]]
+                            </a>
+                        </li>
+                        <li ng-if="(paginator.last != paginator.current)
+                    && (paginator.last > 3)
+                    && (paginator.current < paginator.last - 3)">
+                            <a ng-href="/trade/[[ paginator.last ]]">
+                                <span>&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-xs-12" style="margin-bottom: 25px;">
-        <nav class="panel panel-default text-center">
-            <ul class="pagination">
-                <li ng-if="(paginator.first != paginator.current)
-                    && (paginator.last > 3)
-                    && (paginator.current > paginator.first + 3)">
-                    <a ng-href="/trade/[[ paginator.first ]]">
-                        <span>&laquo;</span>
-                    </a>
-                </li>
-                <li ng-if="(paginator.first + 1 < paginator.current)
-                    && (paginator.last > 3)
-                    && (paginator.current > paginator.first + 3)">
-                    <a ng-href="/trade/[[ paginator.first + 1 ]]">
-                        [[ paginator.first + 1 ]]
-                    </a>
-                </li>
-                <li ng-if="(paginator.first + 1 < paginator.current)
-                    && (paginator.last > 3)
-                    && (paginator.current > paginator.first + 3)">>
-                    <a>...</a>
-                </li>
+<div class="row" ng-cloak ng-if="(!spinner) && (paginator.last != 0)">
 
-                <li ng-repeat="i in paginator.pages"
-                    ng-if="(i >= paginator.current - 3) && (i <= paginator.current + 3)"
-                    ng-class="{'active': i == paginator.current }">
-                    <a ng-href="/trade/[[ i ]]">[[ i ]]</a>
-                </li>
-
-                <li ng-if="(paginator.last - 1 > paginator.current)
-                    && (paginator.last > 3)
-                    && (paginator.current < paginator.last - 3)">
-                    <a>...</a>
-                </li>
-
-                <li ng-if="(paginator.last - 1 > paginator.current)
-                    && (paginator.last > 3)
-                    && (paginator.current < paginator.last - 3)">
-                    <a ng-href="/trade/[[ paginator.last - 1 ]]">
-                        [[ paginator.last - 1 ]]
-                    </a>
-                </li>
-                <li ng-if="(paginator.last != paginator.current)
-                    && (paginator.last > 3)
-                    && (paginator.current < paginator.last - 3)">
-                    <a ng-href="/trade/[[ paginator.last ]]">
-                        <span>&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
 </div>

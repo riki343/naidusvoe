@@ -1,5 +1,5 @@
-Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sce',
-    function ($scope, $http, $routeParams, $sce) {
+Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sce', '$rootScope',
+    function ($scope, $http, $routeParams, $sce, $rootScope) {
         $scope.asset = URLS.asset;
         $scope.adv_id = $routeParams.adv_id;
         $scope.adv = null;
@@ -18,6 +18,8 @@ Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sc
             'visible': false
         };
 
+        $scope.spinner = false;
+
         if (angular.isDefined($routeParams.page_id)) {
             $scope.paginator.current = $routeParams.page_id;
         } else {
@@ -29,9 +31,15 @@ Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sc
         $scope.urlAddToFav = URLS.addToFav;
 
         $scope.getAdvs = function () {
-            $http.get($scope.urlGetAdvs.replace('page_id', $scope.paginator.current))
+            $scope.spinner = true;
+            var getAdvsURL = $scope.urlGetAdvs
+                .replace('page_id', $scope.paginator.current)
+                .replace('category', $scope.tradingFilter);
+            $http.get(getAdvsURL)
                 .success(function (response) {
+                    $scope.spinner = false;
                     $scope.advs = response.advs;
+                    $scope.categories = response.categories;
 
                     $scope.paginator.last = response.pageCount;
                     $scope.paginator.prev = ($scope.paginator.current > 1)
@@ -53,6 +61,11 @@ Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sc
                     }
                 }
             );
+        };
+
+        $scope.selectCategory = function (id) {
+            $rootScope.foundFilter = id;
+            $scope.getAdvs();
         };
 
         $scope.getAdv = function () {
