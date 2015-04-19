@@ -199,6 +199,17 @@ class UserController extends Controller
      * @Security("has_role('ROLE_USER')")
      * @return JsonResponse
      */
+    public function getUserAdvsAction() {
+        /** @var User $user */
+        $user = $this->getUser();
+        $advs = Functions::arrayToJson($user->getAdvertisments());
+        return new JsonResponse($advs);
+    }
+
+    /**
+     * @Security("has_role('ROLE_USER')")
+     * @return JsonResponse
+     */
     public function getFavsAction() {
         /** @var User $user */
         $user = $this->getUser();

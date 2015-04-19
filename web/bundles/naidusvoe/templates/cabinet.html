@@ -23,8 +23,33 @@
     <h3>Оголошення</h3>
 </div>
 
-<div class="row">
+<div class="row" ng-init="getUserAdvs();">
     <div class="col-xs-12">
         <a class="btn btn-primary" href="/cabinet/addAdv">Додати оголошення</a>
+    </div>
+
+    <div class="row" style="padding: 20px;">
+        <div ng-repeat="adv in userAdvs" class="col-xs-12 img-thumbnail" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col-xs-3">
+                    <img class="img-responsive" ng-src="[[ adv.advertisment.image ]]" />
+                </div>
+                <div class="col-xs-9">
+                    <button type="button" class="close" ng-click="deleteFav(adv.id, $index);">&times;</button>
+                    <div class="clearfix"></div>
+                    <h3 class="text-info"><a ng-href="/adv/trade/[[ adv.advertisment.id ]]">[[ adv.advertisment.title ]]</a></h3>
+                    <p><b>[[ adv.advertisment.subCategory.name ]]</b></p>
+                    <p>
+                        <i>
+                            [[ adv.advertisment.description.substr(0, 100) ]]...
+                        </i>
+                    </p>
+                    <p>[[ adv.advertisment.price + ' ' + adv.advertisment.priceType.name ]]</p>
+                    <p class="pull-right text-muted">
+                        <i>[[ adv.advertisment.date ]]</i>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

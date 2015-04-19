@@ -1,7 +1,7 @@
 <div ng-init="getAdvs();"></div>
 
 <div class="page-header" style="margin-top: 0;">
-    <h1>Куплю | Продам</h1>
+    <h3>Куплю | Продам</h3>
 </div>
 
 <form class="form-horizontal" role="search">
@@ -49,14 +49,10 @@
                     </div>
                     <div class="col-xs-12">
                         <hr/>
-                        <h3 class="text-info" style="height: 50px;">
+                        <p class="text-info" style="height: 50px; word-wrap: break-word;">
                             [[ adv.title ]]
-                        </h3>
-                        <p style="height: 45px; overflow: hidden; color: #000000;">
-                            <b style="white-space: normal">
-                                [[ adv.subCategory.name ]]
-                            </b>
                         </p>
+                        <hr/>
                         <p style="overflow: hidden; text-overflow: ellipsis;">
                             <i style="white-space: nowrap;" class="text-muted">
                                 [[ adv.description ]]...

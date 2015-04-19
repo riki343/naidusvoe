@@ -9,6 +9,7 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce',
         $scope.urlDeleteAccount = URLS.deleteAccount;
         $scope.urlGetFavs = URLS.getFavs;
         $scope.urlDeleteFav = URLS.deleteFav;
+        $scope.urlGetUserAdvs = URLS.getUserAdvs;
 
         $scope.emailChange = {
             'email': null,
@@ -33,7 +34,7 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce',
             'visible': false
         };
         $scope.favs = null;
-
+        $scope.userAdvs = null;
         $scope.contactInfo = null;
         $scope.regions = null;
 
@@ -46,6 +47,14 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce',
                     $scope.emailSettings.spam = response.addInfo.emailSpam;
                     $scope.smsSettings.telephoneNumber = response.addInfo.telephoneNumber;
                     $scope.smsSettings.notifications = response.addInfo.notificationsSms;
+                }
+            );
+        };
+
+        $scope.getUserAdvs = function () {
+            $http.get($scope.urlGetUserAdvs)
+                .success(function (response) {
+                    $scope.userAdvs = response;
                 }
             );
         };

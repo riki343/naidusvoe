@@ -157,6 +157,12 @@ class User implements UserInterface, \Serializable
     private $deleted;
 
     /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Advertisment", mappedBy="user")
+     */
+    private $advertisments;
+
+    /**
      * @return array
      */
     public function getInArray() {
@@ -329,6 +335,7 @@ class User implements UserInterface, \Serializable
         $this->language = null;
         $this->languageid = null;
         $this->deleted = false;
+        $this->advertisments = new ArrayCollection();
     }
 
     /**
@@ -783,5 +790,38 @@ class User implements UserInterface, \Serializable
     public function getDeleted()
     {
         return $this->deleted;
+    }
+
+    /**
+     * Add advertisments
+     *
+     * @param \NaidusvoeBundle\Entity\Advertisment $advertisments
+     * @return User
+     */
+    public function addAdvertisment(\NaidusvoeBundle\Entity\Advertisment $advertisments)
+    {
+        $this->advertisments[] = $advertisments;
+
+        return $this;
+    }
+
+    /**
+     * Remove advertisments
+     *
+     * @param \NaidusvoeBundle\Entity\Advertisment $advertisments
+     */
+    public function removeAdvertisment(\NaidusvoeBundle\Entity\Advertisment $advertisments)
+    {
+        $this->advertisments->removeElement($advertisments);
+    }
+
+    /**
+     * Get advertisments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAdvertisments()
+    {
+        return $this->advertisments;
     }
 }
