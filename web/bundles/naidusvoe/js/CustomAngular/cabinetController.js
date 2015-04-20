@@ -13,6 +13,7 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce', '$routePar
         $scope.urlDeleteUserAdv = URLS.deleteUserAdv;
         $scope.urlGetUserMessages = URLS.getUserMessages;
         $scope.urlGetConversation = URLS.getConversation;
+        $scope.urlSendNewMessage = URLS.sendNewMessage;
 
         $scope.emailChange = {
             'email': null,
@@ -42,6 +43,7 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce', '$routePar
         $scope.contactInfo = null;
         $scope.regions = null;
         $scope.conv = null;
+        $scope.message = '';
         $scope.asset = URLS.asset;
         $scope.spinner = false;
 
@@ -119,6 +121,24 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce', '$routePar
                     }
                     $scope.conv.messages = msgs;
                     $scope.spinner = false;
+                }
+            );
+        };
+
+        $scope.sendNewMessage = function (message) {
+            if (!message) return;
+            var sendMessageURL = $scope.urlSendNewMessage
+                .replace('user_id', $scope.conv.advertismentUserID)
+                .replace('adv_id', $scope.conv.advertismentID);
+            $http.post(sendMessageURL, { 'message': message })
+                .success(function (response) {
+                    $scope.message = '';
+                    $('#send_new_message').modal('hide');
+                    if (response) {
+                        $scope.notifications.body = 'Повідомлення відправлено';
+                        $scope.notifications.type = 'alert-success';
+                        $scope.notifications.visible = true;
+                    }
                 }
             );
         };
