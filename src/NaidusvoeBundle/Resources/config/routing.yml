@@ -105,6 +105,19 @@ naidusvoe_save_sms_notification_settings:
     pattern: /user/{user_id}/saveSmsNotificationSettings
     defaults: { _controller: NaidusvoeBundle:User:saveSmsNotificationSettings }
 
+naidusvoe_send_new_message:
+    pattern: /message/send/{user_id}/{adv_id}
+    defaults: { _controller: NaidusvoeBundle:Conversation:sendMessage }
+
+naidusvoe_get_user_messages:
+    pattern: /conversations/get
+    defaults: { _controller: NaidusvoeBundle:Conversation:getConversations }
+
+naidusvoe_get_conversation:
+    pattern: /conversation/get/{conv_id}
+    defaults: { _controller: NaidusvoeBundle:Conversation:getConversation }
+
+
 
 #############################################################################
 ################## Default Routes for AngularJS Routing #####################

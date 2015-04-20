@@ -33,6 +33,18 @@ class Functions {
     }
 
     /**
+     * @param $array
+     * @return array
+     */
+    public static function arrayToJsonSingle($array) {
+        $jsonArray = array();
+        foreach ($array as $item) {
+            $jsonArray[] = $item->getSingleInArray();
+        }
+        return $jsonArray;
+    }
+
+    /**
      * @param EntityManager $em
      * @return EntityManager
      * @throws \Doctrine\ORM\ORMException

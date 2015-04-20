@@ -104,6 +104,7 @@ class Message
             'user' => $this->getUser()->getInArray(),
             'conversationID' => $this->getConversationID(),
             'message' => $this->getMessage(),
+            'viewed' => $this->getViewed(),
         );
     }
 
@@ -253,5 +254,28 @@ class Message
     public function getViewed()
     {
         return $this->viewed;
+    }
+
+    /**
+     * Set posted
+     *
+     * @param \DateTime $posted
+     * @return Message
+     */
+    public function setPosted($posted)
+    {
+        $this->posted = $posted;
+
+        return $this;
+    }
+
+    /**
+     * Get posted
+     *
+     * @return \DateTime 
+     */
+    public function getPosted()
+    {
+        return $this->posted;
     }
 }

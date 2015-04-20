@@ -1,5 +1,5 @@
-Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce',
-    function ($scope, $http, $sce) {
+Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce', '$routeParams',
+    function ($scope, $http, $sce, $routeParams) {
         $scope.urlGetInfo = URLS.getInfo;
         $scope.urlSaveContactInfo = URLS.saveInfo;
         $scope.urlSaveNewEmail = URLS.changeEmail;
@@ -11,6 +11,7 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce',
         $scope.urlDeleteFav = URLS.deleteFav;
         $scope.urlGetUserAdvs = URLS.getUserAdvs;
         $scope.urlDeleteUserAdv = URLS.deleteUserAdv;
+        $scope.urlGetUserMessages = URLS.getUserMessages;
 
         $scope.emailChange = {
             'email': null,
@@ -39,7 +40,12 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce',
         $scope.userMsgs = null;
         $scope.contactInfo = null;
         $scope.regions = null;
+        $scope.conv = null;
         $scope.spinner = false;
+
+        if (angular.isDefined($routeParams.conv_id)) {
+            $scope.conversation_id = $routeParams.conv_id;
+        }
 
         $scope.getInfo = function () {
             $scope.spinner = true;
@@ -84,10 +90,21 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce',
             );
         };
 
-        $scope.getUserMsgs = function () {
+        $scope.getConversations = function () {
             $scope.spinner = true;
-            // Bla bla bla
-            // $scope.spinner = false;
+            $http.get($scope.urlGetUserMessages)
+                .success(function (response) {
+                    if (response) {
+                        $scope.conversations = response;
+                        $scope.spinner = false;
+                    }
+                }
+            );
+        };
+
+        $scope.getConversation = function (conv_id) {
+            $scope.spinner = true;
+            ///
         };
 
         $scope.getFavs = function () {

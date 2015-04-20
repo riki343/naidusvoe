@@ -21,6 +21,10 @@ Naidusvoe.config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$l
                 templateUrl: TEMPLATES.cabinetMessages,
                 controller: 'cabinetController'
             })
+            .when('/cabinet/conversation/:conv_id', {
+                templateUrl: TEMPLATES.cabinetConversation,
+                controller: 'cabinetController'
+            })
             .when('/cabinet/settings', {
                 templateUrl: TEMPLATES.cabinetSettings,
                 controller: 'cabinetController'

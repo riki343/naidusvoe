@@ -159,6 +159,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Advertisment", mappedBy="user")
+     * @ORM\OrderBy({"date" = "DESC"})
      */
     private $advertisments;
 
@@ -177,7 +178,6 @@ class User implements UserInterface, \Serializable
             'avatar' => $this->getAvatar(),
             'username' => $this->getUsername(),
             'rating' => $this->getRating(),
-            'avatar' => $this->getAvatar(),
         );
     }
 

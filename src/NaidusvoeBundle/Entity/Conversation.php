@@ -76,16 +76,69 @@ class Conversation
     private $messages;
 
     /**
+     * @param $array
+     * @return int
+     */
+    private function checkForNew($array) {
+        $count = 0;
+        /** @var Message $item */
+        foreach ($array as $item) {
+            if (!$item->getViewed()) $count++;
+        }
+        return $count;
+    }
+
+
+    /**
+     * @param EntityManager $em
+     * @param ArrayCollection $array
+     * @return ArrayCollection
+     */
+    public static function setViewed(EntityManager $em, $array) {
+        /** @var Message $item */
+        foreach ($array as $item) {
+            if (!$item->getViewed()) {
+                $item->setViewed(true);
+                $em->persist($item);
+            }
+        }
+        $em->flush();
+        return $array;
+    }
+
+    /**
      * @return array
      */
     public function getInArray() {
         return array(
             'id' => $this->getId(),
             'advertismentID' => $this->getAdvertismentID(),
+            'advertismentTitle' => $this->getAdvertisment()->getTitle(),
             'user1' => $this->getUser1()->getInArray(),
             'user2' => $this->getUser2()->getInArray(),
             'messages' => Functions::arrayToJson($this->getMessages()),
         );
+    }
+
+    /**
+     * @return array
+     */
+    public function getSingleInArray() {
+        return array(
+            'id' => $this->getId(),
+            'advertismentID' => $this->getAdvertismentID(),
+            'advertismentTitle' => $this->getAdvertisment()->getTitle(),
+            'user1' => $this->getUser1()->getInArray(),
+            'user2' => $this->getUser2()->getInArray(),
+            'new' => $this->checkForNew($this->getMessages()),
+        );
+    }
+
+    /**
+     * @param ArrayCollection $messages
+     */
+    public function setMessages(ArrayCollection $messages) {
+        $this->messages = $messages;
     }
 
     /**
@@ -151,6 +204,17 @@ class Conversation
         $query->orderBy('c.lastUpdated', 'DESC');
         $query = $query->getQuery();
         return $query->getResult();
+    }
+
+    /**
+     * @param EntityManager $em
+     * @param $conv_id
+     */
+    public static function updateConversation(EntityManager $em, $conv_id) {
+        $conv = $em->find('NaidusvoeBundle:Conversation', $conv_id);
+        $conv->setLastUpdated(new \DateTime());
+        $em->persist($conv);
+        $em->flush();
     }
 
     /**

@@ -60,3 +60,9 @@
     background-color: #5cb85c !important;
     border-color: #4cae4c !important;
 }
+
+.footer {
+    width: 100%;
+    background-color: rgb(248, 248, 248);
+    border: solid rgb(231, 231, 231) 1px;
+}

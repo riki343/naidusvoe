@@ -38,7 +38,14 @@ class ConversationController extends Controller {
         } else {
             $conversation = $conversation[0];
         }
-        $message = Message::addNewMessage($em, $conversation->getId(), $user->getId(), $message);
+        try {
+            $message = Message::addNewMessage($em, $conversation->getId(), $user->getId(), $message);
+            Conversation::updateConversation($em, $adv_id);
+        } catch (\Exception $ex) {
+            $from = 'class: Message, function: addNewMessage';
+            $this->get('error_logger')->registerException($ex, $from);
+            return new JsonResponse(false);
+        }
         return new JsonResponse($message->getInArray());
     }
 
@@ -52,10 +59,11 @@ class ConversationController extends Controller {
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
         $conversations = Conversation::getConversationsByUser($em, $user->getId());
-        return new JsonResponse(Functions::arrayToJson($conversations));
+        return new JsonResponse(Functions::arrayToJsonSingle($conversations));
     }
 
     /**
+     * @Security("has_role('ROLE_USER')")
      * @param int $conv_id
      * @return JsonResponse
      */
@@ -65,6 +73,12 @@ class ConversationController extends Controller {
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
         $conversation = $em->find('NaidusvoeBundle:Conversation', $conv_id);
-        return new JsonResponse($conversation->getInArray());
+        if ($conversation->getUser1ID() == $user->getId() || $conversation->getUser2ID() == $user->getId()) {
+            $jsonConv = $conversation->getInArray();
+            Conversation::setViewed($em, $conversation->getMessages());
+            return new JsonResponse($jsonConv);
+        } else {
+            return new JsonResponse(false);
+        }
     }
 }

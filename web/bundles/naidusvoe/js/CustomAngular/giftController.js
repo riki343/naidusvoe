@@ -17,6 +17,7 @@ Naidusvoe.controller('giftController', ['$scope', '$http', '$routeParams', '$sce
             'type': '',
             'visible': false
         };
+        $scope.message = '';
 
         $scope.spinner = false;
 
@@ -27,6 +28,7 @@ Naidusvoe.controller('giftController', ['$scope', '$http', '$routeParams', '$sce
         $scope.urlGetAdv = URLS.getAdv;
         $scope.urlGetAdvs = URLS.getGiftAdvs;
         $scope.urlAddToFav = URLS.addToFav;
+        $scope.urlSendNewMessage = URLS.sendNewMessage;
 
         $scope.getAdvs = function () {
             $scope.spinner = true;
@@ -96,6 +98,24 @@ Naidusvoe.controller('giftController', ['$scope', '$http', '$routeParams', '$sce
                             $scope.notifications.type = 'alert-danger';
                             $scope.notifications.visible = true;
                             break;
+                    }
+                }
+            );
+        };
+
+        $scope.sendNewMessage = function (message) {
+            if (!message) return;
+            var sendMessageURL = $scope.urlSendNewMessage
+                .replace('user_id', $scope.advUser.id)
+                .replace('adv_id', $scope.adv.id);
+            $http.post(sendMessageURL, { 'message': message })
+                .success(function (response) {
+                    $scope.message = '';
+                    $('#send_new_message').modal('hide');
+                    if (response) {
+                        $scope.notifications.body = 'Повідомлення відправлено';
+                        $scope.notifications.type = 'alert-success';
+                        $scope.notifications.visible = true;
                     }
                 }
             );

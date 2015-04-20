@@ -1,4 +1,4 @@
-<div ng-init="getUserMsgs();"></div>
+<div ng-init="getConversations();"></div>
 
 <div class="row">
     <div class="col-md-12 hidden-sm hidden-xs">
@@ -31,20 +31,39 @@
     </div>
 </div>
 
-<div class="row" ng-if="(!spinner) && (userMsgs) && (userMsgs.length == 0)">
+<!--
+<div class="row" ng-if="(!spinner) && (conversations) && (conversations.length > 0)">
     <div class="col-md-offset-8 col-md-4 col-xs-offset-3 col-xs-6">
         <form class="form-horizontal" role="search">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Пошук...">
-        <span class="input-group-btn">
-            <button class="btn btn-default" type="button">Шукати</button>
-        </span>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Шукати</button>
+                </span>
             </div>
         </form>
     </div>
 </div>
+-->
 
-<div class="row" ng-if="(!spinner) && (userMsgs) && (userMsgs.length == 0)">
+<div class="row" ng-if="(!spinner) && (conversations) && (conversations.length > 0)">
+    <div class="col-xs-12">
+        <a class="img-thumbnail" style="width: 100%; text-decoration: none;"
+           ng-repeat="conv in conversations"
+           ng-href="/cabinet/conversation/[[ conv.id ]]">
+            <div class="col-xs-12">
+                <h5>
+                    [[ conv.advertismentTitle ]]
+                    <span ng-if="conv.new > 0" class="badge pull-right" style="background-color: #d9534f;">
+                        +[[ conv.new ]]
+                    </span>
+                </h5>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="row" ng-if="(!spinner) && (conversations) && (conversations.length == 0)">
     <div class="col-xs-12" style="text-align: center;">
         <div style="margin: 150px;">
             <h4 class="text-info">У вас немає повідомленнь</h4>
