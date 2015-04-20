@@ -35,7 +35,6 @@ Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sc
                 .replace('category', $scope.tradingFilter);
             $http.get(getAdvsURL)
                 .success(function (response) {
-                    $scope.spinner = false;
                     $scope.advs = response.advs;
                     $scope.categories = response.categories;
 
@@ -57,6 +56,7 @@ Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sc
                     for (i = 0; i < $scope.paginator.last; i++) {
                         $scope.paginator.pages.push(i + 1);
                     }
+                    $scope.spinner = false;
                 }
             );
         };
@@ -71,20 +71,16 @@ Naidusvoe.controller('foundController', ['$scope', '$http', '$routeParams', '$sc
             var advUrl = $scope.urlGetAdv.replace('adv_id', $scope.adv_id);
             $http.get(advUrl)
                 .success(function (response) {
-                    $scope.adv = response;
+                    $scope.adv = response.adv;
+                    $scope.advUser = response.user;
+                    $scope.advUser.avatar = $scope.asset + $scope.advUser.avatar;
                     for (var i = 0; i < $scope.adv.attachments.length; i++) {
                         $scope.adv.attachments[i].image = $sce.trustAsUrl($scope.adv.attachments[i].image);
                     }
-
-                    setTimeout(function () {
-                        InitLightBox();
-                        return false;
-                    }, 400);
                     $scope.spinner = false;
                 }
             );
         };
-
 
         $scope.addToFav = function () {
             $http.put($scope.urlAddToFav.replace('adv_id', $scope.adv_id))

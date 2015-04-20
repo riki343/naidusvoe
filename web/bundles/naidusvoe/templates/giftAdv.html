@@ -1,42 +1,122 @@
 <div ng-init="getAdv();">
-    <b>Назва</b>: [[ adv.title ]]<br/>
-    <b>Опис</b>: <br/>[[ adv.description ]]<br/>
-    <b>Тип</b>: [[ adv.type.name ]]<br/>
-    <b>Категорія</b>: [[ adv.category.name ]]<br/>
-    <b>Під-категорія</b>: [[ adv.subCategory.name ]]<br/>
-    <b>Ціна</b>: [[ adv.price + ' ' + adv.priceType.name ]].<br/>
-    <b>Контактна персона</b>: [[ adv.contactPerson ]]<br/>
-    <b>email</b>: [[ adv.email ]]<br/>
-    <b>Мобільний телефон</b>: [[ adv.telephoneNumber ]]<br/>
-    <div ng-if="adv.skype"><b>Skype</b>: [[ adv.skype ]]</div><br/>
-
-    <div class="row">
-        <div class="col-md-2 col-xs-4" ng-repeat="image in adv.attachments">
-            <a ng-href="[[ image.image ]]" rel="lightbox" data-lightbox="someimage">
-                <img class="img-responsive img-thumbnail" ng-src="[[ image.image ]]" alt=""/>
+    <ul class="breadcrumb" ng-if="!spinner">
+        <li>
+            <a ng-href="/gift">
+                Віддам | Потребую
             </a>
+        </li>
+        <li class="active">
+            [[ adv.title ]]
+        </li>
+    </ul>
+
+    <div class="row" ng-if="spinner">
+        <div class="col-xs-12 text-center" style="padding-top: 150px;">
+            <div class="center-block whirly"></div>
         </div>
     </div>
 
-    <div class="row" ng-if="(user) && (user.id != adv.userID)">
-        <div class="col-xs-12">
-            <div class="btn-group">
-                <button class="btn btn-default" data-target="#add_new_message" data-toggle="modal">
-                    Написати повідомлення
-                </button>
-                <button class="btn btn-default" ng-click="addToFav();">
-                    Додати до обраних
-                </button>
+    <div class="row" ng-if="!spinner">
+        <div class="col-xs-3 col-sm-3">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h5 class="text-info hidden-xs" align="center">
+                        Клікніть для збільшення зображення
+                    </h5>
+                </div>
+                <div class="col-md-12 col-xs-12" ng-repeat="image in adv.attachments" style="margin-bottom: 10px;">
+                    <a ng-href="[[ image.image ]]" rel="lightbox" data-lightbox="someimage">
+                        <img class="img-responsive img-thumbnail" ng-src="[[ image.image ]]" alt="image"/>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="col-xs-9 col-sm-6">
+            <div class="page-header" style="margin-top: 10px;">
+                <h4>[[ adv.title ]]</h4>
+            </div>
 
-    <div class="row" ng-if="notifications.visible">
-        <div class="col-xs-12 fade in" style="margin-top: 10px;">
-            <div class="alert" ng-class="notifications.type">
-                <p>[[ notifications.body ]]</p><br/>
-                <button type="button" class="btn btn-default" ng-click="notifications.visible = false;">
-                    Закрити
+            <div class="row" ng-if="notifications.visible">
+                <div class="col-xs-12 fade in" style="margin-top: 10px;">
+                    <div class="alert" ng-class="notifications.type">
+                        <p>[[ notifications.body ]]</p><br/>
+                        <button type="button" class="btn btn-default" ng-click="notifications.visible = false;">
+                            Закрити
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <p style="white-space: pre-line; font-size: 16px;">
+                <b>Опис</b>:
+                [[ adv.description ]]
+            </p>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="bg-info" align="center" style="padding: 15px;">
+                        <b>Ціна</b>: [[ adv.price + ' ' + adv.priceType.name ]].
+                    </h3>
+                </div>
+            </div>
+
+            <table class="table" style="margin-top: 20px;">
+                <tbody class="table-striped table-hover">
+                <tr>
+                    <td><b>Категорія</b></td>
+                    <td>[[ adv.category.name ]]</td>
+                </tr>
+                <tr>
+                    <td><b>Під-категорія</b></td>
+                    <td>[[ adv.subCategory.name ]]</td>
+                </tr>
+                <tr>
+                    <td><b>Контактна персона</b></td>
+                    <td>[[ adv.contactPerson ]]</td>
+                </tr>
+                <tr>
+                    <td><b>email</b></td>
+                    <td>[[ adv.email ]]</td>
+                </tr>
+                <tr>
+                    <td><b>Мобільний телефон</b></td>
+                    <td>[[ adv.telephoneNumber ]]</td>
+                </tr>
+                <tr ng-if="adv.skype">
+                    <td><b>Skype</b></td>
+                    <td>[[ adv.skype ]]</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="col-xs-12 col-sm-3">
+            <div class="page-header" style="margin-top: 10px;">
+                <h4 align="center">Продавець</h4>
+            </div>
+            <div class="img-thumbnail" style="width: 100%; padding: 0;">
+                <img ng-src="[[ advUser.avatar ]]" alt="user" class="img-responsive" />
+                <hr style="margin: 0;" />
+                <h4 class="bg-warning" align="center" style="padding: 10px; margin: 0;">
+                    [[ advUser.username ]]
+                </h4>
+                <h5 ng-class="{ 'bg-danger': advUser.rating < 0, 'bg-info': advUser.rating == 0, 'bg-success': advUser.rating > 0 }"
+                    style="padding: 10px; margin: 0;">
+                    Рейтинг: [[ advUser.rating ]]
+                </h5>
+            </div>
+            <div class="btn-group btn-group-vertical"
+                 style="width: 100%; margin-top: 5px;">
+                <!--ng-if="(user) && (user.id != adv.userID);"-->
+                <button class="btn btn-default btn-primary" data-target="#add_new_message"
+                        data-toggle="modal" style="white-space: normal;">
+                    <span class="glyphicon glyphicon-envelope"></span>
+                    Написати повідомлення
+                </button>
+                <button class="btn btn-default btn-warning"
+                        ng-click="addToFav();" style="white-space: normal;">
+                    <span class="glyphicon glyphicon-star-empty"></span>
+                    Додати до обраних
                 </button>
             </div>
         </div>

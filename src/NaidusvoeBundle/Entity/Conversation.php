@@ -96,6 +96,64 @@ class Conversation
     }
 
     /**
+     * @param EntityManager $em
+     * @param int $user1_id
+     * @param int $user2_id
+     * @param int $adv_id
+     * @return Conversation
+     */
+    public static function addConversation(EntityManager $em, $user1_id, $user2_id, $adv_id) {
+        $user1 = $em->find('NaidusvoeBundle:User', $user1_id);
+        $user2 = $em->find('NaidusvoeBundle:User', $user2_id);
+        $adv = $em->find('NaidusvoeBundle:Advertisment', $adv_id);
+        $conversation = new Conversation();
+        $conversation->setUser1($user1);
+        $conversation->setUser2($user2);
+        $conversation->setAdvertisment($adv);
+        $conversation->setLastUpdated(new \DateTime());
+        $em->persist($conversation);
+        $em->flush();
+        return $conversation;
+    }
+
+    /**
+     * @param EntityManager $em
+     * @param int $user1_id
+     * @param int $user2_id
+     * @param int $adv_id
+     * @return array
+     */
+    public static function getConversation(EntityManager $em, $user1_id, $user2_id, $adv_id) {
+        $qb = $em->createQueryBuilder();
+        $query = $qb->select('c');
+        $query->from('NaidusvoeBundle:Conversation', 'c');
+        $query->where('((c.user1ID = :user1_id AND c.user2ID = :user2_id)
+            OR (c.user2ID = :user1_id AND c.user2ID = :user1_id))
+            AND c.advertismentID = :adv_id');
+        $query->setParameter('user1_id', $user1_id);
+        $query->setParameter('user2_id', $user2_id);
+        $query->setParameter('adv_id', $adv_id);
+        $query = $query->getQuery();
+        return $query->getResult();
+    }
+
+    /**
+     * @param EntityManager $em
+     * @param int $user_id
+     * @return array
+     */
+    public static function getConversationsByUser(EntityManager $em, $user_id) {
+        $qb = $em->createQueryBuilder();
+        $query = $qb->select('c');
+        $query->from('NaidusvoeBundle:Conversation', 'c');
+        $query->where('c.user1ID = :user_id OR c.user2ID = :user_id');
+        $query->setParameter('user_id', $user_id);
+        $query->orderBy('c.lastUpdated', 'DESC');
+        $query = $query->getQuery();
+        return $query->getResult();
+    }
+
+    /**
      * Get id
      *
      * @return integer 

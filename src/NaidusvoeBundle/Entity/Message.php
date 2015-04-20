@@ -51,10 +51,49 @@ class Message
     private $conversation;
 
     /**
+     * @var boolean
+     * @ORM\Column(name="viewed", type="boolean", options={"default" = false})
+     */
+    private $viewed;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="posted", type="datetime")
+     */
+    private $posted;
+
+    /**
      * @var string
      * @ORM\Column(name="message", type="string", length=3000)
      */
     private $message;
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->viewed = false;
+        $this->posted = new \DateTime();
+    }
+
+    /**
+     * @param EntityManager $em
+     * @param int $conversation_id
+     * @param int $user_id
+     * @param string $message
+     * @return Message
+     */
+    public static function addNewMessage(EntityManager $em, $conversation_id, $user_id, $message) {
+        $conversation = $em->find('NaidusvoeBundle:Conversation', $conversation_id);
+        $user = $em->find('NaidusvoeBundle:User', $user_id);
+        $newMessage = new Message();
+        $newMessage->setUser($user);
+        $newMessage->setConversation($conversation);
+        $newMessage->setMessage($message);
+        $em->persist($newMessage);
+        $em->flush();
+        return $newMessage;
+    }
 
     /**
      * @return array
@@ -191,5 +230,28 @@ class Message
     public function getConversation()
     {
         return $this->conversation;
+    }
+
+    /**
+     * Set viewed
+     *
+     * @param boolean $viewed
+     * @return Message
+     */
+    public function setViewed($viewed)
+    {
+        $this->viewed = $viewed;
+
+        return $this;
+    }
+
+    /**
+     * Get viewed
+     *
+     * @return boolean 
+     */
+    public function getViewed()
+    {
+        return $this->viewed;
     }
 }
