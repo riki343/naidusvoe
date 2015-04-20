@@ -12,6 +12,7 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce', '$routePar
         $scope.urlGetUserAdvs = URLS.getUserAdvs;
         $scope.urlDeleteUserAdv = URLS.deleteUserAdv;
         $scope.urlGetUserMessages = URLS.getUserMessages;
+        $scope.urlGetConversation = URLS.getConversation;
 
         $scope.emailChange = {
             'email': null,
@@ -41,6 +42,7 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce', '$routePar
         $scope.contactInfo = null;
         $scope.regions = null;
         $scope.conv = null;
+        $scope.asset = URLS.asset;
         $scope.spinner = false;
 
         if (angular.isDefined($routeParams.conv_id)) {
@@ -104,7 +106,21 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce', '$routePar
 
         $scope.getConversation = function (conv_id) {
             $scope.spinner = true;
-            ///
+            var convURL = $scope.urlGetConversation.replace('conv_id', conv_id);
+            $http.get(convURL)
+                .success(function (response) {
+                    $scope.conv = response;
+                    var msgs = $scope.conv.messages;
+                    for (var i = 0; i < msgs.length; i++) {
+                        msgs[i].user.avatar = $scope.asset + msgs[i].user.avatar;
+                    }
+                    for (i = msgs.length - 1; i > 0; i--) {
+                        msgs[i].first = (msgs[i - 1].viewed && !msgs[i].viewed);
+                    }
+                    $scope.conv.messages = msgs;
+                    $scope.spinner = false;
+                }
+            );
         };
 
         $scope.getFavs = function () {

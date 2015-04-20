@@ -80,6 +80,7 @@
             'deleteFav': "{{ path('naidusvoe_delete_fav', { 'fav_id': 'fav_id' }) }}",
             'sendNewMessage': "{{ path('naidusvoe_send_new_message', { 'user_id': 'user_id', 'adv_id': 'adv_id' }) }}",
             'getUserMessages': "{{ path('naidusvoe_get_user_messages') }}",
+            'getConversation': "{{ path('naidusvoe_get_conversation', { 'conv_id': 'conv_id' }) }}",
             {% if app.user %}
                 'getInfo': "{{ path('naidusvoe_get_user_info') }}",
                 'saveInfo': "{{ path('naidusvoe_save_info', { 'user_id': app.user.id }) }}",
