@@ -45,6 +45,7 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce', '$routePar
         $scope.conv = null;
         $scope.message = '';
         $scope.asset = URLS.asset;
+        $scope.glued = true;
         $scope.spinner = false;
 
         if (angular.isDefined($routeParams.conv_id)) {
@@ -127,18 +128,16 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce', '$routePar
 
         $scope.sendNewMessage = function (message) {
             if (!message) return;
+            var user_id = ($scope.conv.user1.id == $scope.user.id)
+                ? $scope.conv.user2.id
+                : $scope.conv.user1.id;
             var sendMessageURL = $scope.urlSendNewMessage
-                .replace('user_id', $scope.conv.advertismentUserID)
+                .replace('user_id', user_id)
                 .replace('adv_id', $scope.conv.advertismentID);
             $http.post(sendMessageURL, { 'message': message })
                 .success(function (response) {
                     $scope.message = '';
-                    $('#send_new_message').modal('hide');
-                    if (response) {
-                        $scope.notifications.body = 'Повідомлення відправлено';
-                        $scope.notifications.type = 'alert-success';
-                        $scope.notifications.visible = true;
-                    }
+                    $scope.conv.messages.push(response)
                 }
             );
         };

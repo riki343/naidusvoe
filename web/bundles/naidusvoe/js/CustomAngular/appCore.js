@@ -1,4 +1,4 @@
-var Naidusvoe = angular.module('NaiduSvoe', ['ngRoute', 'ngAnimate']);
+var Naidusvoe = angular.module('NaiduSvoe', ['ngRoute', 'ngAnimate', 'luegg.directives']);
 
 Naidusvoe.config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$locationProvider', '$compileProvider',
     function ($interpolateProvider, $httpProvider, $routeProvider, $locationProvider, $compileProvider) {

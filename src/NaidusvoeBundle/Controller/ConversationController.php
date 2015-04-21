@@ -40,7 +40,7 @@ class ConversationController extends Controller {
         }
         try {
             $message = Message::addNewMessage($em, $conversation->getId(), $user->getId(), $message);
-            Conversation::updateConversation($em, $adv_id);
+            Conversation::updateConversation($em, $conversation->getId());
         } catch (\Exception $ex) {
             $from = 'class: Message, function: addNewMessage';
             $this->get('error_logger')->registerException($ex, $from);
