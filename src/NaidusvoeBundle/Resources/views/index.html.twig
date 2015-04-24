@@ -62,7 +62,19 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid" ng-controller="ApplicationController" ng-init="getUser();">
+    <div class="container-fluid main-height" ng-init="getUser();">
+        <div class="row">
+            <div class="col-xs-12">
+                <p class="pull-right">
+                    <button class="btn btn-default" ng-click="switchLanguage('ua')">
+                        <img src="{{ asset('bundles/naidusvoe/img/countries/ua.png') }}" alt="UA"/>
+                    </button>
+                    <button class="btn btn-default" ng-click="switchLanguage('ru')">
+                        <img src="{{ asset('bundles/naidusvoe/img/countries/ru.png') }}" alt="RU"/>
+                    </button>
+                </p>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-9 col-xs-12">
                 <div class="content">

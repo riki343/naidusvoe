@@ -1,5 +1,5 @@
-Naidusvoe.controller('ApplicationController', ['$scope', '$http', '$rootScope',
-    function ($scope, $http, $rootScope) {
+Naidusvoe.controller('ApplicationController', ['$scope', '$http', '$rootScope', '$translate',
+    function ($scope, $http, $rootScope, $translate) {
         $scope.user = null;
         $scope.emailToAdmin = {
             'from': '',
@@ -26,6 +26,10 @@ Naidusvoe.controller('ApplicationController', ['$scope', '$http', '$rootScope',
                     $scope.user = response;
                 }
             );
+        };
+
+        $scope.switchLanguage = function (lang) {
+            $translate.use(lang);
         };
     }
 ]);

@@ -1,7 +1,7 @@
-var Naidusvoe = angular.module('NaiduSvoe', ['ngRoute', 'ngAnimate', 'luegg.directives']);
+var Naidusvoe = angular.module('NaiduSvoe', ['ngRoute', 'ngAnimate', 'luegg.directives', 'pascalprecht.translate']);
 
-Naidusvoe.config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$locationProvider', '$compileProvider',
-    function ($interpolateProvider, $httpProvider, $routeProvider, $locationProvider, $compileProvider) {
+Naidusvoe.config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$locationProvider', '$compileProvider', '$translateProvider',
+    function ($interpolateProvider, $httpProvider, $routeProvider, $locationProvider, $compileProvider, $translateProvider) {
         $interpolateProvider.startSymbol('[[');
         $interpolateProvider.endSymbol(']]');
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
@@ -71,8 +71,16 @@ Naidusvoe.config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$l
             })
             .otherwise({
                 redirectTo: '/'
-            });
+            }
+        );
 
         $locationProvider.html5Mode(true);
+
+        $translateProvider.useStaticFilesLoader({
+            prefix: 'bundles/naidusvoe/translations/locale-',
+            suffix: '.json'
+        });
+
+        $translateProvider.preferredLanguage('ru');
     }
 ]);
