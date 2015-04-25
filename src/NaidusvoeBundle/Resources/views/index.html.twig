@@ -1,11 +1,7 @@
 {% extends '@Naidusvoe/layout.html.twig' %}
 
 {% block title %}
-    {% if app.user and is_granted('ROLE_USER') %}
-        Naidusvoe.com.ua
-    {% else %}
-        Naidusvoe.com.ua
-    {% endif %}
+    Naidusvoe.com
 {% endblock %}
 
 {% block base %}
@@ -22,14 +18,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Головна</a>
+                <a class="navbar-brand" href="/">[[ 'NAV_MAIN_PAGE' | translate ]]</a>
             </div>
 
             <div class="collapse navbar-collapse" id="menu-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/trade">Куплю | Продам</a></li>
-                    <li><a href="/found">Знайшов | Загубив</a></li>
-                    <li><a href="/gift">Віддам | Потребую</a></li>
+                    <li><a href="/trade">[[ 'BUTTON_CATEGORY_TRADE' | translate ]]</a></li>
+                    <li><a href="/found">[[ 'BUTTON_CATEGORY_FOUND' | translate ]]</a></li>
+                    <li><a href="/gift">[[ 'BUTTON_CATEGORY_GIFT' | translate ]]</a></li>
                 </ul>
 
                 {% if app.user and is_granted('ROLE_USER') %}
@@ -51,8 +47,8 @@
                     </ul>
                 {% else %}
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="{{ path('naidusvoe_login') }}" target="_self">Вхід</a></li>
-                        <li><a href="{{ path('naidusvoe_signup') }}" target="_self">Реєстрація</a></li>
+                        <li><a href="{{ path('naidusvoe_login') }}" target="_self">[[ 'NAV_LOGIN' | translate ]]</a></li>
+                        <li><a href="{{ path('naidusvoe_signup') }}" target="_self">[[ 'NAV_SIGN_UP' | translate ]]</a></li>
                     </ul>
                 {% endif %}
 
@@ -87,7 +83,7 @@
             <div class="col-md-3 col-xs-12">
                 <div class="list-group">
                     <div class="list-group-item">
-                        <h2 align="center">Оголошення!</h2>
+                        <h2 align="center">[[ 'RSB_HEADER' | translate ]]</h2>
                     </div>
                     <div class="list-group-item">
                         <div class="row">

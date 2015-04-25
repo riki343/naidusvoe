@@ -1,14 +1,14 @@
 <div ng-init="getAdvs();"></div>
 
 <div class="page-header" style="margin-top: 0;">
-    <h3>Віддам | Потребую</h3>
+    <h3>[[ 'BUTTON_CATEGORY_GIFT' | translate ]]</h3>
 </div>
 
 <form class="form-horizontal" role="search">
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="Пошук...">
+        <input type="text" class="form-control" placeholder="[[ 'SEARCH_PLACEHOLDER' | translate ]]">
         <span class="input-group-btn">
-            <button class="btn btn-default btn-warning" type="button">Шукати</button>
+            <button class="btn btn-default btn-warning" type="button">[[ 'BUTTON_SEARCH' | translate ]]</button>
         </span>
     </div>
 </form>
@@ -23,7 +23,7 @@
     <div class="col-xs-4 col-md-3" style="margin-top: 10px;">
         <div class="list-group">
             <h4 class="list-group-item list-group-item-info" align="center" style="color: #000000; padding: 10px 5px;">
-                Категорії
+                [[ 'CATEGORIES_HEADER' | translate ]]
             </h4>
             <a class="btn btn-default list-group-item" style="cursor: pointer; text-align: left; white-space: normal;"
                ng-repeat="category in categories"
@@ -34,7 +34,7 @@
             <a class="btn btn-default list-group-item" style="cursor: pointer; text-align: left;"
                ng-click="selectCategory(null);"
                ng-class="{'category-selected': tradingFilter == null }">
-                Всі
+                [[ 'BUTTON_CATEGORIES_ALL' | translate ]]
             </a>
         </div>
     </div>

@@ -2,7 +2,7 @@
     <ul class="breadcrumb" ng-if="!spinner">
         <li>
             <a ng-href="/trade">
-                Куплю | Продам
+                [[ 'BUTTON_CATEGORY_TRADE' | translate ]]
             </a>
         </li>
         <li class="active">
@@ -21,7 +21,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h5 class="text-info hidden-xs" align="center">
-                        Клікніть для збільшення зображення
+                        [[ 'IMAGE_FULLSCREEN_HEADER' | translate ]]
                     </h5>
                 </div>
                 <div class="col-md-12 col-xs-12" ng-repeat="image in adv.attachments" style="margin-bottom: 10px;">
@@ -41,21 +41,22 @@
                     <div class="alert" ng-class="notifications.type">
                         <p>[[ notifications.body ]]</p><br/>
                         <button type="button" class="btn btn-default" ng-click="notifications.visible = false;">
-                            Закрити
+                            [[ 'BUTTON_CLOSE' | translate ]]
                         </button>
                     </div>
                 </div>
             </div>
 
             <p style="white-space: pre-line; font-size: 16px;">
-                <b>Опис</b>:
+                <b>[[ 'LABEL_DESCRIPTION' | translate ]]</b>
                 [[ adv.description ]]
             </p>
 
             <div class="row">
                 <div class="col-xs-12">
                     <h3 class="bg-info" align="center" style="padding: 15px;">
-                        <b>Ціна</b>: [[ adv.price + ' ' + adv.priceType.name ]].
+                        <b>[[ 'LABEL_PRICE' | translate ]]</b>
+                        [[ adv.price + ' ' + adv.priceType.name ]].
                     </h3>
                 </div>
             </div>
@@ -63,15 +64,15 @@
             <table class="table" style="margin-top: 20px;">
                 <tbody class="table-striped table-hover">
                 <tr>
-                    <td><b>Категорія</b></td>
+                    <td><b>[[ 'LABEL_CATEGORY' | translate ]]</b></td>
                     <td>[[ adv.category.name ]]</td>
                 </tr>
                 <tr>
-                    <td><b>Під-категорія</b></td>
+                    <td><b>[[ 'LABEL_SUB_CATEGORY' | translate ]]</b></td>
                     <td>[[ adv.subCategory.name ]]</td>
                 </tr>
                 <tr>
-                    <td><b>Контактна персона</b></td>
+                    <td><b>[[ 'LABEL_CONTACT_PERSON' | translate ]]</b></td>
                     <td>[[ adv.contactPerson ]]</td>
                 </tr>
                 <tr>
@@ -79,7 +80,7 @@
                     <td>[[ adv.email ]]</td>
                 </tr>
                 <tr>
-                    <td><b>Мобільний телефон</b></td>
+                    <td><b>[[ 'LABEL_MOBILE_PHONE' | translate ]]</b></td>
                     <td>[[ adv.telephoneNumber ]]</td>
                 </tr>
                 <tr ng-if="adv.skype">
@@ -92,7 +93,7 @@
         </div>
         <div class="col-xs-12 col-sm-3">
             <div class="page-header" style="margin-top: 10px;">
-                <h4 align="center">Продавець</h4>
+                <h4 align="center">[[ 'TRADER_HEADER' | translate ]]</h4>
             </div>
             <div class="img-thumbnail" style="width: 100%; padding: 0;">
                 <img ng-src="[[ advUser.avatar ]]" alt="user" class="img-responsive" />
@@ -102,7 +103,8 @@
                 </h4>
                 <h5 ng-class="{ 'bg-danger': advUser.rating < 0, 'bg-info': advUser.rating == 0, 'bg-success': advUser.rating > 0 }"
                     style="padding: 10px; margin: 0;">
-                    Рейтинг: [[ advUser.rating ]]
+                    [[ 'LABEL_RATING' | translate ]]
+                    [[ advUser.rating ]]
                 </h5>
             </div>
             <div class="btn-group btn-group-vertical"
@@ -111,12 +113,12 @@
                 <button class="btn btn-default btn-primary" data-target="#send_new_message"
                         data-toggle="modal" style="white-space: normal;">
                     <span class="glyphicon glyphicon-envelope"></span>
-                    Написати повідомлення
+                    [[ 'BUTTON_WRITE_MESSAGE' | translate ]]
                 </button>
                 <button class="btn btn-default btn-warning"
                         ng-click="addToFav();" style="white-space: normal;">
                     <span class="glyphicon glyphicon-star-empty"></span>
-                    Додати до обраних
+                    [[ 'BUTTON_ADD_TO_FAV' | translate ]]
                 </button>
             </div>
         </div>
@@ -130,7 +132,7 @@
             <div class="modal-header label-primary">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" style="color: #f5f5f5;">
-                    Відправити повідомлення
+                    [[ 'SEND_MESSAGE_HEADER' | translate ]]
                 </h4>
             </div>
             <div class="modal-body">
@@ -139,7 +141,7 @@
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <label style="width: 100%;">
-                                    Повідомлення:
+                                    [[ 'SEND_MESSAGE_HEADER' | translate ]]
                                     <textarea rows="10" ng-model="message" style="resize: vertical;" class="form-control"></textarea>
                                 </label>
                             </div>
@@ -149,8 +151,12 @@
             </div>
             <div class="modal-footer">
                 <div class="btn-group">
-                    <a class="btn btn-primary" ng-click="sendNewMessage(message);">Відправити</a>
-                    <a class="btn btn-default" data-dismiss="modal">Закрити</a>
+                    <a class="btn btn-primary" ng-click="sendNewMessage(message);">
+                        [[ 'BUTTON_SEND_MESSAGE' | translate ]]
+                    </a>
+                    <a class="btn btn-default" data-dismiss="modal">
+                        [[ 'BUTTON_CLOSE' | translate ]]
+                    </a>
                 </div>
             </div>
         </div>
