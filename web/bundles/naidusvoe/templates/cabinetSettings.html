@@ -30,7 +30,7 @@
 </div>
 
 
-<div class="row" ng-if="!spinner">
+<div class="row" ng-if="!spinner"  style="margin-bottom: 10px;">
     <div class="col-md-3 col-xs-12 col-sm-4">
         <ul class="nav nav-pills btn-group btn-group-justified btn-group-vertical center-block hidden-xs">
             <li class="active" style="width: 100%;">
@@ -141,11 +141,11 @@
             <div id="settings-change-email" class="tab-pane fade">
                 <form name="changeEmailForm">
                     <p>
-                        <b>[[ 'LABEL_NEW_EMAIL' | translate ]]</b>: <br/>
+                        <b>[[ 'LABEL_NEW_EMAIL' | translate ]]</b> <br/>
                         <input type="email" class="form-control" ng-model="emailChange.email"/><br/>
                     </p>
                     <p>
-                        <b>[[ 'LABEL_NEW_REMAIL' | translate ]]</b>: <br/>
+                        <b>[[ 'LABEL_NEW_REMAIL' | translate ]]</b> <br/>
                         <input type="email" class="form-control" ng-model="emailChange.remail"/><br/>
                     </p>
                     <button type="button"
@@ -188,7 +188,7 @@
                         <b>[[ 'LABEL_NEW_SMS_NOTIFICATIONS' | translate ]]</b>
                     </p>
                     <p ng-if="smsSettings.notifications">
-                        <b>[[ 'LABEL_TELEPHONE_NUMBER' | translate ]]</b>: <br/>
+                        <b>[[ 'LABEL_TELEPHONE_NUMBER' | translate ]]</b> <br/>
                         <input type="tel" class="form-control" ng-model="smsSettings.telephoneNumber"/>
                     </p>
                     <p>
