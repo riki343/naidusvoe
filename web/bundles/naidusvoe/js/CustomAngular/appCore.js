@@ -69,6 +69,9 @@ Naidusvoe.config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$l
                 templateUrl: TEMPLATES.giftAdv,
                 controller: 'giftController'
             })
+            .when('/features', {
+                templateUrl: TEMPLATES.additionalFeatures
+            })
             .otherwise({
                 redirectTo: '/'
             }
