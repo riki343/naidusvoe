@@ -1,26 +1,26 @@
 <div class="row" ng-init="getInfo();">
     <div class="col-md-12 hidden-sm hidden-xs">
         <div class="btn-group btn-group-justified">
-            <a class="btn btn-default" href="/cabinet">Оголошення</a>
-            <a class="btn btn-default" href="/cabinet/messages">Повідомлення</a>
-            <a class="btn btn-default active" href="/cabinet/settings">Налаштування</a>
-            <a class="btn btn-default" href="/cabinet/favorites">Обранне</a>
+            <a class="btn btn-default" href="/cabinet">[[ 'BUTTON_ADVERTISMENT' | translate ]]</a>
+            <a class="btn btn-default" href="/cabinet/messages">[[ 'BUTTON_MESSAGES' | translate ]]</a>
+            <a class="btn btn-default active" href="/cabinet/settings">[[ 'BUTTON_SETTINGS' | translate ]]</a>
+            <a class="btn btn-default" href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]</a>
         </div>
     </div>
     <div class="col-xs-12 hidden-lg hidden-md">
         <div class="btn-group btn-group-justified">
-            <a class="btn btn-default" href="/cabinet">Оголошення</a>
-            <a class="btn btn-default" href="/cabinet/messages">Повідомлення</a>
+            <a class="btn btn-default" href="/cabinet">[[ 'BUTTON_ADVERTISMENT' | translate ]]</a>
+            <a class="btn btn-default" href="/cabinet/messages">[[ 'BUTTON_MESSAGES' | translate ]]</a>
         </div>
         <div class="btn-group btn-group-justified">
-            <a class="btn btn-default active" href="/cabinet/settings">Налаштування</a>
-            <a class="btn btn-default" href="/cabinet/favorites">Обранне</a>
+            <a class="btn btn-default active" href="/cabinet/settings">[[ 'BUTTON_SETTINGS' | translate ]]</a>
+            <a class="btn btn-default" href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]</a>
         </div>
     </div>
 </div>
 
 <div class="page-header">
-    <h3>Налаштування</h3>
+    <h3>[[ 'SETTINGS_HEADER' | translate ]]</h3>
 </div>
 
 <div class="row" ng-if="spinner">
@@ -34,43 +34,43 @@
     <div class="col-md-3 col-xs-12 col-sm-4">
         <ul class="nav nav-pills btn-group btn-group-justified btn-group-vertical center-block hidden-xs">
             <li class="active" style="width: 100%;">
-                <a data-toggle="tab" data-target="#settings-change-contacts" class="btn">Змінити контактні дані</a>
+                <a data-toggle="tab" data-target="#settings-change-contacts" class="btn">[[ 'TAB_CHANGE_CONTACT_INFO' | translate ]]</a>
             </li>
             <li style="width: 100%;">
-                <a class="btn" data-toggle="tab" data-target="#settings-change-pass">Змінити пароль</a>
+                <a class="btn" data-toggle="tab" data-target="#settings-change-pass">[[ 'TAB_CHANGE_PASS' | translate ]]</a>
             </li>
             <li style="width: 100%;">
-                <a class="btn" data-toggle="tab" data-target="#settings-change-email">Змінити Email адресу</a>
+                <a class="btn" data-toggle="tab" data-target="#settings-change-email">[[ 'TAB_CHANGE_EMAIL' | translate ]]</a>
             </li>
             <li style="width: 100%;">
-                <a class="btn" data-toggle="tab" data-target="#settings-notifications-email">Email сповіщення</a>
+                <a class="btn" data-toggle="tab" data-target="#settings-notifications-email">[[ 'TAB_CHANGE_EMAIL_NOTIFICATIONS' | translate ]]</a>
             </li>
             <li style="width: 100%;">
-                <a class="btn" data-toggle="tab" data-target="#settings-notifications-sms">SMS сповіщення</a>
+                <a class="btn" data-toggle="tab" data-target="#settings-notifications-sms">[[ 'TAB_CHANGE_SMS_NOTIFICATIONS' | translate ]]</a>
             </li>
             <li style="width: 100%;">
-                <a class="btn" data-toggle="tab" data-target="#settings-delete-account">Видалити обліковий запис</a>
+                <a class="btn" data-toggle="tab" data-target="#settings-delete-account">[[ 'TAB_DELETE_ACCOUNT' | translate ]]</a>
             </li>
         </ul>
 
         <ul class="nav nav-pills hidden-lg hidden-md hidden-sm">
             <li class="active">
-                <a class="btn" data-toggle="tab" data-target="#settings-change-contacts">Змінити контактні дані</a>
+                <a class="btn" data-toggle="tab" data-target="#settings-change-contacts">[[ 'TAB_CHANGE_CONTACT_INFO' | translate ]]</a>
             </li>
             <li>
-                <a class="btn" data-toggle="tab" data-target="#settings-change-pass">Змінити пароль</a>
+                <a class="btn" data-toggle="tab" data-target="#settings-change-pass">З[[ 'TAB_CHANGE_PASS' | translate ]]</a>
             </li>
             <li>
-                <a class="btn" data-toggle="tab" data-target="#settings-change-email">Змінити Email адресу</a>
+                <a class="btn" data-toggle="tab" data-target="#settings-change-email">[[ 'TAB_CHANGE_EMAIL' | translate ]]</a>
             </li>
             <li>
-                <a class="btn" data-toggle="tab" data-target="#settings-notifications-email">Email повідомлення</a>
+                <a class="btn" data-toggle="tab" data-target="#settings-notifications-email">[[ 'TAB_CHANGE_EMAIL_NOTIFICATIONS' | translate ]]</a>
             </li>
             <li>
-                <a class="btn" data-toggle="tab" data-target="#settings-notifications-sms">SMS–сповіщення</a>
+                <a class="btn" data-toggle="tab" data-target="#settings-notifications-sms">[[ 'TAB_CHANGE_SMS_NOTIFICATIONS' | translate ]]</a>
             </li>
             <li>
-                <a class="btn" data-toggle="tab" data-target="#settings-delete-account">Видалити обліковий запис</a>
+                <a class="btn" data-toggle="tab" data-target="#settings-delete-account">[[ 'TAB_DELETE_ACCOUNT' | translate ]]</a>
             </li>
         </ul>
     </div>
@@ -80,35 +80,35 @@
             <div id="settings-change-contacts" class="tab-pane fade in active">
                 <form name="contactsForm">
                     <p>
-                        <b>Область</b>: <br/>
+                        <b>[[ 'LABEL_REGION' | translate ]]</b> <br/>
                         <select class="form-control" ng-model="contactInfo.region">
                             <option ng-repeat="region in regions" value="[[ region.id ]]">[[ region.name ]]</option>
                         </select><br/>
                     </p>
                     <p>
-                        <b>Місто/село</b>: <br/>
+                        <b>[[ 'LABEL_CITY' | translate ]]</b> <br/>
                         <input type="text" class="form-control" ng-model="contactInfo.city" /><br/>
                     </p>
                     <p>
-                        <b>Ім’я</b>: <br/>
+                        <b>[[ 'LABEL_NAME' | translate ]]</b> <br/>
                         <input type="text" class="form-control" ng-model="contactInfo.name" /><br/>
                     </p>
                     <p>
-                        <b>Прізвище</b>:  <br/>
+                        <b>[[ 'LABEL_LAST_NAME' | translate ]]</b>  <br/>
                         <input type="text" class="form-control" ng-model="contactInfo.surname"/><br/>
                     </p>
                     <p>
-                        <b>Контактний номер</b>: <br/>
+                        <b>[[ 'LABEL_CONTACT_NUMBER' | translate ]]</b> <br/>
                         <input type="tel" class="form-control" ng-model="contactInfo.telephoneNumber"/><br/>
                     </p>
                     <p>
-                        <b>Skype</b>: <br/>
+                        <b>[[ 'LABEL_SKYPE' | translate ]]</b> <br/>
                         <input type="text" class="form-control" ng-model="contactInfo.skype"/><br/>
                     </p>
                     <button type="button"
                             class="btn btn-default"
                             ng-click="saveContactInfo(contactInfo);">
-                        Зберегти
+                        [[ 'BUTTON_SAVE' | translate ]]
                     </button>
                 </form>
             </div>
@@ -116,15 +116,15 @@
             <div id="settings-change-pass" class="tab-pane fade">
                 <form name="changePassForm">
                     <p>
-                        <b>Старий пароль</b>: <br/>
+                        <b>[[ 'LABEL_OLD_PASS' | translate ]]</b> <br/>
                         <input type="password" class="form-control" ng-model="passChange.opass"/><br/>
                     </p>
                     <p>
-                        <b>Новий пароль</b>: <br/>
+                        <b>[[ 'LABEL_NEW_PASS' | translate ]]</b> <br/>
                         <input type="password" class="form-control" ng-model="passChange.pass"/><br/>
                     </p>
                     <p>
-                        <b>Повторіть новий пароль</b>: <br/>
+                        <b>[[ 'LABEL_NEW_RPASS' | translate ]]</b> <br/>
                         <input type="password" class="form-control" ng-model="passChange.rpass"/><br/>
                     </p>
                     <p>
@@ -132,7 +132,7 @@
                                 class="btn btn-default"
                                 ng-class="{'disabled': (passChange.pass != passChange.rpass) || (!passChange.pass) }"
                                 ng-click="changePassword(passChange);">
-                            Зберегти
+                            [[ 'BUTTON_SAVE' | translate ]]
                         </button>
                     </p>
                 </form>
@@ -141,18 +141,18 @@
             <div id="settings-change-email" class="tab-pane fade">
                 <form name="changeEmailForm">
                     <p>
-                        <b>Новий email</b>: <br/>
+                        <b>[[ 'LABEL_NEW_EMAIL' | translate ]]</b>: <br/>
                         <input type="email" class="form-control" ng-model="emailChange.email"/><br/>
                     </p>
                     <p>
-                        <b>Повторіть новий email</b>: <br/>
+                        <b>[[ 'LABEL_NEW_REMAIL' | translate ]]</b>: <br/>
                         <input type="email" class="form-control" ng-model="emailChange.remail"/><br/>
                     </p>
                     <button type="button"
                             class="btn btn-default"
                             ng-class="{'disabled': (emailChange.email != emailChange.remail) || (!emailChange.email) }"
                             ng-click="changeEmail(emailChange);">
-                        Змінити email
+                        [[ 'BUTTON_SAVE' | translate ]]
                     </button>
                 </form>
             </div>
@@ -162,20 +162,20 @@
                     <p>
                         <label>
                             <input type="checkbox" class="checkbox checkbox-inline" ng-model="emailSettings.notifications" />
-                            <b>Я хочу отримувати Email про нові повідомлення</b>
+                            <b>[[ 'LABEL_NEW_MAIL_NOTIFICATIONS' | translate ]]</b>
                         </label>
                     </p>
                     <p>
                         <label>
                             <input type="checkbox" class="checkbox checkbox-inline" ng-model="emailSettings.spam"/>
-                            <b>Я хочу отримувати розсилку</b>
+                            <b>[[ 'LABEL_EMAIL_SPAM' | translate ]]</b>
                         </label>
                     </p>
                     <p>
                         <button type="button"
                                 class="btn btn-default"
                                 ng-click="saveEmailNotificationSettings(emailSettings);">
-                            Зберегти
+                            [[ 'BUTTON_SAVE' | translate ]]
                         </button>
                     </p>
                 </form>
@@ -185,17 +185,17 @@
                 <form>
                     <p>
                         <input type="checkbox" class="checkbox checkbox-inline" ng-model="smsSettings.notifications" />
-                        <b>Я хочу отримувати Sms про нові повідомлення</b>
+                        <b>[[ 'LABEL_NEW_SMS_NOTIFICATIONS' | translate ]]</b>
                     </p>
                     <p ng-if="smsSettings.notifications">
-                        <b>Номер телефону</b>: <br/>
+                        <b>[[ 'LABEL_TELEPHONE_NUMBER' | translate ]]</b>: <br/>
                         <input type="tel" class="form-control" ng-model="smsSettings.telephoneNumber"/>
                     </p>
                     <p>
                         <button type="button"
                                 class="btn btn-default"
                                 ng-click="saveSmsNotificationSettings(smsSettings);">
-                            Зберегти
+                            [[ 'BUTTON_SAVE' | translate ]]
                         </button>
                     </p>
                 </form>
@@ -203,7 +203,7 @@
 
             <div id="settings-delete-account" class="tab-pane fade">
                 <a ng-href="[[ urlDeleteAccount ]]" target="_self">
-                    Видалити аккаунт
+                    [[ 'LINK_DELETE_ACCOUNT' | translate ]]
                 </a>
             </div>
         </div>
@@ -212,7 +212,7 @@
                 <div class="alert" ng-class="notifications.type">
                     <p>[[ notifications.body ]]</p><br/>
                     <button type="button" class="btn btn-default" ng-click="notifications.visible = false;">
-                        Закрити
+                        [[ 'BUTTON_CLOSE' | translate ]]
                     </button>
                 </div>
             </div>
