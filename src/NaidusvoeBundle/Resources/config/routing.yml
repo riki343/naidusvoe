@@ -21,6 +21,10 @@ naidusvoe_signup_action:
     path: /signup/signup_action
     defaults: { _controller: NaidusvoeBundle:Index:signupAct }
 
+naidusvoe_set_lang:
+    path: /setLang
+    defaults: { _controller: NaidusvoeBundle:Index:setLang }
+
 naidusvoe_get_adv_info:
     path: /get/adv_info
     defaults: { _controller: NaidusvoeBundle:Advertisment:getAdvDetails }

@@ -7,6 +7,7 @@ use NaidusvoeBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -14,7 +15,19 @@ class IndexController extends Controller
 {
     public function indexAction()
     {
+        $session = $this->get('session');
+        if (!$session->get('lang')) {
+            $session->set('lang', 'ua');
+        }
         return $this->render('@Naidusvoe/index.html.twig');
+    }
+
+    public function setLangAction(Request $request) {
+        $data = json_decode($request->getContent(), true);
+        $lang = $data['lang'];
+        $session = $this->get('session');
+        $session->set('lang', $lang);
+        return new JsonResponse(true);
     }
 
     /**
@@ -23,6 +36,10 @@ class IndexController extends Controller
      */
     public function loginAction()
     {
+        $session = $this->get('session');
+        if (!$session->get('lang')) {
+            $session->set('lang', 'ua');
+        }
         $authenticationUtils = $this->get('security.authentication_utils');
 
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -46,6 +63,10 @@ class IndexController extends Controller
      * @Route("/signup")
      */
     public function signupAction() {
+        $session = $this->get('session');
+        if (!$session->get('lang')) {
+            $session->set('lang', 'ua');
+        }
         if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
             //return $this->redirectToRoute('zectranet_user_page');
         }
@@ -58,8 +79,12 @@ class IndexController extends Controller
      * @return Response
      */
     public function signupActAction(Request $request) {
+        $session = $this->get('session');
+        if (!$session->get('lang')) {
+            $session->set('lang', 'ua');
+        }
         if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
-            //return $this->redirectToRoute('zectranet_user_page');
+            return $this->redirectToRoute('naidusvoe_homepage');
         }
 
         /** @var EntityManager $em */

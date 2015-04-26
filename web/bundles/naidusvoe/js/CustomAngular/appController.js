@@ -1,5 +1,8 @@
 Naidusvoe.controller('ApplicationController', ['$scope', '$http', '$rootScope', '$translate',
     function ($scope, $http, $rootScope, $translate) {
+        var lang = LANG;
+        var urlSwitchLang = URLS.switchLang;
+
         $scope.user = null;
         $scope.emailToAdmin = {
             'from': '',
@@ -28,8 +31,19 @@ Naidusvoe.controller('ApplicationController', ['$scope', '$http', '$rootScope', 
             );
         };
 
-        $scope.switchLanguage = function (lang) {
-            $translate.use(lang);
+        $scope.switchLanguage = function (new_lang) {
+            if (new_lang != lang) {
+                $http.post(urlSwitchLang, { 'lang': new_lang })
+                    .success(function (response) {
+                        lang = new_lang;
+                    }
+                );
+            }
+            $translate.use(new_lang);
         };
+
+        if (angular.isDefined(LANG)) {
+            $scope.switchLanguage(LANG);
+        }
     }
 ]);

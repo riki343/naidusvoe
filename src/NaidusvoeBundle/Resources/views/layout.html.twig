@@ -94,8 +94,11 @@
                 'saveSmsSettings': "{{ path('naidusvoe_save_sms_notification_settings', { 'user_id': app.user.id }) }}",
                 'deleteAccount': "{{ path('naidusvoe_delete_account') }}",
             {% endif %}
-            'asset': "{{ asset('') }}"
+            'asset': "{{ asset('') }}",
+            'switchLang': "{{ path('naidusvoe_set_lang') }}"
         };
+
+        var LANG = "{{ app.session.get('lang') }}";
     </script>
 
 {% endblock %}
