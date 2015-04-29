@@ -41,11 +41,25 @@ class AdvertismentSubCategory
      */
     private $name;
 
+    /**
+     * @var string
+     * @ORM\Column(name="title_ru", type="string", length=255)
+     */
+    private $nameRU;
+
     public function getInArray() {
         return array(
             'id' => $this->getId(),
             'categoryID' => $this->getCategoryID(),
             'name' => $this->getName(),
+        );
+    }
+
+    public function getInArrayRU() {
+        return array(
+            'id' => $this->getId(),
+            'categoryID' => $this->getCategoryID(),
+            'name' => $this->getNameRU(),
         );
     }
 
@@ -126,5 +140,28 @@ class AdvertismentSubCategory
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set nameRU
+     *
+     * @param string $nameRU
+     * @return AdvertismentSubCategory
+     */
+    public function setNameRU($nameRU)
+    {
+        $this->nameRU = $nameRU;
+
+        return $this;
+    }
+
+    /**
+     * Get nameRU
+     *
+     * @return string 
+     */
+    public function getNameRU()
+    {
+        return $this->nameRU;
     }
 }

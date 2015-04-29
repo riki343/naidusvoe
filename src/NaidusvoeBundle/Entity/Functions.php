@@ -24,10 +24,34 @@ class Functions {
      * @param $array
      * @return array
      */
+    public static function arrayToJsonRU($array) {
+        $jsonArray = array();
+        foreach ($array as $item) {
+            $jsonArray[] = $item->getInArrayRU();
+        }
+        return $jsonArray;
+    }
+
+    /**
+     * @param $array
+     * @return array
+     */
     public static function arrayToJsonWithoutParent($array) {
         $jsonArray = array();
         foreach ($array as $item) {
             $jsonArray[] = $item->getInArrayWithoutParent();
+        }
+        return $jsonArray;
+    }
+
+    /**
+     * @param $array
+     * @return array
+     */
+    public static function arrayToJsonWithoutParentRU($array) {
+        $jsonArray = array();
+        foreach ($array as $item) {
+            $jsonArray[] = $item->getInArrayWithoutParentRU();
         }
         return $jsonArray;
     }
