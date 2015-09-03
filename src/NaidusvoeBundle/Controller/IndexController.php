@@ -7,12 +7,17 @@ use NaidusvoeBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 class IndexController extends Controller
 {
+    /**
+     * @Route("/", name="naidusvoe_homepage")
+     * @return Response
+     */
     public function indexAction()
     {
         $session = $this->get('session');
@@ -22,6 +27,11 @@ class IndexController extends Controller
         return $this->render('@Naidusvoe/index.html.twig');
     }
 
+    /**
+     * @Route("/setLang", name="naidusvoe_set_lang")
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function setLangAction(Request $request) {
         $data = json_decode($request->getContent(), true);
         $lang = $data['lang'];
@@ -31,7 +41,7 @@ class IndexController extends Controller
     }
 
     /**
-     * @Route("/login")
+     * @Route("/login", name="naidusvoe_login")
      * @return Response
      */
     public function loginAction()
@@ -55,12 +65,12 @@ class IndexController extends Controller
     }
 
     /**
-     * @Route("/login_check")
+     * @Route("/login_check", name="naidusvoe_login_check")
      */
     public function loginCheckAction() { }
 
     /**
-     * @Route("/signup")
+     * @Route("/signup", name="naidusvoe_signup")
      */
     public function signupAction() {
         $session = $this->get('session');
@@ -74,7 +84,7 @@ class IndexController extends Controller
     }
 
     /**
-     * @Route("/signup/signup_action")
+     * @Route("/signup/signup_action", name="naidusvoe_signup_action")
      * @param Request $request
      * @return Response
      */

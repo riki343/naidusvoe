@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 class AdvertismentController extends Controller
 {
     /**
+     * @Route("/get/adv_info", name="naidusvoe_get_adv_info", options={"expose" = true})
      * @return JsonResponse
      */
     public function getAdvDetailsAction() {
@@ -43,6 +44,7 @@ class AdvertismentController extends Controller
     }
 
     /**
+     * @Route("/add/adv", name="naidusvoe_add_adv", options={"expose" = true})
      * @Security("has_role('ROLE_USER')")
      * @param Request $request
      * @return JsonResponse

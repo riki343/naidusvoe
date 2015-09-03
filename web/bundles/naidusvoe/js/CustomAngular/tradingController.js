@@ -1,5 +1,9 @@
-Naidusvoe.controller('tradingController', ['$scope', '$http', '$routeParams', '$sce', '$rootScope',
-    function ($scope, $http, $routeParams, $sce, $rootScope) {
+(function (angular) {
+    angular.module('NaiduSvoe').controller('tradingController', tradingController);
+
+    tradingController.$inject = ['$scope', '$http', '$routeParams', '$sce', '$rootScope'];
+
+    function tradingController ($scope, $http, $routeParams, $sce, $rootScope) {
         $scope.asset = URLS.asset;
         $scope.adv_id = $routeParams.adv_id;
         $scope.adv = null;
@@ -121,4 +125,5 @@ Naidusvoe.controller('tradingController', ['$scope', '$http', '$routeParams', '$
             );
         };
     }
-]);
+
+})(angular);

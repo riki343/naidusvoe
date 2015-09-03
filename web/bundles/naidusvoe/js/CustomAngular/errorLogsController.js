@@ -1,5 +1,9 @@
-Naidusvoe.controller('ErrorLogsController', ['$scope', '$http', '$sce',
-    function($scope, $http, $sce) {
+(function (angular) {
+    angular.module('NaiduSvoe').controller('ErrorLogsController', ErrorLogsController);
+
+    ErrorLogsController.$inject = ['$scope', '$http', '$sce'];
+
+    function ErrorLogsController ($scope, $http, $sce) {
         $scope.errors = null;
 
         $scope.urlGetErrors = URLS.getErrors;
@@ -40,4 +44,5 @@ Naidusvoe.controller('ErrorLogsController', ['$scope', '$http', '$sce',
             );
         };
     }
-]);
+
+})(angular);

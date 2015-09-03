@@ -1,5 +1,9 @@
-Naidusvoe.controller('giftController', ['$scope', '$http', '$routeParams', '$sce', '$rootScope',
-    function ($scope, $http, $routeParams, $sce, $rootScope) {
+(function (angular) {
+    angular.module('NaiduSvoe').controller('giftController', giftController);
+
+    giftController.$inject = ['$scope', '$http', '$routeParams', '$sce', '$rootScope'];
+
+    function giftController ($scope, $http, $routeParams, $sce, $rootScope) {
         $scope.asset = URLS.asset;
         $scope.adv_id = $routeParams.adv_id;
         $scope.adv = null;
@@ -121,4 +125,5 @@ Naidusvoe.controller('giftController', ['$scope', '$http', '$routeParams', '$sce
             );
         };
     }
-]);
+
+})(angular);

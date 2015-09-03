@@ -1,37 +1,9 @@
-naidusvoe_homepage:
-    path:     /
-    defaults: { _controller: NaidusvoeBundle:Index:index }
-    
-naidusvoe_login:
-    path: /login
-    defaults: { _controller: NaidusvoeBundle:Index:login }
-
-naidusvoe_login_check:
-    path: /login_check
-    defaults: { _controller: NaidusvoeBundle:Index:loginCheck }
+main:
+    resource: "@NaidusvoeBundle/Controller/"
+    type: annotation
 
 naidusvoe_logout:
     path: /logout
-
-naidusvoe_signup:
-    path: /signup
-    defaults: { _controller: NaidusvoeBundle:Index:signup }
-
-naidusvoe_signup_action:
-    path: /signup/signup_action
-    defaults: { _controller: NaidusvoeBundle:Index:signupAct }
-
-naidusvoe_set_lang:
-    path: /setLang
-    defaults: { _controller: NaidusvoeBundle:Index:setLang }
-
-naidusvoe_get_adv_info:
-    path: /get/adv_info
-    defaults: { _controller: NaidusvoeBundle:Advertisment:getAdvDetails }
-
-naidusvoe_add_adv:
-    path: /add/adv
-    defaults: { _controller: NaidusvoeBundle:Advertisment:addNewAdv }
 
 naidusvoe_get_adv:
     pattern: /get/adv/{adv_id}

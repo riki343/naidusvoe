@@ -1,5 +1,9 @@
-Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce', '$routeParams',
-    function ($scope, $http, $sce, $routeParams) {
+(function (angular) {
+    angular.module('NaiduSvoe').controller('cabinetController', cabinetController);
+
+    cabinetController.$inject = ['$scope', '$http', '$sce', '$routeParams'];
+
+    function cabinetController ($scope, $http, $sce, $routeParams) {
         $scope.urlGetInfo = URLS.getInfo;
         $scope.urlSaveContactInfo = URLS.saveInfo;
         $scope.urlSaveNewEmail = URLS.changeEmail;
@@ -157,7 +161,7 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce', '$routePar
                 }
             );
         };
-        
+
         $scope.deleteFav = function (fav_id, index) {
             $http.delete($scope.urlDeleteFav.replace('fav_id', fav_id))
                 .success(function (response) {
@@ -244,6 +248,6 @@ Naidusvoe.controller('cabinetController', ['$scope', '$http', '$sce', '$routePar
                 }
             );
         };
-
     }
-]);
+
+})(angular);

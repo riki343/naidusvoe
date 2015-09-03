@@ -1,5 +1,9 @@
-Naidusvoe.controller('advertismentController', ['$scope', '$http', '$routeParams',
-    function ($scope, $http, $routeParams) {
+(function (angular) {
+    angular.module('NaiduSvoe').controller('advertismentController', advertismentController);
+
+    advertismentController.$inject = ['$scope', '$http', '$routeParams'];
+
+    function advertismentController($scope, $http, $routeParams) {
         $scope.addAdv = {
             'title': null,
             'description': null,
@@ -41,7 +45,7 @@ Naidusvoe.controller('advertismentController', ['$scope', '$http', '$routeParams
                 }
             );
         };
-        
+
         $scope.addNewAdv = function (adv) {
             $http.post($scope.urlAddAdv, { 'adv': adv })
                 .success(function (response) {
@@ -113,4 +117,5 @@ Naidusvoe.controller('advertismentController', ['$scope', '$http', '$routeParams
             readURL(this, $(this).attr('id'));
         });
     }
-]);
+
+})(angular);

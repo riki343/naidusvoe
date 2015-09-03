@@ -1,5 +1,9 @@
-Naidusvoe.controller('ApplicationController', ['$scope', '$http', '$rootScope', '$translate',
-    function ($scope, $http, $rootScope, $translate) {
+(function (angular) {
+    angular.module('').controller('ApplicationController', ApplicationController);
+
+    ApplicationController.$inject = ['$scope', '$http', '$rootScope', '$translate'];
+
+    function ApplicationController ($scope, $http, $rootScope, $translate) {
         var lang = LANG;
         var urlSwitchLang = URLS.switchLang;
 
@@ -46,4 +50,5 @@ Naidusvoe.controller('ApplicationController', ['$scope', '$http', '$rootScope', 
             $scope.switchLanguage(LANG);
         }
     }
-]);
+
+})(angular);
