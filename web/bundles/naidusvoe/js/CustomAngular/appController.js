@@ -1,5 +1,5 @@
 (function (angular) {
-    angular.module('').controller('ApplicationController', ApplicationController);
+    angular.module('NaiduSvoe').controller('ApplicationController', ApplicationController);
 
     ApplicationController.$inject = ['$scope', '$http', '$rootScope', '$translate'];
 
