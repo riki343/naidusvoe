@@ -20,6 +20,10 @@
         $scope.urlAddToFav = URLS.addToFav;
         $scope.urlSendNewMessage = URLS.sendNewMessage;
 
+        $scope.$on('PaginatorClicked', function (e, params) {
+            $scope.getAdvs(params);
+        });
+
         $scope.getAdvs = function (options) {
             if ($scope.filterID) {
                 options.filter = $scope.filterID;

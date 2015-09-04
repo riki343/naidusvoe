@@ -23,9 +23,9 @@ class Paginator extends BasePaginator
     /**
      * @return JsonResponse
      */
-    public function getJsonResponse($query, $request)
+    public function getJsonResponse($query, $request, $count = 10)
     {
-        $paginator = $this->paginate($query, $request->query->getInt('page', 1), 10);
+        $paginator = $this->paginate($query, $request->query->getInt('page', 1), $count);
 
         $items = [];
         foreach ($paginator as $item) {

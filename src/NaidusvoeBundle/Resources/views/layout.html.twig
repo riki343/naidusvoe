@@ -22,7 +22,7 @@
     {% block base %}{% endblock %}
 </head>
 
-<body ng-controller="ApplicationController" ng-cloak>
+<body ng-controller="ApplicationController as app" ng-cloak>
 {% block nav %}
 
 {% endblock %}
@@ -47,9 +47,8 @@
     <script src="{{ asset('bundles/naidusvoe/js/vendor/lightbox/lightbox.js') }}" type="text/javascript"></script>
 
     <script src="{{ asset('bundles/naidusvoe/js/custom/riki34.module.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/custom/Directive/riki34.paginator.directive.js') }}" type="text/javascript"></script>
-
     <script src="{{ asset('bundles/naidusvoe/js/custom/Service/riki34.angular.spinner.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/naidusvoe/js/custom/Directive/riki34.paginator.directive.js') }}" type="text/javascript"></script>
 
     <script src="{{ asset('bundles/naidusvoe/js/custom/appCore.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/naidusvoe/js/custom/appController.js') }}" type="text/javascript"></script>

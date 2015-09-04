@@ -5,7 +5,7 @@
 
     function directive() {
         return {
-            'restrict': 'AE',
+            'restrict': 'EA',
             'link': link,
             'templateUrl': 'bundles/naidusvoe/js/custom/Directive/templates/paginator.html',
             'scope': {

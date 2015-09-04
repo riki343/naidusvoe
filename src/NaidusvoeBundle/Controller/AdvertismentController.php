@@ -88,7 +88,7 @@ class AdvertismentController extends Controller
 
         $advs = Advertisment::getAdvs($em, $filter, 1);
         $paginator = new Paginator();
-        $pager = $paginator->getJsonResponse($advs, $request);
+        $pager = $paginator->getJsonResponse($advs, $request, 9);
 
         $categories = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')
             ->findBy(array('typeID' => 1));

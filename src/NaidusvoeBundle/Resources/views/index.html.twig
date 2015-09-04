@@ -78,15 +78,17 @@
 {% endblock %}
 
 {% block body %}
+
     <div class="container-fluid main-height" ng-init="getUser();">
-        <div class="row" ng-show="spinner">
-            <div class="col-xs-12 text-center" style="padding-top: 150px;">
-                <div class="center-block whirly"></div>
-            </div>
-        </div>
 
         <div class="row">
-            <div class="col-md-9 col-xs-12">
+            <div class="col-md-9 col-xs-12" ng-show="app.spinner">
+                <div class="col-xs-12 text-center" style="padding-top: 150px;">
+                    <div class="center-block whirly"></div>
+                </div>
+            </div>
+
+            <div class="col-md-9 col-xs-12" ng-hide="app.spinner">
                 <div class="content">
                     <div ng-view></div>
                 </div>
