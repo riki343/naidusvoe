@@ -8,6 +8,7 @@ use NaidusvoeBundle\Entity\Attachment;
 use NaidusvoeBundle\Entity\Favorites;
 use NaidusvoeBundle\Entity\Functions;
 use NaidusvoeBundle\Entity\User;
+use NaidusvoeBundle\Model\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -76,74 +77,68 @@ class AdvertismentController extends Controller
     }
 
     /**
-     * @param int $page_id
+     * @Route("/get-trade-advs/{filter}", name="get-trade-advs", options={"expose"=true})
+     * @param Request $request
      * @param int $filter
      * @return JsonResponse
      */
-    public function getAdvsTradeAction($page_id = 1, $filter = null) {
-        $offset = ($page_id - 1) * 10;
-        $limit = $page_id * 10;
-
+    public function getAdvsTradeAction(Request $request, $filter = null) {
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
-        $advs = Advertisment::getAdvs($em, $filter, $limit, $offset, 1);
-        $count = Advertisment::getAdvsCount($em, 1);
+        $advs = Advertisment::getAdvs($em, $filter, 1);
+        $paginator = new Paginator();
+        $pager = $paginator->getJsonResponse($advs, $request);
 
         $categories = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')
             ->findBy(array('typeID' => 1));
 
         return new JsonResponse(array(
-            'advs' => $advs,
-            'pageCount' => intval($count / 10),
+            'advs' => $pager,
             'categories' => Functions::arrayToJson($categories)
         ));
     }
 
     /**
-     * @param int $page_id
+     * @param Request $request
      * @param int $filter
      * @return JsonResponse
      */
-    public function getAdvsFoundAction($page_id, $filter = null) {
-        $offset = ($page_id - 1) * 10;
-        $limit = $page_id * 10;
-
+    public function getAdvsFoundAction(Request $request, $filter = null) {
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
-        $advs = Advertisment::getAdvs($em, $filter, $limit, $offset, 2);
-        $count = Advertisment::getAdvsCount($em, 2);
+
+        $advs = Advertisment::getAdvs($em, $filter, 2);
+        $paginator = new Paginator();
+        $pager = $paginator->getJsonResponse($advs, $request);
 
         $categories = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')
             ->findBy(array('typeID' => 2));
 
         return new JsonResponse(array(
             'advs' => $advs,
-            'pageCount' => intval($count / 10),
             'categories' => Functions::arrayToJson($categories)
         ));
     }
 
     /**
-     * @param int $page_id
+     * @param Request $request
      * @param int $filter
      * @return JsonResponse
      */
-    public function getAdvsGiftAction($page_id, $filter = null) {
-        $offset = ($page_id - 1) * 10;
-        $limit = $page_id * 10;
-
+    public function getAdvsGiftAction(Request $request, $filter = null) {
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
-        $advs = Advertisment::getAdvs($em, $filter, $limit, $offset, 3);
-        $count = Advertisment::getAdvsCount($em, 3);
+
+        $advs = Advertisment::getAdvs($em, $filter, 3);
+        $paginator = new Paginator();
+        $pager = $paginator->getJsonResponse($advs, $request);
 
         $categories = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')
             ->findBy(array('typeID' => 3));
 
         return new JsonResponse(array(
             'advs' => $advs,
-            'pageCount' => intval($count / 10),
             'categories' => Functions::arrayToJson($categories)
         ));
     }

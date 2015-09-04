@@ -46,6 +46,11 @@
     <script src="{{ asset('bundles/naidusvoe/js/vendor/AngularJS/scrollglue.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/naidusvoe/js/vendor/lightbox/lightbox.js') }}" type="text/javascript"></script>
 
+    <script src="{{ asset('bundles/naidusvoe/js/custom/riki34.module.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/naidusvoe/js/custom/Directive/riki34.paginator.directive.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset('bundles/naidusvoe/js/custom/Service/riki34.angular.spinner.js') }}" type="text/javascript"></script>
+
     <script src="{{ asset('bundles/naidusvoe/js/custom/appCore.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/naidusvoe/js/custom/appController.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/naidusvoe/js/custom/indexController.js') }}" type="text/javascript"></script>
@@ -54,6 +59,7 @@
     <script src="{{ asset('bundles/naidusvoe/js/custom/foundController.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/naidusvoe/js/custom/cabinetController.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/naidusvoe/js/custom/advertismentController.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/naidusvoe/js/custom/testController.js') }}" type="text/javascript"></script>
 
     <script type="text/javascript" language="JavaScript">
         var TEMPLATES = {
@@ -78,7 +84,6 @@
             'getAdvDetails': "{{ path('naidusvoe_get_adv_info') }}",
             'addAdv': "{{ path('naidusvoe_add_adv') }}",
             'getAdv': "{{ path('naidusvoe_get_adv', { 'adv_id': 'adv_id' }) }}",
-            'getTradeAdvs': "{{ path('naidusvoe_get_trade_advs', { 'page_id': 'page_id', 'filter': 'category' }) }}",
             'getFoundAdvs': "{{ path('naidusvoe_get_found_advs', { 'page_id': 'page_id', 'filter': 'category' }) }}",
             'getGiftAdvs': "{{ path('naidusvoe_get_gift_advs', { 'page_id': 'page_id', 'filter': 'category' }) }}",
             'addToFav': "{{ path('naidusvoe_add_fav', { 'adv_id': 'adv_id' }) }}",

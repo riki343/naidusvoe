@@ -1,10 +1,11 @@
 (function (angular) {
     angular
         .module('NaiduSvoe', [
-        'ngRoute',
-        'ngAnimate',
-        'luegg.directives',
-        'pascalprecht.translate'
+            'ngRoute',
+            'ngAnimate',
+            'luegg.directives',
+            'pascalprecht.translate',
+            'riki34'
         ])
         .config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$locationProvider', '$compileProvider', '$translateProvider',
             function ($interpolateProvider, $httpProvider, $routeProvider, $locationProvider, $compileProvider, $translateProvider) {
@@ -77,6 +78,10 @@
                     })
                     .when('/features', {
                         templateUrl: TEMPLATES.additionalFeatures
+                    })
+                    .when('/test', {
+                        'templateUrl': 'bundles/naidusvoe/templates/test.html',
+                        'controller': 'TestController as test'
                     })
                     .otherwise({
                         redirectTo: '/'

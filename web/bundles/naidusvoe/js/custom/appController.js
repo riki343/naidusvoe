@@ -1,11 +1,22 @@
 (function (angular) {
     angular.module('NaiduSvoe').controller('ApplicationController', ApplicationController);
 
-    ApplicationController.$inject = ['$scope', '$http', '$rootScope', '$translate'];
+    ApplicationController.$inject = ['$scope', '$http', '$rootScope', '$translate', 'spinner'];
 
-    function ApplicationController ($scope, $http, $rootScope, $translate) {
+    function ApplicationController ($scope, $http, $rootScope, $translate, spinner) {
         var lang = LANG;
         var urlSwitchLang = URLS.switchLang;
+        var self = this;
+
+        this.spinner = false;
+
+        spinner.onPromisesStart($scope, function () {
+            self.spinner = true;
+        });
+
+        spinner.onPromisesEnd($scope, function () {
+            self.spinner = false;
+        });
 
         $scope.user = null;
         $scope.emailToAdmin = {
@@ -13,19 +24,9 @@
             'title': '',
             'message': ''
         };
-        $scope.RSB = {
-
-        };
-
-        $rootScope.tradingFilter = null;
-        $rootScope.foundFilter = null;
-        $rootScope.giftFilter = null;
+        $scope.RSB = {};
 
         $scope.urlGetUser = URLS.getUser;
-
-        $scope.updateRSB = function () {
-
-        };
 
         $scope.getUser = function () {
             $http.get($scope.urlGetUser)
@@ -37,8 +38,8 @@
 
         $scope.switchLanguage = function (new_lang) {
             if (new_lang != lang) {
-                $http.post(urlSwitchLang, { 'lang': new_lang })
-                    .success(function (response) {
+                $http.post(Routing.generate('naidusvoe_set_lang'), { 'lang': new_lang })
+                    .success(function () {
                         lang = new_lang;
                     }
                 );

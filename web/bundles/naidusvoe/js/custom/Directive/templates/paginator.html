@@ -1,0 +1,19 @@
+<nav>
+    <ul class="pagination">
+        <li ng-show="paginator.current !== paginator.first">
+            <a href="#" ng-click="browse(paginator.first);">
+                <span>&laquo;</span>
+            </a>
+        </li>
+
+        <li ng-repeat="page in paginator.pagesInRange" ng-class="{ 'active': page === paginator.current }">
+            <a href="#" ng-click="browse(page);" ng-bind="page"></a>
+        </li>
+
+        <li ng-show="paginator.current !== paginator.last">
+            <a href="#" ng-click="browse(paginator.last);">
+                <span>&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>

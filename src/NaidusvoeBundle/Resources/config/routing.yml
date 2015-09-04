@@ -9,10 +9,6 @@ naidusvoe_get_adv:
     pattern: /get/adv/{adv_id}
     defaults: { _controller: NaidusvoeBundle:Advertisment:getAdv }
 
-naidusvoe_get_trade_advs:
-    path: /get/advs/trade/page/{page_id}/{filter}
-    defaults: { _controller: NaidusvoeBundle:Advertisment:getAdvsTrade }
-
 naidusvoe_get_found_advs:
     path: /get/advs/found/page/{page_id}/{filter}
     defaults: { _controller: NaidusvoeBundle:Advertisment:getAdvsFound }

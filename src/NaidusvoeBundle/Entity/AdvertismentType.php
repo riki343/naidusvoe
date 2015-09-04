@@ -29,18 +29,6 @@ class AdvertismentType
     private $name;
 
     /**
-     * @var string
-     * @ORM\Column(name="title_ru", type="string", length=255)
-     */
-    private $nameRU;
-
-    /**
-     * @var string
-     * @ORM\Column(name="en_name", type="string", length=100)
-     */
-    private $enName;
-
-    /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="AdvertismentCategory", mappedBy="type")
      */
@@ -50,7 +38,6 @@ class AdvertismentType
         return array(
             'id' => $this->getId(),
             'name' => $this->getName(),
-            'enName' => $this->getEnName(),
             'categories' => Functions::arrayToJsonWithoutParent($this->getCategories()),
         );
     }
@@ -59,24 +46,6 @@ class AdvertismentType
         return array(
             'id' => $this->getId(),
             'name' => $this->getName(),
-            'enName' => $this->getEnName(),
-        );
-    }
-
-    public function getInArrayRU() {
-        return array(
-            'id' => $this->getId(),
-            'name' => $this->getNameRU(),
-            'enName' => $this->getEnName(),
-            'categories' => Functions::arrayToJsonWithoutParentRU($this->getCategories()),
-        );
-    }
-
-    public function getInArraySingleRU() {
-        return array(
-            'id' => $this->getId(),
-            'name' => $this->getNameRU(),
-            'enName' => $this->getEnName(),
         );
     }
 
@@ -150,15 +119,7 @@ class AdvertismentType
         return $this;
     }
 
-    /**
-     * Get enName
-     *
-     * @return string 
-     */
-    public function getEnName()
-    {
-        return $this->enName;
-    }
+
     /**
      * Constructor
      */
@@ -198,28 +159,5 @@ class AdvertismentType
     public function getCategories()
     {
         return $this->categories;
-    }
-
-    /**
-     * Set nameRU
-     *
-     * @param string $nameRU
-     * @return AdvertismentType
-     */
-    public function setNameRU($nameRU)
-    {
-        $this->nameRU = $nameRU;
-
-        return $this;
-    }
-
-    /**
-     * Get nameRU
-     *
-     * @return string 
-     */
-    public function getNameRU()
-    {
-        return $this->nameRU;
     }
 }

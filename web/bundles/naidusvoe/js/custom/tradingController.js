@@ -1,79 +1,51 @@
 (function (angular) {
     angular.module('NaiduSvoe').controller('tradingController', tradingController);
 
-    tradingController.$inject = ['$scope', '$http', '$routeParams', '$sce', '$rootScope'];
+    tradingController.$inject = ['$scope', '$http', '$routeParams', '$sce', 'spinner'];
 
-    function tradingController ($scope, $http, $routeParams, $sce, $rootScope) {
+    function tradingController ($scope, $http, $routeParams, $sce, spinner) {
         $scope.asset = URLS.asset;
         $scope.adv_id = $routeParams.adv_id;
         $scope.adv = null;
         $scope.advs = null;
-        $scope.paginator = {
-            'current': 1,
-            'next': 1,
-            'prev': 1,
-            'first': 1,
-            'last': 1,
-            'pages': []
-        };
         $scope.notifications = {
             'body': '',
             'type': '',
             'visible': false
         };
         $scope.message = '';
-
-        $scope.spinner = false;
-
-        if (angular.isDefined($routeParams.page_id)) {
-            $scope.paginator.current = $routeParams.page_id;
-        } else { }
+        $scope.filterID = null;
 
         $scope.urlGetAdv = URLS.getAdv;
-        $scope.urlGetAdvs = URLS.getTradeAdvs;
         $scope.urlAddToFav = URLS.addToFav;
         $scope.urlSendNewMessage = URLS.sendNewMessage;
 
-        $scope.getAdvs = function () {
-            $scope.spinner = true;
-            var getAdvsURL = $scope.urlGetAdvs
-                .replace('page_id', $scope.paginator.current)
-                .replace('category', $scope.tradingFilter);
-            $http.get(getAdvsURL)
-                .success(function (response) {
-                    $scope.advs = response.advs;
-                    $scope.categories = response.categories;
+        $scope.getAdvs = function (options) {
+            if ($scope.filterID) {
+                options.filter = $scope.filterID;
+            }
 
-                    $scope.paginator.last = response.pageCount;
-                    $scope.paginator.prev = ($scope.paginator.current > 1)
-                        ? $scope.paginator.current - 1
-                        : 1;
-                    $scope.paginator.next = ($scope.paginator.current < $scope.paginator.last)
-                        ? $scope.paginator.next + 1
-                        : $scope.paginator.last;
+            var promise = $http.get(Routing.generate('get-trade-advs', options));
+            spinner.addPromise(promise);
+            promise.success(function (response) {
+                $scope.advs = response.advs.items;
+                $scope.data = response.advs.data;
+                $scope.categories = response.categories;
 
-                    for (var i = 0; i < $scope.advs.length; i++) {
-                        if ($scope.advs[i].attachments.length > 0) {
-                            $scope.advs[i].image = $sce.trustAsUrl($scope.advs[i].attachments[0].image);
-                        }
+                for (var i = 0; i < $scope.advs.length; i++) {
+                    if ($scope.advs[i].attachments.length > 0) {
+                        $scope.advs[i].image = $sce.trustAsUrl($scope.advs[i].attachments[0].image);
                     }
-
-                    $scope.paginator.pages = [];
-                    for (i = 0; i < $scope.paginator.last; i++) {
-                        $scope.paginator.pages.push(i + 1);
-                    }
-                    $scope.spinner = false;
                 }
-            );
+            });
         };
 
         $scope.selectCategory = function (id) {
-            $rootScope.tradingFilter = id;
-            $scope.getAdvs();
+            $scope.filterID = id;
+            $scope.getAdvs({});
         };
 
         $scope.getAdv = function () {
-            $scope.spinner = true;
             var advUrl = $scope.urlGetAdv.replace('adv_id', $scope.adv_id);
             $http.get(advUrl)
                 .success(function (response) {
@@ -83,28 +55,26 @@
                     for (var i = 0; i < $scope.adv.attachments.length; i++) {
                         $scope.adv.attachments[i].image = $sce.trustAsUrl($scope.adv.attachments[i].image);
                     }
-                    $scope.spinner = false;
                 }
             );
         };
 
         $scope.addToFav = function () {
-            $http.put($scope.urlAddToFav.replace('adv_id', $scope.adv_id))
-                .success(function (response) {
-                    switch(response) {
-                        case 1:
-                            $scope.notifications.body = 'Додано до обраних';
-                            $scope.notifications.type = 'alert-success';
-                            $scope.notifications.visible = true;
-                            break;
-                        case -1:
-                            $scope.notifications.body = 'Невідома помилка, спробуйте пізніше.';
-                            $scope.notifications.type = 'alert-danger';
-                            $scope.notifications.visible = true;
-                            break;
-                    }
+            var promise = $http.put($scope.urlAddToFav.replace('adv_id', $scope.adv_id));
+            promise.success(function (response) {
+                switch(response) {
+                    case 1:
+                        $scope.notifications.body = 'Додано до обраних';
+                        $scope.notifications.type = 'alert-success';
+                        $scope.notifications.visible = true;
+                        break;
+                    case -1:
+                        $scope.notifications.body = 'Невідома помилка, спробуйте пізніше.';
+                        $scope.notifications.type = 'alert-danger';
+                        $scope.notifications.visible = true;
+                        break;
                 }
-            );
+            });
         };
 
         $scope.sendNewMessage = function (message) {
@@ -112,17 +82,16 @@
             var sendMessageURL = $scope.urlSendNewMessage
                 .replace('user_id', $scope.advUser.id)
                 .replace('adv_id', $scope.adv.id);
-            $http.post(sendMessageURL, { 'message': message })
-                .success(function (response) {
-                    $scope.message = '';
-                    $('#send_new_message').modal('hide');
-                    if (response) {
-                        $scope.notifications.body = 'Повідомлення відправлено';
-                        $scope.notifications.type = 'alert-success';
-                        $scope.notifications.visible = true;
-                    }
+            var promise = $http.post(sendMessageURL, { 'message': message });
+            promise.success(function (response) {
+                $scope.message = '';
+                $('#send_new_message').modal('hide');
+                if (response) {
+                    $scope.notifications.body = 'Повідомлення відправлено';
+                    $scope.notifications.type = 'alert-success';
+                    $scope.notifications.visible = true;
                 }
-            );
+            });
         };
     }
 

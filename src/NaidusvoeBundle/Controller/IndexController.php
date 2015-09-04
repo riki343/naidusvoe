@@ -28,7 +28,7 @@ class IndexController extends Controller
     }
 
     /**
-     * @Route("/setLang", name="naidusvoe_set_lang")
+     * @Route("/setLang", name="naidusvoe_set_lang", options={"expose"=true})
      * @param Request $request
      * @return JsonResponse
      */
