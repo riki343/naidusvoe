@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Filesystem\Filesystem;
+use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser as HWIOAuthUser;
 
 /**
  * User
@@ -32,9 +33,23 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
+     * @ORM\Column(name="vk_id", type="string", nullable=true)
+     */
+    private $vk_id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fb_id", type="string", nullable=true)
+     */
+    private $fb_id;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="username", type="string", length=255, unique=true)
      */
-    private $username;
+    protected $username;
 
     /**
      * @var string
@@ -585,6 +600,17 @@ class User implements UserInterface, \Serializable
         $user->setLastActive(new \DateTime());
         $user->addRole(Role::getUserRole($em));
         $user->setActive(false);
+
+        if(array_key_exists('vk_id', $parameters))
+        {
+            $user->setVkId($parameters['vk_id']);
+        }
+
+        if(array_key_exists('fb_id', $parameters))
+        {
+            $user->setFbId($parameters['fb_id']);
+        }
+
         $em->persist($user);
 
         $settings = new UserSettings();
@@ -855,5 +881,51 @@ class User implements UserInterface, \Serializable
     public function getRating()
     {
         return $this->rating;
+    }
+
+    /**
+     * Set vk_id
+     *
+     * @param integer $vkId
+     * @return User
+     */
+    public function setVkId($vkId)
+    {
+        $this->vk_id = $vkId;
+
+        return $this;
+    }
+
+    /**
+     * Get vk_id
+     *
+     * @return integer 
+     */
+    public function getVkId()
+    {
+        return $this->vk_id;
+    }
+
+    /**
+     * Set fb_id
+     *
+     * @param string $fbId
+     * @return User
+     */
+    public function setFbId($fbId)
+    {
+        $this->fb_id = $fbId;
+
+        return $this;
+    }
+
+    /**
+     * Get fb_id
+     *
+     * @return string 
+     */
+    public function getFbId()
+    {
+        return $this->fb_id;
     }
 }
