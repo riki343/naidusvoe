@@ -95,6 +95,7 @@
                     suffix: '.json'
                 });
 
+
                 $translateProvider.preferredLanguage('ru');
             }
         ]);

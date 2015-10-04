@@ -9,8 +9,20 @@
 {% endblock %}
 
 {% block nav %}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-right">
+                <ul class="list-inline">
+                    <li><img src="{{ asset('bundles/naidusvoe/images/custom/lang/ru.png') }}" alt="ru-lang"></li>
+                    <li><img src="{{ asset('bundles/naidusvoe/images/custom/lang/UA.png') }}" alt="ua-lang"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <nav class="navbar navbar-default" style="margin-bottom: 5px;">
         <div class="container-fluid">
+
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-collapse">
                     <span class="sr-only">Toggle navigation</span>

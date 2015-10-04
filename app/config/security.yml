@@ -8,8 +8,8 @@ security:
     providers:
         user_db:
             entity: { class: NaidusvoeBundle\Entity\User }
-        hwi:
-            id: hwi_oauth.user.provider
+        #hwi:
+        #    id: hwi_oauth.user.provider
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
