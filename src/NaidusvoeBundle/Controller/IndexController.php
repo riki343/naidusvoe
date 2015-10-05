@@ -56,9 +56,13 @@ class IndexController extends Controller
 
         $lastUsername = $authenticationUtils->getLastUsername();
 
+        $vk_url = "https://oauth.vk.com/authorize?client_id=5069614&scope=1&redirect_uri=" . $this->generateUrl('vk_login',[],true) . "&response_type=code";
+        $fb_url = "https://www.facebook.com/dialog/oauth?client_id=1707370132827740&redirect_uri=" . $this->generateUrl('fb_login',[],true) . "&response_type=code&scope=public_profile";
         $parameters = array(
             'last_username' => $lastUsername,
             'error' => $error,
+            'vk_url' => $vk_url,
+            'fb_url' => $fb_url,
         );
 
         return $this->render('@Naidusvoe/login.html.twig', $parameters);

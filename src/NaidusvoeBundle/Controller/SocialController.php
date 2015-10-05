@@ -38,7 +38,7 @@ class SocialController extends Controller {
             }
 
             $token = new UsernamePasswordToken($user, null, "secured_area", $user->getRoles());
-            $this->get("security.context")->setToken($token);
+            $this->get('security.token_storage')->setToken($token);
             $event = new InteractiveLoginEvent($request, $token);
             $this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
 
@@ -76,7 +76,7 @@ class SocialController extends Controller {
             }
 
             $token = new UsernamePasswordToken($user, null, "secured_area", $user->getRoles());
-            $this->get("security.context")->setToken($token);
+            $this->get('security.token_storage')->setToken($token);
             $event = new InteractiveLoginEvent($request, $token);
             $this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
 
@@ -105,7 +105,7 @@ class SocialController extends Controller {
         $user = User::addUser($em, $this->get('security.encoder_factory'), $parameters);
 
         $token = new UsernamePasswordToken($user, null, "secured_area", $user->getRoles());
-        $this->get("security.context")->setToken($token);
+        $this->get('security.token_storage')->setToken($token);
         $event = new InteractiveLoginEvent($request, $token);
         $this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
 

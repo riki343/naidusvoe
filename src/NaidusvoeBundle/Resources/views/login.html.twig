@@ -36,7 +36,7 @@
                     <div class="col-xs-4">
                         <p>[[ 'VK_HEADER' | translate ]]</p>
                         <div class="btn-group">
-                            <a href="https://oauth.vk.com/authorize?client_id=5069614&scope=1&redirect_uri=http://127.0.0.1:8000/login/vk_login&response_type=code" class="btn btn-primary">
+                            <a href="{{ vk_url }}" class="btn btn-primary">
                                 Vkontakte
                             </a>
                             <a></a>
@@ -45,7 +45,7 @@
                     <div class="col-xs-offset-4 col-xs-4">
                         <p>[[ 'FACEBOOK_HEADER' | translate ]]</p>
                         <div class="btn-group">
-                            <a href=" https://www.facebook.com/dialog/oauth?client_id=1707370132827740&redirect_uri=http://127.0.0.1:8000/login/fb_login&response_type=code&scope=public_profile" class="btn btn-primary">
+                            <a href="{{ fb_url }}" class="btn btn-primary">
                                 Facebook
                             </a>
                         </div>
