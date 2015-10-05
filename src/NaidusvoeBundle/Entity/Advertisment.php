@@ -172,6 +172,12 @@ class Advertisment
     private $city;
 
     /**
+     * @var string
+     * @ORM\Column(name="region", type="string", length=255, nullable=true)
+     */
+    private $region;
+
+    /**
      * @var \DateTime
      * @ORM\Column(name="urgent", type="datetime", nullable=true)
      */
@@ -214,6 +220,7 @@ class Advertisment
             'advTop' => $this->getCategoryTop(),
             'urgent' => $this->urgent,
             'city' => $this->city,
+            'region' => $this->region,
         );
     }
 
@@ -251,8 +258,6 @@ class Advertisment
         $adv->setCategoryTop($data->advOnTop);
         $adv->setColorHighlight($data->advColor);
 
-        $em->persist($adv);
-        $em->flush();
         return $adv;
     }
 
@@ -280,8 +285,6 @@ class Advertisment
     /**
      * @param EntityManager $em
      * @param int|null $filter
-     * @param int $limit
-     * @param int $offset
      * @param int $type_id
      * @return array
      */
@@ -892,5 +895,28 @@ class Advertisment
     public function getUrgent()
     {
         return $this->urgent;
+    }
+
+    /**
+     * Set region
+     *
+     * @param string $region
+     * @return Advertisment
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * Get region
+     *
+     * @return string 
+     */
+    public function getRegion()
+    {
+        return $this->region;
     }
 }

@@ -1,159 +1,148 @@
-<div ng-init="getAdv();">
-    <ul class="breadcrumb" ng-if="!spinner">
-        <li>
-            <a ng-href="/found">
-                Знайшов | Загубив
-            </a>
-        </li>
-        <li class="active">
-            [[ adv.title ]]
-        </li>
-    </ul>
-
+<div ng-controller="foundController as found" ng-init="getAdv();">
     <div class="row" ng-if="spinner">
         <div class="col-xs-12 text-center" style="padding-top: 150px;">
             <div class="center-block whirly"></div>
         </div>
     </div>
 
-    <div class="row" ng-if="!spinner">
-        <div class="col-xs-3 col-sm-3">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h5 class="text-info hidden-xs" align="center">
-                        Клікніть для збільшення зображення
-                    </h5>
+    <div id="content">
+        <div class="ogol-box">
+
+            <div class="face">
+                <p class="name">[[ ::advUser.username ]]</p>
+                <div class="p-photo">
+                    <img ng-src="[[ ::advUser.avatar ]]" alt="[[ ::advUser.username ]]">
                 </div>
-                <div class="col-md-12 col-xs-12" ng-repeat="image in adv.attachments" style="margin-bottom: 10px;">
-                    <a ng-href="[[ image.image ]]" rel="lightbox" data-lightbox="someimage">
-                        <img class="img-responsive img-thumbnail" ng-src="[[ image.image ]]" alt="image"/>
+
+                <div class="zvazok">
+                    <a data-target="#send_new_message" data-toggle="modal" class="send-mess" style="cursor: pointer;">
+                        [[ 'BUTTON_WRITE_MESSAGE' | translate ]]
+                    </a>
+                    <a class="add-frend" ng-click="addToFav();" style="cursor: pointer;">
+                        [[ 'BUTTON_ADD_TO_FAV' | translate ]]
                     </a>
                 </div>
-            </div>
-        </div>
-        <div class="col-xs-9 col-sm-6">
-            <div class="page-header" style="margin-top: 10px;">
-                <h4>[[ adv.title ]]</h4>
+
+                <div class="reiting">
+                    <ul>
+                        <li class="vote" ng-class="{ 'none': advUser.rating < 1 }"></li>
+                        <li class="vote" ng-class="{ 'none': advUser.rating < 2 }"></li>
+                        <li class="vote" ng-class="{ 'none': advUser.rating < 3 }"></li>
+                        <li class="vote" ng-class="{ 'none': advUser.rating < 4 }"></li>
+                        <li class="vote" ng-class="{ 'none': advUser.rating < 5 }"></li>
+                    </ul>
+                    <p>
+                        [[ 'LABEL_RATING' | translate ]]
+                        <span>[[ ::advUser.rating ]]</span>
+                    </p>
+                    <p>Голосів: <span>4</span></p>
+                </div>
+
+                <p class="connect">
+                    [[ 'LABEL_CONTACT_PERSON' | translate ]]<br>
+                    <span>[[ ::adv.contactPerson ]]</span>
+                </p>
+                <p class="connect">
+                    Email: <br>
+                    <span>[[ ::adv.email ]]</span>
+                </p>
+                <p class="connect">
+                    [[ 'LABEL_MOBILE_PHONE' | translate ]]<br>
+                    <span>[[ ::adv.telephoneNumber ]]</span>
+                </p>
+                <p class="connect" ng-if="adv.skype">
+                    Skype: <br>
+                    <span>[[ ::adv.skype ]]</span>
+                </p>
+
             </div>
 
-            <div class="row" ng-if="notifications.visible">
-                <div class="col-xs-12 fade in" style="margin-top: 10px;">
-                    <div class="alert" ng-class="notifications.type">
-                        <p>[[ notifications.body ]]</p><br/>
-                        <button type="button" class="btn btn-default" ng-click="notifications.visible = false;">
-                            Закрити
-                        </button>
-                    </div>
+            <div class="ogolosh">
+                <div class="ogol-header">
+                    <h1 class="zirka">[[ ::adv.title ]]</h1>
+                    <p class="add-date">Додане: <span id="time">14:03</span><span id="date"> 02.09.2015</span></p>
+                </div>
+                <div class="gallery">
+                    <ul class="photo">
+                        <li id="big-photo">
+                            <img ng-src="[[ found.selectedImage.image ]]" alt="[[ ::adv.title ]]">
+                            <ul>
+                                <li id="prev-1" ng-repeat="image in adv.attachments"
+                                    style="cursor: pointer;"
+                                    ng-click="found.selectedImage = image;">
+                                    <img ng-src="[[ ::image.image ]]" alt="[[ ::adv.title ]]">
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div id="tsina">
+                    <p>
+                        <span>[[ 'LABEL_PRICE' | translate ]]</span>
+                        <span>[[ adv.price + ' ' + adv.priceType.name ]]</span>
+                    </p>
+                </div>
+
+                <div id="opys">
+                    <p>[[ ::adv.description ]]</p>
+                </div>
+
+                <div class="ogolosh-info">
+                    <p>
+                        [[ 'LABEL_CATEGORY' | translate ]] <br>
+                        <span>[[ ::adv.category.name | translate ]]</span>
+                    </p>
+                    <p>
+                        [[ 'LABEL_SUB_CATEGORY' | translate ]] <br>
+                        <span>[[ ::adv.subCategory.name ]]</span>
+                    </p>
+                </div>
+                <div class="ogolosh-info">
+                    <p>
+                        [[ 'LABEL_REGION' | translate ]] <br>
+                        <span>[[ ::adv.region ]]</span>
+                    </p>
+                    <p>
+                        [[ 'LABEL_CITY' | translate ]] <br>
+                        <span>[[ ::adv.city ]]</span>
+                    </p>
                 </div>
             </div>
 
-            <p style="white-space: pre-line; font-size: 16px;">
-                <b>Опис</b>:
-                [[ adv.description ]]
-            </p>
-
-            <div class="row">
-                <div class="col-xs-12">
-                    <h3 class="bg-info" align="center" style="padding: 15px;">
-                        <b>Ціна</b>: [[ adv.price + ' ' + adv.priceType.name ]].
-                    </h3>
-                </div>
-            </div>
-
-            <table class="table" style="margin-top: 20px;">
-                <tbody class="table-striped table-hover">
-                <tr>
-                    <td><b>Категорія</b></td>
-                    <td>[[ adv.category.name ]]</td>
-                </tr>
-                <tr>
-                    <td><b>Під-категорія</b></td>
-                    <td>[[ adv.subCategory.name ]]</td>
-                </tr>
-                <tr>
-                    <td><b>Контактна персона</b></td>
-                    <td>[[ adv.contactPerson ]]</td>
-                </tr>
-                <tr>
-                    <td><b>email</b></td>
-                    <td>[[ adv.email ]]</td>
-                </tr>
-                <tr>
-                    <td><b>Мобільний телефон</b></td>
-                    <td>[[ adv.telephoneNumber ]]</td>
-                </tr>
-                <tr ng-if="adv.skype">
-                    <td><b>Skype</b></td>
-                    <td>[[ adv.skype ]]</td>
-                </tr>
-                </tbody>
-            </table>
-
-        </div>
-        <div class="col-xs-12 col-sm-3">
-            <div class="page-header" style="margin-top: 10px;">
-                <h4 align="center">Продавець</h4>
-            </div>
-            <div class="img-thumbnail" style="width: 100%; padding: 0;">
-                <img ng-src="[[ advUser.avatar ]]" alt="user" class="img-responsive" />
-                <hr style="margin: 0;" />
-                <h4 class="bg-warning" align="center" style="padding: 10px; margin: 0;">
-                    [[ advUser.username ]]
-                </h4>
-                <h5 ng-class="{ 'bg-danger': advUser.rating < 0, 'bg-info': advUser.rating == 0, 'bg-success': advUser.rating > 0 }"
-                    style="padding: 10px; margin: 0;">
-                    Рейтинг: [[ advUser.rating ]]
-                </h5>
-            </div>
-            <div class="btn-group btn-group-vertical"
-                 style="width: 100%; margin-top: 5px;">
-                <!--ng-if="(user) && (user.id != adv.userID);"-->
-                <button class="btn btn-default btn-primary" data-target="#send_new_message"
-                        data-toggle="modal" style="white-space: normal;">
-                    <span class="glyphicon glyphicon-envelope"></span>
-                    Написати повідомлення
-                </button>
-                <button class="btn btn-default btn-warning"
-                        ng-click="addToFav();" style="white-space: normal;">
-                    <span class="glyphicon glyphicon-star-empty"></span>
-                    Додати до обраних
-                </button>
-            </div>
         </div>
     </div>
-</div>
 
-<!-- Начало модального окна отправки нового сообщения -->
-<div class="modal fade" id="send_new_message" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header label-primary">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" style="color: #f5f5f5;">
-                    Відправити повідомлення
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-offset-1 col-md-10 col-xs-offset-1 col-xs-10">
-                        <form class="form-horizontal">
-                            <div class="form-group">
-                                <label style="width: 100%;">
-                                    Повідомлення:
-                                    <textarea rows="10" ng-model="message" style="resize: vertical;" class="form-control"></textarea>
-                                </label>
-                            </div>
-                        </form>
-                    </div>
+    <!-- Начало модального окна отправки нового сообщения -->
+    <div class="modal fade" id="send_new_message" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header label-primary">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">
+                        [[ 'SEND_MESSAGE_HEADER' | translate ]]
+                    </h4>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <div class="btn-group">
-                    <a class="btn btn-primary" ng-click="sendNewMessage(message);">Відправити</a>
-                    <a class="btn btn-default" data-dismiss="modal">Закрити</a>
+                <div class="modal-body">
+                    <form novalidate class="modal-form">
+                        <label for="send-message-textarea">
+                            [[ 'SEND_MESSAGE_HEADER' | translate ]]
+                        </label>
+                        <textarea id="send-message-textarea" rows="10" ng-model="message" style="resize: vertical;" class="form-control"></textarea>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <a class="btn" ng-click="sendNewMessage(message);">
+                            [[ 'BUTTON_SEND_MESSAGE' | translate ]]
+                        </a>
+                        <a class="btn" data-dismiss="modal">
+                            [[ 'BUTTON_CLOSE' | translate ]]
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Конец модального окна отправки нового сообщения -->
 </div>
-<!-- Конец модального окна отправки нового сообщения -->
+

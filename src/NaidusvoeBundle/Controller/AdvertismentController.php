@@ -32,15 +32,28 @@ class AdvertismentController extends Controller
         $categories = Functions::arrayToJson($em->getRepository('NaidusvoeBundle:AdvertismentCategory')->findAll());
         $priceTypes = Functions::arrayToJson($em->getRepository('NaidusvoeBundle:PriceType')->findAll());
         $advTypes = Functions::arrayToJson($em->getRepository('NaidusvoeBundle:AdvertismentType')->findAll());
-        $info = array(
+        $info = [
             'advTypes' => $advTypes,
             'categories' => $categories,
             'priceTypes' => $priceTypes,
-            'contactPerson' => $user->getName() . ' ' . $user->getSurname(),
-            'email' => $user->getEmail(),
-            'telephoneNumber' => $user->getTelephoneNumber(),
-            'skype' => $user->getSkype(),
-        );
+        ];
+
+        if ($user !== null) {
+            $info['contactPerson']      = $user->getName() . ' ' . $user->getSurname();
+            $info['email']              = $user->getEmail();
+            $info['telephoneNumber']    = $user->getTelephoneNumber();
+            $info['skype']              = $user->getSkype();
+            $info['city']               = $user->getCity();
+            $info['region']             = ($user->getRegion() !== null)
+                ? $user->getRegion()->getInArray() : "";
+        } else {
+            $info['contactPerson']      = "";
+            $info['email']              = "";
+            $info['telephoneNumber']    = "";
+            $info['skype']              = "";
+            $info['region']             = "";
+            $info['city']               = "";
+        }
 
         return new JsonResponse($info);
     }
@@ -53,13 +66,21 @@ class AdvertismentController extends Controller
      */
     public function addNewAdvAction(Request $request) {
         $data = json_decode($request->getContent(), true);
-        $data = (object) $data['adv'];
+        $data = (object) $data;
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
         /** @var User $user */
         $user = $this->getUser();
         $adv = Advertisment::addNewAdv($em, $data, $user->getId());
-        Attachment::uploadImages($em, $data->photos, $adv->getId());
+        $em->persist($adv);
+        $em->flush($adv);
+
+        $attachments = Attachment::uploadImages($em, $data->photos, $adv);
+        foreach ($attachments as $item) {
+            $em->persist($item);
+        }
+
+        $em->flush();
         return new JsonResponse(($adv) ? $adv->getInArray() : null);
     }
 
@@ -90,7 +111,7 @@ class AdvertismentController extends Controller
 
         $advs = Advertisment::getAdvs($em, $filter, 1);
         $paginator = new Paginator();
-        $pager = $paginator->getJsonResponse($advs, $request, 9);
+        $pager = $paginator->getJsonResponse($advs, $request, 10);
 
         $categories = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')
             ->findBy(array('typeID' => 1));

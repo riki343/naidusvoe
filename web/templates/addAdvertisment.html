@@ -1,126 +1,124 @@
-<form name="addAdvForm" ng-init="getAdvDetails();">
-    <label>
-        Заголовок:
-        <input type="text" ng-minlength="3" ng-maxlength="67" name="title" ng-model="addAdv.title" required />
-    </label><br/>
+<div id="block-one-form" ng-controller="advertismentController as adv" ng-init="getAdvDetails();">
+    <h1 class="podaty">
+        Подати оголошення
+    </h1>
+    <form name="addAdvForm" id="pod-og" novalidate ng-submit="addNewAdv(addAdv);">
+        <ul class="pod-form">
+            <li class="value"><p class="obov">Заголовок</p></li>
+            <li class="input">
+                <input type="text"
+                       name="title"
+                       ng-minlength="3"
+                       ng-maxlength="67"
+                       ng-model="addAdv.title"
+                       required
+                       style="cursor: auto;" />
+            </li>
 
-    <label>
-        Тип:
-        <select name="category" ng-model="addAdv.typeID" ng-change="categories = selectedType(addAdv.typeID)" required>
-            <option ng-repeat="type in advTypes" value="[[ type.id ]]">[[ type.name ]]</option>
-        </select>
-    </label><br/>
+            <li class="value"><p class="obov">Тип</p></li>
+            <li class="input">
+                <select ng-model="addAdv.typeID"
+                        ng-change="subCategories = selectedCategory(addAdv.categoryID)"
+                        required>
+                    <option ng-repeat="type in advTypes" value="[[ ::type.id ]]">
+                        [[ ::type.name | translate ]]
+                    </option>
+                </select>
+            </li>
 
-    <label>
-        Категорія:
-        <select name="category" ng-model="addAdv.categoryID" ng-change="subCategories = selectedCategory(addAdv.categoryID)" required>
-            <option ng-repeat="category in categories" value="[[ category.id ]]">[[ category.name ]]</option>
-        </select>
-    </label><br/>
+            <li class="value"><p class="obov">Розділ</p></li>
+            <li class="input">
+                <select ng-model="addAdv.categoryID"
+                        ng-change="subCategories = selectedCategory(addAdv.categoryID)"
+                        required>
+                    <option ng-repeat="category in categories" value="[[ ::category.id ]]">
+                        [[ ::category.name | translate ]]
+                    </option>
+                </select>
+            </li>
 
-    <label ng-if="(subCategories) && (subCategories.length > 0)">
-        Під-категорія:
-        <select name="category" ng-init="addAdv.subCategoryID = subCategories[0].id" ng-model="addAdv.subCategoryID" required>
-            <option ng-repeat="category in subCategories" value="[[ category.id ]]">[[ category.name ]]</option>
-        </select>
-    </label><br/>
+            <li class="value"><p class="obov">Рубрика</p></li>
+            <li class="input">
+                <select name="category"
+                        ng-init="addAdv.subCategoryID = subCategories[0].id"
+                        ng-model="addAdv.subCategoryID"
+                        required>
+                    <option ng-repeat="category in subCategories" value="[[ ::category.id ]]">
+                        [[ ::category.name | translate ]]
+                    </option>
+                </select>
+            </li>
 
-    <label>
-        Опис:
-        <textarea ng-minlength="50" ng-maxlength="4000" ng-model="addAdv.description" required></textarea>
-    </label><br/>
+            <li class="value"><p class="obov">Опис</p></li>
+            <li class="input text">
+                <textarea ng-minlength="50" ng-maxlength="4000" ng-model="addAdv.description" required></textarea>
+            </li>
 
-    <label>
-        Фотографії [[ addAdv.photos.length ]] / 6:
-    </label><br/>
+            <li class="value"><p class="obov">Фотографії</p></li>
+            <li class="input photo" style="margin-bottom: 20px;">
+                <adv-image ng-repeat="photo in addAdv.photos" file="photo" image="photo.image"></adv-image>
+            </li>
 
-    <div class="row">
-        <div class="col-md-2 col-xs-4">
-            <input style="position: absolute; width: 85%; height: 100%; opacity: 0;" class="upload_image" id="upload_image_1" type="file"/>
-            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" class="input-hidden">
-                <img src="bundles/naidusvoe/img/plus1.png" class="img-responsive" id="upload_image_1_img"/>
-            </div>
-        </div>
-        <div class="col-md-2 col-xs-4">
-            <input style="position: absolute; width: 85%; height: 100%; opacity: 0;" class="upload_image" id="upload_image_2" type="file"/>
-            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(2);" ng-if="addAdv.photos.length > 0">
-                <img src="bundles/naidusvoe/img/plus1.png" class="img-responsive" id="upload_image_2_img"/>
-            </div>
-        </div>
-        <div class="col-md-2 col-xs-4">
-            <input style="position: absolute; width: 85%; height: 100%; opacity: 0;" class="upload_image" id="upload_image_3" type="file"/>
-            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(3);" ng-if="addAdv.photos.length > 1">
-                <img src="bundles/naidusvoe/img/plus1.png" class="img-responsive" id="upload_image_3_img"/>
-            </div>
-        </div>
-        <div class="col-md-2 col-xs-4">
-            <input style="position: absolute; width: 85%; height: 100%; opacity: 0;" class="upload_image" id="upload_image_4" type="file"/>
-            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(4);" ng-if="addAdv.photos.length > 2">
-                <img src="bundles/naidusvoe/img/plus1.png" class="img-responsive" id="upload_image_4_img"/>
-            </div>
-        </div>
-        <div class="col-md-2 col-xs-4">
-            <input style="position: absolute; width: 85%; height: 100%; opacity: 0;" class="upload_image" id="upload_image_5" type="file"/>
-            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(5);" ng-if="addAdv.photos.length > 3">
-                <img src="bundles/naidusvoe/img/plus1.png" class="img-responsive" id="upload_image_5_img"/>
-            </div>
-        </div>
-        <div class="col-md-2 col-xs-4">
-            <input style="position: absolute; width: 85%; height: 100%; opacity: 0;" class="upload_image" id="upload_image_6" type="file"/>
-            <div style="background-color: #f5f5f5; box-shadow: 0 0 5px 0 gray;" ng-click="uploadImage(6);" ng-if="addAdv.photos.length > 4">
-                <img src="bundles/naidusvoe/img/plus1.png" class="img-responsive" id="upload_image_6_img"/>
-            </div>
-        </div>
-    </div>
+            <li class="value"><p class="obov">Ціна</p></li>
+            <li class="input">
+                <input type="text" name="price" ng-model="addAdv.price" required />
+            </li>
 
-    <label>
-        Ціна:
-        <input type="number" name="price" ng-model="addAdv.price" required />
-        <select name="priceType" ng-model="addAdv.priceType" required>
-            <option ng-repeat="type in priceTypes" value="[[ type.id ]]">[[ type.name ]]</option>
-        </select>
-    </label><br/>
+            <li class="value"><p class="obov">Валюта</p></li>
+            <li class="input">
+                <select name="priceType" ng-model="addAdv.priceType" required>
+                    <option ng-repeat="type in priceTypes" value="[[ type.id ]]">[[ type.name ]]</option>
+                </select>
+            </li>
 
-    <label>
-        Контактна особа:
-        <input type="text" name="contactPerson" ng-model="addAdv.contactPerson" required />
-    </label><br/>
 
-    <label>
-        Email:
-        <input type="email" name="email" ng-model="addAdv.email" required />
-    </label><br/>
+            <li class="line"></li>
 
-    <label>
-        Номер телефону:
-        <input type="tel" name="telephone" ng-model="addAdv.telephoneNumber" required />
-    </label><br/>
+            <li class="zagol">
+                <h2>Ваші контактні дані</h2>
+            </li>
 
-    <label>
-        Skype:
-        <input type="text" name="skype" ng-maxlength="50" ng-model="addAdv.skype" />
-    </label><br/>
+            <li class="value"><p class="obov">Контактна особа</p></li>
+            <li class="input"><input type="text" name="contactPerson" ng-model="addAdv.contactPerson" required></li>
 
-    <div class="row">
-        <div class="col-md-2 col-xs-4">
-            <h4>Послуга 1</h4>
-            <input type="checkbox" ng-model="addAdv.option1" name="option1"/>
-        </div>
-        <div class="col-md-2 col-xs-4">
-            <h4>Послуга 2</h4>
-            <input type="checkbox" ng-model="addAdv.option2" name="option2"/>
-        </div>
-        <div class="col-md-2 col-xs-4">
-            <h4>Послуга 3</h4>
-            <input type="checkbox" ng-model="addAdv.option3" name="option3"/>
-        </div>
-        <div class="col-md-2 col-xs-4">
-            <h4>Послуга 4</h4>
-            <input type="checkbox" ng-model="addAdv.option4" name="option4"/>
-        </div>
+            <li class="value"><p class="obov">Область</p></li>
+            <li class="input"><input type="text" name="contactPerson" ng-model="addAdv.region" required></li>
 
-        <div class="col-md-2 col-xs-4">
-            <a class="btn btn-success" ng-class="{'disabled': !addAdvForm.$valid }" ng-click="addNewAdv(addAdv);">Опублікувати</a>
-        </div>
-    </div>
-</form>
+            <li class="value"><p class="obov">Населений пункт</p></li>
+            <li class="input"><input type="text" name="contactPerson" ng-model="addAdv.city" required></li>
+
+            <li class="value"><p class="obov">E-mail адреса</p></li>
+            <li class="input">
+                <input type="text" name="email" ng-model="addAdv.email" required>
+                <div style="float: left; width: 100%;">
+                    <input type="checkbox" id="no-mail">
+                    <label for="no-mail">Не отримувати відповіді на E-mail</label>
+                </div>
+            </li>
+
+            <li class="value"><p>Номер телефону:</p></li>
+            <li class="input"> <input type="text" name="telephone" ng-model="addAdv.telephoneNumber" /></li>
+
+            <li class="value"><p>Skype</p></li>
+            <li class="input"><input type="text" name="skype" ng-maxlength="50" ng-model="addAdv.skype" /></li>
+
+            <li class="line"></li>
+
+            <li class="zagol">
+                <h2>Згода на обробку даних</h2>
+            </li>
+
+            <li class="input sto">
+                <input type="checkbox" ng-model="addAdv.agreement" id="zgoda" required>
+                <p>Я погоджуюся з правилами викростання сервісу, а також з наданням даних у znaidusvoe.com. Я підтверджую свє повноліття і відповідальність за розміщення об’яви.</p>
+            </li>
+
+            <li class="line"></li>
+
+            <li class="input sto">
+                <button type="submit" ng-disabled="!addAdvForm.$valid" class="disabled">Надіслати</button>
+                <a class="pereglyad" href="#">Попередній перегляд</a>
+            </li>
+        </ul>
+    </form>
+</div>

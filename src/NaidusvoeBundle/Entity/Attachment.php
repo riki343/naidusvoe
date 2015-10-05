@@ -4,8 +4,7 @@ namespace NaidusvoeBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Attachment
@@ -24,8 +23,8 @@ class Attachment
     private $id;
 
     /**
-     * @var resource
-     * @ORM\Column(name="image", type="blob")
+     * @var string
+     * @ORM\Column(name="image", type="string", nullable=true)
      */
     private $image;
 
@@ -45,7 +44,7 @@ class Attachment
     public function getInArray() {
         return array(
             'id' => $this->getId(),
-            'image' => stream_get_contents($this->getImage()),
+            'image' => $this->getImage(),
             'advID' => $this->getAdvertismentID(),
         );
     }
@@ -53,22 +52,36 @@ class Attachment
     /**
      * @param EntityManager $em
      * @param array $imagesArray
-     * @param int $advID
+     * @param Advertisment $adv
      * @return array
      */
-    public static function uploadImages(EntityManager $em, $imagesArray, $advID) {
+    public static function uploadImages(EntityManager $em, $imagesArray, $adv) {
+        $basePath = 'uploads/' . $adv->getId();
         $uploadedImages = array();
+        $adv = $em->getRepository('NaidusvoeBundle:Advertisment')->find($adv->getId());
+        $fs = new Filesystem();
+
+        $counter = 1;
         if ($imagesArray) {
             foreach ($imagesArray as $image) {
-                $attachment = new Attachment();
-                $adv = $em->getRepository('NaidusvoeBundle:Advertisment')->find($advID);
-                $attachment->setAdvertisment($adv);
-                $attachment->setImage($image['img']);
-                $em->persist($attachment);
-                $uploadedImages[] = $attachment;
+                $image = (object)$image;
+                if ($image->image !== null) {
+                    $imagePath = $basePath . '/' . $counter . '.jpg';
+                    $image = explode(',', $image->image);
+                    $image = base64_decode($image[1]);
+                    $fs->dumpFile($imagePath, $image);
+
+                    $attachment = new Attachment();
+                    $attachment->setAdvertisment($adv);
+                    $attachment->setImage($imagePath);
+                    $em->persist($attachment);
+
+                    $uploadedImages[] = $attachment;
+                    $counter++;
+                }
             }
-            $em->flush();
         }
+
         return $uploadedImages;
     }
 

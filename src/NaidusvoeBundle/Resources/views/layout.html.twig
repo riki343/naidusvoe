@@ -12,6 +12,7 @@
 
     {% block stylesheets %}
         {% stylesheets
+            'css/bootstrap.css'
             'css/style.css'
             filter='uglifycss' filter='cssrewrite' output='css/compiled/all.css'
         %}
@@ -42,8 +43,10 @@
             'js/custom/Service/riki34.angular.spinner.js'
             'js/custom/Directive/riki34.paginator.directive.js'
             'js/custom/appCore.js'
+            'js/custom/Model/advertisement.model.js'
             'js/custom/Service/naidusvoe.settings.service.js'
             'js/custom/Directive/naidusvoe.adv.directive.js'
+            'js/custom/Directive/naidusvoe.add.file.directive.js'
             'js/custom/appController.js'
             'js/custom/indexController.js'
             'js/custom/Controller/tradingController.js'

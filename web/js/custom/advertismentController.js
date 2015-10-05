@@ -1,39 +1,18 @@
 (function (angular) {
     angular.module('NaiduSvoe').controller('advertismentController', advertismentController);
 
-    advertismentController.$inject = ['$scope', '$http', '$routeParams'];
+    advertismentController.$inject = ['$scope', '$http', 'Advertisement'];
 
-    function advertismentController($scope, $http, $routeParams) {
-        $scope.addAdv = {
-            'title': null,
-            'description': null,
-            'categoryID': null,
-            'subCategoryID': null,
-            'typeID': null,
-            'photos': [],
-            'price': null,
-            'priceType': 1,
-            'contactPerson': null,
-            'email': null,
-            'telephoneNumber': null,
-            'skype': null,
-            'advOnMain': false,
-            'advInBlock': false,
-            'advColor': false,
-            'advOnTop': false
-        };
+    function advertismentController($scope, $http, Advertisement) {
+        $scope.addAdv = new Advertisement();
 
         $scope.subCategories = null;
-        $scope.priceTypes = null;
-        $scope.categories = null;
-        $scope.advTypes = null;
-
-        $scope.urlGetAdvDetails = URLS.getAdvDetails;
-        $scope.urlAddAdv = URLS.addAdv;
-
+        $scope.priceTypes = [];
+        $scope.categories = [];
+        $scope.advTypes = [];
 
         $scope.getAdvDetails = function () {
-            $http.get($scope.urlGetAdvDetails)
+            $http.get(Routing.generate('naidusvoe_get_adv_info'))
                 .success(function (response) {
                     $scope.advTypes = response.advTypes;
                     $scope.categories = response.categories;
@@ -42,18 +21,20 @@
                     $scope.addAdv.email = response.email;
                     $scope.addAdv.telephoneNumber = response.telephoneNumber;
                     $scope.addAdv.skype = response.skype;
+                    $scope.addAdv.region = response.region;
+                    $scope.addAdv.city = response.city;
                 }
             );
         };
 
+        /** @param {Advertisement} adv */
         $scope.addNewAdv = function (adv) {
-            $http.post($scope.urlAddAdv, { 'adv': adv })
-                .success(function (response) {
-                    if (response) {
-                        location.href = '/adv/' + response.type.enName + '/' + response.id;
-                    }
+            var promise = adv.save();
+            promise.then(function (response) {
+                if (response) {
+                    location.href = '/adv/' + response.type.slug + '/' + response.id;
                 }
-            );
+            });
         };
 
         $scope.selectedCategory = function (id) {
@@ -76,46 +57,6 @@
             }
         };
 
-        function readURL(input, id) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#' + id + '_img').attr('src', e.target.result);
-                    var index = -1;
-                    for (var i = 0; i < $scope.addAdv.photos.length; i++) {
-                        if ($scope.addAdv.photos[i].id == id) {
-                            index = i;
-                            break;
-                        }
-                    }
-                    if (index == -1) {
-                        $scope.$apply(function () {
-                            $scope.addAdv.photos.push({ 'img': e.target.result, 'id': id });
-                        });
-                    } else {
-                        $scope.$apply(function () {
-                            $scope.addAdv.photos[index].img = e.target.result;
-                        });
-                    }
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        $scope.uploadImage = function (num) {
-            switch (num) {
-                case 1: $('#upload_image_1').click(); break;
-                case 2: $('#upload_image_2').click(); break;
-                case 3: $('#upload_image_3').click(); break;
-                case 4: $('#upload_image_4').click(); break;
-                case 5: $('#upload_image_5').click(); break;
-                case 6: $('#upload_image_6').click(); break;
-            }
-        };
-
-        $(".upload_image").change(function(){
-            readURL(this, $(this).attr('id'));
-        });
     }
 
 })(angular);

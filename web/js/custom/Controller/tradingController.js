@@ -1,12 +1,20 @@
 (function (angular) {
     angular.module('NaiduSvoe').controller('tradingController', tradingController);
 
-    tradingController.$inject = ['$scope', '$http', '$routeParams', '$sce', 'spinner', 'settingsService'];
+    tradingController.$inject = [
+        '$scope',
+        '$http',
+        '$routeParams',
+        'spinner',
+        'settingsService',
+        'Advertisement'
+    ];
 
-    function tradingController ($scope, $http, $routeParams, $sce, spinner, settings) {
+    function tradingController ($scope, $http, $routeParams, spinner, settings, Advertisement) {
         var self = this;
 
         this.advsView = settings.getAdsView();
+        this.selectedImage = null;
 
         this.changeAdsView = function(view) {
             settings.setAdsView(view);
@@ -43,12 +51,6 @@
                 $scope.advs = response.advs.items;
                 $scope.data = response.advs.data;
                 $scope.categories = response.categories;
-
-                for (var i = 0; i < $scope.advs.length; i++) {
-                    if ($scope.advs[i].attachments.length > 0) {
-                        $scope.advs[i].image = $sce.trustAsUrl($scope.advs[i].attachments[0].image);
-                    }
-                }
             });
         };
 
@@ -58,14 +60,13 @@
         };
 
         $scope.getAdv = function () {
-            $http.get(Routing.generate('get-adv', { 'adv_id': $scope.adv_id }))
-                .success(function (response) {
+            var promise = Advertisement.get($scope.adv_id);
+            promise.then(function (response) {
                     $scope.adv = response.adv;
                     $scope.advUser = response.user;
-                    $scope.advUser.avatar = $scope.asset + $scope.advUser.avatar;
-                    for (var i = 0; i < $scope.adv.attachments.length; i++) {
-                        $scope.adv.attachments[i].image = $sce.trustAsUrl($scope.adv.attachments[i].image);
-                    }
+                    $scope.advUser.avatar = '/' + $scope.advUser.avatar;
+
+                    self.selectedImage = $scope.adv.attachments[0];
                 }
             );
         };

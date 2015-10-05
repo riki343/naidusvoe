@@ -1,4 +1,4 @@
-<div ng-controller="tradingController as trade">
+<div ng-controller="tradingController as trade" ng-init="getAdvs();">
     <div id="block-one">
         <div id="kategory" class="prodam">
             <p><span>[[ 'BUTTON_TRADE_MAIN' | translate ]]</span>
@@ -63,44 +63,6 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="o-row yellow">
-                        <div class="o-cell photo">
-                            <img src="skoda.jpg">
-                        </div>
-                        <div class="o-cell info">
-                            <h2><a href="#">Skoda Octavia</a></h2>
-                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
-                            <h3><a href="#">Київ</a></h3>
-                        </div>
-                        <div class="o-cell price">
-                            <p>12000$</p>
-                            <ul class="reit">
-                                <li class="wote-n"></li>
-                                <li class="comment">
-                                    <a href="#"></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="o-row">
-                        <div class="o-cell photo">
-                            <img src="skoda.jpg">
-                        </div>
-                        <div class="o-cell info">
-                            <h2><a href="#">Skoda Octavia</a></h2>
-                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
-                            <h3><a href="#">Київ</a></h3>
-                        </div>
-                        <div class="o-cell price">
-                            <p>12000$</p>
-                            <ul class="reit">
-                                <li class="wote"></li>
-                                <li class="comment">
-                                    <a href="#"></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -118,122 +80,10 @@
                             </ul>
                         </div>
                     </div>
-
-                    <div class="o-row">
-                        <div class="o-cell date">
-                            <p><span class="date">Сьогодні</span>
-                                <span class="time">20:20</span></p>
-                        </div>
-                        <div class="o-cell photo">
-                            <img src="skoda.jpg">
-                        </div>
-                        <div class="o-cell info">
-                            <h2 class="term"><a href="#">Skoda Octavia</a></h2>
-                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
-                            <h3><a href="#">Київ</a></h3>
-                        </div>
-                        <div class="o-cell price">
-                            <p>12000$</p>
-                            <ul class="reit">
-                                <li class="wote"></li>
-                                <li class="comment">
-                                    <a href="#"></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="o-row yellow">
-                        <div class="o-cell date">
-                            <p><span class="date">Сьогодні</span>
-                                <span class="time">20:20</span></p>
-                        </div>
-                        <div class="o-cell photo">
-                            <img src="skoda.jpg">
-                        </div>
-                        <div class="o-cell info">
-                            <h2><a href="#">Skoda Octavia</a></h2>
-                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
-                            <h3><a href="#">Київ</a></h3>
-                        </div>
-                        <div class="o-cell price">
-                            <p>12000$</p>
-                            <ul class="reit">
-                                <li class="wote-n"></li>
-                                <li class="comment">
-                                    <a href="#"></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="o-row">
-                        <div class="o-cell date">
-                            <p><span class="date">Сьогодні</span>
-                                <span class="time">20:20</span></p>
-                        </div>
-                        <div class="o-cell photo">
-                            <img src="skoda.jpg">
-                        </div>
-                        <div class="o-cell info">
-                            <h2 class="term"><a href="#">Skoda Octavia</a></h2>
-                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
-                            <h3><a href="#">Київ</a></h3>
-                        </div>
-                        <div class="o-cell price">
-                            <p>12000$</p>
-                            <ul class="reit">
-                                <li class="wote"></li>
-                                <li class="comment">
-                                    <a href="#"></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="o-row yellow">
-                        <div class="o-cell date">
-                            <p><span class="date">Сьогодні</span>
-                                <span class="time">20:20</span></p>
-                        </div>
-                        <div class="o-cell photo">
-                            <img src="skoda.jpg">
-                        </div>
-                        <div class="o-cell info">
-                            <h2><a href="#">Skoda Octavia</a></h2>
-                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
-                            <h3><a href="#">Київ</a></h3>
-                        </div>
-                        <div class="o-cell price">
-                            <p>12000$</p>
-                            <ul class="reit">
-                                <li class="wote-n"></li>
-                                <li class="comment">
-                                    <a href="#"></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="o-row">
-                        <div class="o-cell date">
-                            <p><span class="date">Сьогодні</span>
-                                <span class="time">20:20</span></p>
-                        </div>
-                        <div class="o-cell photo">
-                            <img src="skoda.jpg">
-                        </div>
-                        <div class="o-cell info">
-                            <h2><a href="#">Skoda Octavia</a></h2>
-                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
-                            <h3><a href="#">Київ</a></h3>
-                        </div>
-                        <div class="o-cell price">
-                            <p>12000$</p>
-                            <ul class="reit">
-                                <li class="wote-n"></li>
-                                <li class="comment">
-                                    <a href="#"></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <advertisment ng-repeat="adv in advs" class="o-row"
+                                  advert="adv"
+                                  ng-class="{ 'yellow': adv.advColor == true }">
+                    </advertisment>
                 </div>
             </div>
         </div>

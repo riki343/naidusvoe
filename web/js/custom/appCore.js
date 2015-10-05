@@ -42,9 +42,8 @@
                         templateUrl: templates + 'cabinetFavorites.html',
                         controller: 'cabinetController'
                     })
-                    .when('/cabinet/addAdv', {
+                    .when('/add-adv', {
                         templateUrl: templates + 'addAdvertisment.html',
-                        controller: 'advertismentController'
                     })
                     .when('/trade', {
                         templateUrl: templates + 'trading.html',
