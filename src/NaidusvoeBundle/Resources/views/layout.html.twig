@@ -1,115 +1,95 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="NaiduSvoe">
+<html lang="ru" ng-app="NaiduSvoe">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="Vladislav Kosko & ">
-    <meta name="description" content="{% block description %} {% endblock %}">
+    <meta name="author" content="Vladislav Kosko">
+    <meta name="description" content="{% block description %}{% endblock %}">
     <title>{% block title %}Layout page{% endblock %}</title>
+
+    <base href="/">
+
     {% block stylesheets %}
-        <link href="{{ asset('bundles/naidusvoe/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ asset('bundles/naidusvoe/css/custom.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ asset('bundles/naidusvoe/css/lightbox.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ asset('bundles/naidusvoe/css/whirly.css') }}" rel="stylesheet" type="text/css">
+        {% stylesheets
+            'css/style.css'
+            filter='uglifycss' filter='cssrewrite' output='css/compiled/all.css'
+        %}
+            <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
+        {% endstylesheets %}
     {% endblock %}
 
-    <script src="{{ asset('bundles/naidusvoe/js/vendor/jQuery/jquery-2.1.3.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/vendor/jQuery/jquery-migrate-1.2.1.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/vendor/Bootstrap/bootstrap.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/vendor/AngularJS/angular.min.js') }}" type="text/javascript"></script>
+    {% block javascripts %}
+        <script type="text/javascript" language="JavaScript">
+            var LANG = "{{ app.session.get('lang') }}";
+        </script>
+
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', { 'callback': 'fos.Router.setData' }) }}"></script>
+
+        {% javascripts
+            'js/vendor/jQuery/jquery-2.1.3.js'
+            'js/vendor/jQuery/jquery-migrate-1.2.1.js'
+            'js/vendor/Bootstrap/bootstrap.min.js'
+            'js/vendor/AngularJS/angular.min.js'
+            'js/vendor/AngularJS/angular-route.min.js'
+            'js/vendor/AngularJS/angular-animate.min.js'
+            'js/vendor/AngularJS/angular-translate.js'
+            'js/vendor/AngularJS/angular-translate-loader-static-files.js'
+            'js/vendor/AngularJS/scrollglue.js'
+            'js/vendor/lightbox/lightbox.js'
+            'js/custom/riki34.module.js'
+            'js/custom/Service/riki34.angular.spinner.js'
+            'js/custom/Directive/riki34.paginator.directive.js'
+            'js/custom/appCore.js'
+            'js/custom/Service/naidusvoe.settings.service.js'
+            'js/custom/Directive/naidusvoe.adv.directive.js'
+            'js/custom/appController.js'
+            'js/custom/indexController.js'
+            'js/custom/Controller/tradingController.js'
+            'js/custom/Controller/giftController.js'
+            'js/custom/Controller/foundController.js'
+            'js/custom/cabinetController.js'
+            'js/custom/advertismentController.js'
+            'js/custom/testController.js'
+            filter='?uglifyjs2' output='js/compiled/all.js'
+        %}
+            <script defer src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+    {% endblock %}
 
     {% block base %}{% endblock %}
 </head>
 
 <body ng-controller="ApplicationController as app" ng-cloak>
-{% block nav %}
 
-{% endblock %}
+    <div id="wrapper">
+        <div class="body-box">
+            <div class="mova">
+                <ul>
+                    <li class="ukr">
+                        <a ng-click="switchLanguage('ua')" style="cursor: pointer;" title="Українською"></a>
+                    </li>
+                    <li class="ros">
+                        <a ng-click="switchLanguage('ru')" style="cursor: pointer;" title="Русский"></a>
+                    </li>
+                </ul>
+            </div>
+            {% block nav %}
 
-{% block body %}
+            {% endblock %}
 
-{% endblock %}
+            {% block body %}
 
-{% block footer %}
+            {% endblock %}
 
-{% endblock %}
+            {% block footer %}
 
-{% block javascripts %}
-    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-    <script src="{{ path('fos_js_routing_js', { 'callback': 'fos.Router.setData' }) }}"></script>
-    
-    <script src="{{ asset('bundles/naidusvoe/js/vendor/AngularJS/angular-route.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/vendor/AngularJS/angular-animate.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/vendor/AngularJS/angular-translate.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/vendor/AngularJS/angular-translate-loader-static-files.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/vendor/AngularJS/scrollglue.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/vendor/lightbox/lightbox.js') }}" type="text/javascript"></script>
+            {% endblock %}
+        </div>
+    </div>
 
-    <script src="{{ asset('bundles/naidusvoe/js/custom/riki34.module.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/custom/Service/riki34.angular.spinner.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/custom/Directive/riki34.paginator.directive.js') }}" type="text/javascript"></script>
-
-    <script src="{{ asset('bundles/naidusvoe/js/custom/appCore.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/custom/appController.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/custom/indexController.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/custom/tradingController.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/custom/giftController.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/custom/foundController.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/custom/cabinetController.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/custom/advertismentController.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/naidusvoe/js/custom/testController.js') }}" type="text/javascript"></script>
-
-    <script type="text/javascript" language="JavaScript">
-        var TEMPLATES = {
-            'index': "{{ asset('bundles/naidusvoe/templates/index.html') }}",
-            'trading': "{{ asset('bundles/naidusvoe/templates/trading.html') }}",
-            'tradingAdv': "{{ asset('bundles/naidusvoe/templates/tradingAdv.html') }}",
-            'gift': "{{ asset('bundles/naidusvoe/templates/gift.html') }}",
-            'giftAdv': "{{ asset('bundles/naidusvoe/templates/giftAdv.html') }}",
-            'found': "{{ asset('bundles/naidusvoe/templates/found.html') }}",
-            'foundAdv': "{{ asset('bundles/naidusvoe/templates/foundAdv.html') }}",
-            'cabinet': "{{ asset('bundles/naidusvoe/templates/cabinet.html') }}",
-            'cabinetMessages': "{{ asset('bundles/naidusvoe/templates/cabinetMessages.html') }}",
-            'cabinetSettings': "{{ asset('bundles/naidusvoe/templates/cabinetSettings.html') }}",
-            'cabinetFavorites': "{{ asset('bundles/naidusvoe/templates/cabinetFavorites.html') }}",
-            'cabinetConversation': "{{ asset('bundles/naidusvoe/templates/cabinetConversation.html') }}",
-            'addAdvertisment': "{{ asset('bundles/naidusvoe/templates/addAdvertisment.html') }}",
-            'additionalFeatures': "{{ asset('bundles/naidusvoe/templates/additionalFeatures.html') }}",
-        };
-
-        var URLS = {
-            'lightBoxPlugin': "",
-            'getAdvDetails': "{{ path('naidusvoe_get_adv_info') }}",
-            'addAdv': "{{ path('naidusvoe_add_adv') }}",
-            'getAdv': "{{ path('naidusvoe_get_adv', { 'adv_id': 'adv_id' }) }}",
-            'getFoundAdvs': "{{ path('naidusvoe_get_found_advs', { 'page_id': 'page_id', 'filter': 'category' }) }}",
-            'getGiftAdvs': "{{ path('naidusvoe_get_gift_advs', { 'page_id': 'page_id', 'filter': 'category' }) }}",
-            'addToFav': "{{ path('naidusvoe_add_fav', { 'adv_id': 'adv_id' }) }}",
-            'getUser': "{{ path('naidusvoe_get_user') }}",
-            'getUserAdvs': "{{ path('naidusvoe_get_user_advs') }}",
-            'deleteUserAdv': "{{ path('naidusvoe_delete_user_adv', { 'adv_id': 'adv_id' }) }}",
-            'getFavs': "{{ path('naidusvoe_user_get_favs') }}",
-            'deleteFav': "{{ path('naidusvoe_delete_fav', { 'fav_id': 'fav_id' }) }}",
-            'sendNewMessage': "{{ path('naidusvoe_send_new_message', { 'user_id': 'user_id', 'adv_id': 'adv_id' }) }}",
-            'getUserMessages': "{{ path('naidusvoe_get_user_messages') }}",
-            'getConversation': "{{ path('naidusvoe_get_conversation', { 'conv_id': 'conv_id' }) }}",
-            {% if app.user %}
-                'getInfo': "{{ path('naidusvoe_get_user_info') }}",
-                'saveInfo': "{{ path('naidusvoe_save_info', { 'user_id': app.user.id }) }}",
-                'changePass': "{{ path('naidusvoe_change_password', { 'user_id': app.user.id }) }}",
-                'changeEmail': "{{ path('naidusvoe_change_email', { 'user_id': app.user.id }) }}",
-                'saveEmailSettings': "{{ path('naidusvoe_save_email_notification_settings', { 'user_id': app.user.id }) }}",
-                'saveSmsSettings': "{{ path('naidusvoe_save_sms_notification_settings', { 'user_id': app.user.id }) }}",
-                'deleteAccount': "{{ path('naidusvoe_delete_account') }}",
-            {% endif %}
-            'asset': "{{ asset('') }}",
-            'switchLang': "{{ path('naidusvoe_set_lang') }}"
-        };
-
-        var LANG = "{{ app.session.get('lang') }}";
-    </script>
-
-{% endblock %}
 </body>
+
 </html>

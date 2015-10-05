@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: User
- * Date: 14.09.2015
- * Time: 16:33
- */
 
 namespace NaidusvoeBundle\Controller;
-
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -18,9 +11,8 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class SocialController extends Controller {
-
     /**
-     * @route("/login/vk_login", name="vk_login")
+     * @Route("/login/vk_login", name="vk_login")
      * @param Request $request
      * @return Response
      */
@@ -56,7 +48,7 @@ class SocialController extends Controller {
     }
 
     /**
-     * @route("/login/fb_login", name="fb_login")
+     * @Route("/login/fb_login", name="fb_login")
      * @param Request $request
      * @return Response
      */
@@ -91,13 +83,10 @@ class SocialController extends Controller {
             return $this->redirectToRoute('naidusvoe_homepage');
         }
         return $this->redirect('https://www.facebook.com');
-
-
-
     }
 
     /**
-     * @route("/vk/register_in_naidusvoe/{social_uid}/{social_u_field}", name="social_register")
+     * @Route("/vk/register_in_naidusvoe/{social_uid}/{social_u_field}", name="social_register")
      * @param Request $request
      * @param String $social_uid
      * @param String $social_u_field

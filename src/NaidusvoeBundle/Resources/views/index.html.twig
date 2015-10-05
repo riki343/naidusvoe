@@ -4,193 +4,70 @@
     Naidusvoe.com
 {% endblock %}
 
-{% block base %}
-    <base href="/">
-{% endblock %}
-
 {% block nav %}
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-right">
-                <ul class="list-inline">
-                    <li><img src="{{ asset('bundles/naidusvoe/images/custom/lang/ru.png') }}" alt="ru-lang"></li>
-                    <li><img src="{{ asset('bundles/naidusvoe/images/custom/lang/UA.png') }}" alt="ua-lang"></li>
-                </ul>
-            </div>
+    <header>
+        <div class="logo">
+            <a href="/"></a>
         </div>
-    </nav>
-
-    <nav class="navbar navbar-default" style="margin-bottom: 5px;">
-        <div class="container-fluid">
-
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">[[ 'NAV_MAIN_PAGE' | translate ]]</a>
-            </div>
-
-            <div class="collapse navbar-collapse" id="menu-collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="/trade">[[ 'BUTTON_CATEGORY_TRADE' | translate ]]</a></li>
-                    <li><a href="/found">[[ 'BUTTON_CATEGORY_FOUND' | translate ]]</a></li>
-                    <li><a href="/gift">[[ 'BUTTON_CATEGORY_GIFT' | translate ]]</a></li>
-                </ul>
-
+        <nav>
+            <ul class="menu">
+                <li><a class="punkt-1" ng-href="/">[[ 'NAV_MAIN_PAGE' | translate ]]</a></li>
+                <li><a class="punkt-2" ng-href="/trade">[[ 'BUTTON_CATEGORY_TRADE' | translate ]]</a></li>
+                <li><a class="punkt-3" ng-href="/found">[[ 'BUTTON_CATEGORY_FOUND' | translate ]]</a></li>
+                <li><a class="punkt-4" ng-href="/gift">[[ 'BUTTON_CATEGORY_GIFT' | translate ]]</a></li>
                 {% if app.user and is_granted('ROLE_USER') %}
-                    <ul class="nav navbar-nav navbar-right">
-                        {% if is_granted('ROLE_WEB_DEVELOPER') %}
-                        <li>
-                            <a href="{{ path('naidusvoe_error_logs') }}" target="_self">Error Logs</a>
-                        </li>
-                        {% endif %}
-                        <li>
-                            <a href="/cabinet">[[ 'NAV_CABINET' | translate ]]</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('naidusvoe_logout') }}" target="_self">
-                                [[ 'NAV_EXIT' | translate ]]
-                            </a>
-                        </li>
-                        <li>
-                            <a ng-click="switchLanguage('ua')" style="cursor: pointer;">
-                                <img class="img-responsive img-thumbnail" src="{{ asset('bundles/naidusvoe/img/countries/ua.png') }}" style="width: 32px; height: 25px;" alt="UA"/>
-                            </a>
-                        </li>
-                        <li>
-                            <a ng-click="switchLanguage('ru')" style="cursor: pointer;">
-                                <img class="img-responsive img-thumbnail" src="{{ asset('bundles/naidusvoe/img/countries/ru.png') }}" style="width: 32px; height: 25px;" alt="RU"/>
-                            </a>
-                        </li>
-
-                    </ul>
+                    <li><a class="punkt-5" ng-href="/cabinet">[[ 'NAV_CABINET' | translate ]]</a></li>
+                    <li>
+                        <a class="punkt-6" href="{{ path('naidusvoe_logout') }}" target="_self">
+                            [[ 'NAV_EXIT' | translate ]]
+                        </a>
+                    </li>
                 {% else %}
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="{{ path('naidusvoe_login') }}" target="_self">[[ 'NAV_LOGIN' | translate ]]</a></li>
-                        <li><a href="{{ path('naidusvoe_signup') }}" target="_self">[[ 'NAV_SIGN_UP' | translate ]]</a></li>
-                        <li>
-                            <a ng-click="switchLanguage('ua')" style="cursor: pointer;">
-                                <img class="img-responsive img-thumbnail" src="{{ asset('bundles/naidusvoe/img/countries/ua.png') }}" style="width: 32px; height: 25px;" alt="UA"/>
-                            </a>
-                        </li>
-                        <li>
-                            <a ng-click="switchLanguage('ru')" style="cursor: pointer;">
-                                <img class="img-responsive img-thumbnail" src="{{ asset('bundles/naidusvoe/img/countries/ru.png') }}" style="width: 32px; height: 25px;" alt="RU"/>
-                            </a>
-                        </li>
-                    </ul>
+                    <li><a class="punkt-5" href="{{ path('naidusvoe_login') }}" target="_self">
+                            [[ 'NAV_LOGIN' | translate ]]
+                        </a>
+                    </li>
+                    <li>
+                        <a class="punkt-6" href="{{ path('naidusvoe_signup') }}" target="_self">
+                            [[ 'NAV_SIGN_UP' | translate ]]
+                        </a>
+                    </li>
                 {% endif %}
-
-            </div>
-        </div>
-    </nav>
+            </ul>
+        </nav>
+    </header>
 {% endblock %}
 
 {% block body %}
-
-    <div class="container-fluid main-height" ng-init="getUser();">
-
-        <div class="row">
-            <div class="col-md-9 col-xs-12" ng-show="app.spinner">
-                <div class="col-xs-12 text-center" style="padding-top: 150px;">
-                    <div class="center-block whirly"></div>
-                </div>
-            </div>
-
-            <div class="col-md-9 col-xs-12" ng-hide="app.spinner">
-                <div class="content">
-                    <div ng-view></div>
-                </div>
-            </div>
-
-            <div class="col-xs-12 hidden-md hidden-lg" style="padding: 50px;"></div>
-
-            <div class="col-md-3 col-xs-12">
-                <div class="list-group">
-                    <div class="list-group-item">
-                        <h2 align="center">[[ 'RSB_HEADER' | translate ]]</h2>
-                    </div>
-                    <div class="list-group-item">
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <img class="img-responsive" src="{{ asset('bundles/naidusvoe/img/def.jpg') }}" />
-                            </div>
-                            <div class="col-xs-8">
-                                <h4 class="text-info"><a href="">Оголошення 1</a></h4>
-                                <p class="text-muted" style="overflow: hidden; text-overflow: ellipsis;">
-                                    <i>Опис до оголошення 1</i>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-group-item">
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <img class="img-responsive" src="{{ asset('bundles/naidusvoe/img/def.jpg') }}" />
-                            </div>
-                            <div class="col-xs-8">
-                                <h4 class="text-info"><a href="">Оголошення 2</a></h4>
-                                <p class="text-muted" style="overflow: hidden; text-overflow: ellipsis;">
-                                    <i>Опис до оголошення 2</i>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-group-item">
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <img class="img-responsive" src="{{ asset('bundles/naidusvoe/img/def.jpg') }}" />
-                            </div>
-                            <div class="col-xs-8">
-                                <h4 class="text-info"><a href="">Оголошення 3</a></h4>
-                                <p class="text-muted" style="overflow: hidden; text-overflow: ellipsis;">
-                                    <i>Опис до оголошення 3</i>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-group-item">
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <img class="img-responsive" src="{{ asset('bundles/naidusvoe/img/def.jpg') }}" />
-                            </div>
-                            <div class="col-xs-8">
-                                <h4 class="text-info"><a href="">Оголошення 4</a></h4>
-                                <p class="text-muted" style="overflow: hidden; text-overflow: ellipsis;">
-                                    <i>Опис до оголошення 4</i>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-group-item">
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <img class="img-responsive" src="{{ asset('bundles/naidusvoe/img/def.jpg') }}" />
-                            </div>
-                            <div class="col-xs-8">
-                                <h4 class="text-info"><a href="">Оголошення 5</a></h4>
-                                <p class="text-muted" style="overflow: hidden; text-overflow: ellipsis;">
-                                    <i>Опис до оголошення 5</i>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div ng-view></div>
 {% endblock %}
 
 {% block footer %}
-    <footer class="footer">
-        <h2 align="center">
-            <a href="#"><img src="{{ asset('bundles/naidusvoe/img/socials/twitter_32.png') }}" alt="socials"/></a>
-            <a href="#"><img src="{{ asset('bundles/naidusvoe/img/socials/facebook_32.png') }}" alt="socials"/></a>
-            <a href="#"><img src="{{ asset('bundles/naidusvoe/img/socials/linkedin_32.png') }}" alt="socials"/></a>
-            <a href="#"><img src="{{ asset('bundles/naidusvoe/img/socials/tumblr_32.png') }}" alt="socials"/></a>
-        </h2>
+    <footer>
+        <div class="register">
+            <a href="#">Реєстрація</a>
+        </div>
+        <div class="foot-mod">
+            <div class="mod-1">
+                <h3>Дізнайся про нас більше</h3>
+                <p>Ми у соціальних мережах</p>
+                <ul class="soc-mer">
+                    <li class="vk"><a href="#"></a></li>
+                    <li class="fb"><a href="#"></a></li>
+                    <li class="yt"><a href="#"></a></li>
+                    <li class="gp"><a href="#"></a></li>
+                    <li class="tw"><a href="#"></a></li>
+                </ul>
+            </div>
+            <div class="mod-2">
+                <h3>Переходи на розділи:</h3>
+                <ul class="menu rozd">
+                    <li><a href="#">Платні послуги</a></li>
+                    <li><a href="#">Правила безпеки</a></li>
+                    <li><a href="#">Про проект</a></li>
+                    <li><a href="#">Умови використання</a></li>
+                </ul>
+            </div>
+        </div>
     </footer>
 {% endblock %}

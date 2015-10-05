@@ -165,7 +165,30 @@ class Advertisment
      */
     private $categoryTop;
 
+    /**
+     * @var string
+     * @ORM\Column(name="city", type="string", nullable=true)
+     */
+    private $city;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="urgent", type="datetime", nullable=true)
+     */
+    private $urgent;
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->skype = null;
+        $this->date = new \DateTime();
+        $this->attachments = new ArrayCollection();
+    }
+
     public function getInArray() {
+        $now = new \DateTime();
+
         return array(
             'id' => $this->getId(),
             'title' => $this->getTitle(),
@@ -178,6 +201,7 @@ class Advertisment
             'attachments' => Functions::arrayToJson($this->getAttachments()),
             'userID' => $this->getUserID(),
             'date' => $this->getDate()->format('Y-m-d'),
+            'time' => $this->getDate()->format('H:i:s'),
             'price' => $this->getPrice(),
             'priceType' => $this->getPriceType()->getInArray(),
             'contactPerson' => $this->getContactPerson(),
@@ -188,6 +212,8 @@ class Advertisment
             'advOnMain' => $this->getAdvertismentOnMainPage(),
             'advColor' => $this->getColorHighlight(),
             'advTop' => $this->getCategoryTop(),
+            'urgent' => $this->urgent,
+            'city' => $this->city,
         );
     }
 
@@ -271,15 +297,6 @@ class Advertisment
         }
         $query->orderBy('a.date', 'DESC');
         return $query->getQuery();
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        $this->skype = null;
-        $this->date = new \DateTime();
-        $this->attachments = new ArrayCollection();
     }
 
     /**
@@ -829,5 +846,51 @@ class Advertisment
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     * @return Advertisment
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string 
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set urgent
+     *
+     * @param \DateTime $urgent
+     * @return Advertisment
+     */
+    public function setUrgent($urgent)
+    {
+        $this->urgent = $urgent;
+
+        return $this;
+    }
+
+    /**
+     * Get urgent
+     *
+     * @return \DateTime 
+     */
+    public function getUrgent()
+    {
+        return $this->urgent;
     }
 }

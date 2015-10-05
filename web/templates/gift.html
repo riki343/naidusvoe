@@ -1,0 +1,359 @@
+<div ng-controller="giftController as gift">
+    <div id="block-one">
+        <div id="kategory" class="viddam">
+            <p><span>Продаєте, або хотіли б придбати</span>
+                У даному розділі система всім відома, продавці і покупці з легкістю знаходять один одного і здійснюють взаємодію.Відвідавши цей розділ сайту можна придбати машину, телефон і навіть будинок. Оголошення в цьому розділі розкажуть вам про ціни на пропоновані товари й так само ознайомлять з контактами продавця або покупця. Викладайте оголошення з фото, їм надається більша перевага у разі вибору серед кількох оголошень одного характеру.
+            </p>
+        </div>
+        <div class="poshuk">
+            <form class="misto">
+                <input type="text">
+                <button></button>
+            </form>
+            <form class="search">
+                <input type="text">
+                <button></button>
+            </form>
+        </div>
+        <div class="kat-menu">
+            <ul class="menu kat">
+                <li class="tr"><a href="#">Транспорт</a></li>
+                <li class="zhy"><a href="#">Житло</a></li>
+                <li class="prod"><a href="#">Продукти</a></li>
+                <li class="odyag"><a href="#">Одяг/Взуття</a></li>
+                <li class="tv"><a href="#">Тварини</a></li>
+                <li class="el"><a href="#">Електроніка</a></li>
+                <li class="dmp"><a href="#">Допоможу вирішити</a></li>
+                <li class="pdmp"><a href="#">Потребую допомоги</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="page-header">
+            <h1>[[ 'LAST_ADS' | translate ]]</h1>
+        </div>
+        <div id="the-best">
+            <div class="o-table">
+                <div class="o-column">
+                    <div class="o-row top">
+                        <div class="o-cell">
+                            <h3>Кращі в категорії</h3>
+                        </div>
+                    </div>
+                    <div class="o-row">
+                        <div class="o-cell photo">
+                            <img src="skoda.jpg">
+                        </div>
+                        <div class="o-cell info">
+                            <h2><a href="#">Skoda Octavia</a></h2>
+                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
+                            <h3><a href="#">Київ</a></h3>
+                        </div>
+                        <div class="o-cell price">
+                            <p>12000$</p>
+                            <ul class="reit">
+                                <li class="wote"></li>
+                                <li class="comment">
+                                    <a href="#"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="o-row yellow">
+                        <div class="o-cell photo">
+                            <img src="skoda.jpg">
+                        </div>
+                        <div class="o-cell info">
+                            <h2><a href="#">Skoda Octavia</a></h2>
+                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
+                            <h3><a href="#">Київ</a></h3>
+                        </div>
+                        <div class="o-cell price">
+                            <p>12000$</p>
+                            <ul class="reit">
+                                <li class="wote-n"></li>
+                                <li class="comment">
+                                    <a href="#"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="o-row">
+                        <div class="o-cell photo">
+                            <img src="skoda.jpg">
+                        </div>
+                        <div class="o-cell info">
+                            <h2><a href="#">Skoda Octavia</a></h2>
+                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
+                            <h3><a href="#">Київ</a></h3>
+                        </div>
+                        <div class="o-cell price">
+                            <p>12000$</p>
+                            <ul class="reit">
+                                <li class="wote"></li>
+                                <li class="comment">
+                                    <a href="#"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="info">
+            <div ng-class="gift.advsView">
+                <div class="o-column">
+                    <div class="o-row top">
+                        <div class="o-cell">
+                            <p>[[ 'ADS_VIEW' | translate ]]</p>
+                        </div>
+                        <div class="o-cell">
+                            <ul class="menu column">
+                                <li class="colum-2"><a ng-click="gift.changeAdsView('o-table width-50');" style="cursor: pointer;"></a></li>
+                                <li class="colum-1"><a ng-click="gift.changeAdsView('o-table');" style="cursor: pointer;"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="o-row">
+                        <div class="o-cell date">
+                            <p><span class="date">Сьогодні</span>
+                                <span class="time">20:20</span></p>
+                        </div>
+                        <div class="o-cell photo">
+                            <img src="skoda.jpg">
+                        </div>
+                        <div class="o-cell info">
+                            <h2 class="term"><a href="#">Skoda Octavia</a></h2>
+                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
+                            <h3><a href="#">Київ</a></h3>
+                        </div>
+                        <div class="o-cell price">
+                            <p>12000$</p>
+                            <ul class="reit">
+                                <li class="wote"></li>
+                                <li class="comment">
+                                    <a href="#"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="o-row yellow">
+                        <div class="o-cell date">
+                            <p><span class="date">Сьогодні</span>
+                                <span class="time">20:20</span></p>
+                        </div>
+                        <div class="o-cell photo">
+                            <img src="skoda.jpg">
+                        </div>
+                        <div class="o-cell info">
+                            <h2><a href="#">Skoda Octavia</a></h2>
+                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
+                            <h3><a href="#">Київ</a></h3>
+                        </div>
+                        <div class="o-cell price">
+                            <p>12000$</p>
+                            <ul class="reit">
+                                <li class="wote-n"></li>
+                                <li class="comment">
+                                    <a href="#"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="o-row">
+                        <div class="o-cell date">
+                            <p><span class="date">Сьогодні</span>
+                                <span class="time">20:20</span></p>
+                        </div>
+                        <div class="o-cell photo">
+                            <img src="skoda.jpg">
+                        </div>
+                        <div class="o-cell info">
+                            <h2 class="term"><a href="#">Skoda Octavia</a></h2>
+                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
+                            <h3><a href="#">Київ</a></h3>
+                        </div>
+                        <div class="o-cell price">
+                            <p>12000$</p>
+                            <ul class="reit">
+                                <li class="wote"></li>
+                                <li class="comment">
+                                    <a href="#"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="o-row yellow">
+                        <div class="o-cell date">
+                            <p><span class="date">Сьогодні</span>
+                                <span class="time">20:20</span></p>
+                        </div>
+                        <div class="o-cell photo">
+                            <img src="skoda.jpg">
+                        </div>
+                        <div class="o-cell info">
+                            <h2><a href="#">Skoda Octavia</a></h2>
+                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
+                            <h3><a href="#">Київ</a></h3>
+                        </div>
+                        <div class="o-cell price">
+                            <p>12000$</p>
+                            <ul class="reit">
+                                <li class="wote-n"></li>
+                                <li class="comment">
+                                    <a href="#"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="o-row">
+                        <div class="o-cell date">
+                            <p><span class="date">Сьогодні</span>
+                                <span class="time">20:20</span></p>
+                        </div>
+                        <div class="o-cell photo">
+                            <img src="skoda.jpg">
+                        </div>
+                        <div class="o-cell info">
+                            <h2><a href="#">Skoda Octavia</a></h2>
+                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
+                            <h3><a href="#">Київ</a></h3>
+                        </div>
+                        <div class="o-cell price">
+                            <p>12000$</p>
+                            <ul class="reit">
+                                <li class="wote-n"></li>
+                                <li class="comment">
+                                    <a href="#"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div ng-init="getAdvs();"></div>-->
+
+<!--<div class="page-header" style="margin-top: 0;">-->
+    <!--<h3>[[ 'BUTTON_CATEGORY_GIFT' | translate ]]</h3>-->
+<!--</div>-->
+
+<!--<form class="form-horizontal" role="search">-->
+    <!--<div class="input-group">-->
+        <!--<input type="text" class="form-control" placeholder="[[ 'SEARCH_PLACEHOLDER' | translate ]]">-->
+        <!--<span class="input-group-btn">-->
+            <!--<button class="btn btn-default btn-warning" type="button">[[ 'BUTTON_SEARCH' | translate ]]</button>-->
+        <!--</span>-->
+    <!--</div>-->
+<!--</form>-->
+
+
+
+<!--<div class="row" ng-cloak ng-if="!spinner">-->
+    <!--<div class="col-xs-4 col-md-3" style="margin-top: 10px;">-->
+        <!--<div class="list-group">-->
+            <!--<h4 class="list-group-item list-group-item-info" align="center" style="color: #000000; padding: 10px 5px;">-->
+                <!--[[ 'CATEGORIES_HEADER' | translate ]]-->
+            <!--</h4>-->
+            <!--<a class="btn btn-default list-group-item" style="cursor: pointer; text-align: left; white-space: normal;"-->
+               <!--ng-repeat="category in categories"-->
+               <!--ng-click="selectCategory(category.id);"-->
+               <!--ng-class="{'category-selected': category.id == tradingFilter }">-->
+                <!--[[ category.name ]]-->
+            <!--</a>-->
+            <!--<a class="btn btn-default list-group-item" style="cursor: pointer; text-align: left;"-->
+               <!--ng-click="selectCategory(null);"-->
+               <!--ng-class="{'category-selected': tradingFilter == null }">-->
+                <!--[[ 'BUTTON_CATEGORIES_ALL' | translate ]]-->
+            <!--</a>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-xs-8 col-md-9">-->
+        <!--<div class="row">-->
+            <!--<div ng-repeat="adv in advs" class="col-xs-12 col-sm-6 col-md-4" style="margin-top: 20px; height: 100%;">-->
+                <!--<a class="img-thumbnail adv-shadow" ng-href="/adv/gift/[[ adv.id ]]">-->
+                    <!--<div class="col-xs-12">-->
+                        <!--<div style="padding: 15px;">-->
+                            <!--<img class="img-responsive center-block" style="height: 150px;" ng-src="[[ adv.image ]]" />-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-xs-12">-->
+                        <!--<hr/>-->
+                        <!--<p class="text-info" style="height: 50px; word-wrap: break-word;">-->
+                            <!--[[ adv.title ]]-->
+                        <!--</p>-->
+                        <!--<hr/>-->
+                        <!--<p style="overflow: hidden; text-overflow: ellipsis;">-->
+                            <!--<i style="white-space: nowrap;" class="text-muted">-->
+                                <!--[[ adv.description ]]...-->
+                            <!--</i>-->
+                        <!--</p>-->
+                        <!--<hr/>-->
+                        <!--<p style="color: #000000;">-->
+                            <!--[[ adv.price + ' ' + adv.priceType.name ]]-->
+                        <!--</p>-->
+                    <!--</div>-->
+                <!--</a>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row" ng-cloak ng-if="(!spinner) && (paginator.last != 0)">-->
+            <!--<div class="col-xs-12" style="margin-bottom: 25px;">-->
+                <!--<nav class="panel panel-default text-center">-->
+                    <!--<ul class="pagination">-->
+                        <!--<li ng-if="(paginator.first != paginator.current)-->
+                    <!--&& (paginator.last > 3)-->
+                    <!--&& (paginator.current > paginator.first + 3)">-->
+                            <!--<a ng-href="/trade/[[ paginator.first ]]">-->
+                                <!--<span>&laquo;</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <!--<li ng-if="(paginator.first + 1 < paginator.current)-->
+                    <!--&& (paginator.last > 3)-->
+                    <!--&& (paginator.current > paginator.first + 3)">-->
+                            <!--<a ng-href="/trade/[[ paginator.first + 1 ]]">-->
+                                <!--[[ paginator.first + 1 ]]-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <!--<li ng-if="(paginator.first + 1 < paginator.current)-->
+                    <!--&& (paginator.last > 3)-->
+                    <!--&& (paginator.current > paginator.first + 3)">>-->
+                            <!--<a>...</a>-->
+                        <!--</li>-->
+
+                        <!--<li ng-repeat="i in paginator.pages"-->
+                            <!--ng-if="(i >= paginator.current - 3) && (i <= paginator.current + 3)"-->
+                            <!--ng-class="{'active': i == paginator.current }">-->
+                            <!--<a ng-href="/trade/[[ i ]]">[[ i ]]</a>-->
+                        <!--</li>-->
+
+                        <!--<li ng-if="(paginator.last - 1 > paginator.current)-->
+                    <!--&& (paginator.last > 3)-->
+                    <!--&& (paginator.current < paginator.last - 3)">-->
+                            <!--<a>...</a>-->
+                        <!--</li>-->
+
+                        <!--<li ng-if="(paginator.last - 1 > paginator.current)-->
+                    <!--&& (paginator.last > 3)-->
+                    <!--&& (paginator.current < paginator.last - 3)">-->
+                            <!--<a ng-href="/trade/[[ paginator.last - 1 ]]">-->
+                                <!--[[ paginator.last - 1 ]]-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <!--<li ng-if="(paginator.last != paginator.current)-->
+                    <!--&& (paginator.last > 3)-->
+                    <!--&& (paginator.current < paginator.last - 3)">-->
+                            <!--<a ng-href="/trade/[[ paginator.last ]]">-->
+                                <!--<span>&raquo;</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</nav>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->

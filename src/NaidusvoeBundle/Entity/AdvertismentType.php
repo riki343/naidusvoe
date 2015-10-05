@@ -29,6 +29,12 @@ class AdvertismentType
     private $name;
 
     /**
+     * @var string
+     * @ORM\Column(name="slug", type="string", length=255, nullable=true)
+     */
+    private $slug;
+
+    /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="AdvertismentCategory", mappedBy="type")
      */
@@ -38,6 +44,7 @@ class AdvertismentType
         return array(
             'id' => $this->getId(),
             'name' => $this->getName(),
+            'slug' => $this->slug,
             'categories' => Functions::arrayToJsonWithoutParent($this->getCategories()),
         );
     }
@@ -46,6 +53,7 @@ class AdvertismentType
         return array(
             'id' => $this->getId(),
             'name' => $this->getName(),
+            'slug' => $this->slug,
         );
     }
 
@@ -159,5 +167,28 @@ class AdvertismentType
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return AdvertismentType
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

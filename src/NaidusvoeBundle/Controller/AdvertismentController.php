@@ -64,6 +64,7 @@ class AdvertismentController extends Controller
     }
 
     /**
+     * @Route("/adv/get/{adv_id}", name="get-adv", options={"expose"=true})
      * @param int $adv_id
      * @return JsonResponse
      */
@@ -101,6 +102,7 @@ class AdvertismentController extends Controller
     }
 
     /**
+     * @Route("/get-found-advs/{filter}", name="get-found-advs", options={"expose"=true})
      * @param Request $request
      * @param int $filter
      * @return JsonResponse
@@ -123,6 +125,7 @@ class AdvertismentController extends Controller
     }
 
     /**
+     * @Route("/get-gift-advs/{filter}", name="get-gift-advs", options={"expose"=true})
      * @param Request $request
      * @param int $filter
      * @return JsonResponse
@@ -145,6 +148,7 @@ class AdvertismentController extends Controller
     }
 
     /**
+     * @Route("/adv/add-to-fav/{adv_id}", name="add-to-fav", options={"expose"=true})
      * @param int $adv_id
      * @return JsonResponse
      */

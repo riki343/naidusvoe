@@ -41,7 +41,8 @@ class UserController extends Controller
         );
 
         $regions = Functions::arrayToJson($this->getDoctrine()
-            ->getRepository('NaidusvoeBundle:Region')->findAll());
+            ->getRepository('NaidusvoeBundle:Region')->findAll())
+        ;
 
         return new JsonResponse(array(
             'contactInfo' => $contactInfo,
@@ -187,6 +188,7 @@ class UserController extends Controller
     }
 
     /**
+     * @Route("/user", name="get-user", options={"expose"=true})
      * @return JsonResponse
      */
     public function getUserAction() {

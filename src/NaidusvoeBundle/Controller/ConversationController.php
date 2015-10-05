@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ConversationController extends Controller {
     /**
      * @Security("has_role('ROLE_USER')")
+     * @Route("/message/send/{adv_id}-{user_id}", name="message-send", options={"expose"=true})
      * @param Request $request
      * @param int $user_id
      * @param int $adv_id

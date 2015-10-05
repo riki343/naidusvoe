@@ -1,0 +1,29 @@
+<div class="o-cell date">
+    <p>
+        <span class="date">[[ adv.date ]]</span>
+        <span class="time">[[ adv.time ]]</span>
+    </p>
+</div>
+<div class="o-cell photo">
+    <img ng-src="[[ adv.image ]]" alt="[[ adv.title ]]">
+</div>
+<div class="o-cell info">
+    <h2 ng-class="{ 'term': adv.urgent == true }">
+        <a ng-href="[[ '/adv/' + adv.type.slug + '/' + adv.id ]]">
+            [[ adv.title ]]
+        </a>
+    </h2>
+    <p style="overflow: hidden; text-overflow: ellipsis;">
+        <span style="white-space: nowrap;">[[ adv.description | limitTo: 50 ]]...</span>
+    </p>
+    <h3><a href="#">[[ adv.city ]]</a></h3>
+</div>
+<div class="o-cell price">
+    <p>[[ adv.price + '' + adv.priceType.name ]]</p>
+    <ul class="reit">
+        <li class="wote"></li>
+        <li class="comment">
+            <a href="#"></a>
+        </li>
+    </ul>
+</div>
