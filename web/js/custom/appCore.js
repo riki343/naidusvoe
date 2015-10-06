@@ -24,23 +24,27 @@
                     })
                     .when('/cabinet', {
                         templateUrl: templates + 'cabinet.html',
-                        controller: 'cabinetController'
+                        //controller: 'cabinetController'
+                    })
+                    .when('/cabinet/advs', {
+                        templateUrl: templates + 'cabinet-advs.html',
+                        //controller: 'cabinetController'
                     })
                     .when('/cabinet/messages', {
                         templateUrl: templates + 'cabinetMessages.html',
-                        controller: 'cabinetController'
+                        //controller: 'cabinetController'
                     })
                     .when('/cabinet/conversation/:conv_id', {
                         templateUrl: templates + 'cabinetConversation.html',
-                        controller: 'cabinetController'
+                        //controller: 'cabinetController'
                     })
                     .when('/cabinet/settings', {
                         templateUrl: templates + 'cabinetSettings.html',
-                        controller: 'cabinetController'
+                        //controller: 'cabinetController'
                     })
                     .when('/cabinet/favorites', {
                         templateUrl: templates + 'cabinetFavorites.html',
-                        controller: 'cabinetController'
+                        //controller: 'cabinetController'
                     })
                     .when('/add-adv', {
                         templateUrl: templates + 'addAdvertisment.html',

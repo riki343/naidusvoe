@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use NaidusvoeBundle\Entity\User;
 use NaidusvoeBundle\Entity\Advertisment;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Conversation
@@ -107,32 +108,42 @@ class Conversation
     }
 
     /**
+     * @param User $user
      * @return array
      */
-    public function getInArray() {
+    public function getInArray($user) {
         return array(
             'id' => $this->getId(),
             'advertismentID' => $this->getAdvertismentID(),
             'advertismentTitle' => $this->getAdvertisment()->getTitle(),
             'advertismentUserID' => $this->getAdvertisment()->getUserID(),
+            'myself' => ($this->getUser1()->getId() === $user->getId())
+                ? $this->getUser1()->getInArray() : $this->getUser2()->getInArray(),
             'user1' => $this->getUser1()->getInArray(),
             'user2' => $this->getUser2()->getInArray(),
             'messages' => Functions::arrayToJson($this->getMessages()),
+            'date' => $this->getLastUpdated()->format('d-m-Y'),
+            'time' => $this->getLastUpdated()->format('H:i:s'),
         );
     }
 
     /**
+     * @param User $user
      * @return array
      */
-    public function getSingleInArray() {
+    public function getSingleInArray($user) {
         return array(
             'id' => $this->getId(),
             'advertismentID' => $this->getAdvertismentID(),
             'advertismentTitle' => $this->getAdvertisment()->getTitle(),
             'advertismentUserID' => $this->getAdvertisment()->getUserID(),
+            'myself' => ($this->getUser1()->getId() === $user->getId())
+                ? $this->getUser1()->getInArray() : $this->getUser2()->getInArray(),
             'user1' => $this->getUser1()->getInArray(),
             'user2' => $this->getUser2()->getInArray(),
             'new' => $this->checkForNew($this->getMessages()),
+            'date' => $this->getLastUpdated()->format('d-m-Y'),
+            'time' => $this->getLastUpdated()->format('H:i:s'),
         );
     }
 
@@ -148,6 +159,7 @@ class Conversation
      */
     public function __construct() {
         $this->messages = new ArrayCollection();
+        $this->lastUpdated = new \DateTime();
     }
 
     /**

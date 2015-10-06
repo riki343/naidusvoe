@@ -1,63 +1,88 @@
-<div ng-init="getConversation(conversation_id);"></div>
-
-<ol class="breadcrumb" ng-if="(!spinner)">
-    <li><a ng-href="/cabinet/messages">[[ 'MESSAGES_HEADER' | translate ]]</a></li>
-    <li class="active">[[ conv.advertismentTitle ]]</li>
-</ol>
-
-
-<div class="row" ng-if="spinner">
-    <div class="col-xs-12 text-center" style="padding-top: 150px;">
-        <div class="center-block whirly"></div>
-    </div>
-</div>
-
-<div class="panel panel-default" ng-if="(!spinner)">
-    <div class="panel-heading">
-        <h4 align="center">[[ 'CONVERSATION_HEADER' | translate ]]</h4>
-    </div>
-    <div class="conversation-block panel-body" scroll-glue="glued">
-        <div class="col-xs-12" ng-repeat="message in conv.messages">
-            <div ng-if="message.first" class="col-xs-offset-1 col-xs-10">
-                <h5 align="center" class="text-info">[[ 'LABEL_NEW_MESSAGES_CONVERSATION' | translate ]]</h5>
-                <hr style="margin-top: 5px;"/>
-            </div>
-            <div class="col-xs-11" ng-class="{'col-xs-offset-1': message.user.id == user.id }">
-                <div class="row">
-                    <div class="col-sm-2 col-xs-3" ng-if="message.user.id != user.id">
-                        <div class="pull-right">
-                            <img ng-src="[[ message.user.avatar ]]" class="img-circle img-responsive msg-avatar hidden-xs" alt="user" />
-                            <p class="msg-nick">[[ message.user.username ]]</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-10 col-xs-9">
-                        <div class="user-msg">
-                            [[ message.message ]]
-                        </div>
-                    </div>
-                    <div class="col-sm-2 col-xs-3" ng-if="message.user.id == user.id">
-                        <div class="pull-left">
-                            <img ng-src="[[ message.user.avatar ]]" class="img-circle img-responsive msg-avatar hidden-xs" alt="user" />
-                            <p class="msg-nick">[[ message.user.username ]]</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div id="block-one-form" ng-controller="conversationController as conversation" ng-init="conversation.getConversation();">
+    <h1 class="user">
+        Кабінет
+    </h1>
+    <div class="prof-menu">
+        <ul class="profile-menu">
+            <li class="profile"><a ng-href="/cabinet">Профіль</a></li>
+            <li class="ogolosh"><a ng-href="/cabinet/advs">[[ 'BUTTON_ADVERTISMENT' | translate ]]</a></li>
+            <li class="povid">  <a ng-href="/cabinet/messages">[[ 'BUTTON_MESSAGES' | translate ]]</a></li>
+            <li class="nalasht"><a ng-href="/cabinet/settings">[[ 'BUTTON_SETTINGS' | translate ]]</a></li>
+            <li class="obrani"> <a ng-href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]</a></li>
+        </ul>
     </div>
 
-    <div ng-if="(!spinner)" class="panel-footer" style="height: 100px;">
-        <div class="col-xs-12">
-            <div class="form-horizontal">
-                <div class="input-group input-group-sm">
-                    <textarea class="form-control" ng-model="message" style="height: 80px; resize: none;"></textarea>
-                    <div class="input-group-btn">
-                        <button class="btn btn-default" style="height: 80px;" ng-click="sendNewMessage(message);">
-                            [[ 'BUTTON_SEND_MESSAGE' | translate ]]
-                        </button>
+    <div class="profile">
+        <p class="p-info">Повідомлення</p>
+        <div class="info-box">
+            <div class="povidom">
+                <div class="chat-box">
+                    <div class="chat">
+                        <form id="chat" novalidate ng-submit="conversation.sendNewMessage(conversation.message);">
+
+                            <div class="chat-mess" scroll-glue>
+                                <div ng-repeat="message in conversation.conv.messages">
+
+                                    <div ng-if="message.first" class="col-xs-offset-1 col-xs-10">
+                                        <h5 align="center" class="text-info">[[ 'LABEL_NEW_MESSAGES_CONVERSATION' | translate ]]</h5>
+                                        <hr style="margin-top: 5px;"/>
+                                    </div>
+
+                                    <div class="mess-guest" ng-if="message.user.id != conversation.conv.myself.id">
+                                        <span>[[ ::message.user.username ]]</span>
+                                        <img ng-src="[[ ::message.user.avatar ]]" alt="[[ ::conversation.conv.advertismentTitle ]]">
+                                        <p>[[ ::message.message ]]</p>
+                                    </div>
+
+                                    <div class="mess-user" ng-if="message.user.id == conversation.conv.myself.id">
+                                        <span>[[ ::message.user.username ]]</span>
+                                        <img ng-src="[[ ::message.user.avatar ]]" alt="[[ ::conversation.conv.advertismentTitle ]]">
+                                        <p>[[ ::message.message ]]</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="chat-vidp">
+                                <img src="icon-user-default.png">
+                                <textarea ng-model="conversation.message"></textarea>
+                                <button type="submit">[[ 'BUTTON_SEND_MESSAGE' | translate ]]</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!--<div class="panel panel-default" ng-if="(!spinner)">-->
+    <!--<div class="panel-heading">-->
+        <!--<h4 align="center">[[ 'CONVERSATION_HEADER' | translate ]]</h4>-->
+    <!--</div>-->
+    <!--<div class="conversation-block panel-body" >-->
+
+        <!--<div class="col-xs-12" ng-repeat="message in conv.messages">-->
+
+            <!--<div class="col-xs-11" ng-class="{'col-xs-offset-1': message.user.id == user.id }">-->
+                <!--<div class="row">-->
+                    <!--<div class="col-sm-2 col-xs-3" ng-if="message.user.id != user.id">-->
+                        <!--<div class="pull-right">-->
+                            <!--<img ng-src="[[ message.user.avatar ]]" class="img-circle img-responsive msg-avatar hidden-xs" alt="user" />-->
+                            <!--<p class="msg-nick">[[ message.user.username ]]</p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-10 col-xs-9">-->
+                        <!--<div class="user-msg">-->
+                            <!--[[ message.message ]]-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-2 col-xs-3" ng-if="message.user.id == user.id">-->
+                        <!--<div class="pull-left">-->
+                            <!--<img ng-src="[[ message.user.avatar ]]" class="img-circle img-responsive msg-avatar hidden-xs" alt="user" />-->
+                            <!--<p class="msg-nick">[[ message.user.username ]]</p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->

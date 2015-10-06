@@ -19,6 +19,7 @@ class UserController extends Controller
 {
     /**
      * @Security("has_role('ROLE_USER')")
+     * @Route("/user/get-info", name="user-get-info", options={"expose"=true})
      * @return JsonResponse
      */
     public function getInfoAction() {
@@ -199,6 +200,7 @@ class UserController extends Controller
 
     /**
      * @Security("has_role('ROLE_USER')")
+     * @Route("/user/get-user-advs", name="get-user-advs", options={"expose"=true})
      * @return JsonResponse
      */
     public function getUserAdvsAction() {
@@ -210,6 +212,7 @@ class UserController extends Controller
 
     /**
      * @Security("has_role('ROLE_USER')")
+     * @Route("/user/delete-adv/{adv_id}", name="delete-user-adv", options={"expose"=true})
      * @param int $adv_id
      * @return JsonResponse
      */
@@ -230,6 +233,7 @@ class UserController extends Controller
 
     /**
      * @Security("has_role('ROLE_USER')")
+     * @Route("/user/get-favs", name="get-user-favs", options={"expose"=true})
      * @return JsonResponse
      */
     public function getFavsAction() {

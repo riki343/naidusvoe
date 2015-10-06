@@ -1965,7 +1965,7 @@ form#chat {
 .chat-mess {
 	float: left;
 	width: 736px;
-	height: 188px;
+	height: 300px;
 	overflow-x: hidden;
 	overflow-y: scroll;
 	margin-left: 20px;
@@ -1988,17 +1988,33 @@ form#chat {
 	height: 50px;
 	margin: 5px;
 }
-.mess-guest > img, .mess-guest > p {
-	float: left;
+.mess-guest > img, .mess-guest > p, .mess-guest > span {
+    float: left;
 }
-.mess-user > img, .mess-user > p {
-	float: right;
+
+.mess-user > img, .mess-user > p, .mess-user > span {
+    float: right;
 }
-.mess-guest > p, .mess-user > p {
-	display: block;
-	width: 50%;
-	margin-top: 0;
-	font-size: 18px;
+.mess-guest > p {
+    background-color: lightgray;
+    padding: 10px;
+    border-radius: 20px;
+    display: block;
+    width: 50%;
+    margin-top: 0;
+    font-size: 18px;
+    white-space: pre-line;
+}
+
+.mess-user > p {
+    background-color: greenyellow;
+    padding: 10px;
+    border-radius: 20px;
+    display: block;
+    width: 50%;
+    margin-top: 0;
+    font-size: 18px;
+    white-space: pre-line;
 }
 .chat-vidp {
 	float: left;
@@ -4448,7 +4464,7 @@ ul.pod-form > li.zagol > h2 {
     .chat-mess {
         float: left;
         width: 97%;
-        height: 188px;
+        height: 300px;
         overflow-x: hidden;
         overflow-y: scroll;
         margin-left: 0px;
@@ -4475,19 +4491,34 @@ ul.pod-form > li.zagol > h2 {
         margin: 5px;
     }
 
-    .mess-guest > img, .mess-guest > p {
+    .mess-guest > img, .mess-guest > p, .mess-guest > span {
         float: left;
     }
 
-    .mess-user > img, .mess-user > p {
+    .mess-user > img, .mess-user > p, .mess-user > span {
         float: right;
     }
 
-    .mess-guest > p, .mess-user > p {
+    .mess-guest > p {
+        background-color: lightgray;
+        padding: 10px;
+        border-radius: 20px;
         display: block;
         width: 50%;
         margin-top: 0;
         font-size: 18px;
+        white-space: pre-line;
+    }
+
+    .mess-user > p {
+        background-color: greenyellow;
+        padding: 10px;
+        border-radius: 20px;
+        display: block;
+        width: 50%;
+        margin-top: 0;
+        font-size: 18px;
+        white-space: pre-line;
     }
 
     .chat-vidp {

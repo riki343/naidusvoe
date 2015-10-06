@@ -142,28 +142,34 @@ class Advertisment
     private $skype;
 
     /**
-     * @var bool
-     * @ORM\Column(name="advertisment_on_main_page", type="boolean", options={"default" = false})
+     * @var \DateTime
+     * @ORM\Column(name="advertisment_on_main_page", type="datetime", nullable=true, options={"default"=null})
      */
     private $advertismentOnMainPage;
 
     /**
-     * @var bool
-     * @ORM\Column(name="advertisment_block", type="boolean", options={"default" = false})
+     * @var \DateTime
+     * @ORM\Column(name="advertisment_block", type="datetime", nullable=true, options={"default"=null})
      */
     private $advertismentBlock;
 
     /**
-     * @var bool
-     * @ORM\Column(name="color_highlight", type="boolean", options={"default" = false})
+     * @var \DateTime
+     * @ORM\Column(name="color_highlight", type="datetime", nullable=true, options={"default"=null})
      */
     private $colorHighlight;
 
     /**
-     * @var bool
-     * @ORM\Column(name="category_top", type="boolean", options={"default" = false})
+     * @var \DateTime
+     * @ORM\Column(name="category_top", type="datetime", nullable=true, options={"default"=null})
      */
     private $categoryTop;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="urgent", type="datetime", nullable=true, options={"default"=null})
+     */
+    private $urgent;
 
     /**
      * @var string
@@ -178,18 +184,16 @@ class Advertisment
     private $region;
 
     /**
-     * @var \DateTime
-     * @ORM\Column(name="urgent", type="datetime", nullable=true)
-     */
-    private $urgent;
-
-    /**
      * Constructor
      */
     public function __construct() {
         $this->skype = null;
         $this->date = new \DateTime();
         $this->attachments = new ArrayCollection();
+        $this->advertismentBlock = null;
+        $this->advertismentOnMainPage = null;
+        $this->colorHighlight = null;
+        $this->urgent = null;
     }
 
     public function getInArray() {
@@ -253,10 +257,6 @@ class Advertisment
         $adv->setEmail($data->email);
         $adv->setTelephoneNumber($data->telephoneNumber);
         $adv->setSkype($data->skype);
-        $adv->setAdvertismentOnMainPage($data->advOnMain);
-        $adv->setAdvertismentBlock($data->advInBlock);
-        $adv->setCategoryTop($data->advOnTop);
-        $adv->setColorHighlight($data->advColor);
 
         return $adv;
     }

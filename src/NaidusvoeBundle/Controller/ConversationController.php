@@ -52,6 +52,7 @@ class ConversationController extends Controller {
 
     /**
      * @Security("has_role('ROLE_USER')")
+     * @Route("/user/get-conversations", name="user-get-conversations", options={"expose"=true})
      * @return JsonResponse
      */
     public function getConversationsAction() {
@@ -60,11 +61,12 @@ class ConversationController extends Controller {
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
         $conversations = Conversation::getConversationsByUser($em, $user->getId());
-        return new JsonResponse(Functions::arrayToJsonSingle($conversations));
+        return new JsonResponse(Functions::arrayToJsonSingle($conversations, $user));
     }
 
     /**
      * @Security("has_role('ROLE_USER')")
+     * @Route("/user/get-conversation/{conv_id}", name="user-get-conversation", options={"expose"=true})
      * @param int $conv_id
      * @return JsonResponse
      */
@@ -75,7 +77,7 @@ class ConversationController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $conversation = $em->find('NaidusvoeBundle:Conversation', $conv_id);
         if ($conversation->getUser1ID() == $user->getId() || $conversation->getUser2ID() == $user->getId()) {
-            $jsonConv = $conversation->getInArray();
+            $jsonConv = $conversation->getInArray($user);
             Conversation::setViewed($em, $conversation->getMessages());
             return new JsonResponse($jsonConv);
         } else {

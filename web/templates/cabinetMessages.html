@@ -1,72 +1,64 @@
-<div ng-init="getConversations();"></div>
-
-<div class="row">
-    <div class="col-md-12 hidden-sm hidden-xs">
-        <div class="btn-group btn-group-justified">
-            <a class="btn btn-default" href="/cabinet">[[ 'BUTTON_ADVERTISMENT' | translate ]]</a>
-            <a class="btn btn-default active" href="/cabinet/messages">[[ 'BUTTON_MESSAGES' | translate ]]</a>
-            <a class="btn btn-default" href="/cabinet/settings">[[ 'BUTTON_SETTINGS' | translate ]]</a>
-            <a class="btn btn-default" href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]</a>
+<div id="block-one-form" ng-controller="cabinetMessagesController as cmessages" ng-init="cmessages.getConversations();">
+    <div class="row" ng-if="spinner">
+        <div class="col-xs-12 text-center" style="padding-top: 150px;">
+            <div class="center-block whirly"></div>
         </div>
     </div>
-    <div class="col-xs-12 hidden-lg hidden-md">
-        <div class="btn-group btn-group-justified">
-            <a class="btn btn-default" href="/cabinet">[[ 'BUTTON_ADVERTISMENT' | translate ]]</a>
-            <a class="btn btn-default active" href="/cabinet/messages">[[ 'BUTTON_MESSAGES' | translate ]]</a>
-        </div>
-        <div class="btn-group btn-group-justified">
-            <a class="btn btn-default" href="/cabinet/settings">[[ 'BUTTON_SETTINGS' | translate ]]</a>
-            <a class="btn btn-default" href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]</a>
-        </div>
+
+    <h1 class="user">
+        Кабінет
+    </h1>
+    <div class="prof-menu">
+        <ul class="profile-menu">
+            <li class="profile"><a ng-href="/cabinet">Профіль</a></li>
+            <li class="ogolosh"><a ng-href="/cabinet/advs">Оголошення</a></li>
+            <li class="povid">  <a ng-href="/cabinet/messages">Повідомлення</a></li>
+            <li class="nalasht"><a ng-href="/cabinet/settings">Налаштування</a></li>
+            <li class="obrani"> <a ng-href="/cabinet/favorites">Обрані</a></li>
+        </ul>
     </div>
-</div>
 
-<div class="page-header">
-    <h3>[[ 'MESSAGES_HEADER' | translate ]]</h3>
-</div>
+    <div class="profile">
+        <p class="p-info">[[ 'MESSAGES_HEADER' | translate ]]</p>
 
-<div class="row" ng-if="spinner">
-    <div class="col-xs-12 text-center" style="padding-top: 150px;">
-        <div class="center-block whirly"></div>
-    </div>
-</div>
-
-<!--
-<div class="row" ng-if="(!spinner) && (conversations) && (conversations.length > 0)">
-    <div class="col-md-offset-8 col-md-4 col-xs-offset-3 col-xs-6">
-        <form class="form-horizontal" role="search">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Пошук...">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Шукати</button>
-                </span>
+        <div class="info-box" ng-if="cmessages.conversations.length == 0">
+            <div class="povidom none">
+                <p>Немає повідомлень</p>
             </div>
-        </form>
-    </div>
-</div>
--->
+        </div>
 
-<div class="row" ng-if="(!spinner) && (conversations) && (conversations.length > 0)">
-    <div class="col-xs-12">
-        <a class="img-thumbnail" style="width: 100%; text-decoration: none;"
-           ng-repeat="conv in conversations"
-           ng-href="/cabinet/conversation/[[ conv.id ]]">
-            <div class="col-xs-12">
-                <h5>
-                    [[ conv.advertismentTitle ]]
-                    <span ng-if="conv.new > 0" class="badge pull-right" style="background-color: #d9534f;">
-                        +[[ conv.new ]]
-                    </span>
-                </h5>
+        <div class="info-box" ng-if="cmessages.conversations.length > 0">
+            <div class="povidom">
+
+                <div class="message" ng-repeat="conv in cmessages.conversations">
+
+                    <div ng-if="conv.myself.id != conv.user1.id">
+                        <a class="mess-img" href="#">
+                            <img ng-src="[[ ::conv.user1.avatar ]]" alt="[[ ::conv.user1.username ]]">
+                        </a>
+                        <a class="mess-sub" href="#">
+                            <span class="name">[[ ::conv.user1.username ]]</span>
+                            <!--<span class="date-time">сьогодні 02:12</span>-->
+                        </a>
+                    </div>
+
+                    <div ng-if="conv.myself.id != conv.user2.id">
+                        <a class="mess-img" href="#">
+                            <img ng-src="[[ ::conv.user2.avatar ]]" alt="[[ ::conv.user2.username ]]">
+                        </a>
+                        <a class="mess-sub" href="#">
+                            <span class="name">[[ ::conv.user2.username ]]</span>
+                            <!--<span class="date-time">сьогодні 02:12</span>-->
+                        </a>
+                    </div>
+
+                    <a class="mess-text" ng-href="/cabinet/conversation/[[ ::conv.id ]]">
+                        [[ ::conv.advertismentTitle ]]
+                    </a>
+                    <p class="time">[[ ::conv.time ]]</p>
+                    <p class="date">[[ ::conv.date ]]</p>
+                </div>
             </div>
-        </a>
-    </div>
-</div>
-
-<div class="row" ng-if="(!spinner) && (conversations) && (conversations.length == 0)">
-    <div class="col-xs-12" style="text-align: center;">
-        <div style="margin: 150px;">
-            <h4 class="text-info">[[ 'MESSAGES_HEADER' | translate ]]</h4>
         </div>
     </div>
 </div>

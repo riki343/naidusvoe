@@ -1,65 +1,181 @@
-<div ng-init="getFavs();">
-    <div class="row">
-        <div class="col-md-12 hidden-sm hidden-xs">
-            <div class="btn-group btn-group-justified">
-                <a class="btn btn-default" href="/cabinet">[[ 'BUTTON_ADVERTISMENT' | translate ]]</a>
-                <a class="btn btn-default" href="/cabinet/messages">[[ 'BUTTON_MESSAGES' | translate ]]</a>
-                <a class="btn btn-default" href="/cabinet/settings">[[ 'BUTTON_SETTINGS' | translate ]]</a>
-                <a class="btn btn-default active" href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]</a>
-            </div>
-        </div>
-        <div class="col-xs-12 hidden-lg hidden-md">
-            <div class="btn-group btn-group-justified">
-                <a class="btn btn-default" href="/cabinet">[[ 'BUTTON_ADVERTISMENT' | translate ]]</a>
-                <a class="btn btn-default" href="/cabinet/messages">[[ 'BUTTON_MESSAGES' | translate ]]</a>
-            </div>
-            <div class="btn-group btn-group-justified">
-                <a class="btn btn-default" href="/cabinet/settings">[[ 'BUTTON_SETTINGS' | translate ]]</a>
-                <a class="btn btn-default active" href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]</a>
-            </div>
-        </div>
+<div id="block-one-form">
+    <h1 class="user">
+        Кабінет
+    </h1>
+    <div class="prof-menu">
+        <ul class="profile-menu">
+            <li class="profile"><a ng-href="/cabinet">Профіль</a></li>
+            <li class="ogolosh"><a ng-href="/cabinet/advs">Оголошення</a></li>
+            <li class="povid">  <a ng-href="/cabinet/messages">Повідомлення</a></li>
+            <li class="nalasht"><a ng-href="/cabinet/settings">Налаштування</a></li>
+            <li class="obrani"> <a ng-href="/cabinet/favorites">Обрані</a></li>
+        </ul>
     </div>
-
-    <div class="page-header">
-        <h3>[[ 'FAVORITES_HEADER' | translate ]]</h3>
-    </div>
-
-    <div class="row" ng-if="spinner">
-        <div class="col-xs-12 text-center" style="padding-top: 150px;">
-            <div class="center-block whirly"></div>
-        </div>
-    </div>
-
-    <div class="row" style="padding: 20px;" ng-if="(!spinner) && (favs) && (favs.length > 0)">
-        <div ng-repeat="adv in favs" class="col-xs-12 img-thumbnail" style="margin-top: 20px;">
-            <div class="row">
-                <div class="col-xs-3">
-                    <img class="img-responsive" ng-src="[[ adv.advertisment.image ]]" />
-                </div>
-                <div class="col-xs-9">
-                    <button type="button" class="close" ng-click="deleteFav(adv.id, $index);">&times;</button>
-                    <div class="clearfix"></div>
-                    <h3 class="text-info"><a ng-href="/adv/trade/[[ adv.advertisment.id ]]">[[ adv.advertisment.title ]]</a></h3>
-                    <p><b>[[ adv.advertisment.subCategory.name ]]</b></p>
-                    <p>
-                        <i>
-                            [[ adv.advertisment.description.substr(0, 100) ]]...
-                        </i>
-                    </p>
-                    <p>[[ adv.advertisment.price + ' ' + adv.advertisment.priceType.name ]]</p>
-                    <p class="pull-right text-muted">
-                        <i>[[ adv.advertisment.date ]]</i>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row" ng-if="(!spinner) && (favs) && (favs.length == 0)">
-        <div class="col-xs-12" style="text-align: center;">
-            <div style="margin: 150px auto;">
-                <h4 class="text-info">[[ 'NO_FAVORITES_HEADER' | translate ]]</h4>
+    <div class="profile">
+        <p class="p-info">Налаштування профілю</p>
+        <div class="info-box">
+            <div class="o-table width-50">
+                <div class="o-column">
+                    <div class="o-row">
+                        <div class="o-cell date">
+                            <p><span class="date">Сьогодні</span>
+                                <span class="time">20:20</span></p>
+                        </div>
+                        <div class="o-cell photo">
+                            <img src="skoda.jpg">
+                        </div>
+                        <div class="o-cell info">
+                            <h2 class="term"><a href="#">Skoda Octavia</a></h2>
+                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
+                            <h3><a href="#">Київ</a></h3>
+                        </div>
+                        <div class="o-cell price">
+                            <p>12000$</p>
+                            <ul class="reit">
+                                <li class="wote"></li>
+                                <li class="comment">
+                                    <a href="#"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="o-row">
+                        <div class="o-cell date">
+                            <p><span class="date">Сьогодні</span>
+                                <span class="time">20:20</span></p>
+                        </div>
+                        <div class="o-cell photo">
+                            <img src="skoda.jpg">
+                        </div>
+                        <div class="o-cell info">
+                            <h2><a href="#">Skoda Octavia</a></h2>
+                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
+                            <h3><a href="#">Київ</a></h3>
+                        </div>
+                        <div class="o-cell price">
+                            <p>12000$</p>
+                            <ul class="reit">
+                                <li class="wote"></li>
+                                <li class="comment">
+                                    <a href="#"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="o-row">
+                        <div class="o-cell date">
+                            <p><span class="date">Сьогодні</span>
+                                <span class="time">20:20</span></p>
+                        </div>
+                        <div class="o-cell photo">
+                            <img src="skoda.jpg">
+                        </div>
+                        <div class="o-cell info">
+                            <h2 class="term"><a href="#">Skoda Octavia</a></h2>
+                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
+                            <h3><a href="#">Київ</a></h3>
+                        </div>
+                        <div class="o-cell price">
+                            <p>12000$</p>
+                            <ul class="reit">
+                                <li class="wote"></li>
+                                <li class="comment">
+                                    <a href="#"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="o-row">
+                        <div class="o-cell date">
+                            <p><span class="date">Сьогодні</span>
+                                <span class="time">20:20</span></p>
+                        </div>
+                        <div class="o-cell photo">
+                            <img src="skoda.jpg">
+                        </div>
+                        <div class="o-cell info">
+                            <h2 class="term"><a href="#">Skoda Octavia</a></h2>
+                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
+                            <h3><a href="#">Київ</a></h3>
+                        </div>
+                        <div class="o-cell price">
+                            <p>12000$</p>
+                            <ul class="reit">
+                                <li class="wote"></li>
+                                <li class="comment">
+                                    <a href="#"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- end -->
             </div>
         </div>
     </div>
 </div>
+
+<!--<div ng-init="getFavs();">-->
+    <!--<div class="row">-->
+        <!--<div class="col-md-12 hidden-sm hidden-xs">-->
+            <!--<div class="btn-group btn-group-justified">-->
+                <!--<a class="btn btn-default" href="/cabinet">[[ 'BUTTON_ADVERTISMENT' | translate ]]</a>-->
+                <!--<a class="btn btn-default" href="/cabinet/messages">[[ 'BUTTON_MESSAGES' | translate ]]</a>-->
+                <!--<a class="btn btn-default" href="/cabinet/settings">[[ 'BUTTON_SETTINGS' | translate ]]</a>-->
+                <!--<a class="btn btn-default active" href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]</a>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-xs-12 hidden-lg hidden-md">-->
+            <!--<div class="btn-group btn-group-justified">-->
+                <!--<a class="btn btn-default" href="/cabinet">[[ 'BUTTON_ADVERTISMENT' | translate ]]</a>-->
+                <!--<a class="btn btn-default" href="/cabinet/messages">[[ 'BUTTON_MESSAGES' | translate ]]</a>-->
+            <!--</div>-->
+            <!--<div class="btn-group btn-group-justified">-->
+                <!--<a class="btn btn-default" href="/cabinet/settings">[[ 'BUTTON_SETTINGS' | translate ]]</a>-->
+                <!--<a class="btn btn-default active" href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]</a>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="page-header">-->
+        <!--<h3>[[ 'FAVORITES_HEADER' | translate ]]</h3>-->
+    <!--</div>-->
+
+    <!--<div class="row" ng-if="spinner">-->
+        <!--<div class="col-xs-12 text-center" style="padding-top: 150px;">-->
+            <!--<div class="center-block whirly"></div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="row" style="padding: 20px;" ng-if="(!spinner) && (favs) && (favs.length > 0)">-->
+        <!--<div ng-repeat="adv in favs" class="col-xs-12 img-thumbnail" style="margin-top: 20px;">-->
+            <!--<div class="row">-->
+                <!--<div class="col-xs-3">-->
+                    <!--<img class="img-responsive" ng-src="[[ adv.advertisment.image ]]" />-->
+                <!--</div>-->
+                <!--<div class="col-xs-9">-->
+                    <!--<button type="button" class="close" ng-click="deleteFav(adv.id, $index);">&times;</button>-->
+                    <!--<div class="clearfix"></div>-->
+                    <!--<h3 class="text-info"><a ng-href="/adv/trade/[[ adv.advertisment.id ]]">[[ adv.advertisment.title ]]</a></h3>-->
+                    <!--<p><b>[[ adv.advertisment.subCategory.name ]]</b></p>-->
+                    <!--<p>-->
+                        <!--<i>-->
+                            <!--[[ adv.advertisment.description.substr(0, 100) ]]...-->
+                        <!--</i>-->
+                    <!--</p>-->
+                    <!--<p>[[ adv.advertisment.price + ' ' + adv.advertisment.priceType.name ]]</p>-->
+                    <!--<p class="pull-right text-muted">-->
+                        <!--<i>[[ adv.advertisment.date ]]</i>-->
+                    <!--</p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="row" ng-if="(!spinner) && (favs) && (favs.length == 0)">-->
+        <!--<div class="col-xs-12" style="text-align: center;">-->
+            <!--<div style="margin: 150px auto;">-->
+                <!--<h4 class="text-info">[[ 'NO_FAVORITES_HEADER' | translate ]]</h4>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->

@@ -10,12 +10,19 @@ use Doctrine\ORM\EntityManager;
 class Functions {
     /**
      * @param $array
+     * @param User|null $user
      * @return array
      */
-    public static function arrayToJson($array) {
+    public static function arrayToJson($array, $user = null) {
         $jsonArray = array();
-        foreach ($array as $item) {
-            $jsonArray[] = $item->getInArray();
+        if ($user === null) {
+            foreach ($array as $item) {
+                $jsonArray[] = $item->getInArray();
+            }
+        } else {
+            foreach ($array as $item) {
+                $jsonArray[] = $item->getInArray($user);
+            }
         }
         return $jsonArray;
     }
@@ -58,13 +65,21 @@ class Functions {
 
     /**
      * @param $array
+     * @param User|null $user
      * @return array
      */
-    public static function arrayToJsonSingle($array) {
+    public static function arrayToJsonSingle($array, $user = null) {
         $jsonArray = array();
-        foreach ($array as $item) {
-            $jsonArray[] = $item->getSingleInArray();
+        if ($user === null) {
+            foreach ($array as $item) {
+                $jsonArray[] = $item->getSingleInArray();
+            }
+        } else {
+            foreach ($array as $item) {
+                $jsonArray[] = $item->getSingleInArray($user);
+            }
         }
+
         return $jsonArray;
     }
 
