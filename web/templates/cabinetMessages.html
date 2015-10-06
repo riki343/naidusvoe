@@ -30,7 +30,7 @@
         <div class="info-box" ng-if="cmessages.conversations.length > 0">
             <div class="povidom">
 
-                <div class="message" ng-repeat="conv in cmessages.conversations">
+                <div class="message" ng-repeat="conv in cmessages.conversations track by $index">
 
                     <div ng-if="conv.myself.id != conv.user1.id">
                         <a class="mess-img" href="#">

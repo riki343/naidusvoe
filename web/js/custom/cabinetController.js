@@ -31,11 +31,11 @@
             'type': '',
             'visible': false
         };
-        $scope.favs = [];
-        $scope.userMsgs = [];
+        $scope.deleteAccount = false;
+
+        $scope.urlDeleteAccount = Routing.generate('user-delete-account');
+
         $scope.contactInfo = [];
-        $scope.regions = [];
-        $scope.conv = [];
         $scope.message = '';
         $scope.asset = '/';
         $scope.glued = true;
@@ -55,51 +55,32 @@
             });
         };
 
-        $scope.getFavs = function () {
-            $scope.spinner = true;
-            var promise = $http.get(Routing.generate('get-user-favs'));
-            promise.success(function (response) {
-                $scope.favs = response;
-                $scope.spinner = false;
-            });
-        };
-
-        $scope.deleteFav = function (fav_id, index) {
-            $http.delete($scope.urlDeleteFav.replace('fav_id', fav_id))
-                .success(function (response) {
-                    switch (response) {
-                        case 1: $scope.favs.splice(index, 1); break;
-                    }
-                }
-            );
-        };
-
         $scope.saveContactInfo = function (info) {
-            $http.post($scope.urlSaveContactInfo, { 'info': info })
+            $http.post(Routing.generate('user-change-contact-info'), { 'info': info })
                 .success(function (response) {}
             );
         };
 
         $scope.changePassword = function (changes) {
-            $http.post($scope.urlSaveNewPass, { 'changes': changes })
+            $http.post(Routing.generate('user-change-pass'), { 'changes': changes })
                 .success(function (response) {}
             );
         };
 
         $scope.changeEmail = function (changes) {
-            $http.post($scope.urlSaveNewEmail, { 'changes': changes })
+            $http.post(Routing.generate('user-change-email'), { 'changes': changes })
                 .success(function (response) {}
             );
         };
 
         $scope.saveEmailNotificationSettings = function (settings) {
-            $http.post($scope.urlSaveEmailNotificationsSettings, { 'settings': settings })
+            $http.post(Routing.generate('user-change-email-settings'), { 'settings': settings })
                 .success(function (response) {}
             );
         };
 
         $scope.saveSmsNotificationSettings = function (settings) {
-            $http.post($scope.urlSaveSmsNotificationsSettings, { 'settings': settings })
+            $http.post(Routing.generate('user-change-sms-settings'), { 'settings': settings })
                 .success(function (response) {}
             );
         };

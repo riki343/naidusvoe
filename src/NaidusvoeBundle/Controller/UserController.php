@@ -54,11 +54,12 @@ class UserController extends Controller
 
     /**
      * @Security("has_role('ROLE_USER')")
+     * @Route("/user/change-contact-info", name="user-change-contact-info", options={"expose"=true})
      * @param Request $request
-     * @param int $user_id
      * @return JsonResponse
      */
-    public function saveContactInfoAction(Request $request, $user_id) {
+    public function saveContactInfoAction(Request $request) {
+        $user_id = $this->getUser()->getId();
         $data = json_decode($request->getContent(), true);
         $data = (object) $data['info'];
         /** @var EntityManager $em */
@@ -75,11 +76,12 @@ class UserController extends Controller
 
     /**
      * @Security("has_role('ROLE_USER')")
+     * @Route("/user/change-pass", name="user-change-pass", options={"expose"=true})
      * @param Request $request
-     * @param int $user_id
      * @return JsonResponse
      */
-    public function changePasswordAction(Request $request, $user_id) {
+    public function changePasswordAction(Request $request) {
+        $user_id = $this->getUser()->getId();
         $data = json_decode($request->getContent(), true);
         $data = (object) $data['changes'];
         /** @var EncoderFactory $encoderFactory */
@@ -108,11 +110,12 @@ class UserController extends Controller
 
     /**
      * @Security("has_role('ROLE_USER')")
+     * @Route("/user/change-email", name="user-change-email", options={"expose"=true})
      * @param Request $request
-     * @param int $user_id
      * @return JsonResponse
      */
-    public function changeEmailAction(Request $request, $user_id) {
+    public function changeEmailAction(Request $request) {
+        $user_id = $this->getUser()->getId();
         $data = json_decode($request->getContent(), true);
         $data = (object) $data['changes'];
         if ($data->email && $data->email == $data->remail) {
@@ -133,11 +136,12 @@ class UserController extends Controller
 
     /**
      * @Security("has_role('ROLE_USER')")
+     * @Route("/user/change-email-settings", name="user-change-email-settings", options={"expose"=true})
      * @param Request $request
-     * @param int $user_id
      * @return JsonResponse
      */
-    public function saveEmailNotificationSettingsAction(Request $request, $user_id) {
+    public function saveEmailNotificationSettingsAction(Request $request) {
+        $user_id = $this->getUser()->getId();
         $data = json_decode($request->getContent(), true);
         $data = (object) $data['settings'];
         /** @var EntityManager $em */
@@ -154,11 +158,12 @@ class UserController extends Controller
 
     /**
      * @Security("has_role('ROLE_USER')")
+     * @Route("/user/change-sms-settings", name="user-change-sms-settings", options={"expose"=true})
      * @param Request $request
-     * @param int $user_id
      * @return JsonResponse
      */
-    public function saveSmsNotificationSettingsAction(Request $request, $user_id) {
+    public function saveSmsNotificationSettingsAction(Request $request) {
+        $user_id = $this->getUser()->getId();
         $data = json_decode($request->getContent(), true);
         $data = (object) $data['settings'];
         /** @var EntityManager $em */
@@ -175,6 +180,7 @@ class UserController extends Controller
 
     /**
      * @Security("has_role('ROLE_USER')")
+     * @Route("/user/delete-account", name="user-delete-account", options={"expose"=true})
      * @return RedirectResponse
      */
     public function deleteAccountAction() {
@@ -246,6 +252,8 @@ class UserController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_USER')")
+     * @Route("/user/delete-fav/{fav_id}", name="delete-user-fav", options={"expose"=true})
      * @param int $fav_id
      * @return JsonResponse
      */

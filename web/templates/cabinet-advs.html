@@ -46,7 +46,7 @@
             </div>
             <div ng-class="cadvs.advsView">
                 <div class="o-column">
-                    <advertisment ng-repeat="adv in cadvs.userAdvs" class="o-row"
+                    <advertisment ng-repeat="adv in cadvs.userAdvs track by $index" class="o-row"
                                   advert="adv" show-del-button="true"
                                   ng-class="{ 'yellow': adv.advColor == true }">
                     </advertisment>

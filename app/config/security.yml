@@ -26,9 +26,14 @@ security:
             anonymous: ~
 
         secured_area:
+            remember_me:
+                key:      "%secret%"
+                lifetime: 31536000
+                path:     /
             pattern:    ^/
             anonymous: ~
             form_login:
+                remember_me: true
                 login_path: /login
                 check_path: /login_check
             logout:

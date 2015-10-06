@@ -1,4 +1,4 @@
-<div id="block-one-form">
+<div id="block-one-form" ng-controller="cabinetController as cabinet" ng-init="getInfo();">
     <h1 class="user">
         Кабінет
     </h1>
@@ -13,144 +13,189 @@
     </div>
 
     <div class="profile">
-        <p class="p-info">Налаштування профілю</p>
+        <p class="p-info">[[ 'SETTINGS_HEADER' | translate ]]</p>
         <div class="info-box">
             <div class="edit-menu-box">
                 <ul class="edit-menu">
-                    <li class="active"><a href="#">Змінити контактні дані</a></li>
-                    <li><a href="#">Змінити пароль</a></li>
-                    <li><a href="#">Змінити E-mail</a></li>
-                    <li><a href="#">E-mail повідомлення</a></li>
-                    <li><a href="#">SMS сповіщення</a></li>
-                    <li><a href="#">Видалити обліковий запис</a></li>
+
+                    <!--<a class="btn btn-default" href="/cabinet">[[ 'BUTTON_ADVERTISMENT' | translate ]]</a>-->
+                    <!--<a class="btn btn-default" href="/cabinet/messages">[[ 'BUTTON_MESSAGES' | translate ]]</a>-->
+                    <!--<a class="btn btn-default active" href="/cabinet/settings">[[ 'BUTTON_SETTINGS' | translate ]]</a>-->
+                    <!--<a class="btn btn-default" href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]</a>-->
+
+                    <li ng-click="cabinet.activeTab = 1;" ng-class="{ 'active': cabinet.activeTab == 1 }">
+                        <a style="cursor: pointer;">Змінити контактні дані</a>
+                    </li>
+                    <li ng-click="cabinet.activeTab = 2;" ng-class="{ 'active': cabinet.activeTab == 2 }">
+                        <a style="cursor: pointer;">Змінити пароль</a>
+                    </li>
+                    <li ng-click="cabinet.activeTab = 3;" ng-class="{ 'active': cabinet.activeTab == 3 }">
+                        <a style="cursor: pointer;">Змінити E-mail</a>
+                    </li>
+                    <li ng-click="cabinet.activeTab = 4;" ng-class="{ 'active': cabinet.activeTab == 4 }">
+                        <a style="cursor: pointer;">E-mail повідомлення</a>
+                    </li>
+                    <li ng-click="cabinet.activeTab = 5;" ng-class="{ 'active': cabinet.activeTab == 5 }">
+                        <a style="cursor: pointer;">SMS сповіщення</a>
+                    </li>
+                    <li ng-click="cabinet.activeTab = 6;" ng-class="{ 'active': cabinet.activeTab == 6 }">
+                        <a style="cursor: pointer;">Видалити обліковий запис</a>
+                    </li>
                 </ul>
             </div>
 
-            <div class="profile-form-box">
-                <form id="edit-kontakt">
+            <div ng-show="cabinet.activeTab == 1" class="profile-form-box">
+                <form id="edit-kontakt" ng-submit="saveContactInfo(contactInfo);" novalidate>
                     <ul class="edit-kontakt">
-                        <li class="value"><p>Регіон</p></li>
+                        <li class="value"><p>[[ 'LABEL_REGION' | translate ]]</p></li>
                         <li class="input">
-                            <select id="region">
-                                <option>Region-1</option>
-                                <option>Region-2</option>
-                                <option>Region-3</option>
+                            <select id="region" ng-model="contactInfo.region">
+                                <option ng-repeat="region in regions" value="[[ region.id ]]">[[ region.name ]]</option>
                             </select>
                         </li>
-                        <li class="value"><p>Місто</p></li>
+
+                        <li class="value"><p>[[ 'LABEL_CITY' | translate ]]</p></li>
                         <li class="input">
-                            <select id="region">
-                                <option>Місто-1</option>
-                                <option>Місто-2</option>
-                                <option>Місто-3</option>
-                            </select>
+                            <input type="text" ng-model="contactInfo.city" />
                         </li>
+
                         <li class="value"><p>Контактна особа</p></li>
                         <li class="input">
-                            <input type="text" id="osoba" style="background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==); background-attachment: scroll; background-position: 100% 50%; background-repeat: no-repeat;">
+                            <input type="text" id="osoba" ng-model="contactInfo.name">
                         </li>
-                        <li class="value"><p>Номер телефону</p></li>
+
+                        <li class="value"><p>[[ 'LABEL_CONTACT_NUMBER' | translate ]]</p></li>
                         <li class="input">
-                            <input type="text" id="phone">
+                            <input type="text" id="phone" ng-model="contactInfo.telephoneNumber" />
                         </li>
-                        <li class="value"><p>Skype</p></li>
+
+                        <li class="value"><p>[[ 'LABEL_SKYPE' | translate ]]</p></li>
                         <li class="input">
-                            <input type="text" id="skype">
+                            <input type="text" id="skype" ng-model="contactInfo.skype">
                         </li>
+
                         <li class="button">
-                            <button type="submit">Зберегти</button>
+                            <button type="submit">[[ 'BUTTON_SAVE' | translate ]]</button>
                             <button type="reset">Очистити</button>
                         </li>
                     </ul>
                 </form>
             </div>
 
-            <div class="profile-form-box">
-                <form id="edit-passw">
+            <div ng-show="cabinet.activeTab == 2" class="profile-form-box">
+                <form id="edit-passw" name="changePassForm" ng-submit="changePassword(passChange);" novalidate>
                     <ul class="edit-kontakt">
-                        <li class="value"><p>Новий пароль</p></li>
+
+                        <li class="value"><p>[[ 'LABEL_OLD_PASS' | translate ]]</p></li>
                         <li class="input">
-                            <input type="text" id="passw">
+                            <input type="text" id="opassw" ng-model="passChange.opass">
                         </li>
-                        <li class="value"><p>Повторити новий пароль</p></li>
+
+                        <li class="value"><p>[[ 'LABEL_NEW_PASS' | translate ]]</p></li>
                         <li class="input">
-                            <input type="text" id="passw1">
+                            <input type="text" id="passw" ng-model="passChange.pass">
                         </li>
+
+                        <li class="value"><p>[[ 'LABEL_NEW_RPASS' | translate ]]</p></li>
+                        <li class="input">
+                            <input type="text" id="passw1" ng-model="passChange.rpass" />
+                        </li>
+
                         <li class="button">
-                            <button type="submit">Зберегти</button>
+                            <button type="submit" ng-disabled="(passChange.pass != passChange.rpass) || (!passChange.pass)">
+                                [[ 'BUTTON_SAVE' | translate ]]
+                            </button>
                             <button type="reset">Очистити</button>
                         </li>
                     </ul>
                 </form>
             </div>
 
-            <div class="profile-form-box">
-                <form id="edit-mail">
+            <div ng-show="cabinet.activeTab == 3" class="profile-form-box">
+                <form id="edit-mail" name="changeEmailForm" ng-submit="changeEmail(emailChange);">
                     <ul class="edit-kontakt">
-                        <li class="value"><p>Новий E-mail</p></li>
+                        <li class="value"><p>[[ 'LABEL_NEW_EMAIL' | translate ]]</p></li>
                         <li class="input">
-                            <input type="text" id="nmail">
+                            <input type="text" id="nmail" ng-model="emailChange.email">
                         </li>
+
+                        <li class="value"><p>[[ 'LABEL_NEW_REMAIL' | translate ]]</p></li>
+                        <li class="input">
+                            <input type="text" id="nrmail" ng-model="emailChange.remail">
+                        </li>
+
                         <li class="button">
-                            <button type="submit">Зберегти</button>
+                            <button type="submit" ng-disabled="(emailChange.email != emailChange.remail) || (!emailChange.email)">
+                                [[ 'BUTTON_SAVE' | translate ]]
+                            </button>
                             <button type="reset">Очистити</button>
                         </li>
                     </ul>
                 </form>
             </div>
 
-            <div class="profile-form-box">
-                <form id="edit-emess">
+            <div ng-show="cabinet.activeTab == 4" class="profile-form-box">
+                <form id="edit-emess" ng-submit="saveEmailNotificationSettings(emailSettings);">
                     <ul class="edit-kontakt">
                         <li class="input">
-                            <input type="checkbox" id="e-pov">
+                            <input type="checkbox" id="e-pov" ng-model="emailSettings.notifications">
                             <label for="e-pov"></label>
-                            <p>Хочу отримувати E-mail про нові повідомлення</p>
+                            <p>[[ 'LABEL_NEW_MAIL_NOTIFICATIONS' | translate ]]</p>
                         </li>
                         <li class="input">
-                            <input type="checkbox" id="e-roz">
+                            <input type="checkbox" id="e-roz" ng-model="emailSettings.spam">
                             <label for="e-roz"></label>
-                            <p>Хочу отримувати розсилку</p>
+                            <p>[[ 'LABEL_EMAIL_SPAM' | translate ]]</p>
                         </li>
                         <li class="button">
-                            <button type="submit">Зберегти</button>
+                            <button type="submit">[[ 'BUTTON_SAVE' | translate ]]</button>
                             <button type="reset">Очистити</button>
                         </li>
                     </ul>
                 </form>
             </div>
 
-            <div class="profile-form-box">
-                <form id="edit-sms">
+            <div ng-show="cabinet.activeTab == 5" class="profile-form-box">
+                <form id="edit-sms" ng-submit="saveSmsNotificationSettings(smsSettings);">
                     <ul class="edit-kontakt">
-                        <li class="value">
-                            <p>Введіть свій номер телефону</p>
-                        </li>
                         <li class="input">
-                            <input type="text" id="t-sms">
+                            <input type="checkbox" id="sms-spam" ng-model="smsSettings.notifications" >
+                            <label for="e-pov"></label>
+                            <p>[[ 'LABEL_NEW_SMS_NOTIFICATIONS' | translate ]]</p>
+                        </li>
+
+                        <li class="value" ng-show="smsSettings.notifications">
+                            <p>[[ 'LABEL_TELEPHONE_NUMBER' | translate ]]</p>
+                        </li>
+                        <li class="input" ng-show="smsSettings.notifications">
+                            <input type="text" id="t-sms" ng-model="smsSettings.telephoneNumber" />
                             <span>наприклад 096-1234-567</span>
                         </li>
+
                         <li class="button">
-                            <button type="submit">Зберегти</button>
+                            <button type="submit">[[ 'BUTTON_SAVE' | translate ]]</button>
                             <button type="reset">Очистити</button>
                         </li>
                     </ul>
                 </form>
             </div>
 
-            <div class="profile-form-box">
+            <div ng-show="cabinet.activeTab == 6" class="profile-form-box">
                 <form id="delite">
                     <ul class="edit-kontakt">
                         <li class="value">
                             <p class="achtung">В разі видалення облікового запису всі ваші оголошення будуть зняті з публікації. Ви зможете відновити свій обліковий запис впродовж 30 днів.</p>
                         </li>
+
                         <li class="input">
-                            <input type="checkbox" id="del">
+                            <input type="checkbox" id="del" ng-model="deleteAccount" />
                             <label for="del"></label>
                             <p>Видалити обліковий запис</p>
                         </li>
-                        <li class="button">
-                            <button type="submit">Видалити</button>
+                        <li class="button" ng-disabled="!deleteAccount">
+                            <a ng-href="[[ urlDeleteAccount ]]" target="_self" type="submit">
+                                [[ 'LINK_DELETE_ACCOUNT' | translate ]]
+                            </a>
                         </li>
                     </ul>
                 </form>
@@ -158,225 +203,3 @@
         </div>
     </div>
 </div>
-
-<!--<div class="row" ng-init="getInfo();">-->
-    <!--<div class="col-md-12 hidden-sm hidden-xs">-->
-        <!--<div class="btn-group btn-group-justified">-->
-            <!--<a class="btn btn-default" href="/cabinet">[[ 'BUTTON_ADVERTISMENT' | translate ]]</a>-->
-            <!--<a class="btn btn-default" href="/cabinet/messages">[[ 'BUTTON_MESSAGES' | translate ]]</a>-->
-            <!--<a class="btn btn-default active" href="/cabinet/settings">[[ 'BUTTON_SETTINGS' | translate ]]</a>-->
-            <!--<a class="btn btn-default" href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]</a>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<div class="col-xs-12 hidden-lg hidden-md">-->
-        <!--<div class="btn-group btn-group-justified">-->
-            <!--<a class="btn btn-default" href="/cabinet">[[ 'BUTTON_ADVERTISMENT' | translate ]]</a>-->
-            <!--<a class="btn btn-default" href="/cabinet/messages">[[ 'BUTTON_MESSAGES' | translate ]]</a>-->
-        <!--</div>-->
-        <!--<div class="btn-group btn-group-justified">-->
-            <!--<a class="btn btn-default active" href="/cabinet/settings">[[ 'BUTTON_SETTINGS' | translate ]]</a>-->
-            <!--<a class="btn btn-default" href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]</a>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
-
-<!--<div class="page-header">-->
-    <!--<h3>[[ 'SETTINGS_HEADER' | translate ]]</h3>-->
-<!--</div>-->
-
-<!--<div class="row" ng-if="spinner">-->
-    <!--<div class="col-xs-12 text-center" style="padding-top: 150px;">-->
-        <!--<div class="center-block whirly"></div>-->
-    <!--</div>-->
-<!--</div>-->
-
-
-<!--<div class="row" ng-if="!spinner"  style="margin-bottom: 10px;">-->
-    <!--<div class="col-md-3 col-xs-12 col-sm-4">-->
-        <!--<ul class="nav nav-pills btn-group btn-group-justified btn-group-vertical center-block hidden-xs">-->
-            <!--<li class="active" style="width: 100%;">-->
-                <!--<a data-toggle="tab" data-target="#settings-change-contacts" class="btn">[[ 'TAB_CHANGE_CONTACT_INFO' | translate ]]</a>-->
-            <!--</li>-->
-            <!--<li style="width: 100%;">-->
-                <!--<a class="btn" data-toggle="tab" data-target="#settings-change-pass">[[ 'TAB_CHANGE_PASS' | translate ]]</a>-->
-            <!--</li>-->
-            <!--<li style="width: 100%;">-->
-                <!--<a class="btn" data-toggle="tab" data-target="#settings-change-email">[[ 'TAB_CHANGE_EMAIL' | translate ]]</a>-->
-            <!--</li>-->
-            <!--<li style="width: 100%;">-->
-                <!--<a class="btn" data-toggle="tab" data-target="#settings-notifications-email">[[ 'TAB_CHANGE_EMAIL_NOTIFICATIONS' | translate ]]</a>-->
-            <!--</li>-->
-            <!--<li style="width: 100%;">-->
-                <!--<a class="btn" data-toggle="tab" data-target="#settings-notifications-sms">[[ 'TAB_CHANGE_SMS_NOTIFICATIONS' | translate ]]</a>-->
-            <!--</li>-->
-            <!--<li style="width: 100%;">-->
-                <!--<a class="btn" data-toggle="tab" data-target="#settings-delete-account">[[ 'TAB_DELETE_ACCOUNT' | translate ]]</a>-->
-            <!--</li>-->
-        <!--</ul>-->
-
-        <!--<ul class="nav nav-pills hidden-lg hidden-md hidden-sm">-->
-            <!--<li class="active">-->
-                <!--<a class="btn" data-toggle="tab" data-target="#settings-change-contacts">[[ 'TAB_CHANGE_CONTACT_INFO' | translate ]]</a>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<a class="btn" data-toggle="tab" data-target="#settings-change-pass">З[[ 'TAB_CHANGE_PASS' | translate ]]</a>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<a class="btn" data-toggle="tab" data-target="#settings-change-email">[[ 'TAB_CHANGE_EMAIL' | translate ]]</a>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<a class="btn" data-toggle="tab" data-target="#settings-notifications-email">[[ 'TAB_CHANGE_EMAIL_NOTIFICATIONS' | translate ]]</a>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<a class="btn" data-toggle="tab" data-target="#settings-notifications-sms">[[ 'TAB_CHANGE_SMS_NOTIFICATIONS' | translate ]]</a>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<a class="btn" data-toggle="tab" data-target="#settings-delete-account">[[ 'TAB_DELETE_ACCOUNT' | translate ]]</a>-->
-            <!--</li>-->
-        <!--</ul>-->
-    <!--</div>-->
-
-    <!--<div class="col-md-9 col-xs-12 col-sm-8">-->
-        <!--<div class="tab-content" style="padding-top: 20px;">-->
-            <!--<div id="settings-change-contacts" class="tab-pane fade in active">-->
-                <!--<form name="contactsForm">-->
-                    <!--<p>-->
-                        <!--<b>[[ 'LABEL_REGION' | translate ]]</b> <br/>-->
-                        <!--<select class="form-control" ng-model="contactInfo.region">-->
-                            <!--<option ng-repeat="region in regions" value="[[ region.id ]]">[[ region.name ]]</option>-->
-                        <!--</select><br/>-->
-                    <!--</p>-->
-                    <!--<p>-->
-                        <!--<b>[[ 'LABEL_CITY' | translate ]]</b> <br/>-->
-                        <!--<input type="text" class="form-control" ng-model="contactInfo.city" /><br/>-->
-                    <!--</p>-->
-                    <!--<p>-->
-                        <!--<b>[[ 'LABEL_NAME' | translate ]]</b> <br/>-->
-                        <!--<input type="text" class="form-control" ng-model="contactInfo.name" /><br/>-->
-                    <!--</p>-->
-                    <!--<p>-->
-                        <!--<b>[[ 'LABEL_LAST_NAME' | translate ]]</b>  <br/>-->
-                        <!--<input type="text" class="form-control" ng-model="contactInfo.surname"/><br/>-->
-                    <!--</p>-->
-                    <!--<p>-->
-                        <!--<b>[[ 'LABEL_CONTACT_NUMBER' | translate ]]</b> <br/>-->
-                        <!--<input type="tel" class="form-control" ng-model="contactInfo.telephoneNumber"/><br/>-->
-                    <!--</p>-->
-                    <!--<p>-->
-                        <!--<b>[[ 'LABEL_SKYPE' | translate ]]</b> <br/>-->
-                        <!--<input type="text" class="form-control" ng-model="contactInfo.skype"/><br/>-->
-                    <!--</p>-->
-                    <!--<button type="button"-->
-                            <!--class="btn btn-default"-->
-                            <!--ng-click="saveContactInfo(contactInfo);">-->
-                        <!--[[ 'BUTTON_SAVE' | translate ]]-->
-                    <!--</button>-->
-                <!--</form>-->
-            <!--</div>-->
-
-            <!--<div id="settings-change-pass" class="tab-pane fade">-->
-                <!--<form name="changePassForm">-->
-                    <!--<p>-->
-                        <!--<b>[[ 'LABEL_OLD_PASS' | translate ]]</b> <br/>-->
-                        <!--<input type="password" class="form-control" ng-model="passChange.opass"/><br/>-->
-                    <!--</p>-->
-                    <!--<p>-->
-                        <!--<b>[[ 'LABEL_NEW_PASS' | translate ]]</b> <br/>-->
-                        <!--<input type="password" class="form-control" ng-model="passChange.pass"/><br/>-->
-                    <!--</p>-->
-                    <!--<p>-->
-                        <!--<b>[[ 'LABEL_NEW_RPASS' | translate ]]</b> <br/>-->
-                        <!--<input type="password" class="form-control" ng-model="passChange.rpass"/><br/>-->
-                    <!--</p>-->
-                    <!--<p>-->
-                        <!--<button type="button"-->
-                                <!--class="btn btn-default"-->
-                                <!--ng-class="{'disabled': (passChange.pass != passChange.rpass) || (!passChange.pass) }"-->
-                                <!--ng-click="changePassword(passChange);">-->
-                            <!--[[ 'BUTTON_SAVE' | translate ]]-->
-                        <!--</button>-->
-                    <!--</p>-->
-                <!--</form>-->
-            <!--</div>-->
-
-            <!--<div id="settings-change-email" class="tab-pane fade">-->
-                <!--<form name="changeEmailForm">-->
-                    <!--<p>-->
-                        <!--<b>[[ 'LABEL_NEW_EMAIL' | translate ]]</b> <br/>-->
-                        <!--<input type="email" class="form-control" ng-model="emailChange.email"/><br/>-->
-                    <!--</p>-->
-                    <!--<p>-->
-                        <!--<b>[[ 'LABEL_NEW_REMAIL' | translate ]]</b> <br/>-->
-                        <!--<input type="email" class="form-control" ng-model="emailChange.remail"/><br/>-->
-                    <!--</p>-->
-                    <!--<button type="button"-->
-                            <!--class="btn btn-default"-->
-                            <!--ng-class="{'disabled': (emailChange.email != emailChange.remail) || (!emailChange.email) }"-->
-                            <!--ng-click="changeEmail(emailChange);">-->
-                        <!--[[ 'BUTTON_SAVE' | translate ]]-->
-                    <!--</button>-->
-                <!--</form>-->
-            <!--</div>-->
-
-            <!--<div id="settings-notifications-email" class="tab-pane fade">-->
-                <!--<form>-->
-                    <!--<p>-->
-                        <!--<label>-->
-                            <!--<input type="checkbox" class="checkbox checkbox-inline" ng-model="emailSettings.notifications" />-->
-                            <!--<b>[[ 'LABEL_NEW_MAIL_NOTIFICATIONS' | translate ]]</b>-->
-                        <!--</label>-->
-                    <!--</p>-->
-                    <!--<p>-->
-                        <!--<label>-->
-                            <!--<input type="checkbox" class="checkbox checkbox-inline" ng-model="emailSettings.spam"/>-->
-                            <!--<b>[[ 'LABEL_EMAIL_SPAM' | translate ]]</b>-->
-                        <!--</label>-->
-                    <!--</p>-->
-                    <!--<p>-->
-                        <!--<button type="button"-->
-                                <!--class="btn btn-default"-->
-                                <!--ng-click="saveEmailNotificationSettings(emailSettings);">-->
-                            <!--[[ 'BUTTON_SAVE' | translate ]]-->
-                        <!--</button>-->
-                    <!--</p>-->
-                <!--</form>-->
-            <!--</div>-->
-
-            <!--<div id="settings-notifications-sms" class="tab-pane fade">-->
-                <!--<form>-->
-                    <!--<p>-->
-                        <!--<input type="checkbox" class="checkbox checkbox-inline" ng-model="smsSettings.notifications" />-->
-                        <!--<b>[[ 'LABEL_NEW_SMS_NOTIFICATIONS' | translate ]]</b>-->
-                    <!--</p>-->
-                    <!--<p ng-if="smsSettings.notifications">-->
-                        <!--<b>[[ 'LABEL_TELEPHONE_NUMBER' | translate ]]</b> <br/>-->
-                        <!--<input type="tel" class="form-control" ng-model="smsSettings.telephoneNumber"/>-->
-                    <!--</p>-->
-                    <!--<p>-->
-                        <!--<button type="button"-->
-                                <!--class="btn btn-default"-->
-                                <!--ng-click="saveSmsNotificationSettings(smsSettings);">-->
-                            <!--[[ 'BUTTON_SAVE' | translate ]]-->
-                        <!--</button>-->
-                    <!--</p>-->
-                <!--</form>-->
-            <!--</div>-->
-
-            <!--<div id="settings-delete-account" class="tab-pane fade">-->
-                <!--<a ng-href="[[ urlDeleteAccount ]]" target="_self">-->
-                    <!--[[ 'LINK_DELETE_ACCOUNT' | translate ]]-->
-                <!--</a>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="row" ng-if="notifications.visible">-->
-            <!--<div class="col-xs-12 fade in" style="margin-top: 10px;">-->
-                <!--<div class="alert" ng-class="notifications.type">-->
-                    <!--<p>[[ notifications.body ]]</p><br/>-->
-                    <!--<button type="button" class="btn btn-default" ng-click="notifications.visible = false;">-->
-                        <!--[[ 'BUTTON_CLOSE' | translate ]]-->
-                    <!--</button>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
