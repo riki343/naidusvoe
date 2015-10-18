@@ -1,9 +1,11 @@
 (function (angular) {
-    angular.module('NaiduSvoe').controller('cabinetController', cabinetController);
+    angular.module('NaiduSvoe').controller('cabinetSettingsController', Controller);
 
-    cabinetController.$inject = ['$scope', '$http', 'settingsService'];
+    Controller.$inject = [
+        '$scope', '$http', 'settingsService', '$translate', 'notify'
+    ];
 
-    function cabinetController ($scope, $http, settings) {
+    function Controller($scope, $http, settings, $translate, notify) {
         var self = this;
 
         this.activeTab = 1;
@@ -57,33 +59,67 @@
 
         $scope.saveContactInfo = function (info) {
             $http.post(Routing.generate('user-change-contact-info'), { 'info': info })
-                .success(function (response) {}
+                .success(function (response) {
+                    "use strict";
+                    if (response === 1) {
+                        $translate('CHANGES_SAVED').then(function (val) {
+                            notify(val);
+                        });
+                    }
+                }
             );
         };
 
         $scope.changePassword = function (changes) {
             $http.post(Routing.generate('user-change-pass'), { 'changes': changes })
-                .success(function (response) {}
+                .success(function (response) {
+                    "use strict";
+                    if (response === 1) {
+                        $translate('CHANGES_SAVED').then(function (val) {
+                            notify(val);
+                        });
+                    }
+                }
             );
         };
 
         $scope.changeEmail = function (changes) {
             $http.post(Routing.generate('user-change-email'), { 'changes': changes })
-                .success(function (response) {}
+                .success(function (response) {
+                    "use strict";
+                    if (response === 1) {
+                        $translate('CHANGES_SAVED').then(function (val) {
+                            notify(val);
+                        });
+                    }
+                }
             );
         };
 
         $scope.saveEmailNotificationSettings = function (settings) {
             $http.post(Routing.generate('user-change-email-settings'), { 'settings': settings })
-                .success(function (response) {}
+                .success(function (response) {
+                    "use strict";
+                    if (response === 1) {
+                        $translate('CHANGES_SAVED').then(function (val) {
+                            notify(val);
+                        });
+                    }
+                }
             );
         };
 
         $scope.saveSmsNotificationSettings = function (settings) {
             $http.post(Routing.generate('user-change-sms-settings'), { 'settings': settings })
-                .success(function (response) {}
+                .success(function (response) {
+                    "use strict";
+                    if (response === 1) {
+                        $translate('CHANGES_SAVED').then(function (val) {
+                            notify(val);
+                        });
+                    }
+                }
             );
         };
     }
-
 })(angular);

@@ -1,21 +1,14 @@
 <div id="block-one-form" ng-controller="cabinetAdvsController as cadvs" ng-init="cadvs.getUserAdvs();">
-
-    <div class="row" ng-if="spinner">
-        <div class="col-xs-12 text-center" style="padding-top: 150px;">
-            <div class="center-block whirly"></div>
-        </div>
-    </div>
-
     <h1 class="user">
         Кабінет
     </h1>
     <div class="prof-menu">
         <ul class="profile-menu">
-            <li class="profile"><a ng-href="/cabinet">Профіль</a></li>
-            <li class="ogolosh"><a ng-href="/cabinet/advs">[[ 'BUTTON_ADVERTISMENT' | translate ]]</a></li>
-            <li class="povid">  <a ng-href="/cabinet/messages">[[ 'BUTTON_MESSAGES' | translate ]]</a></li>
-            <li class="nalasht"><a ng-href="/cabinet/settings">[[ 'BUTTON_SETTINGS' | translate ]]</a></li>
-            <li class="obrani"> <a ng-href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]</a></li>
+            <li class="profile"><a ng-href="/cabinet">          [[ 'BUTTON_PROFILE' | translate ]]      </a></li>
+            <li class="ogolosh"><a ng-href="/cabinet/advs">     [[ 'BUTTON_ADVERTISMENT' | translate ]] </a></li>
+            <li class="povid">  <a ng-href="/cabinet/messages"> [[ 'BUTTON_MESSAGES' | translate ]]     </a></li>
+            <li class="nalasht"><a ng-href="/cabinet/settings"> [[ 'BUTTON_SETTINGS' | translate ]]     </a></li>
+            <li class="obrani"> <a ng-href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]    </a></li>
         </ul>
     </div>
     <div class="profile">
@@ -29,22 +22,7 @@
         </div>
 
         <div class="info-box" ng-if="(cadvs.userAdvs) && (cadvs.userAdvs.length > 0)">
-            <div class="o-table">
-                <div class="o-column">
-                    <div class="o-row top">
-                        <div class="o-cell">
-                            <p>[[ 'ADS_VIEW' | translate ]]</p>
-                        </div>
-                        <div class="o-cell">
-                            <ul class="menu column">
-                                <li class="colum-2"><a ng-click="cadvs.changeAdsView('o-table width-50');" style="cursor: pointer;"></a></li>
-                                <li class="colum-1"><a ng-click="cadvs.changeAdsView('o-table');" style="cursor: pointer;"></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div ng-class="cadvs.advsView">
+            <div class="o-table width-50">
                 <div class="o-column">
                     <advertisment ng-repeat="adv in cadvs.userAdvs track by $index" class="o-row"
                                   advert="adv" show-del-button="true"

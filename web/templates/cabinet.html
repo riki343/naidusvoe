@@ -1,98 +1,63 @@
-<div id="block-one-form">
+<div id="block-one-form" ng-controller="cabinetController as cabinet" ng-init="cabinet.getUser();">
     <h1 class="user">
         Кабінет
     </h1>
 
     <div class="prof-menu">
         <ul class="profile-menu">
-            <li class="profile"><a ng-href="/cabinet">Профіль</a></li>
-            <li class="ogolosh"><a ng-href="/cabinet/advs">Оголошення</a></li>
-            <li class="povid">  <a ng-href="/cabinet/messages">Повідомлення</a></li>
-            <li class="nalasht"><a ng-href="/cabinet/settings">Налаштування</a></li>
-            <li class="obrani"> <a ng-href="/cabinet/favorites">Обрані</a></li>
+            <li class="profile"><a ng-href="/cabinet">          [[ 'BUTTON_PROFILE' | translate ]]      </a></li>
+            <li class="ogolosh"><a ng-href="/cabinet/advs">     [[ 'BUTTON_ADVERTISMENT' | translate ]] </a></li>
+            <li class="povid">  <a ng-href="/cabinet/messages"> [[ 'BUTTON_MESSAGES' | translate ]]     </a></li>
+            <li class="nalasht"><a ng-href="/cabinet/settings"> [[ 'BUTTON_SETTINGS' | translate ]]     </a></li>
+            <li class="obrani"> <a ng-href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]    </a></li>
         </ul>
     </div>
 
     <div class="profile">
         <div class="face">
-            <p class="name">Андрій</p>
+            <p class="name">[[ cabinet.user.name ]]</p>
             <div class="p-photo">
-                <img src="icon-user-default.png">
+                <img ng-src="[[ cabinet.user.avatar ]]">
             </div>
             <div class="reiting">
+                <label for="change-avatar-input" class="btn" style="color: #c2151d; margin: 5px auto;">
+                    Редагувати аватар
+                </label><br>
+                <input type="file" id="change-avatar-input" style="position: absolute; left: -999999px;" tabindex="-1" />
                 <p>Рейтинг профілю</p>
                 <ul>
-                    <li class="vote"></li>
-                    <li class="vote"></li>
-                    <li class="vote"></li>
-                    <li class="vote"></li>
-                    <li class="vote none"></li>
+                    <li class="vote" ng-class="{ 'none': (cabinet.user.rating < 2)  }"></li>
+                    <li class="vote" ng-class="{ 'none': (cabinet.user.rating < 4)  }"></li>
+                    <li class="vote" ng-class="{ 'none': (cabinet.user.rating < 6)  }"></li>
+                    <li class="vote" ng-class="{ 'none': (cabinet.user.rating < 8 ) }"></li>
+                    <li class="vote" ng-class="{ 'none': (cabinet.user.rating < 10) }"></li>
                 </ul>
-                <p>Голосів: <span>4</span></p>
-                <a href="#">Редагувати аватар</a><br>
-                <a href="#">Редагувати ім’я</a>
+                <p>Голосів: <span>[[ cabinet.user.votesCount ]]</span></p>
             </div>
         </div>
+
         <div class="p-inform">
             <p class="p-info">Загальна інформація</p>
             <div class="info-box">
-                <p class="reg-date">Зареєстрований на сайті з <span>12.12.2012</span> р.</p>
-                <p class="povidom">Отримано повідомлень <span><a href="#">2</a></span></p>
-                <p class="reiting">Рейтинг <span>1</span></p>
-                <p class="prodazh">Кількість продаж <span>2</span></p>
-                <p class="vidguk">Позитивних відгуків <span>2</span></p>
+                <p class="reg-date">Зареєстрований на сайті з <span>[[ cabinet.user.registered | date ]]</span> р.</p>
+                <!--<p class="povidom">Отримано повідомлень: <span><a href="#">2</a></span></p>-->
+                <p class="reiting">Рейтинг: <span>[[ cabinet.user.rating ]]</span></p>
+                <!--<p class="prodazh">Кількість продаж: <span>2</span></p>-->
+                <p class="vidguk">Кількість відгуків: <span>[[ cabinet.user.votesCount ]]</span></p>
             </div>
+
             <p class="p-info">Об’яви користувача</p>
             <div class="info-box">
                 <div class="o-table width-50">
                     <div class="o-column">
-                        <div class="o-row">
-                            <div class="o-cell date">
-                                <p><span class="date">Сьогодні</span>
-                                    <span class="time">20:20</span></p>
-                            </div>
-                            <div class="o-cell photo">
-                                <img src="skoda.jpg">
-                            </div>
-                            <div class="o-cell info">
-                                <h2 class="term"><a href="#">Skoda Octavia</a></h2>
-                                <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
-                                <h3><a href="#">Київ</a></h3>
-                            </div>
-                            <div class="o-cell price">
-                                <p>12000$</p>
-                                <ul class="reit">
-                                    <li class="wote"></li>
-                                    <li class="comment">
-                                        <a href="#"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="o-row">
-                            <div class="o-cell date">
-                                <p><span class="date">Сьогодні</span>
-                                    <span class="time">20:20</span></p>
-                            </div>
-                            <div class="o-cell photo">
-                                <img src="skoda.jpg">
-                            </div>
-                            <div class="o-cell info">
-                                <h2 class="term"><a href="#">Skoda Octavia</a></h2>
-                                <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
-                                <h3><a href="#">Київ</a></h3>
-                            </div>
-                            <div class="o-cell price">
-                                <p>12000$</p>
-                                <ul class="reit">
-                                    <li class="wote"></li>
-                                    <li class="comment">
-                                        <a href="#"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div> <!-- end -->
+                        <advertisment ng-repeat="adv in cabinet.advs track by $index" class="o-row"
+                                      advert="adv" show-del-button="true"
+                                      ng-class="{ 'yellow': adv.advColor == true }">
+                        </advertisment>
+                    </div>
+                </div>
+                <div class="o-button">
+                    <a ng-href="/add-adv">+ [[ 'BUTTON_ADD_ADVERTISMENT' | translate ]]</a>
                 </div>
             </div>
         </div>

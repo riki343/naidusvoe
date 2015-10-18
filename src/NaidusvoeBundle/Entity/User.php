@@ -4,14 +4,10 @@ namespace NaidusvoeBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\Query\Expr\Math;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Query\Expr\Join;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Filesystem\Filesystem;
-use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser as HWIOAuthUser;
 
 /**
  * User
@@ -185,6 +181,28 @@ class User implements UserInterface, \Serializable
     private $rating;
 
     /**
+     * @var array
+     * @ORM\OneToMany(targetEntity="UserVote", mappedBy="user")
+     */
+    private $votes;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->roles = new ArrayCollection();
+        $this->name = null;
+        $this->surname = null;
+        $this->language = null;
+        $this->languageid = null;
+        $this->deleted = false;
+        $this->advertisments = new ArrayCollection();
+        $this->rating = 0;
+        $this->votes = [];
+    }
+
+    /**
      * @return array
      */
     public function getInArray() {
@@ -192,8 +210,26 @@ class User implements UserInterface, \Serializable
             'id' => $this->getId(),
             'avatar' => $this->getAvatar(),
             'username' => $this->getUsername(),
-            'rating' => $this->getRating(),
+            'email' => $this->getEmail(),
+            'registered' => $this->getRegistered()->format('m.d.Y'),
+            'name' => $this->getName(),
+            'votesCount' => count($this->getVotes()),
+            'rating' => $this->calculateRating($this->getVotes()),
         );
+    }
+
+    private function calculateRating($votes) {
+        $rating = 0;
+        /** @var UserVote $vote */
+        foreach ($votes as $vote) {
+            $rating += $vote->getVotePower();
+        }
+
+        if ($rating > 0) {
+            $rating = round($rating / count($votes), 2);
+        }
+
+        return $rating;
     }
 
     /**
@@ -346,21 +382,6 @@ class User implements UserInterface, \Serializable
      * @inheritDoc
      */
     public function eraseCredentials() { }
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->roles = new ArrayCollection();
-        $this->name = null;
-        $this->surname = null;
-        $this->language = null;
-        $this->languageid = null;
-        $this->deleted = false;
-        $this->advertisments = new ArrayCollection();
-        $this->rating = 0;
-    }
 
     /**
      * Get id
@@ -927,5 +948,38 @@ class User implements UserInterface, \Serializable
     public function getFbId()
     {
         return $this->fb_id;
+    }
+
+    /**
+     * Add votes
+     *
+     * @param \NaidusvoeBundle\Entity\UserVote $votes
+     * @return User
+     */
+    public function addVote(\NaidusvoeBundle\Entity\UserVote $votes)
+    {
+        $this->votes[] = $votes;
+
+        return $this;
+    }
+
+    /**
+     * Remove votes
+     *
+     * @param \NaidusvoeBundle\Entity\UserVote $votes
+     */
+    public function removeVote(\NaidusvoeBundle\Entity\UserVote $votes)
+    {
+        $this->votes->removeElement($votes);
+    }
+
+    /**
+     * Get votes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVotes()
+    {
+        return $this->votes;
     }
 }
