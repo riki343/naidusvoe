@@ -6,16 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Vladislav Kosko">
     <meta name="description" content="{% block description %}{% endblock %}">
-    <title>{% block title %}Layout page{% endblock %}</title>
+    <title>{% block title %}ZnaiduSvoe.com{% endblock %}</title>
 
     <base href="/">
 
     {% block stylesheets %}
-        {% stylesheets
-            'css/bootstrap.css'
-            'css/style.css'
-            filter='uglifycss' filter='cssrewrite' output='css/compiled/all.css'
-        %}
+        {% stylesheets '@css' filter='uglifycss' filter='cssrewrite' output='assets/css/all.css' %}
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
         {% endstylesheets %}
     {% endblock %}
@@ -32,36 +28,13 @@
         <script src="https://sandbox-assets.secure.checkout.visa.com/checkout-widget/resources/js/integration/v1/sdk.js" type="application/javascript"></script>
 
         {% javascripts
-            'js/vendor/jQuery/jquery-2.1.3.js'
-            'js/vendor/jQuery/jquery-migrate-1.2.1.js'
-            'js/vendor/Bootstrap/bootstrap.min.js'
-            'js/vendor/AngularJS/angular.min.js'
-            'js/vendor/AngularJS/angular-route.min.js'
-            'js/vendor/AngularJS/angular-animate.min.js'
-            'js/vendor/AngularJS/angular-translate.js'
-            'js/vendor/AngularJS/angular-translate-loader-static-files.js'
-            'js/vendor/AngularJS/scrollglue.js'
-            'js/vendor/lightbox/lightbox.js'
-            'js/custom/riki34.module.js'
-            'js/custom/Service/riki34.angular.spinner.js'
-            'js/custom/Directive/riki34.paginator.directive.js'
-            'js/custom/appCore.js'
-            'js/custom/Model/advertisement.model.js'
-            'js/custom/Service/naidusvoe.settings.service.js'
-            'js/custom/Directive/naidusvoe.adv.directive.js'
-            'js/custom/Directive/naidusvoe.add.file.directive.js'
-            'js/custom/appController.js'
-            'js/custom/indexController.js'
-            'js/custom/Controller/tradingController.js'
-            'js/custom/Controller/giftController.js'
-            'js/custom/Controller/foundController.js'
-            'js/custom/cabinetController.js'
-            'js/custom/Controller/cabinet.advs.controller.js'
-            'js/custom/Controller/cabinet.messages.controller.js'
-            'js/custom/Controller/conversation.controller.js'
-            'js/custom/advertismentController.js'
-            'js/custom/testController.js'
-            filter='?uglifyjs2' output='js/compiled/all.js'
+            '@vendors'
+            '@modules'
+            '@services'
+            '@models'
+            '@controllers'
+            '@directives'
+            filter='?uglifyjs2' output='assets/js/all.js'
         %}
             <script defer src="{{ asset_url }}"></script>
         {% endjavascripts %}

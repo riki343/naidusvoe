@@ -5,7 +5,7 @@
         return {
             'restrict': 'E',
             'link': link,
-            'templateUrl': 'js/custom/Directive/templates/advertisment.html',
+            'templateUrl': '/js/custom/Directive/templates/advertisment.html',
             'scope': {
                 'advert': '=advert',
                 'showDelButton': '=showDelButton'

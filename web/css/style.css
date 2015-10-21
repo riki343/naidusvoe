@@ -1537,6 +1537,7 @@ p.name {
 .p-photo > img {
 	width: auto;
 	height: 100%;
+	object-fit: cover;
 }
 #block-one-form > .profile > .face > .reiting, .ogol-box > .face > .reiting  {
 	float: left;
@@ -3961,6 +3962,7 @@ ul.pod-form > li.zagol > h2 {
     .p-photo > img {
         width: auto;
         height: 100%;
+		object-fit: cover;
     }
 
     #block-one-form > .profile > .face > .reiting, .ogol-box > .face > .reiting {

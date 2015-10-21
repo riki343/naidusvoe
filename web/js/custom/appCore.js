@@ -5,6 +5,8 @@
             'ngAnimate',
             'luegg.directives',
             'pascalprecht.translate',
+            'cgNotify',
+            'cgBusy',
             'riki34'
         ])
         .config(['$interpolateProvider', '$httpProvider', '$routeProvider', '$locationProvider', '$compileProvider', '$translateProvider',
@@ -23,49 +25,41 @@
                         controller: 'indexController'
                     })
                     .when('/cabinet', {
-                        templateUrl: templates + 'cabinet.html',
-                        //controller: 'cabinetController'
+                        templateUrl: templates + 'cabinet.html'
                     })
                     .when('/cabinet/advs', {
-                        templateUrl: templates + 'cabinet-advs.html',
-                        //controller: 'cabinetController'
+                        templateUrl: templates + 'cabinet-advs.html'
                     })
                     .when('/cabinet/messages', {
-                        templateUrl: templates + 'cabinetMessages.html',
-                        //controller: 'cabinetController'
+                        templateUrl: templates + 'cabinetMessages.html'
                     })
                     .when('/cabinet/conversation/:conv_id', {
-                        templateUrl: templates + 'cabinetConversation.html',
-                        //controller: 'cabinetController'
+                        templateUrl: templates + 'cabinetConversation.html'
                     })
                     .when('/cabinet/settings', {
-                        templateUrl: templates + 'cabinetSettings.html',
-                        //controller: 'cabinetController'
+                        templateUrl: templates + 'cabinetSettings.html'
                     })
                     .when('/cabinet/favorites', {
-                        templateUrl: templates + 'cabinetFavorites.html',
-                        //controller: 'cabinetController'
+                        templateUrl: templates + 'cabinetFavorites.html'
                     })
                     .when('/add-adv', {
-                        templateUrl: templates + 'addAdvertisment.html',
+                        templateUrl: templates + 'addAdvertisment.html'
                     })
                     .when('/trade', {
-                        templateUrl: templates + 'trading.html',
+                        templateUrl: templates + 'trading.html'
                     })
                     .when('/adv/trade/:adv_id', {
-                        templateUrl: templates + 'tradingAdv.html',
-                        controller: 'tradingController'
+                        templateUrl: templates + 'tradingAdv.html'
                     })
                     .when('/found', {
-                        templateUrl: templates + 'found.html',
+                        templateUrl: templates + 'found.html'
                     })
                     .when('/adv/found/:adv_id', {
                         templateUrl: templates + 'foundAdv.html',
                         controller: 'foundController'
                     })
                     .when('/gift', {
-                        templateUrl: templates + 'gift.html',
-                        //controller: 'giftController as gift'
+                        templateUrl: templates + 'gift.html'
                     })
                     .when('/adv/gift/:adv_id', {
                         templateUrl: templates + 'giftAdv.html',

@@ -3,7 +3,7 @@ assetic:
     debug:          "%kernel.debug%"
     use_controller: false
     bundles:        [ 'NaidusvoeBundle' ]
-    node: /usr/bin/node
+    node: /usr/bin/nodejs
     filters:
         cssrewrite: ~
         uglifycss:

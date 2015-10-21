@@ -7,7 +7,7 @@
         return {
             'restrict': 'EA',
             'link': link,
-            'templateUrl': 'js/custom/Directive/templates/paginator.html',
+            'templateUrl': '/js/custom/Directive/templates/paginator.html',
             'scope': {
                 'data': '=data'
             }

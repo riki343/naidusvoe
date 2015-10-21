@@ -9,6 +9,7 @@ use NaidusvoeBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -268,5 +269,57 @@ class UserController extends Controller
             return new JsonResponse(-1);
         }
         return new JsonResponse(1);
+    }
+
+    /**
+     * @Security("has_role('ROLE_USER')")
+     * @Route("/user/get/cabinet-profile", name="get-cabinet-profile", options={"expose"=true})
+     * @return JsonResponse
+     */
+    public function getCabinetProfileAction() {
+        /** @var User $user */
+        $user = $this->getUser();
+        /** @var EntityManager $em */
+        $em   = $this->getDoctrine()->getManager();
+        $advs = $em->getRepository('NaidusvoeBundle:Advertisment')->findBy(['userID' => $user->getId()], null, 6);
+
+        return new JsonResponse([
+            'user' => $user->getInArray(),
+            'advs' => Functions::arrayToJson($advs),
+        ], 200);
+    }
+
+    /**
+     * @Security("has_role('ROLE_USER')")
+     * @Route("/user/change-avatar", name="change-avatar", options={"expose"=true})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function changeAvatarAction(Request $request) {
+        $image = $request->getContent();
+        /** @var User $user */
+        $user = $this->getUser();
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        $basePath = sprintf('/web/uploads/%s/', $user->getUsername());
+        $imagePath = $basePath . uniqid($user->getUsername()) . '.jpg';
+        $image = explode(',', $image);
+        $image = base64_decode($image[1]);
+        $fs = new Filesystem();
+        $fs->dumpFile($imagePath, $image);
+
+        $user->setAvatar($imagePath);
+        $qb = $em->createQueryBuilder();
+        $user = $qb
+            ->update('NaidusvoeBundle:User', 'u')
+            ->set('u.avatar', $imagePath)
+            ->where('u.id = :param')
+            ->setParameter('param', $user->getId())
+            ->getQuery()
+            ->getResult();
+        ;
+
+        return new JsonResponse(($user !== null) ? $user->getInArray() : null);
     }
 }

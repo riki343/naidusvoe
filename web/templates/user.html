@@ -1,0 +1,55 @@
+<div id="block-one-form" ng-controller="userController as user" ng-init="user.getUser();">
+    <h1 class="user">
+        Профіль [[ user.user.name ]]
+    </h1>
+
+    <div class="profile">
+        <div class="face">
+            <p class="name">[[ user.user.name ]]</p>
+            <div class="p-photo">
+                <img ng-src="[[ user.user.avatar ]]">
+            </div>
+            <div class="reiting">
+                <label for="change-avatar-input" class="btn" style="color: #c2151d; margin: 5px auto;">
+                    Редагувати аватар
+                </label><br>
+                <input type="file" id="change-avatar-input" style="position: absolute; left: -999999px;" tabindex="-1" />
+                <p>Рейтинг профілю</p>
+                <ul>
+                    <li class="vote" ng-click="user.vote(1);" style="cursor: pointer;" ng-mouseenter="user.currentRating = 2;"  ng-mouseleave="user.currentRating = 0;" ng-class="{ 'none': (user.user.rating < 2)  && (user.currentRating < 2) }"></li>
+                    <li class="vote" ng-click="user.vote(2);" style="cursor: pointer;" ng-mouseenter="user.currentRating = 4;"  ng-mouseleave="user.currentRating = 0;" ng-class="{ 'none': (user.user.rating < 4)  && (user.currentRating < 4) }"></li>
+                    <li class="vote" ng-click="user.vote(3);" style="cursor: pointer;" ng-mouseenter="user.currentRating = 6;"  ng-mouseleave="user.currentRating = 0;" ng-class="{ 'none': (user.user.rating < 6)  && (user.currentRating < 6) }"></li>
+                    <li class="vote" ng-click="user.vote(4);" style="cursor: pointer;" ng-mouseenter="user.currentRating = 8;"  ng-mouseleave="user.currentRating = 0;" ng-class="{ 'none': (user.user.rating < 8 ) && (user.currentRating < 8) }"></li>
+                    <li class="vote" ng-click="user.vote(5);" style="cursor: pointer;" ng-mouseenter="user.currentRating = 10;" ng-mouseleave="user.currentRating = 0;" ng-class="{ 'none': (user.user.rating < 10) && (user.currentRating < 10) }"></li>
+                </ul>
+                <p>Голосів: <span>[[ user.user.votesCount ]]</span></p>
+            </div>
+        </div>
+
+        <div class="p-inform">
+            <p class="p-info">Загальна інформація</p>
+            <div class="info-box">
+                <p class="reg-date">Зареєстрований на сайті з <span>[[ user.user.registered | date ]]</span> р.</p>
+                <!--<p class="povidom">Отримано повідомлень: <span><a href="#">2</a></span></p>-->
+                <p class="reiting">Рейтинг: <span>[[ user.user.rating ]]</span></p>
+                <!--<p class="prodazh">Кількість продаж: <span>2</span></p>-->
+                <p class="vidguk">Кількість відгуків: <span>[[ user.user.votesCount ]]</span></p>
+            </div>
+
+            <p class="p-info">Об’яви користувача</p>
+            <div class="info-box">
+                <div class="o-table width-50">
+                    <div class="o-column">
+                        <advertisment ng-repeat="adv in user.advs track by $index" class="o-row"
+                                      advert="adv" show-del-button="true"
+                                      ng-class="{ 'yellow': adv.advColor == true }">
+                        </advertisment>
+                    </div>
+                </div>
+                <div class="o-button">
+                    <a ng-href="/add-adv">+ [[ 'BUTTON_ADD_ADVERTISMENT' | translate ]]</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

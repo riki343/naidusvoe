@@ -5,6 +5,7 @@ imports:
     - { resource: framework.yml }
     - { resource: twig.yml }
     - { resource: assetic.yml }
+    - { resource: assets.yml }
     - { resource: doctrine.yml }
     - { resource: swiftmailer.yml }
     - { resource: knp_paginator.yml }

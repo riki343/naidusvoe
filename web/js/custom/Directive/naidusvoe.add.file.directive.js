@@ -5,7 +5,7 @@
         return {
             'restrict': 'E',
             'link': link,
-            'templateUrl': 'js/custom/Directive/templates/add-file.html',
+            'templateUrl': '/js/custom/Directive/templates/add-file.html',
             'scope': {
                 'file': '=file',
                 'image': '&image'
