@@ -30,7 +30,7 @@ class Advertisment
 
     /**
      * @var string
-     * @ORM\Column(name="description", type="string", length=2000)
+     * @ORM\Column(name="description", type="string", length=10000)
      */
     private $description;
 
@@ -184,6 +184,12 @@ class Advertisment
     private $region;
 
     /**
+     * @var array
+     * @ORM\OneToMany(targetEntity="Conversation", mappedBy="advertisment", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
+     */
+    private $conversations;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -210,8 +216,6 @@ class Advertisment
                 : null,
             'attachments' => Functions::arrayToJson($this->getAttachments()),
             'userID' => $this->getUserID(),
-            'date' => $this->getDate()->format('Y-m-d'),
-            'time' => $this->getDate()->format('H:i:s'),
             'price' => $this->getPrice(),
             'priceType' => $this->getPriceType()->getInArray(),
             'contactPerson' => $this->getContactPerson(),
@@ -225,6 +229,8 @@ class Advertisment
             'urgent' => $this->urgent,
             'city' => $this->city,
             'region' => $this->region,
+            'date' => $this->date->format('m.d.Y'),
+            'time' => $this->date->format('H:i:s'),
         );
     }
 
@@ -259,27 +265,6 @@ class Advertisment
         $adv->setSkype($data->skype);
 
         return $adv;
-    }
-
-    /**
-     * @param EntityManager $em
-     * @param int $user_id
-     * @param int $adv_id
-     * @return Favorites
-     */
-    public static function addToFav(EntityManager $em, $user_id, $adv_id) {
-        /** @var Advertisment $adv */
-        $adv = $em->find('NaidusvoeBundle:Advertisment', $adv_id);
-        /** @var User $user */
-        $user = $em->find('NaidusvoeBundle:User', $user_id);
-
-        $fav = new Favorites();
-        $fav->setUser($user);
-        $fav->setAdvertisment($adv);
-
-        $em->persist($fav);
-        $em->flush();
-        return $fav;
     }
 
     /**
@@ -918,5 +903,38 @@ class Advertisment
     public function getRegion()
     {
         return $this->region;
+    }
+
+    /**
+     * Add conversations
+     *
+     * @param \NaidusvoeBundle\Entity\Conversation $conversations
+     * @return Advertisment
+     */
+    public function addConversation(\NaidusvoeBundle\Entity\Conversation $conversations)
+    {
+        $this->conversations[] = $conversations;
+
+        return $this;
+    }
+
+    /**
+     * Remove conversations
+     *
+     * @param \NaidusvoeBundle\Entity\Conversation $conversations
+     */
+    public function removeConversation(\NaidusvoeBundle\Entity\Conversation $conversations)
+    {
+        $this->conversations->removeElement($conversations);
+    }
+
+    /**
+     * Get conversations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConversations()
+    {
+        return $this->conversations;
     }
 }

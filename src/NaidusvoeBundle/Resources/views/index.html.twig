@@ -12,9 +12,9 @@
         <nav>
             <ul class="menu">
                 <li><a class="punkt-1" ng-href="/">[[ 'NAV_MAIN_PAGE' | translate ]]</a></li>
-                <li><a class="punkt-2" ng-href="/trade">[[ 'BUTTON_CATEGORY_TRADE' | translate ]]</a></li>
-                <li><a class="punkt-3" ng-href="/found">[[ 'BUTTON_CATEGORY_FOUND' | translate ]]</a></li>
-                <li><a class="punkt-4" ng-href="/gift">[[ 'BUTTON_CATEGORY_GIFT' | translate ]]</a></li>
+                <li><a class="punkt-2" ng-href="/advertisements/trade">[[ 'BUTTON_CATEGORY_TRADE' | translate ]]</a></li>
+                <li><a class="punkt-3" ng-href="/advertisements/found">[[ 'BUTTON_CATEGORY_FOUND' | translate ]]</a></li>
+                <li><a class="punkt-4" ng-href="/advertisements/gift">[[ 'BUTTON_CATEGORY_GIFT' | translate ]]</a></li>
                 {% if app.user and is_granted('ROLE_USER') %}
                     <li><a class="punkt-5" ng-href="/cabinet">[[ 'NAV_CABINET' | translate ]]</a></li>
                     <li>
@@ -70,7 +70,7 @@
             </div>
         </div>
         <div class="pull-right" style="margin: 0 10px 10px;">
-            <span style="color: whitesmoke">Created by:</span>
+            <span style="color: whitesmoke;">Created by:</span>
             <a href="//vk.com/riki34" style="color: burlywood;">riki34</a>
         </div>
     </footer>

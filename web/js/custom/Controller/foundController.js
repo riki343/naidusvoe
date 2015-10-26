@@ -1,9 +1,9 @@
 (function (angular) {
     angular.module('NaiduSvoe').controller('foundController', foundController);
 
-    foundController.$inject = ['$scope', '$http', '$routeParams', '$rootScope', 'settingsService', 'spinner', 'Advertisement'];
+    foundController.$inject = ['$scope', '$http', '$routeParams', 'settingsService', 'Advertisement', 'notify', '$translate'];
 
-    function foundController ($scope, $http, $routeParams, $rootScope, settings, spinner, Advertisement) {
+    function foundController ($scope, $http, $routeParams, settings, Advertisement, notify, $translate) {
         var self = this;
 
         this.advsView = settings.getAdsView();
@@ -46,7 +46,7 @@
         };
 
         $scope.selectCategory = function (id) {
-            $rootScope.giftFilter = id;
+            $scope.giftFilter = id;
             $scope.getAdvs();
         };
 

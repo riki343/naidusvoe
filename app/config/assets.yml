@@ -4,10 +4,13 @@ assetic:
             inputs:
                 - 'css/bootstrap.css'
                 - 'css/style.css'
+                - 'css/font-awesome.min.css'
                 - 'js/vendor/angular-busy/angular-busy.min.css'
                 - 'js/vendor/angular-notify/angular-notify.min.css'
         vendors:
             inputs:
+                - 'bundles/fosjsrouting/js/router.js'
+                - 'js/fos_js_routes.js'
                 - 'js/vendor/jQuery/jquery-2.1.3.js'
                 - 'js/vendor/jQuery/jquery-migrate-1.2.1.js'
                 - 'js/vendor/Bootstrap/bootstrap.min.js'
@@ -20,6 +23,7 @@ assetic:
                 - 'js/vendor/lightbox/lightbox.js'
                 - 'js/vendor/angular-busy/angular-busy.js'
                 - 'js/vendor/angular-notify/angular-notify.js'
+                - 'js/vendor/tg-angular-validator/angular-validator.min.js'
         modules:
             inputs:
                 - 'js/custom/riki34.module.js'
@@ -35,11 +39,11 @@ assetic:
             inputs:
                 - 'js/custom/appController.js'
                 - 'js/custom/indexController.js'
-                - 'js/custom/Controller/tradingController.js'
-                - 'js/custom/Controller/giftController.js'
-                - 'js/custom/Controller/foundController.js'
+                - 'js/custom/Controller/advertisements.controller.js'
+                - 'js/custom/Controller/advertisement.controller.js'
                 - 'js/custom/Controller/cabinet.controller.js'
                 - 'js/custom/Controller/cabinet.advs.controller.js'
+                - 'js/custom/Controller/cabinet.favs.controller.js'
                 - 'js/custom/Controller/cabinet.messages.controller.js'
                 - 'js/custom/Controller/cabinet.settings.controller.js'
                 - 'js/custom/Controller/conversation.controller.js'

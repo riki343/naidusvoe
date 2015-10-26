@@ -1,10 +1,4 @@
-<div ng-controller="tradingController as trade" ng-init="getAdv();">
-    <div class="row" ng-if="spinner">
-        <div class="col-xs-12 text-center" style="padding-top: 150px;">
-            <div class="center-block whirly"></div>
-        </div>
-    </div>
-
+<div ng-controller="advertisementController as trade" ng-init="getAdv();">
     <div id="content">
         <div class="ogol-box">
 
@@ -25,17 +19,17 @@
 
                 <div class="reiting">
                     <ul>
-                        <li class="vote" ng-class="{ 'none': advUser.rating < 1 }"></li>
                         <li class="vote" ng-class="{ 'none': advUser.rating < 2 }"></li>
-                        <li class="vote" ng-class="{ 'none': advUser.rating < 3 }"></li>
                         <li class="vote" ng-class="{ 'none': advUser.rating < 4 }"></li>
-                        <li class="vote" ng-class="{ 'none': advUser.rating < 5 }"></li>
+                        <li class="vote" ng-class="{ 'none': advUser.rating < 6 }"></li>
+                        <li class="vote" ng-class="{ 'none': advUser.rating < 8 }"></li>
+                        <li class="vote" ng-class="{ 'none': advUser.rating < 10 }"></li>
                     </ul>
                     <p>
                         [[ 'LABEL_RATING' | translate ]]
                         <span>[[ ::advUser.rating ]]</span>
                     </p>
-                    <p>Голосів: <span>4</span></p>
+                    <p>[[ 'VOTES_COUNT' | translate ]]: <span>[[ ::adv.votesCount ]]</span></p>
                 </div>
 
                 <p class="connect">

@@ -29,27 +29,26 @@
                 fileReader.onload = function () {
                     $scope.$apply(function () {
                         self.user.avatar = fileReader.result;
+                        var promise = $http.post(Routing.generate('change-avatar'), self.user.avatar);
+                        promise.success(function (response) {
+                            if (response !== null) {
+                                $translate('AVATAR_CHANGED').then(function (val) {
+                                    notify(val);
+                                });
+                            } else {
+                                $translate('UNKNOWN_ERROR').then(function (val) {
+                                    notify(val);
+                                });
+                            }
+                        });
+                        promise.error(function () {
+                            $translate('UNKNOWN_ERROR').then(function (val) {
+                                notify(val);
+                            });
+                        });
                     });
                 };
                 fileReader.readAsDataURL(src);
-
-                var promise = $http.post(Routing.generate('change-avatar'), self.user.avatar);
-                promise.success(function (response) {
-                    if (response !== null) {
-                        $translate('AVATAR_CHANGED').then(function (val) {
-                            notify(val);
-                        });
-                    } else {
-                        $translate('UNKNOWN_ERROR').then(function (val) {
-                            notify(val);
-                        });
-                    }
-                });
-                promise.error(function () {
-                    $translate('UNKNOWN_ERROR').then(function (val) {
-                        notify(val);
-                    });
-                });
             });
         });
     }

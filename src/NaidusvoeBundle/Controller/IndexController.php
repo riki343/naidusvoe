@@ -16,6 +16,18 @@ class IndexController extends Controller
 {
     /**
      * @Route("/", name="naidusvoe_homepage")
+     * @Route("/cabinet")
+     * @Route("/cabinet/advs")
+     * @Route("/cabinet/messages")
+     * @Route("/cabinet/conversation/{conv_id}", requirements={"conv_id"="\d+"})
+     * @Route("/cabinet/settings")
+     * @Route("/cabinet/favorites")
+     * @Route("/add-adv")
+     * @Route("/features")
+     * @Route("/test")
+     * @Route("/advertisements/{type}")
+     * @Route("/advertisement/{type}/{adv_id}", requirements={"adv_id"="\d+"})
+     * @Route("/adv/search/{slug}", requirements={"adv_id"="\d+"})
      * @return Response
      */
     public function indexAction()

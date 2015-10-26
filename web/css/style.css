@@ -437,13 +437,14 @@ ul.profile-menu > li.obrani {
 	display: block;
 	float: right;
 	margin-right: 11px;
-	width: 176px;
+	width: auto;
 	height: 38px;
 	color: #000;
 	font-size: 24px;
-	padding: 7px 0 0 12px;
+	padding: 7px 7px 0;
 	background-image: url(img/o-button.png);
-	background-position: top left;
+	background-position: center;
+	background-size: cover;
 	background-repeat: no-repeat;
 }
 .o-button > a:focus {
@@ -524,7 +525,7 @@ form.search > button, form#povidom > button {
 form.search > button:focus, form#povidom > button:focus {
 	background-image: url(img/s-button-active.png);
 }
-#kategory {
+.kategory {
 	float: left;
 	width: 757px;
 	padding-left: 223px;
@@ -534,19 +535,19 @@ form.search > button:focus, form#povidom > button:focus {
 	background-repeat: no-repeat;
 	background-position: top left;
 }
-#kategory > p {
+.kategory > p {
 	font-size: 18px;
 }
-#kategory.prodam {
+.kategory.prodam {
 	background-image: url(img/p-k-back.png);
 }
-#kategory.znay {
+.kategory.znay {
 	background-image: url(img/z-z-back.png);
 }
-#kategory.viddam {
+.kategory.viddam {
 	background-image: url(img/v-d-back.png);
 }
-#kategory > p > span {
+.kategory > p > span {
 	display: block;
 	width: 100%;
 	text-decoration: underline;
@@ -1425,8 +1426,10 @@ ul.photo > li#big-photo > ul {
 	width: 195px;
 	height: 341px;
 	margin: 0;
-	padding: 0 0 0 5px;
+	padding: 0;
 	list-style: none;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 ul.photo > li#big-photo > ul > li#prev-1, ul.photo > li#big-photo > ul > li#prev-2, ul.photo > li#big-photo > ul > li#prev-3 {
 	display: block;
@@ -2699,14 +2702,16 @@ ul.pod-form > li.zagol > h2 {
         display: block;
         float: none;
         margin: 0 auto;
-        width: 188px;
+        width: auto;
         height: 45px;
         color: #000;
         font-size: 24px;
-        padding: 0px;
+        padding: 0;
         text-align: center;
         background-image: url(img/o-button.png);
-        background-position: top left;
+        background-position: center;
+		-webkit-background-size: cover;
+		background-size: cover;
         background-repeat: no-repeat;
     }
 
@@ -2793,7 +2798,7 @@ ul.pod-form > li.zagol > h2 {
         background-image: url(img/s-button-active.png);
     }
 
-    #kategory {
+    .kategory {
         float: left;
         width: 100%;
         padding-left: 0;
@@ -2806,23 +2811,23 @@ ul.pod-form > li.zagol > h2 {
         background-size: auto 150px;
     }
 
-    #kategory > p {
+    .kategory > p {
         font-size: 18px;
     }
 
-    #kategory.prodam {
+    .kategory.prodam {
         background-image: url(img/p-k-back.png);
     }
 
-    #kategory.znay {
+    .kategory.znay {
         background-image: url(img/z-z-back.png);
     }
 
-    #kategory.viddam {
+    .kategory.viddam {
         background-image: url(img/v-d-back.png);
     }
 
-    #kategory > p > span {
+    .kategory > p > span {
         display: block;
         width: 100%;
         text-decoration: underline;
@@ -3832,8 +3837,10 @@ ul.pod-form > li.zagol > h2 {
         width: 100%;
         height: auto;
         margin: 0;
-        padding: 0 0 0 5px;
+        padding: 0;
         list-style: none;
+		overflow-y: auto;
+		overflow-x: hidden;
     }
 
     ul.photo > li#big-photo > ul > li#prev-1, ul.photo > li#big-photo > ul > li#prev-2, ul.photo > li#big-photo > ul > li#prev-3 {

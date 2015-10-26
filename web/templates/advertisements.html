@@ -1,0 +1,142 @@
+<div ng-controller="advertisementsController as trade" ng-init="getAdvs();">
+    <div id="block-one">
+        <div ng-switch="trade.type">
+            <div class="kategory prodam" ng-switch-when="trade">
+                <p><span>[[ 'BUTTON_TRADE_MAIN' | translate ]]</span>
+                    [[ 'TRADE_HEADER' | translate ]]
+                </p>
+            </div>
+
+            <div class="kategory znay" ng-switch-when="found">
+                <p><span>[[ 'BUTTON_FOUND_MAIN' | translate ]]</span>
+                    [[ 'FOUND_HEADER' | translate ]]
+                </p>
+            </div>
+
+            <div class="kategory viddam" ng-switch-when="gift">
+                <p><span>[[ 'BUTTON_GIFT_MAIN' | translate ]]</span>
+                    [[ 'GIFT_HEADER' | translate ]]
+                </p>
+            </div>
+        </div>
+
+        <div class="poshuk">
+            <form class="misto">
+                <input type="text">
+                <button></button>
+            </form>
+            <form class="search">
+                <input type="text">
+                <button></button>
+            </form>
+        </div>
+        <div class="kat-menu" ng-switch="trade.type">
+
+            <ul class="menu kat" ng-switch-when="trade">
+                <li class="dt"><a ng-click="selectCategory(20);" href="#">Дитячий світ</a></li>
+                <li class="nr"><a ng-click="selectCategory(21);" href="#">Нерухомість</a></li>
+                <li class="tr"><a ng-click="selectCategory(22);" href="#">Транспорт</a></li>
+                <li class="rb"><a ng-click="selectCategory(23);" href="#">Робота</a></li>
+                <li class="tv"><a ng-click="selectCategory(24);" href="#">Тварини</a></li>
+                <li class="ds"><a ng-click="selectCategory(25);" href="#">Дім і сад</a></li>
+                <li class="el"><a ng-click="selectCategory(26);" href="#">Електроніка</a></li>
+                <li class="bz"><a ng-click="selectCategory(27);" href="#">Бізнес</a></li>
+                <li class="ms"><a ng-click="selectCategory(28);" href="#">Мода і стиль</a></li>
+                <li class="hb"><a ng-click="selectCategory(29);" href="#">Хоббі</a></li>
+                <li class="ob"><a ng-click="selectCategory(30);" href="#">Обміняю</a></li>
+                <li>           <a ng-click="selectCategory();" style="cursor: pointer;">[[ 'BUTTON_CATEGORIES_ALL' | translate ]]</a></li>
+            </ul>
+
+            <ul class="menu kat" ng-switch-when="found">
+                <li class="doc">    <a ng-click="selectCategory(34);" style="cursor: pointer;">Документи</a></li>
+                <li class="pryk">   <a ng-click="selectCategory(36);" style="cursor: pointer;">Прикраси</a></li>
+                <li class="drib">   <a ng-click="selectCategory(39);" style="cursor: pointer;">Дрібниці</a></li>
+                <li class="odyag">  <a ng-click="selectCategory(38);" style="cursor: pointer;">Одяг/Взуття</a></li>
+                <li class="tv">     <a ng-click="selectCategory(40);" style="cursor: pointer;">Тварини</a></li>
+                <li class="bag">    <a ng-click="selectCategory(35);" style="cursor: pointer;">Сумки/багажі</a></li>
+                <li class="el">     <a ng-click="selectCategory(37);" style="cursor: pointer;">Електроніка</a></li>
+                <li>                <a ng-click="selectCategory();" style="cursor: pointer;">[[ 'BUTTON_CATEGORIES_ALL' | translate ]]</a></li>
+            </ul>
+
+            <ul class="menu kat" ng-switch-when="gift">
+                <li class="tr">     <a ng-click="selectCategory(41);" href="#">Транспорт</a></li>
+                <li class="zhy">    <a ng-click="selectCategory(42);" href="#">Житло</a></li>
+                <li class="prod">   <a ng-click="selectCategory(43);" href="#">Продукти</a></li>
+                <li class="odyag">  <a ng-click="selectCategory(44);" href="#">Одяг/Взуття</a></li>
+                <li class="tv">     <a ng-click="selectCategory(45);" href="#">Тварини</a></li>
+                <li class="el">     <a ng-click="selectCategory(46);" href="#">Електроніка</a></li>
+                <li class="dmp">    <a ng-click="selectCategory(47);" href="#">Допоможу вирішити</a></li>
+                <li class="pdmp">   <a ng-click="selectCategory(48);" href="#">Потребую допомоги</a></li>
+                <li>                <a ng-click="selectCategory();" style="cursor: pointer;">[[ 'BUTTON_CATEGORIES_ALL' | translate ]]</a></li>
+            </ul>
+
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="page-header">
+            <h1>[[ 'LAST_ADS' | translate ]]</h1>
+        </div>
+        <div id="the-best">
+            <div class="o-table">
+                <div class="o-column">
+                    <div class="o-row top">
+                        <div class="o-cell">
+                            <h3>Кращі в категорії</h3>
+                        </div>
+                    </div>
+                    <div class="o-row">
+                        <div class="o-cell photo">
+                            <img src="skoda.jpg">
+                        </div>
+                        <div class="o-cell info">
+                            <h2><a href="#">Skoda Octavia</a></h2>
+                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
+                            <h3><a href="#">Київ</a></h3>
+                        </div>
+                        <div class="o-cell price">
+                            <p>12000$</p>
+                            <ul class="reit">
+                                <li class="wote"></li>
+                                <li class="comment">
+                                    <a href="#"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="info">
+            <div ng-class="trade.advsView">
+                <div class="o-column">
+                    <div class="o-row top">
+                        <div class="o-cell">
+                            <p>[[ 'ADS_VIEW' | translate ]]</p>
+                        </div>
+                        <div class="o-cell">
+                            <ul class="menu column">
+                                <li class="colum-2"><a ng-click="trade.changeAdsView('o-table width-50');" style="cursor: pointer;"></a></li>
+                                <li class="colum-1"><a ng-click="trade.changeAdsView('o-table');" style="cursor: pointer;"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="element-to-scroll"></div>
+
+                    <advertisment ng-repeat="adv in advs" class="o-row"
+                                  advert="adv" show-del-button="false"
+                                  ng-class="{ 'yellow': adv.advColor == true }">
+                    </advertisment>
+
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div style="text-align: center; width: 100%; background-color: whitesmoke">
+                <paginator data="data" selected-color="gray"></paginator>
+            </div>
+        </div>
+    </div>
+</div>

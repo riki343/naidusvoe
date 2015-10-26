@@ -1,124 +1,229 @@
-<div id="block-one-form" ng-controller="advertismentController as adv" ng-init="getAdvDetails();">
-    <h1 class="podaty">
-        Подати оголошення
-    </h1>
-    <form name="addAdvForm" id="pod-og" novalidate ng-submit="addNewAdv(addAdv);">
-        <ul class="pod-form">
-            <li class="value"><p class="obov">Заголовок</p></li>
-            <li class="input">
-                <input type="text"
-                       name="title"
-                       ng-minlength="3"
-                       ng-maxlength="67"
-                       ng-model="addAdv.title"
-                       required
-                       style="cursor: auto;" />
-            </li>
+<div id="block-one-form" ng-controller="addAdvertisementController as adv" ng-init="getAdvDetails();">
+    <div ng-show="adv.showPreview === false">
+        <h1 class="podaty">
+            Подати оголошення
+        </h1>
+        <form name="addAdvForm" id="pod-og" novalidate ng-submit="addNewAdv(addAdv);">
+            <ul class="pod-form">
+                <li class="value"><p class="obov">Заголовок</p></li>
+                <li class="input">
+                    <input type="text"
+                           name="title"
+                           ng-minlength="3"
+                           ng-maxlength="67"
+                           ng-model="addAdv.title"
+                           required
+                           style="cursor: auto;" />
+                </li>
 
-            <li class="value"><p class="obov">Тип</p></li>
-            <li class="input">
-                <select ng-model="addAdv.typeID"
-                        ng-change="subCategories = selectedCategory(addAdv.categoryID)"
-                        required>
-                    <option ng-repeat="type in advTypes" value="[[ ::type.id ]]">
-                        [[ ::type.name | translate ]]
-                    </option>
-                </select>
-            </li>
+                <li class="value"><p class="obov">Тип</p></li>
+                <li class="input">
+                    <select ng-model="typeModel.typeID" required>
+                        <option ng-repeat="type in adv.types" value="[[ $index ]]">
+                            [[ type.label | translate ]]
+                        </option>
+                    </select>
+                </li>
 
-            <li class="value"><p class="obov">Розділ</p></li>
-            <li class="input">
-                <select ng-model="addAdv.categoryID"
-                        ng-change="subCategories = selectedCategory(addAdv.categoryID)"
-                        required>
-                    <option ng-repeat="category in categories" value="[[ ::category.id ]]">
-                        [[ ::category.name | translate ]]
-                    </option>
-                </select>
-            </li>
+                <li class="value"><p class="obov">Розділ</p></li>
+                <li class="input">
+                    <select ng-model="typeModel.categoryID" required>
+                        <option ng-repeat="category in adv.types[typeModel.typeID].items"
+                                value="[[ $index ]]">
+                            [[ category.label | translate ]]
+                        </option>
+                    </select>
+                </li>
 
-            <li class="value"><p class="obov">Рубрика</p></li>
-            <li class="input">
-                <select name="category"
-                        ng-init="addAdv.subCategoryID = subCategories[0].id"
-                        ng-model="addAdv.subCategoryID"
-                        required>
-                    <option ng-repeat="category in subCategories" value="[[ ::category.id ]]">
-                        [[ ::category.name | translate ]]
-                    </option>
-                </select>
-            </li>
+                <li class="value" ng-if="adv.types[typeModel.typeID].items[typeModel.categoryID].items.length > 0"><p class="obov">Рубрика</p></li>
+                <li class="input" ng-if="adv.types[typeModel.typeID].items[typeModel.categoryID].items.length > 0">
+                    <select name="category" ng-model="typeModel.subCategoryID"
+                            required>
+                        <option ng-repeat="sub in adv.types[typeModel.typeID].items[typeModel.categoryID].items"
+                                value="[[ $index ]]">
+                            [[ sub.label | translate ]]
+                        </option>
+                    </select>
+                </li>
 
-            <li class="value"><p class="obov">Опис</p></li>
-            <li class="input text">
-                <textarea ng-minlength="50" ng-maxlength="4000" ng-model="addAdv.description" required></textarea>
-            </li>
+                <li class="value"><p class="obov">Опис</p></li>
+                <li class="input text">
+                    <textarea ng-minlength="20" ng-maxlength="10000" ng-model="addAdv.description" required></textarea>
+                </li>
 
-            <li class="value"><p class="obov">Фотографії</p></li>
-            <li class="input photo" style="margin-bottom: 20px;">
-                <adv-image ng-repeat="photo in addAdv.photos" file="photo" image="photo.image"></adv-image>
-            </li>
+                <li class="value"><p class="obov">Фотографії</p></li>
+                <li class="input photo" style="margin-bottom: 20px;">
+                    <adv-image ng-repeat="photo in addAdv.photos" file="photo" image="photo.image"></adv-image>
+                </li>
 
-            <li class="value"><p class="obov">Ціна</p></li>
-            <li class="input">
-                <input type="text" name="price" ng-model="addAdv.price" required />
-            </li>
+                <li class="value"><p class="obov">Ціна</p></li>
+                <li class="input">
+                    <input type="text" name="price" ng-model="addAdv.price" required />
+                </li>
 
-            <li class="value"><p class="obov">Валюта</p></li>
-            <li class="input">
-                <select name="priceType" ng-model="addAdv.priceType" required>
-                    <option ng-repeat="type in priceTypes" value="[[ type.id ]]">[[ type.name ]]</option>
-                </select>
-            </li>
+                <li class="value"><p class="obov">Валюта</p></li>
+                <li class="input">
+                    <select name="priceType" ng-model="addAdv.priceType" required>
+                        <option ng-repeat="type in priceTypes" value="[[ type.id ]]">[[ type.name ]]</option>
+                    </select>
+                </li>
 
 
-            <li class="line"></li>
+                <li class="line"></li>
 
-            <li class="zagol">
-                <h2>Ваші контактні дані</h2>
-            </li>
+                <li class="zagol">
+                    <h2>Ваші контактні дані</h2>
+                </li>
 
-            <li class="value"><p class="obov">Контактна особа</p></li>
-            <li class="input"><input type="text" name="contactPerson" ng-model="addAdv.contactPerson" required></li>
+                <li class="value"><p class="obov">Контактна особа</p></li>
+                <li class="input"><input type="text" name="contactPerson" ng-model="addAdv.contactPerson" required></li>
 
-            <li class="value"><p class="obov">Область</p></li>
-            <li class="input"><input type="text" name="contactPerson" ng-model="addAdv.region" required></li>
+                <li class="value"><p class="obov">Область</p></li>
+                <li class="input">
+                    <select name="region" ng-model="addAdv.region" required>
+                        <option ng-repeat="region in regions" value="[[ region.id ]]">[[ region.name ]]</option>
+                    </select>
+                </li>
 
-            <li class="value"><p class="obov">Населений пункт</p></li>
-            <li class="input"><input type="text" name="contactPerson" ng-model="addAdv.city" required></li>
+                <li class="value"><p class="obov">Населений пункт</p></li>
+                <li class="input"><input type="text" name="contactPerson" ng-model="addAdv.city" required></li>
 
-            <li class="value"><p class="obov">E-mail адреса</p></li>
-            <li class="input">
-                <input type="text" name="email" ng-model="addAdv.email" required>
-                <div style="float: left; width: 100%;">
-                    <input type="checkbox" id="no-mail">
-                    <label for="no-mail">Не отримувати відповіді на E-mail</label>
-                </div>
-            </li>
+                <li class="value"><p class="obov">E-mail адреса</p></li>
+                <li class="input">
+                    <input type="text" name="email" ng-model="addAdv.email" required>
+                </li>
 
-            <li class="value"><p>Номер телефону:</p></li>
-            <li class="input"> <input type="text" name="telephone" ng-model="addAdv.telephoneNumber" /></li>
+                <li class="value"><p>Номер телефону:</p></li>
+                <li class="input"> <input type="text" name="telephone" ng-model="addAdv.telephoneNumber" /></li>
 
-            <li class="value"><p>Skype</p></li>
-            <li class="input"><input type="text" name="skype" ng-maxlength="50" ng-model="addAdv.skype" /></li>
+                <li class="value"><p>Skype</p></li>
+                <li class="input"><input type="text" name="skype" ng-maxlength="50" ng-model="addAdv.skype" /></li>
 
-            <li class="line"></li>
+                <li class="line"></li>
 
-            <li class="zagol">
-                <h2>Згода на обробку даних</h2>
-            </li>
+                <li class="zagol">
+                    <h2>Згода на обробку даних</h2>
+                </li>
 
+                <li class="input sto">
+                    <input type="checkbox" ng-model="addAdv.agreement" id="zgoda" required>
+                    <p>Я погоджуюся з правилами викростання сервісу, а також з наданням даних у znaidusvoe.com. Я підтверджую свє повноліття і відповідальність за розміщення об’яви.</p>
+                </li>
+
+                <li class="line"></li>
+
+                <li class="input sto">
+                    <button type="submit" ng-disabled="!addAdvForm.$valid" class="disabled">Надіслати</button>
+                    <a ng-click="adv.togglePreview();" class="pereglyad" href="#">Попередній перегляд</a>
+                </li>
+            </ul>
+        </form>
+    </div>
+
+    <div ng-hide="adv.showPreview === false">
+        <ul style="list-style: none;">
             <li class="input sto">
-                <input type="checkbox" ng-model="addAdv.agreement" id="zgoda" required>
-                <p>Я погоджуюся з правилами викростання сервісу, а також з наданням даних у znaidusvoe.com. Я підтверджую свє повноліття і відповідальність за розміщення об’яви.</p>
-            </li>
-
-            <li class="line"></li>
-
-            <li class="input sto">
-                <button type="submit" ng-disabled="!addAdvForm.$valid" class="disabled">Надіслати</button>
-                <a class="pereglyad" href="#">Попередній перегляд</a>
+                <a ng-click="adv.togglePreview();" class="pereglyad" href="#">Повернутись</a>
+                <a ng-click="addNewAdv(addAdv);" ng-disabled="!addAdvForm.$valid"  class="pereglyad" href="#">Опублікувати</a>
             </li>
         </ul>
-    </form>
+        <div id="content">
+            <div class="ogol-box">
+
+                <div class="face">
+                    <p class="name">[[ ::advUser.username ]]</p>
+                    <div class="p-photo">
+                        <img ng-src="[[ ::advUser.avatar ]]" alt="[[ ::advUser.username ]]">
+                    </div>
+
+                    <div class="reiting">
+                        <ul>
+                            <li class="vote" ng-class="{ 'none': advUser.rating < 2 }"></li>
+                            <li class="vote" ng-class="{ 'none': advUser.rating < 4 }"></li>
+                            <li class="vote" ng-class="{ 'none': advUser.rating < 6 }"></li>
+                            <li class="vote" ng-class="{ 'none': advUser.rating < 8 }"></li>
+                            <li class="vote" ng-class="{ 'none': advUser.rating < 10 }"></li>
+                        </ul>
+                        <p>
+                            [[ 'LABEL_RATING' | translate ]]
+                            <span>[[ ::advUser.rating ]]</span>
+                        </p>
+                        <p>[[ 'VOTES_COUNT' | translate ]]: <span>[[ ::addAdv.votesCount ]]</span></p>
+                    </div>
+
+                    <p class="connect">
+                        [[ 'LABEL_CONTACT_PERSON' | translate ]]<br>
+                        <span>[[ ::addAdv.contactPerson ]]</span>
+                    </p>
+                    <p class="connect">
+                        Email: <br>
+                        <span>[[ ::addAdv.email ]]</span>
+                    </p>
+                    <p class="connect">
+                        [[ 'LABEL_MOBILE_PHONE' | translate ]]<br>
+                        <span>[[ ::addAdv.telephoneNumber ]]</span>
+                    </p>
+                    <p class="connect" ng-if="addAdv.skype">
+                        Skype: <br>
+                        <span>[[ ::addAdv.skype ]]</span>
+                    </p>
+
+                </div>
+
+                <div class="ogolosh">
+                    <div class="ogol-header">
+                        <h1 class="zirka">[[ addAdv.title ]]</h1>
+                        <p class="add-date">Додане: <span id="date">[[ addAdv.date ]]</span> <span id="time">[[ addAdv.time ]]</span></p>
+                    </div>
+                    <div class="gallery">
+                        <ul class="photo">
+                            <li id="big-photo">
+                                <img ng-src="[[ trade.selectedImage.image ]]" alt="[[ ::addAdv.title ]]">
+                                <ul>
+                                    <li id="prev-1" ng-repeat="image in addAdv.photos"
+                                        style="cursor: pointer;"
+                                        ng-click="adv.selectedImage = image;">
+                                        <img ng-src="[[ image.image ]]" alt="[[ addAdv.title ]]">
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="tsina">
+                        <p>
+                            <span>[[ 'LABEL_PRICE' | translate ]]</span>
+                            <span>[[ addAdv.price + ' ' + addAdv.priceType.name ]]</span>
+                        </p>
+                    </div>
+
+                    <div id="opys">
+                        <p>[[ ::addAdv.description ]]</p>
+                    </div>
+
+                    <div class="ogolosh-info">
+                        <p>
+                            [[ 'LABEL_CATEGORY' | translate ]] <br>
+                            <span>[[ ::addAdv.category.name | translate ]]</span>
+                        </p>
+                        <p>
+                            [[ 'LABEL_SUB_CATEGORY' | translate ]] <br>
+                            <span>[[ ::addAdv.subCategory.name ]]</span>
+                        </p>
+                    </div>
+                    <div class="ogolosh-info">
+                        <p>
+                            [[ 'LABEL_REGION' | translate ]] <br>
+                            <span>[[ ::addAdv.region ]]</span>
+                        </p>
+                        <p>
+                            [[ 'LABEL_CITY' | translate ]] <br>
+                            <span>[[ ::addAdv.city ]]</span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>

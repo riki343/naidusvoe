@@ -29,6 +29,8 @@
             this.email = '';
             this.telephoneNumber = '';
             this.skype = '';
+            this.date = new Date();
+            this.time = new Date();
         }
 
         Advertisement.prototype.save = function() {

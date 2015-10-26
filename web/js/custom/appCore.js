@@ -45,32 +45,21 @@
                     .when('/add-adv', {
                         templateUrl: templates + 'addAdvertisment.html'
                     })
-                    .when('/trade', {
-                        templateUrl: templates + 'trading.html'
-                    })
-                    .when('/adv/trade/:adv_id', {
-                        templateUrl: templates + 'tradingAdv.html'
-                    })
-                    .when('/found', {
-                        templateUrl: templates + 'found.html'
-                    })
-                    .when('/adv/found/:adv_id', {
-                        templateUrl: templates + 'foundAdv.html',
-                        controller: 'foundController'
-                    })
-                    .when('/gift', {
-                        templateUrl: templates + 'gift.html'
-                    })
-                    .when('/adv/gift/:adv_id', {
-                        templateUrl: templates + 'giftAdv.html',
-                        controller: 'giftController'
-                    })
                     .when('/features', {
                         templateUrl: templates + 'additionalFeatures.html'
                     })
                     .when('/test', {
                         'templateUrl': 'bundles/naidusvoe/templates/test.html',
                         'controller': 'TestController as test'
+                    })
+                    .when('/adv/search/:slug', {
+                        'templateUrl': templates + 'search.html'
+                    })
+                    .when('/advertisements/:type', {
+                        templateUrl: templates + 'advertisements.html'
+                    })
+                    .when('/advertisement/:type/:adv_id', {
+                        templateUrl: templates + 'advertisement.html'
                     })
                     .otherwise({
                         redirectTo: '/'

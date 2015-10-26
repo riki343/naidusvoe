@@ -69,13 +69,6 @@ class User implements UserInterface, \Serializable
     private $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="surname", type="string", length=255, nullable=true)
-     */
-    private $surname;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="registered", type="datetime")
@@ -193,7 +186,6 @@ class User implements UserInterface, \Serializable
     {
         $this->roles = new ArrayCollection();
         $this->name = null;
-        $this->surname = null;
         $this->language = null;
         $this->languageid = null;
         $this->deleted = false;
@@ -241,7 +233,6 @@ class User implements UserInterface, \Serializable
         $user = $em->find('NaidusvoeBundle:User', $user_id);
         $region = $em->find('NaidusvoeBundle:Region', $params->region);
         $user->setName($params->name);
-        $user->setSurname($params->surname);
         $user->setCity($params->city);
         $user->setRegion($region);
         $user->setTelephoneNumber($params->telephoneNumber);
@@ -354,7 +345,6 @@ class User implements UserInterface, \Serializable
             $this->password,
             $this->email,
             $this->name,
-            $this->surname,
             $this->registered,
             $this->lastactive,
             $this->active
@@ -372,7 +362,6 @@ class User implements UserInterface, \Serializable
             $this->password,
             $this->email,
             $this->name,
-            $this->surname,
             $this->registered,
             $this->lastactive,
             $this->active) = unserialize($serialized);
@@ -463,29 +452,6 @@ class User implements UserInterface, \Serializable
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set surname
-     *
-     * @param string $surname
-     * @return User
-     */
-    public function setSurname($surname)
-    {
-        $this->surname = $surname;
-
-        return $this;
-    }
-
-    /**
-     * Get surname
-     *
-     * @return string 
-     */
-    public function getSurname()
-    {
-        return $this->surname;
     }
 
     /**

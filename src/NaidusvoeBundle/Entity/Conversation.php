@@ -59,7 +59,7 @@ class Conversation
 
     /**
      * @var Advertisment
-     * @ORM\ManyToOne(targetEntity="Advertisment")
+     * @ORM\ManyToOne(targetEntity="Advertisment", inversedBy="conversations")
      * @ORM\JoinColumn(name="advertisment_id", referencedColumnName="id")
      */
     private $advertisment;
@@ -72,7 +72,7 @@ class Conversation
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Message", mappedBy="conversation")
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="conversation", cascade={"remove"})
      */
     private $messages;
 

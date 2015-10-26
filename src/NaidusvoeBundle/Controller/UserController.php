@@ -30,7 +30,6 @@ class UserController extends Controller
             'region' => $user->getRegionID(),
             'city' => $user->getCity(),
             'name' => $user->getName(),
-            'surname' => $user->getSurname(),
             'telephoneNumber' => $user->getTelephoneNumber(),
             'skype' => $user->getSkype(),
         );
@@ -261,14 +260,17 @@ class UserController extends Controller
     public function deleteFavAction($fav_id) {
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
-        try {
-            Favorites::deleteFav($em, $fav_id);
-        } catch (\Exception $ex) {
-            $from = "Class: Favorites, function: deleteFav";
-            $this->get('error_logger')->registerException($ex, $from);
-            return new JsonResponse(-1);
+        /** @var User $user */
+        $user = $this->getUser();
+        $fav = $em->getRepository('NaidusvoeBundle:Favorites')->find($fav_id);
+
+        if ($fav !== null) {
+            $em->remove($fav);
+            $em->flush();
+            return new JsonResponse(true);
+        } else {
+            return new JsonResponse(false);
         }
-        return new JsonResponse(1);
     }
 
     /**
@@ -302,7 +304,7 @@ class UserController extends Controller
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
-        $basePath = sprintf('/web/uploads/%s/', $user->getUsername());
+        $basePath = sprintf('avatars/%s/', $user->getUsername());
         $imagePath = $basePath . uniqid($user->getUsername()) . '.jpg';
         $image = explode(',', $image);
         $image = base64_decode($image[1]);
@@ -311,9 +313,9 @@ class UserController extends Controller
 
         $user->setAvatar($imagePath);
         $qb = $em->createQueryBuilder();
-        $user = $qb
+        $qb
             ->update('NaidusvoeBundle:User', 'u')
-            ->set('u.avatar', $imagePath)
+            ->set('u.avatar', "'" . $imagePath . "'")
             ->where('u.id = :param')
             ->setParameter('param', $user->getId())
             ->getQuery()

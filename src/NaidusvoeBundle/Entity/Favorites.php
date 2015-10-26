@@ -51,6 +51,17 @@ class Favorites
     private $advertisment;
 
     /**
+     * @param null|Advertisment $adv
+     * @param null|User $user
+     */
+    public function __construct($adv = null, $user = null) {
+        $this->advertisment = $adv;
+        $this->user = $user;
+        $this->userID = $user->getId();
+        $this->advertismentID = $adv->getId();
+    }
+
+    /**
      * @return array
      */
     public function getInArray() {

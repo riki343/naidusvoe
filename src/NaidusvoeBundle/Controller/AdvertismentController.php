@@ -29,17 +29,15 @@ class AdvertismentController extends Controller
         /** @var User $user */
         $user = $this->getUser();
         /** @var array $categories */
-        $categories = Functions::arrayToJson($em->getRepository('NaidusvoeBundle:AdvertismentCategory')->findAll());
         $priceTypes = Functions::arrayToJson($em->getRepository('NaidusvoeBundle:PriceType')->findAll());
-        $advTypes = Functions::arrayToJson($em->getRepository('NaidusvoeBundle:AdvertismentType')->findAll());
+        $regions = Functions::arrayToJson($em->getRepository('NaidusvoeBundle:Region')->findAll());
         $info = [
-            'advTypes' => $advTypes,
-            'categories' => $categories,
             'priceTypes' => $priceTypes,
+            'regions' => $regions,
         ];
 
         if ($user !== null) {
-            $info['contactPerson']      = $user->getName() . ' ' . $user->getSurname();
+            $info['contactPerson']      = $user->getName();
             $info['email']              = $user->getEmail();
             $info['telephoneNumber']    = $user->getTelephoneNumber();
             $info['skype']              = $user->getSkype();
@@ -100,21 +98,28 @@ class AdvertismentController extends Controller
     }
 
     /**
-     * @Route("/get-trade-advs/{filter}", name="get-trade-advs", options={"expose"=true})
+     * @Route("/get-advs/{type}/{filter}", name="get-advs", options={"expose"=true})
      * @param Request $request
-     * @param int $filter
+     * @param string $type
+     * @param int|null $filter
      * @return JsonResponse
      */
-    public function getAdvsTradeAction(Request $request, $filter = null) {
+    public function getAdvsAction(Request $request, $type = null, $filter = null) {
+        $typeID = null;
+        switch ($type) {
+            case 'trade': $typeID = 1; break;
+            case 'gift':  $typeID = 3; break;
+            case 'found': $typeID = 2; break;
+        }
+
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
-
-        $advs = Advertisment::getAdvs($em, $filter, 1);
+        $advs = Advertisment::getAdvs($em, $filter, $typeID);
         $paginator = new Paginator();
         $pager = $paginator->getJsonResponse($advs, $request, 10);
 
         $categories = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')
-            ->findBy(array('typeID' => 1));
+            ->findBy(array('typeID' => $typeID));
 
         return new JsonResponse(array(
             'advs' => $pager,
@@ -123,49 +128,35 @@ class AdvertismentController extends Controller
     }
 
     /**
-     * @Route("/get-found-advs/{filter}", name="get-found-advs", options={"expose"=true})
+     * @Route("/search/{slug}", name="search", options={"expose"=true})
      * @param Request $request
-     * @param int $filter
+     * @param string $slug
      * @return JsonResponse
      */
-    public function getAdvsFoundAction(Request $request, $filter = null) {
+    public function searchAction(Request $request, $slug) {
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
+        $qb = $em->createQueryBuilder();
+        $slug = trim($slug);
+        $slug = str_replace(' ', '%', $slug);
+        $slug = str_replace('.', '%', $slug);
+        $slug = str_replace(',', '%', $slug);
+        $slug = str_replace(':', '%', $slug);
 
-        $advs = Advertisment::getAdvs($em, $filter, 2);
+        $advs = $qb
+            ->select('a')
+            ->from('NaidusvoeBundle:Advertisment', 'a')
+            ->where($qb->expr()->like('a.title', "%" . $slug . "%"))
+            ->orderBy('a.advertismentBlock', 'DESC')
+            ->addOrderBy('a.advertismentOnMainPage', 'DESC')
+            ->addOrderBy('a.categoryTop', 'DESC')
+            ->addOrderBy('a.colorHighlight', 'DESC')
+        ;
+
         $paginator = new Paginator();
-        $pager = $paginator->getJsonResponse($advs, $request);
+        $pager = $paginator->getJsonResponse($advs, $request, 10);
 
-        $categories = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')
-            ->findBy(array('typeID' => 2));
-
-        return new JsonResponse(array(
-            'advs' => $advs,
-            'categories' => Functions::arrayToJson($categories)
-        ));
-    }
-
-    /**
-     * @Route("/get-gift-advs/{filter}", name="get-gift-advs", options={"expose"=true})
-     * @param Request $request
-     * @param int $filter
-     * @return JsonResponse
-     */
-    public function getAdvsGiftAction(Request $request, $filter = null) {
-        /** @var EntityManager $em */
-        $em = $this->getDoctrine()->getManager();
-
-        $advs = Advertisment::getAdvs($em, $filter, 3);
-        $paginator = new Paginator();
-        $pager = $paginator->getJsonResponse($advs, $request);
-
-        $categories = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')
-            ->findBy(array('typeID' => 3));
-
-        return new JsonResponse(array(
-            'advs' => $advs,
-            'categories' => Functions::arrayToJson($categories)
-        ));
+        return new JsonResponse($pager);
     }
 
     /**
@@ -176,13 +167,18 @@ class AdvertismentController extends Controller
     public function addToFavAction($adv_id) {
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
-        try {
-            Advertisment::addToFav($em, $this->getUser()->getId(), $adv_id);
-        } catch (\Exception $ex) {
-            $from = "Class: Advertisment, function: addToFav";
-            $this->get('error_logger')->registerException($ex, $from);
-            return new JsonResponse(-1);
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $fav = $em->getRepository('NaidusvoeBundle:Favorites')->findOneBy(['advertismentID' => $adv_id]);
+        $adv = $em->find('NaidusvoeBundle:Advertisment', $adv_id);
+        if ($fav === null && $adv !== null) {
+            $fav = new Favorites($adv, $user);
+            $em->persist($fav);
+            $em->flush();
+            return new JsonResponse(true);
+        } else {
+            return new JsonResponse(false);
         }
-        return new JsonResponse(1);
     }
 }
