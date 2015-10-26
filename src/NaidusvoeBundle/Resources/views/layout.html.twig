@@ -21,6 +21,12 @@
             var LANG = "{{ app.session.get('lang') }}";
         </script>
 
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', { 'callback': 'fos.Router.setData' }) }}"></script>
+
+        {#VISA PAY#}
+        <script src="https://sandbox-assets.secure.checkout.visa.com/checkout-widget/resources/js/integration/v1/sdk.js" type="application/javascript"></script>
+
         {% javascripts
             '@vendors'
             '@modules'
@@ -36,7 +42,9 @@
 
     {% endblock %}
 
-    {% block base %}{% endblock %}
+    {% block base %}
+        <base href="/">
+    {% endblock %}
 </head>
 
 <body ng-controller="ApplicationController as app" ng-cloak>
