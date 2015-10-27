@@ -3,12 +3,12 @@
         <div class="ogol-box">
 
             <div class="face">
-                <p class="name">[[ ::advUser.username ]]</p>
+                <p class="name">[[ ::advUser.name ]]</p>
                 <div class="p-photo">
-                    <img ng-src="[[ ::advUser.avatar ]]" alt="[[ ::advUser.username ]]">
+                    <img ng-src="[[ ::advUser.avatar ]]" alt="[[ ::advUser.name ]]">
                 </div>
 
-                <div class="zvazok" ng-if="trade.user.id !== advUser.id">
+                <div class="zvazok" ng-if="(trade.user !== null) && (trade.user.id !== advUser.id)">
                     <a data-target="#send_new_message" data-toggle="modal" class="send-mess" style="cursor: pointer;">
                         [[ 'BUTTON_WRITE_MESSAGE' | translate ]]
                     </a>
@@ -94,7 +94,7 @@
                 <div class="ogolosh-info">
                     <p>
                         [[ 'LABEL_REGION' | translate ]] <br>
-                        <span>[[ ::adv.region ]]</span>
+                        <span>[[ ::adv.region.name ]]</span>
                     </p>
                     <p>
                         [[ 'LABEL_CITY' | translate ]] <br>

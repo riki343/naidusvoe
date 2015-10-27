@@ -178,8 +178,15 @@ class Advertisment
     private $city;
 
     /**
-     * @var string
-     * @ORM\Column(name="region", type="string", length=255, nullable=true)
+     * @var integer
+     * @ORM\Column(name="region_id", type="integer", options={"default"=1})
+     */
+    private $regionId;
+
+    /**
+     * @var Region
+     * @ORM\ManyToOne(targetEntity="NaidusvoeBundle\Entity\Region")
+     * @ORM\JoinColumn(name="region_id", referencedColumnName="id")
      */
     private $region;
 
@@ -228,7 +235,7 @@ class Advertisment
             'advTop' => $this->getCategoryTop(),
             'urgent' => $this->urgent,
             'city' => $this->city,
-            'region' => $this->region,
+            'region' => $this->region->getInArray(),
             'date' => $this->date->format('m.d.Y'),
             'time' => $this->date->format('H:i:s'),
         );
@@ -245,6 +252,8 @@ class Advertisment
         $category = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')->find($data->categoryID);
         $priceType = $em->getRepository('NaidusvoeBundle:PriceType')->find($data->priceType);
         $advType = $em->getRepository('NaidusvoeBundle:AdvertismentType')->find($data->typeID);
+        $region = $em->getRepository('NaidusvoeBundle:Region')->find($data->region);
+
         $adv = new Advertisment();
         $adv->setUser($user);
         $adv->setDate(new \DateTime());
@@ -252,6 +261,7 @@ class Advertisment
         $adv->setPriceType($priceType);
         $adv->setType($advType);
         $adv->setCategory($category);
+        $adv->setRegion($region);
         if ($data->subCategoryID) {
             $subCategory = $em->getRepository('NaidusvoeBundle:AdvertismentSubCategory')
                 ->find($data->subCategoryID);
@@ -263,6 +273,7 @@ class Advertisment
         $adv->setEmail($data->email);
         $adv->setTelephoneNumber($data->telephoneNumber);
         $adv->setSkype($data->skype);
+        $adv->setCity($data->city);
 
         return $adv;
     }
@@ -936,5 +947,28 @@ class Advertisment
     public function getConversations()
     {
         return $this->conversations;
+    }
+
+    /**
+     * Set regionId
+     *
+     * @param integer $regionId
+     * @return Advertisment
+     */
+    public function setRegionId($regionId)
+    {
+        $this->regionId = $regionId;
+
+        return $this;
+    }
+
+    /**
+     * Get regionId
+     *
+     * @return integer 
+     */
+    public function getRegionId()
+    {
+        return $this->regionId;
     }
 }

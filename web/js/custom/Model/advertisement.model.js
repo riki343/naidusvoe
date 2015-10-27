@@ -31,6 +31,7 @@
             this.skype = '';
             this.date = new Date();
             this.time = new Date();
+            this.authorization = false;
         }
 
         Advertisement.prototype.save = function() {

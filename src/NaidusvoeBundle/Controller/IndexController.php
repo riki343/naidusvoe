@@ -109,6 +109,7 @@ class IndexController extends Controller
         if (!$session->get('lang')) {
             $session->set('lang', 'ua');
         }
+
         if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('naidusvoe_homepage');
         }
@@ -123,7 +124,6 @@ class IndexController extends Controller
         );
 
         $user = User::addUser($em, $this->get('security.encoder_factory'), $parameters);
-        //User::GenerateDefaultAvatar($em, $user);
 
         return $this->redirectToRoute('naidusvoe_login');
     }

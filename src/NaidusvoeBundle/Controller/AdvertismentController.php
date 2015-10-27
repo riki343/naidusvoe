@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class AdvertismentController extends Controller
 {
@@ -58,7 +60,6 @@ class AdvertismentController extends Controller
 
     /**
      * @Route("/add/adv", name="naidusvoe_add_adv", options={"expose" = true})
-     * @Security("has_role('ROLE_USER')")
      * @param Request $request
      * @return JsonResponse
      */
@@ -67,8 +68,41 @@ class AdvertismentController extends Controller
         $data = (object) $data;
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
-        /** @var User $user */
-        $user = $this->getUser();
+        $user = $em->getRepository('NaidusvoeBundle:User')->findOneBy(['email' => $data->email]);
+
+        if ($data->authorization === true && isset($data->password)) {
+            if ($this->get('naidusvoe.user')->forceSignIn($request, $user, $data->password) === false)  {
+                return new JsonResponse(['status' => -1]);
+            }
+        }
+
+        $authorizationChecker = $this->get('security.authorization_checker');
+        if ($authorizationChecker->isGranted('ROLE_USER')) {
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+            $adv = $this->AddAdv($data, $user);
+            $adv = ($adv) ? $adv->getInArray() : null;
+            return new JsonResponse(['status'=> 1, 'object' => $adv]);
+        } else {
+            if ($user !== null) {
+                return new JsonResponse(['status' => 2, 'email' => $data->email]);
+            } else {
+                $password = User::generatePassword();
+                $user = $this->get('naidusvoe.user')->signUp($data->email, $password, $data->contactPerson);
+                $adv = $this->AddAdv($data, $user);
+                $adv = ($adv) ? $adv->getInArray() : null;
+                return new JsonResponse(['status' => 3, 'object' => $adv, 'user' => $user->getInArray()]);
+            }
+        }
+    }
+
+    /**
+     * @param object $data
+     * @param User $user
+     * @return Advertisment
+     */
+    private function AddAdv($data, $user) {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
         $adv = Advertisment::addNewAdv($em, $data, $user->getId());
         $em->persist($adv);
         $em->flush($adv);
@@ -79,7 +113,7 @@ class AdvertismentController extends Controller
         }
 
         $em->flush();
-        return new JsonResponse(($adv) ? $adv->getInArray() : null);
+        return $adv;
     }
 
     /**
@@ -90,10 +124,14 @@ class AdvertismentController extends Controller
     public function getAdvAction($adv_id) {
         /** @var Advertisment $adv */
         $adv = $this->getDoctrine()->getManager()->find('NaidusvoeBundle:Advertisment', $adv_id);
+        /** @var User $user */
         $user = $adv->getUser();
+        /** @var User $myself */
+        $myself = $this->getUser();
         return new JsonResponse(array(
             'adv' => $adv->getInArray(),
-            'user' => $user->getInArray(),
+            'advUser' => $user->getInArray(),
+            'user' => ($myself !== null) ? $myself->getInArray() : null
         ));
     }
 

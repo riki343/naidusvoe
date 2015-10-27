@@ -30,27 +30,13 @@ assetic:
                 - 'js/custom/appCore.js'
         services:
             inputs:
-                - 'js/custom/Service/riki34.angular.spinner.js'
-                - 'js/custom/Service/naidusvoe.settings.service.js'
+                - 'js/custom/Service/*'
         models:
             inputs:
-                - 'js/custom/Model/advertisement.model.js'
+                - 'js/custom/Model/*'
         controllers:
             inputs:
-                - 'js/custom/appController.js'
-                - 'js/custom/indexController.js'
-                - 'js/custom/Controller/advertisements.controller.js'
-                - 'js/custom/Controller/advertisement.controller.js'
-                - 'js/custom/Controller/cabinet.controller.js'
-                - 'js/custom/Controller/cabinet.advs.controller.js'
-                - 'js/custom/Controller/cabinet.favs.controller.js'
-                - 'js/custom/Controller/cabinet.messages.controller.js'
-                - 'js/custom/Controller/cabinet.settings.controller.js'
-                - 'js/custom/Controller/conversation.controller.js'
-                - 'js/custom/advertismentController.js'
-                - 'js/custom/testController.js'
+                - 'js/custom/Controller/*'
         directives:
             inputs:
-                - 'js/custom/Directive/riki34.paginator.directive.js'
-                - 'js/custom/Directive/naidusvoe.adv.directive.js'
-                - 'js/custom/Directive/naidusvoe.add.file.directive.js'
+                - 'js/custom/Directive/*'

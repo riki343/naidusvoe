@@ -1,22 +1,25 @@
 (function (angular) {
     angular.module('NaiduSvoe').controller('addAdvertisementController', advertismentController);
 
-    advertismentController.$inject = ['$scope', '$http', 'Advertisement', '$window'];
+    advertismentController.$inject = ['$scope', '$http', 'Advertisement', '$location', 'notify', '$translate'];
 
-    function advertismentController($scope, $http, Advertisement, $window) {
+    function advertismentController($scope, $http, Advertisement, $location, notify, $translate) {
         var self = this;
 
         this.showPreview = false;
+
+        function Model() {
+            this.typeID = 0;
+            this.categoryID = 0;
+            this.subCategoryID = 0;
+            this.authorization = false;
+        }
 
         $scope.addAdv = new Advertisement();
         $scope.addAdv.region = 1;
         $scope.priceTypes = [];
         $scope.regions = [];
-        $scope.typeModel = {
-            'typeID': 0,
-            'categoryID': 0,
-            'subCategoryID': 0
-        };
+        $scope.typeModel = new Model();
 
         this.togglePreview = function () {
             self.showPreview = !self.showPreview;
@@ -30,7 +33,9 @@
                     $scope.addAdv.email = response.email;
                     $scope.addAdv.telephoneNumber = response.telephoneNumber;
                     $scope.addAdv.skype = response.skype;
-                    $scope.addAdv.region = response.region.id.toString();
+                    if (response.region) {
+                        $scope.addAdv.region = response.region.id.toString();
+                    }
                     $scope.addAdv.city = response.city;
                     $scope.priceTypes = response.priceTypes;
                     $scope.regions = response.regions;
@@ -41,6 +46,7 @@
 
         /** @param {Advertisement} adv */
         $scope.addNewAdv = function (adv) {
+            var modal =  $('#login_modal');
             adv.typeID = self.types[$scope.typeModel.typeID].id;
             adv.categoryID = self.types[$scope.typeModel.typeID].items[$scope.typeModel.categoryID].id;
             if (self.types[$scope.typeModel.typeID].items[$scope.typeModel.categoryID].items.length > 0) {
@@ -48,10 +54,33 @@
             } else {
                 adv.subCategoryID = null;
             }
+
             var promise = adv.save();
             promise.then(function (response) {
-                if (response) {
-                    location.href = '/advertisement/' + response.type.slug + '/' + response.id;
+                switch (response.status) {
+                    case -1:
+                        $translate('ERROR_CREDENTIALS').then(function (val) {
+                            notify(val);
+                        });
+                        break;
+                    case  1:
+                        modal.modal('hide');
+                        if (adv.authorization === true) {
+                            location.href = '/advertisement/' + response.object.type.slug + '/' + response.object.id;
+                        } else {
+                            $location.path('/advertisement/' + response.object.type.slug + '/' + response.object.id);
+                        }
+                        break;
+                    case  2:
+                        $scope.addAdv.authorization = true;
+                        modal.modal('show');
+                        break;
+                    case  3:
+                        $translate('USER_ADDED').then(function (val) {
+                            notify(val);
+                            $location.path('/advertisement/' + response.object.type.slug + '/' + response.object.id)
+                        });
+                        break;
                 }
             });
         };

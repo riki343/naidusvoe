@@ -18,11 +18,6 @@
             <div class="edit-menu-box">
                 <ul class="edit-menu">
 
-                    <!--<a class="btn btn-default" href="/cabinet">[[ 'BUTTON_ADVERTISMENT' | translate ]]</a>-->
-                    <!--<a class="btn btn-default" href="/cabinet/messages">[[ 'BUTTON_MESSAGES' | translate ]]</a>-->
-                    <!--<a class="btn btn-default active" href="/cabinet/settings">[[ 'BUTTON_SETTINGS' | translate ]]</a>-->
-                    <!--<a class="btn btn-default" href="/cabinet/favorites">[[ 'BUTTON_FAVORITES' | translate ]]</a>-->
-
                     <li ng-click="cabinet.activeTab = 1;" ng-class="{ 'active': cabinet.activeTab == 1 }">
                         <a style="cursor: pointer;">Змінити контактні дані</a>
                     </li>
@@ -160,7 +155,7 @@
                     <ul class="edit-kontakt">
                         <li class="input">
                             <input type="checkbox" id="sms-spam" ng-model="smsSettings.notifications" >
-                            <label for="e-pov"></label>
+                            <label for="sms-spam"></label>
                             <p>[[ 'LABEL_NEW_SMS_NOTIFICATIONS' | translate ]]</p>
                         </li>
 

@@ -24,9 +24,6 @@
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', { 'callback': 'fos.Router.setData' }) }}"></script>
 
-        {#VISA PAY#}
-        <script src="https://sandbox-assets.secure.checkout.visa.com/checkout-widget/resources/js/integration/v1/sdk.js" type="application/javascript"></script>
-
         {% javascripts
             '@vendors'
             '@modules'
@@ -34,8 +31,8 @@
             '@models'
             '@controllers'
             '@directives'
-             output='assets/js/all.js'
         %}
+        {#output='assets/js/all.js'#}
         {#filter='?uglifyjs2'#}
             <script defer src="{{ asset_url }}"></script>
         {% endjavascripts %}

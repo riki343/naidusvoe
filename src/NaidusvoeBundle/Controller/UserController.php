@@ -310,6 +310,7 @@ class UserController extends Controller
         $image = base64_decode($image[1]);
         $fs = new Filesystem();
         $fs->dumpFile($imagePath, $image);
+        $imagePath = '/' . $imagePath;
 
         $user->setAvatar($imagePath);
         $qb = $em->createQueryBuilder();

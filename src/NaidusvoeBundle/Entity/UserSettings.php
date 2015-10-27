@@ -44,19 +44,19 @@ class UserSettings
 
     /**
      * @var boolean
-     * @ORM\Column(name="notifications_email", type="boolean", options={"default" = false})
+     * @ORM\Column(name="notifications_email", type="boolean", nullable=true, options={"default" = false})
      */
     private $notificationsEmail;
 
     /**
      * @var boolean
-     * @ORM\Column(name="spam_email", type="boolean", options={"default" = false})
+     * @ORM\Column(name="spam_email", type="boolean", nullable=true, options={"default" = false})
      */
     private $spamEmail;
 
     /**
      * @var boolean
-     * @ORM\Column(name="notifications_sms", type="boolean", options={"default" = false})
+     * @ORM\Column(name="notifications_sms", type="boolean", nullable=true, options={"default" = false})
      */
     private $notificationsSms;
 

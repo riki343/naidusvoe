@@ -4770,3 +4770,7 @@ ul.pod-form > li.zagol > h2 {
 .modal-form {
     padding: 5px 15px;
 }
+
+select.search {
+    background-image: url("img/m-button.png");
+}

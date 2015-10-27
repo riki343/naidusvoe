@@ -1,4 +1,8 @@
 services:
-#    naidusvoe.example:
-#        class: NaidusvoeBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    naidusvoe.user:
+        class: NaidusvoeBundle\Services\UserService
+        arguments:
+            - @security.encoder_factory
+            - @security.token_storage
+            - @event_dispatcher
+            - @doctrine.orm.entity_manager

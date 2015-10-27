@@ -24,10 +24,9 @@
             var promise = Advertisement.get($scope.adv_id);
             promise.then(function (response) {
                 $scope.adv = response.adv;
-                $scope.advUser = response.user;
-                $scope.advUser.avatar = '/' + $scope.advUser.avatar;
-
+                $scope.advUser = response.advUser;
                 self.selectedImage = $scope.adv.attachments[0];
+                self.user = response.user;
             });
         };
 

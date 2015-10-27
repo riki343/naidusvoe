@@ -100,7 +100,7 @@ class User implements UserInterface, \Serializable
 
     /**
      * @var UserSettings
-     * @ORM\OneToOne(targetEntity="UserSettings", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="UserSettings", mappedBy="user", cascade={"persist", "remove"})
      */
     private $settings;
 
@@ -192,6 +192,7 @@ class User implements UserInterface, \Serializable
         $this->advertisments = new ArrayCollection();
         $this->rating = 0;
         $this->votes = [];
+        $this->avatar = '/css/img/icon-user-default.png';
     }
 
     /**
@@ -371,6 +372,73 @@ class User implements UserInterface, \Serializable
      * @inheritDoc
      */
     public function eraseCredentials() { }
+
+    /**
+     * Remove roles
+     *
+     * @param \NaidusvoeBundle\Entity\Role $roles
+     */
+    public function removeRole(\NaidusvoeBundle\Entity\Role $roles)
+    {
+        $this->roles->removeElement($roles);
+    }
+
+    public static function generatePassword() {
+        $now = new \DateTime();
+        srand($now->getTimestamp());
+        $pass = '';
+        $alhabet = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz';
+        $numbers = '01234567899876543210';
+
+        for ($i = 0; $i < 5; $i++) {
+            $pass .= $alhabet[rand(0, 42)];
+        }
+
+        for ($i = 0; $i < 2; $i++) {
+            $pass .= $numbers[rand(0, 20)];
+        }
+
+        return $pass;
+    }
+
+    /**
+     * @param EntityManager $em
+     * @param EncoderFactory $encoderFactory
+     * @param array $parameters
+     * @return User
+     */
+    public static function addUser($em, $encoderFactory, $parameters)
+    {
+        /** @var User $user */
+        $user = new User();
+        $encoder = $encoderFactory->getEncoder($user);
+        $user->setEmail($parameters['email']);
+        $user->setUsername($parameters['email']);
+        $user->setPassword($encoder->encodePassword($parameters['password'], $user->getSalt()));
+        $user->setRegistered(new \DateTime());
+        $user->setLastActive(new \DateTime());
+        $user->addRole(Role::getUserRole($em));
+        $user->setActive(false);
+
+        if(array_key_exists('vk_id', $parameters)) {
+            $user->setVkId($parameters['vk_id']);
+        } else if (array_key_exists('fb_id', $parameters)) {
+            $user->setFbId($parameters['fb_id']);
+        }
+
+        if (array_key_exists('name', $parameters)) {
+            $user->setName($parameters['name']);
+        }
+
+        $em->persist($user);
+
+        $settings = new UserSettings();
+        $settings->setUser($user);
+
+        $em->flush();
+        return $user;
+    }
+
 
     /**
      * Get id
@@ -557,54 +625,6 @@ class User implements UserInterface, \Serializable
         $this->roles[] = $roles;
 
         return $this;
-    }
-
-    /**
-     * Remove roles
-     *
-     * @param \NaidusvoeBundle\Entity\Role $roles
-     */
-    public function removeRole(\NaidusvoeBundle\Entity\Role $roles)
-    {
-        $this->roles->removeElement($roles);
-    }
-
-    /**
-     * @param EntityManager $em
-     * @param EncoderFactory $encoderFactory
-     * @param array $parameters
-     * @return User
-     */
-    public static function addUser($em, $encoderFactory, $parameters)
-    {
-        /** @var User $user */
-        $user = new User();
-        $encoder = $encoderFactory->getEncoder($user);
-        $user->setEmail($parameters['email']);
-        $user->setUsername($parameters['username']);
-        $user->setPassword($encoder->encodePassword($parameters['password'], $user->getSalt()));
-        $user->setRegistered(new \DateTime());
-        $user->setLastActive(new \DateTime());
-        $user->addRole(Role::getUserRole($em));
-        $user->setActive(false);
-
-        if(array_key_exists('vk_id', $parameters))
-        {
-            $user->setVkId($parameters['vk_id']);
-        }
-
-        if(array_key_exists('fb_id', $parameters))
-        {
-            $user->setFbId($parameters['fb_id']);
-        }
-
-        $em->persist($user);
-
-        $settings = new UserSettings();
-        $settings->setUser($user);
-
-        $em->flush();
-        return $user;
     }
 
     /**
