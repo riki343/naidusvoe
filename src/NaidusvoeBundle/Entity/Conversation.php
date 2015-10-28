@@ -2,9 +2,11 @@
 
 namespace NaidusvoeBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\PersistentCollection;
 use NaidusvoeBundle\Entity\User;
 use NaidusvoeBundle\Entity\Advertisment;
 use Symfony\Component\Validator\Constraints\DateTime;
@@ -92,17 +94,19 @@ class Conversation
 
     /**
      * @param EntityManager $em
-     * @param ArrayCollection $array
+     * @param PersistentCollection|ArrayCollection|Collection|array $array
+     * @param User $user
      * @return ArrayCollection
      */
-    public static function setViewed(EntityManager $em, $array) {
+    public static function setViewed(EntityManager $em, $array, User $user) {
         /** @var Message $item */
         foreach ($array as $item) {
-            if (!$item->getViewed()) {
+            if ($item->getViewed() === false && $item->getUserID() !== $user->getId()) {
                 $item->setViewed(true);
                 $em->persist($item);
             }
         }
+
         $em->flush();
         return $array;
     }

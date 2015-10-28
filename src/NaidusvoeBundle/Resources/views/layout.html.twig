@@ -31,8 +31,9 @@
             '@models'
             '@controllers'
             '@directives'
+            output='assets/js/all.js'
         %}
-        {#output='assets/js/all.js'#}
+        {##}
         {#filter='?uglifyjs2'#}
             <script defer src="{{ asset_url }}"></script>
         {% endjavascripts %}
@@ -44,11 +45,12 @@
     {% endblock %}
 </head>
 
-<body ng-controller="ApplicationController as app" ng-cloak>
+<body ng-cloak>
+    <div class="loader" main-spinner></div>
 
     <div id="wrapper">
         <div class="body-box">
-            <div class="mova">
+            <div class="mova" ng-controller="ApplicationController as app">
                 <ul>
                     <li class="ukr">
                         <a ng-click="switchLanguage('ua')" style="cursor: pointer;" title="Українською"></a>
@@ -59,15 +61,17 @@
                 </ul>
             </div>
             {% block nav %}
-
+                <top-menu></top-menu>
+                <div class="clearfix"></div>
             {% endblock %}
 
             {% block body %}
-
+                <div ng-view></div>
             {% endblock %}
 
             {% block footer %}
-
+                <div class="clearfix"></div>
+                <main-footer></main-footer>
             {% endblock %}
         </div>
     </div>

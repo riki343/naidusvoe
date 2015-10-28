@@ -1,6 +1,6 @@
 <nav>
-    <ul class="pagination">
-        <li ng-show="paginator.current !== paginator.first">
+    <ul class="pagination" ng-show="paginator.pageCount > 1">
+        <li ng-show="(paginator.current !== paginator.first) && (paginator.pageCount > 2)">
             <a href="#" ng-click="browse(paginator.first);">
                 <span>&laquo;</span>
             </a>
@@ -10,7 +10,7 @@
             <a href="#" ng-click="browse(page);" ng-bind="page"></a>
         </li>
 
-        <li ng-show="paginator.current !== paginator.last">
+        <li ng-show="(paginator.current !== paginator.last) && (paginator.pageCount > 2)">
             <a href="#" ng-click="browse(paginator.last);">
                 <span>&raquo;</span>
             </a>

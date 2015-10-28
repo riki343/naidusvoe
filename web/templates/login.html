@@ -1,0 +1,74 @@
+<div ng-controller="loginController as login" style="margin-top: 30px;">
+    <h1 class="podaty" align="center">
+        Увійти
+    </h1>
+    <form ng-submit="login.login(login.credentials)" name="loginForm" id="pod-og" novalidate>
+        <ul class="pod-form">
+            <li class="value" style="line-height: 2.8em;">
+                Email:
+            </li>
+            <li class="input">
+                <input type="email"
+                       class="form-input"
+                       ng-model="login.credentials.email"
+                       required
+                       placeholder="[[ 'EMAIL_PLACEHOLDER' | translate ]]"
+                       name="username">
+            </li>
+
+            <li class="value" style="line-height: 2.8em;">
+                [[ 'PASSWORD' | translate ]]
+            </li>
+            <li class="input">
+                <input class="form-input" type="password"
+                       ng-model="login.credentials.password"
+                       ng-minlength="5"
+                       required
+                       placeholder="[[ 'PASSWORD_PLACEHOLDER' | translate ]]"
+                       name="password">
+            </li>
+
+            <li class="input sto" style="text-align: center;">
+                <div style="display: inline-block;">
+                    <no-captcha
+                            g-recaptcha-response="login.credentials.captcha"
+                            theme='light'
+                            control="login.captcha"
+                            site-key="6LeAmw8TAAAAABnJ-CyDKBVRYBe5_b4Mrrcx2XuE">
+                    </no-captcha>
+                </div>
+            </li>
+
+            <li class="input" style="text-align: center; width: 100%;">
+                <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-warning" name="login">[[ 'BUTTON_LOGIN' | translate ]]</button>
+                <button type="button" ng-click="login.signup();" class="btn btn-success">[[ 'BUTTON_SIGNUP' | translate ]]</button>
+            </li>
+        </ul>
+    </form>
+</div>
+
+
+
+    <!--<div class="row" style="margin-top: 20px;">-->
+        <!--<div class="col-md-offset-3 col-md-6 col-xs-offset-2 col-xs-8">-->
+            <!--<div class="row">-->
+                <!--<div class="col-xs-4">-->
+                    <!--<p>[[ 'VK_HEADER' | translate ]]</p>-->
+                    <!--<div class="btn-group">-->
+                        <!--<a href="{{ vk_url }}" class="btn btn-primary">-->
+                            <!--Vkontakte-->
+                        <!--</a>-->
+                        <!--<a></a>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-xs-offset-4 col-xs-4">-->
+                    <!--<p>[[ 'FACEBOOK_HEADER' | translate ]]</p>-->
+                    <!--<div class="btn-group">-->
+                        <!--<a href="{{ fb_url }}" class="btn btn-primary">-->
+                            <!--Facebook-->
+                        <!--</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->

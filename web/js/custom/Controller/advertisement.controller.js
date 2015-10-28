@@ -7,10 +7,11 @@
         '$routeParams',
         'Advertisement',
         'notify',
-        '$translate'
+        '$translate',
+        'spinner'
     ];
 
-    function Controller($scope, $http, $routeParams, Advertisement, notify, $translate) {
+    function Controller($scope, $http, $routeParams, Advertisement, notify, $translate, spinner) {
         var self = this;
 
         this.selectedImage = null;
@@ -22,6 +23,7 @@
 
         $scope.getAdv = function () {
             var promise = Advertisement.get($scope.adv_id);
+            spinner.addPromise(promise);
             promise.then(function (response) {
                 $scope.adv = response.adv;
                 $scope.advUser = response.advUser;
@@ -32,6 +34,7 @@
 
         $scope.addToFav = function () {
             var promise = $http.put(Routing.generate('add-to-fav', { 'adv_id': $scope.adv_id }));
+            spinner.addPromise(promise);
             promise.success(function (response) {
                 if (response === true) {
                     $translate('FAV_ADDED').then(function (val) {
@@ -53,6 +56,7 @@
             });
 
             var promise = $http.post(sendMessageUrl, { 'message': message });
+            spinner.addPromise(promise);
             promise.success(function (response) {
                 if (response === true) {
                     $scope.message = '';

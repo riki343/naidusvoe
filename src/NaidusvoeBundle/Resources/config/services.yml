@@ -6,3 +6,10 @@ services:
             - @security.token_storage
             - @event_dispatcher
             - @doctrine.orm.entity_manager
+
+    naidusvoe.recaptcha:
+        class: NaidusvoeBundle\Services\GoogleRecaptchaService
+
+    naidusvoe.notifier:
+        class: NaidusvoeBundle\Services\Notifier
+        arguments: [@doctrine.orm.entity_manager]

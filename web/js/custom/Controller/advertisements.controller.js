@@ -5,10 +5,11 @@
         '$scope',
         '$http',
         '$routeParams',
-        'settingsService'
+        'settingsService',
+        'spinner'
     ];
 
-    function Controller($scope, $http, $routeParams, settings) {
+    function Controller($scope, $http, $routeParams, settings, spinner) {
         var self = this;
         var initialised = false;
 
@@ -36,6 +37,7 @@
             options.filter = $scope.filterID;
 
             var promise = $http.get(Routing.generate('get-advs', options));
+            spinner.addPromise(promise);
             promise.success(function (response) {
                 $scope.advs = response.advs.items;
                 $scope.data = response.advs.data;
@@ -43,7 +45,6 @@
                 $scope.$broadcast('AdvsLoaded');
             });
         };
-
 
         $scope.$on('AdvsLoaded', function () {
             if (initialised === true) {

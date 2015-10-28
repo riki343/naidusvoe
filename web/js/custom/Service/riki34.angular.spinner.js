@@ -10,33 +10,19 @@
         this.promises = [];
 
         return {
-            'addPromise': addPromise,
-            'onPromisesEnd': onPromisesEnd,
-            'onPromisesStart': onPromisesStart
+            'addPromise': addPromise
         };
 
         function addPromise(promise) {
             if (self.promises.length == 0) {
-                $rootScope.$broadcast('promisesStart');
+                $rootScope.$broadcast('SpinnerStart');
             }
             self.promises.push(promise);
             promise.then(function () {
-                var promiseIndex = self.promises.indexOf(promise);
-                self.promises.splice(promiseIndex, 1);
-                self.isInProgress = (self.promises.length > 0);
-                $rootScope.$broadcast('promisesEnd');
-            });
-        }
-
-        function onPromisesEnd($scope, handler) {
-            $scope.$on('promisesEnd', function () {
-                handler();
-            });
-        }
-
-        function onPromisesStart($scope, handler) {
-            $scope.$on('promisesStart', function () {
-                handler();
+                self.promises.splice(self.promises.indexOf(promise), 1);
+                if (self.promises.length === 0) {
+                    $rootScope.$broadcast('SpinnerStop');
+                }
             });
         }
     }

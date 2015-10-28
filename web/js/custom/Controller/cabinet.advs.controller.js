@@ -1,9 +1,9 @@
 (function (angular) {
     angular.module('NaiduSvoe').controller('cabinetAdvsController', Controller);
 
-    Controller.$inject = [ '$http', '$scope', 'settingsService' ];
+    Controller.$inject = [ '$http', '$scope', 'settingsService', 'spinner' ];
 
-    function Controller($http, $scope, settings) {
+    function Controller($http, $scope, settings, spinner) {
         var self = this;
 
         this.userAdvs = [];
@@ -19,18 +19,15 @@
         });
 
         this.getUserAdvs = function () {
-            self.spinner = true;
             var promise = $http.get(Routing.generate('get-user-advs'));
+            spinner.addPromise(promise);
             promise.success(function (response) {
                 self.userAdvs = response;
-                self.spinner = false;
             });
         };
 
         this.changeAdsView = function(view) {
             settings.setAdsView(view);
         };
-
     }
-
 })(angular);

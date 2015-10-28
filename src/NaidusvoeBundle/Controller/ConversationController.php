@@ -78,7 +78,7 @@ class ConversationController extends Controller {
         $conversation = $em->find('NaidusvoeBundle:Conversation', $conv_id);
         if ($conversation->getUser1ID() == $user->getId() || $conversation->getUser2ID() == $user->getId()) {
             $jsonConv = $conversation->getInArray($user);
-            Conversation::setViewed($em, $conversation->getMessages());
+            Conversation::setViewed($em, $conversation->getMessages(), $user);
             return new JsonResponse($jsonConv);
         } else {
             return new JsonResponse(false);

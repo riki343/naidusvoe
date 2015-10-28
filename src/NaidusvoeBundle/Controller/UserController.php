@@ -201,7 +201,7 @@ class UserController extends Controller
     public function getUserAction() {
         /** @var User $user */
         $user = $this->getUser();
-        return new JsonResponse(($user) ? $user->getInArray() : null);
+        return new JsonResponse(['user' => ($user) ? $user->getInArray() : null]);
     }
 
     /**

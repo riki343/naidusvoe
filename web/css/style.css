@@ -98,7 +98,7 @@ header > nav {
 	background-image: url(img/colour-back-form.png);
 	background-position: top left;
 	background-repeat: no-repeat;
-	margin-top: 80px;
+	margin-top: 50px;
 	padding: 5px;
 }
 footer {
@@ -1046,6 +1046,7 @@ ul.pod-form > li {
 	float: left;
 }
 ul.pod-form > li.value {
+	line-height: 2.8em;
 	width: 200px;
 	height: 50px;
 	padding-left: 50px;
@@ -1066,11 +1067,12 @@ ul.pod-form > li.input {
 	min-height: 50px;
 	height: auto;
 }
-ul.pod-form > li.input > input[type="file"] {
+
+input[type="file"] {
 	position: absolute;
 	left: -99999px;
 }
-ul.pod-form > li.input > input[type="file"] + label {
+input[type="file"] + label {
 	display: inline-block;
 	width: 65px;
 	height: 65px;
@@ -1112,6 +1114,7 @@ li.input > input[type="text"] {
 	padding: 3px;
 	border-radius: 0px;
 }
+
 ul.pod-form > li.input > select {
 	width: 242px;
 	height: 25px;
@@ -1121,19 +1124,33 @@ ul.pod-form > li.input > select {
 	border-radius: 0px;
 	background-color: #fff;
 }
-ul.pod-form > li.input.text {
-	height: 100px;
-}
+
 ul.pod-form > li.input.text > textarea {
 	display: block;
 	float: left;
 	width: 242px;
-	height: 92px;
+	padding: 3px;
+	resize: vertical;
+}
+
+ul.pod-form > li.input > .form-input {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	display: block;
+	float: left;
+	width: 242px;
+	height: 25px !important;
 	border: solid 1px #d4d4d4;
 	padding: 3px;
 }
+
+ul.pod-form > li.input > textarea.form-input  {
+	height: 150px !important;
+}
+
 ul.pod-form > li.input.photo {
-	height: 75px;
+	resize: vertical;
 }
 ul.pod-form > li.line {
 	display: block;
@@ -3424,9 +3441,10 @@ ul.pod-form > li.zagol > h2 {
     }
 
     ul.pod-form > li.value {
-        width: 100%;
+        width: 90%;
         height: auto;
-        padding-left: 0px;
+        padding-left: 0;
+		margin: 0 3%;
     }
 
     ul.pod-form > li.value > p.obov:after {
@@ -3449,12 +3467,12 @@ ul.pod-form > li.zagol > h2 {
         height: auto;
     }
 
-    ul.pod-form > li.input > input[type="file"] {
+    input[type="file"] {
         position: absolute;
         left: -99999px;
     }
 
-    ul.pod-form > li.input > input[type="file"] + label {
+    input[type="file"] + label {
         display: inline-block;
         width: 65px;
         height: 65px;
@@ -3500,8 +3518,25 @@ ul.pod-form > li.zagol > h2 {
         padding: 1%;
     }
 
+	ul.pod-form > li.input > .form-input {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		display: block;
+		float: left;
+		width: 90%;
+		height: 35px !important;
+		border: solid 1px #d4d4d4;
+		padding: 1%;
+		margin: 0 3%;
+	}
+
+	ul.pod-form > li.input > textarea.form-input {
+		height: 150px !important;
+	}
+
     ul.pod-form > li.input.photo {
-        height: 75px;
+		text-align: center;resize: vertical;
     }
 
     ul.pod-form > li.line {
@@ -4773,4 +4808,48 @@ ul.pod-form > li.zagol > h2 {
 
 select.search {
     background-image: url("img/m-button.png");
+}
+
+.btn[disabled="disabled"] {
+	opacity: 0.35;
+}
+
+.btn-success {
+	border: solid 2px darkgreen;
+	background-color: green;
+	color: #fff;
+	width: 136px;
+	margin: 10px;
+	cursor: pointer;
+	border-radius: 8px;
+	padding: 10px 5px;
+}
+
+.btn-warning {
+	border: solid 2px #d75c01;
+	background-color: #ff6c00;
+	color: #fff;
+	width: 136px;
+	margin: 10px;
+	cursor: pointer;
+	border-radius: 8px;
+	padding: 10px 5px;
+}
+
+.form-input {
+	opacity: 0.7;
+	transition: 0.2s linear opacity;
+}
+
+.form-input:focus, .form-input:active {
+	opacity: 1.0;
+	outline: 0;
+}
+
+.form-input.ng-valid.ng-dirty {
+	border: solid rgb(24, 207, 0) 1px !important;
+}
+
+.form-input.ng-invalid.ng-dirty {
+	border: solid rgb(200, 0, 14) 1px !important;
 }

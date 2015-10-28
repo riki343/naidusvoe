@@ -2,10 +2,10 @@
     angular.module('NaiduSvoe').controller('cabinetSettingsController', Controller);
 
     Controller.$inject = [
-        '$scope', '$http', 'settingsService', '$translate', 'notify'
+        '$scope', '$http', 'settingsService', '$translate', 'notify', 'spinner'
     ];
 
-    function Controller($scope, $http, settings, $translate, notify) {
+    function Controller($scope, $http, settings, $translate, notify, spinner) {
         var self = this;
 
         this.activeTab = 1;
@@ -46,6 +46,7 @@
         $scope.getInfo = function () {
             $scope.spinner = true;
             var promise = $http.get(Routing.generate('user-get-info'));
+            spinner.addPromise(promise);
             promise.success(function (response) {
                 $scope.contactInfo = response.contactInfo;
                 $scope.regions = response.regions;
@@ -58,68 +59,73 @@
         };
 
         $scope.saveContactInfo = function (info) {
-            $http.post(Routing.generate('user-change-contact-info'), { 'info': info })
-                .success(function (response) {
-                    "use strict";
-                    if (response === 1) {
-                        $translate('CHANGES_SAVED').then(function (val) {
-                            notify(val);
-                        });
-                    }
-                }
+            var promise = $http.post(Routing.generate('user-change-contact-info'),
+                { 'info': info }
             );
+            spinner.addPromise(promise);
+            promise.success(function (response) {
+                if (response === 1) {
+                    $translate('CHANGES_SAVED').then(function (val) {
+                        notify(val);
+                    });
+                }
+            });
         };
 
         $scope.changePassword = function (changes) {
-            $http.post(Routing.generate('user-change-pass'), { 'changes': changes })
-                .success(function (response) {
-                    "use strict";
-                    if (response === 1) {
-                        $translate('CHANGES_SAVED').then(function (val) {
-                            notify(val);
-                        });
-                    }
-                }
+            var promise = $http.post(Routing.generate('user-change-pass'),
+                { 'changes': changes }
             );
+            spinner.addPromise(promise);
+            promise.success(function (response) {
+                if (response === 1) {
+                    $translate('CHANGES_SAVED').then(function (val) {
+                        notify(val);
+                    });
+                }
+            });
         };
 
         $scope.changeEmail = function (changes) {
-            $http.post(Routing.generate('user-change-email'), { 'changes': changes })
-                .success(function (response) {
-                    "use strict";
-                    if (response === 1) {
-                        $translate('CHANGES_SAVED').then(function (val) {
-                            notify(val);
-                        });
-                    }
-                }
+            var promise = $http.post(Routing.generate('user-change-email'),
+                { 'changes': changes }
             );
+            spinner.addPromise(promise);
+            promise.success(function (response) {
+                if (response === 1) {
+                    $translate('CHANGES_SAVED').then(function (val) {
+                        notify(val);
+                    });
+                }
+            });
         };
 
         $scope.saveEmailNotificationSettings = function (settings) {
-            $http.post(Routing.generate('user-change-email-settings'), { 'settings': settings })
-                .success(function (response) {
-                    "use strict";
-                    if (response === 1) {
-                        $translate('CHANGES_SAVED').then(function (val) {
-                            notify(val);
-                        });
-                    }
-                }
+            var promise = $http.post(Routing.generate('user-change-email-settings'),
+                { 'settings': settings }
             );
+            spinner.addPromise(promise);
+            promise.success(function (response) {
+                if (response === 1) {
+                    $translate('CHANGES_SAVED').then(function (val) {
+                        notify(val);
+                    });
+                }
+            });
         };
 
         $scope.saveSmsNotificationSettings = function (settings) {
-            $http.post(Routing.generate('user-change-sms-settings'), { 'settings': settings })
-                .success(function (response) {
-                    "use strict";
-                    if (response === 1) {
-                        $translate('CHANGES_SAVED').then(function (val) {
-                            notify(val);
-                        });
-                    }
-                }
+            var promise = $http.post(Routing.generate('user-change-sms-settings'),
+                { 'settings': settings }
             );
+            spinner.addPromise(promise);
+            promise.success(function (response) {
+                if (response === 1) {
+                    $translate('CHANGES_SAVED').then(function (val) {
+                        notify(val);
+                    });
+                }
+            });
         };
     }
 })(angular);

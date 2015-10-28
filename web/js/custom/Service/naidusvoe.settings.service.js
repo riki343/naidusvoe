@@ -9,7 +9,7 @@
 
         var factory = {
             'getAdsView': getAdsView,
-            'setAdsView': setAdsView,
+            'setAdsView': setAdsView
         };
 
         return factory;

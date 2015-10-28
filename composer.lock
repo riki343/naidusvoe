@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "04a0dfea7d21d4b20d9d5f68a4d3834c",
-    "content-hash": "23de82f647eb513e36b3e45b1346666d",
+    "hash": "93f6c1adb84f910e38c7c646a2af89da",
+    "content-hash": "0701806621188d575ee9201fc7240cde",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2015,6 +2015,60 @@
             ],
             "description": "JSONP callback validator.",
             "time": "2014-01-20 22:35:06"
+        },
+        {
+            "name": "yucca/prerender-bundle",
+            "version": "dev-master",
+            "target-dir": "Yucca/PrerenderBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rjanot/YuccaPrerenderBundle.git",
+                "reference": "ad60a2566ad2dd91a8cd1854e974aee3586fa5e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rjanot/YuccaPrerenderBundle/zipball/ad60a2566ad2dd91a8cd1854e974aee3586fa5e1",
+                "reference": "ad60a2566ad2dd91a8cd1854e974aee3586fa5e1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "psr/log": "1.0.0",
+                "symfony/framework-bundle": "~2.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7",
+                "satooshi/php-coveralls": "~0.6",
+                "squizlabs/php_codesniffer": "1.4.*"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Yucca\\PrerenderBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rémi JANOT",
+                    "email": "r.janot@gmail.com"
+                }
+            ],
+            "description": "Allows you to easily use prerender for your Symfony2 apps running Client-Side MVC",
+            "homepage": "http://rjanot.github.io/",
+            "keywords": [
+                "MVC js",
+                "prerender"
+            ],
+            "time": "2015-06-20 14:40:40"
         }
     ],
     "packages-dev": [
@@ -2069,7 +2123,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "yucca/prerender-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

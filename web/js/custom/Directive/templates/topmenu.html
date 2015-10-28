@@ -1,0 +1,32 @@
+<header>
+    <div class="logo">
+        <a ng-href="/"></a>
+    </div>
+    <nav>
+        <ul class="menu">
+            <li><a class="punkt-1" ng-href="/">[[ 'NAV_MAIN_PAGE' | translate ]]</a></li>
+            <li><a class="punkt-2" ng-href="/advertisements/trade">[[ 'BUTTON_CATEGORY_TRADE' | translate ]]</a></li>
+            <li><a class="punkt-3" ng-href="/advertisements/found">[[ 'BUTTON_CATEGORY_FOUND' | translate ]]</a></li>
+            <li><a class="punkt-4" ng-href="/advertisements/gift">[[ 'BUTTON_CATEGORY_GIFT' | translate ]]</a></li>
+
+            <li ng-show="user !== null"><a class="punkt-5" ng-href="/cabinet">[[ 'NAV_CABINET' | translate ]]</a></li>
+            <li ng-show="user !== null">
+                <a class="punkt-6" href="javascript:void(0);" ng-click="logout();">
+                    [[ 'NAV_EXIT' | translate ]]
+                </a>
+            </li>
+
+            <li ng-hide="user !== null">
+                <a class="punkt-5" href="javascript:void(0);" ng-href="/login">
+                    [[ 'NAV_LOGIN' | translate ]]
+                </a>
+            </li>
+            <li ng-hide="user !== null">
+                <a class="punkt-6" href="javascript:void(0);" ng-href="/signup">
+                    [[ 'NAV_SIGN_UP' | translate ]]
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+</header>

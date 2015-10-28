@@ -5,73 +5,13 @@
 {% endblock %}
 
 {% block nav %}
-    <header>
-        <div class="logo">
-            <a href="/"></a>
-        </div>
-        <nav>
-            <ul class="menu">
-                <li><a class="punkt-1" ng-href="/">[[ 'NAV_MAIN_PAGE' | translate ]]</a></li>
-                <li><a class="punkt-2" ng-href="/advertisements/trade">[[ 'BUTTON_CATEGORY_TRADE' | translate ]]</a></li>
-                <li><a class="punkt-3" ng-href="/advertisements/found">[[ 'BUTTON_CATEGORY_FOUND' | translate ]]</a></li>
-                <li><a class="punkt-4" ng-href="/advertisements/gift">[[ 'BUTTON_CATEGORY_GIFT' | translate ]]</a></li>
-                {% if app.user and is_granted('ROLE_USER') %}
-                    <li><a class="punkt-5" ng-href="/cabinet">[[ 'NAV_CABINET' | translate ]]</a></li>
-                    <li>
-                        <a class="punkt-6" href="{{ path('naidusvoe_logout') }}" target="_self">
-                            [[ 'NAV_EXIT' | translate ]]
-                        </a>
-                    </li>
-                {% else %}
-                    <li><a class="punkt-5" href="{{ path('naidusvoe_login') }}" target="_self">
-                            [[ 'NAV_LOGIN' | translate ]]
-                        </a>
-                    </li>
-                    <li>
-                        <a class="punkt-6" href="{{ path('naidusvoe_signup') }}" target="_self">
-                            [[ 'NAV_SIGN_UP' | translate ]]
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-    </header>
+
 {% endblock %}
 
 {% block body %}
-    <div ng-view></div>
+
 {% endblock %}
 
 {% block footer %}
-    <footer>
-        <div class="register">
-            <a href="#">Реєстрація</a>
-        </div>
-        <div class="foot-mod">
-            <div class="mod-1">
-                <h3>Дізнайся про нас більше</h3>
-                <p>Ми у соціальних мережах</p>
-                <ul class="soc-mer">
-                    <li class="vk"><a href="#"></a></li>
-                    <li class="fb"><a href="#"></a></li>
-                    <li class="yt"><a href="#"></a></li>
-                    <li class="gp"><a href="#"></a></li>
-                    <li class="tw"><a href="#"></a></li>
-                </ul>
-            </div>
-            <div class="mod-2">
-                <h3>Переходи на розділи:</h3>
-                <ul class="menu rozd">
-                    <li><a href="#">Платні послуги</a></li>
-                    <li><a href="#">Правила безпеки</a></li>
-                    <li><a href="#">Про проект</a></li>
-                    <li><a href="#">Умови використання</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="pull-right" style="margin: 0 10px 10px;">
-            <span style="color: whitesmoke;">Created by:</span>
-            <a href="//vk.com/riki34" style="color: burlywood;">riki34</a>
-        </div>
-    </footer>
+
 {% endblock %}

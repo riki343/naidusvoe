@@ -17,6 +17,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
+            new Yucca\PrerenderBundle\YuccaPrerenderBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             #new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),

@@ -30,6 +30,7 @@ security:
                 key:      "%secret%"
                 lifetime: 31536000
                 path:     /
+                always_remember_me: true
             pattern:    ^/
             anonymous: ~
             form_login:

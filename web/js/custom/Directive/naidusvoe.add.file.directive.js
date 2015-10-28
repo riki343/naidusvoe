@@ -14,6 +14,7 @@
 
         function link($scope, $element, $attr) {
             $scope.item = $scope.file;
+            var init = false;
 
             $scope.$watch('file', function (val) {
                 $scope.item = val;
@@ -25,11 +26,16 @@
                 var fileReader = new FileReader();
                 var image = null;
                 fileReader.onload = function (event) {
+                    if (init === false) {
+                        $scope.$emit('PhotoAdded');
+                    }
                     var label = $element.find('label');
                     label.css('background-image', "url(\'" + fileReader.result + "\')");
                     $scope.item.image = fileReader.result;
                     $attr.file.image = fileReader.result;
                     $scope.image = fileReader.result;
+                    init = true;
+                    $scope.$apply();
                 };
                 fileReader.readAsDataURL(src);
             });

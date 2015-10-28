@@ -24,7 +24,8 @@ class IndexController extends Controller
      * @Route("/cabinet/favorites")
      * @Route("/add-adv")
      * @Route("/features")
-     * @Route("/test")
+     * @Route("/login")
+     * @Route("/signup")
      * @Route("/advertisements/{type}")
      * @Route("/advertisement/{type}/{adv_id}", requirements={"adv_id"="\d+"})
      * @Route("/adv/search/{slug}", requirements={"adv_id"="\d+"})
@@ -36,7 +37,7 @@ class IndexController extends Controller
         if (!$session->get('lang')) {
             $session->set('lang', 'ua');
         }
-        return $this->render('@Naidusvoe/index.html.twig');
+        return $this->render('@Naidusvoe/layout.html.twig');
     }
 
     /**
@@ -53,78 +54,74 @@ class IndexController extends Controller
     }
 
     /**
-     * @Route("/login", name="naidusvoe_login")
-     * @return Response
-     */
-    public function loginAction()
-    {
-        $session = $this->get('session');
-        if (!$session->get('lang')) {
-            $session->set('lang', 'ua');
-        }
-        $authenticationUtils = $this->get('security.authentication_utils');
-
-        $error = $authenticationUtils->getLastAuthenticationError();
-
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        $vk_url = "https://oauth.vk.com/authorize?client_id=5069614&scope=1&redirect_uri=" . $this->generateUrl('vk_login',[],true) . "&response_type=code";
-        $fb_url = "https://www.facebook.com/dialog/oauth?client_id=1707370132827740&redirect_uri=" . $this->generateUrl('fb_login',[],true) . "&response_type=code&scope=public_profile";
-        $parameters = array(
-            'last_username' => $lastUsername,
-            'error' => $error,
-            'vk_url' => $vk_url,
-            'fb_url' => $fb_url,
-        );
-
-        return $this->render('@Naidusvoe/login.html.twig', $parameters);
-    }
-
-    /**
-     * @Route("/login_check", name="naidusvoe_login_check")
-     */
-    public function loginCheckAction() { }
-
-    /**
-     * @Route("/signup", name="naidusvoe_signup")
-     */
-    public function signupAction() {
-        $session = $this->get('session');
-        if (!$session->get('lang')) {
-            $session->set('lang', 'ua');
-        }
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
-            //return $this->redirectToRoute('zectranet_user_page');
-        }
-        return $this->render('@Naidusvoe/signup.html.twig');
-    }
-
-    /**
-     * @Route("/signup/signup_action", name="naidusvoe_signup_action")
+     * @Route("/login-action", name="login", options={"expose"=true})
      * @param Request $request
      * @return Response
      */
-    public function signupActAction(Request $request) {
-        $session = $this->get('session');
-        if (!$session->get('lang')) {
-            $session->set('lang', 'ua');
-        }
-
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
-            return $this->redirectToRoute('naidusvoe_homepage');
-        }
+    public function loginAction(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        $publicKey = '6LeAmw8TAAAAAGyX-P1jTg13C_GMvdRdJOKNpacc';
 
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
-        $parameters = array(
-            'email' => $request->request->get('email'),
-            'username' => $request->request->get('username'),
-            'password' => $request->request->get('password'),
-        );
+        $response = $this->get('naidusvoe.recaptcha')->verify($publicKey, $data['captcha']);
+        if ($response['success'] !== true) {
+            return new JsonResponse([ 'status' => 'failed', 'reason' => 'captcha' ]);
+        }
 
-        $user = User::addUser($em, $this->get('security.encoder_factory'), $parameters);
+        $user = $em->getRepository('NaidusvoeBundle:User')->findOneBy(['email' => $data['email']]);
+        if ($user === null) {
+            return new JsonResponse([ 'status' => 'failed', 'reason' => 'user not found' ]);
+        } else if ($user->getActive() === false) {
+            return new JsonResponse([ 'status' => 'failed', 'reason' => 'user not active' ]);
+        }
 
-        return $this->redirectToRoute('naidusvoe_login');
+        if ($this->get('naidusvoe.user')->forceSignIn($request, $user, $data['password']) === false) {
+            return new JsonResponse([ 'status' => 'failed', 'reason' => 'wrong password' ]);
+        } else {
+            return new JsonResponse([ 'status' => 'success', 'user' => $user->getInArray() ]);
+        }
+    }
+
+    /**
+     * @Route("/signup-action", name="signup", options={"expose"=true})
+     * @param Request $request
+     * @return Response
+     */
+    public function signupActAction(Request $request) {
+        $data = json_decode($request->getContent(), true);
+        $publicKey = '6LeAmw8TAAAAAGyX-P1jTg13C_GMvdRdJOKNpacc';
+
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        $response = $this->get('naidusvoe.recaptcha')->verify($publicKey, $data['captcha']);
+        if ($response['success'] !== true) {
+            return new JsonResponse([ 'status' => 'failed', 'reason' => 'captcha' ]);
+        }
+
+        if ($data['pass'] !== $data['rpass']) {
+            return new JsonResponse([ 'status' => 'failed', 'reason' => 'password not match' ]);
+        }
+
+        $user = $em->getRepository('NaidusvoeBundle:User')->findOneBy(['email' => $data['email']]);
+        if ($user !== null) {
+            return new JsonResponse([ 'status' => 'failed', 'reason' => 'user exist' ]);
+        } else {
+            $this->get('naidusvoe.user')->signUp($data['email'], $data['pass'], $data['name']);
+            return new JsonResponse([ 'status' => 'success']);
+        }
+    }
+
+    /**
+     * @Route("/logout-action", name="logout", options={"expose"=true})
+     * @param Request $request
+     * @return Response
+     */
+    public function logout(Request $request) {
+        $this->get('security.token_storage')->setToken(null);
+        return new JsonResponse();
     }
 }

@@ -11,8 +11,8 @@
      */
     function AdvertisementFactory ($http, $q) {
         function Advertisement() {
-            this.title = '';
-            this.description = '';
+            this.title = 'daw dawdaw adwd';
+            this.description = ' awd adawd awd awd aw daw dawd aw daw daw daw awdawd aw dawd awdaw dawd awd';
             this.typeID = 1;
             this.categoryID = 20;
             this.subCategoryID = 1;
@@ -23,12 +23,12 @@
                 { 'id': 'file4', 'image': null },
                 { 'id': 'file5', 'image': null }
             ];
-            this.price = '0';
+            this.price = 0;
             this.priceType = 1;
-            this.contactPerson = '';
-            this.email = '';
-            this.telephoneNumber = '';
-            this.skype = '';
+            this.contactPerson = 'dawdawdaw';
+            this.email = 'dawd@dawdaw.com';
+            this.telephoneNumber = '454654216531';
+            this.skype = 'awdawdawdawd';
             this.date = new Date();
             this.time = new Date();
             this.authorization = false;
