@@ -1,50 +1,152 @@
-<div class="row">
-    <div class="col-xs-12">
-        <h3 align="center">
-            [[ 'ADDITIONAL_HEADING' | translate ]]
-        </h3>
-
-        <p>
-            [[ 'ADDITIONAL_DESCR' | translate ]]
-        </p>
-
-        <ul>
-            <li>
-                <p>
-                    [[ 'ADDITIONAL_FEATURE1' | translate ]]
-                </p>
-            </li>
-
-            <li>
-                <p>
-                    [[ 'ADDITIONAL_FEATURE2' | translate ]]
-                </p>
-            </li>
-
-            <li>
-                <p>
-                    [[ 'ADDITIONAL_FEATURE3' | translate ]]
-                </p>
-            </li>
-
-            <li>
-                <p>[[ 'ADDITIONAL_FEATURE4' | translate ]]</p>
-                <div class="well">
-                    [[ 'ADDITIONAL_FEATURE4_DESCR' | translate ]]
+<div id="content">
+    <div class="page-header">
+        <h1>Оплата платних послуг</h1>
+    </div>
+    <div class="oplata">
+        <h2 class="orange">
+            1. Виберіть одну або більше послуг
+        </h2>
+        <form id="oplata-form">
+            <div class="o-table">
+                <div class="o-column">
+                    <div class="row-p">
+                        <div class="cell-p one">
+                            <input id="one" type="checkbox" name="first" checked="">
+                            <label for="one"></label>
+                        </div>
+                        <div class="cell-p twoo">
+                            <img src="img/golovna-icon.png">
+                        </div>
+                        <div class="cell-p three">
+                            <p>Оголошення на головній</p>
+                        </div>
+                        <div class="cell-p four">
+                            <a class="info" href="#"></a>
+                        </div>
+                        <div class="cell-p five">
+                            <select>
+                                <option>- за 3 дні 15 грн.</option>
+                                <option>- за 7 днів 30 грн.</option>
+                                <option>- за 14 дні 50 грн.</option>
+                            </select>
+                        </div>
+                        <div class="cell-p six">
+                            <p>від 15 грн.</p>
+                        </div>
+                    </div>
+                    <div class="row-p">
+                        <div class="cell-p one">
+                            <input id="twoo" type="checkbox" name="twoo">
+                            <label for="twoo"></label>
+                        </div>
+                        <div class="cell-p twoo">
+                            <img src="img/top-icon.png">
+                        </div>
+                        <div class="cell-p three">
+                            <p>Топ оголошення</p>
+                        </div>
+                        <div class="cell-p four">
+                            <a class="info" href="#"></a>
+                        </div>
+                        <div class="cell-p six"></div>
+                    </div>
+                    <div class="row-p">
+                        <div class="cell-p one">
+                            <input id="three" type="checkbox" name="three">
+                            <label for="three"></label>
+                        </div>
+                        <div class="cell-p twoo">
+                            <img src="img/sel-icon.png">
+                        </div>
+                        <div class="cell-p three">
+                            <p>Виділене оголошення</p>
+                        </div>
+                        <div class="cell-p four">
+                            <a class="info" href="#"></a>
+                        </div>
+                        <div class="cell-p six"></div>
+                    </div>
+                    <div class="row-p">
+                        <div class="cell-p one">
+                            <input id="four" type="checkbox" name="four">
+                            <label for="four"></label>
+                        </div>
+                        <div class="cell-p twoo">
+                            <img src="img/term-icon.png">
+                        </div>
+                        <div class="cell-p three">
+                            <p>Термінове оголошення</p>
+                        </div>
+                        <div class="cell-p four">
+                            <a class="info" href="#"></a>
+                        </div>
+                        <div class="cell-p six"></div>
+                    </div>
+                    <div class="row-p">
+                        <div class="cell-p one">
+                            <input id="five" type="checkbox" name="five">
+                            <label for="five"></label>
+                        </div>
+                        <div class="cell-p twoo">
+                            <img src="img/pid-icon.png">
+                        </div>
+                        <div class="cell-p three">
+                            <p>Підняти оголошення</p>
+                        </div>
+                        <div class="cell-p four">
+                            <a class="info" href="#"></a>
+                        </div>
+                        <div class="cell-p six"></div>
+                    </div>
+                    <div class="row-p">
+                        <div class="cell-p one">
+                            <input id="six" type="checkbox" name="six">
+                            <label for="six"></label>
+                        </div>
+                        <div class="cell-p twoo">
+                            <img src="img/block-icon.png">
+                        </div>
+                        <div class="cell-p three">
+                            <p>Блок оголошень</p>
+                        </div>
+                        <div class="cell-p four">
+                            <a class="info" href="#"></a>
+                        </div>
+                        <div class="cell-p six"></div>
+                    </div>
+                    <h2 class="orange">
+                        2. Виберіть спосіб оплати
+                    </h2>
+                    <div class="row-p bank">
+                        <div class="cell-p bank active">
+                            <div></div>
+                            <input id="kartka" type="radio" name="group">
+                            <label for="kartka">Банківська карта</label>
+                        </div>
+                        <div class="cell-p privat">
+                            <div></div>
+                            <input id="privat-24" type="radio" name="group">
+                            <label for="privat-24">Приват 24</label>
+                        </div>
+                        <div class="cell-p terminal">
+                            <div></div>
+                            <input id="terminal" type="radio" name="group">
+                            <label for="terminal">Термінали, відділення банків</label>
+                        </div>
+                        <div class="cell-p kyivstar">
+                            <div></div>
+                            <input id="kyivstar" type="radio" name="group">
+                            <label for="kyivstar">Київстар Мобільні гроші</label>
+                        </div>
+                    </div>
+                    <div class="row-p buttons">
+                        <p class="razom">Всього до сплати <span>15</span> грн.</p>
+                        <div></div>
+                        <button type="reset">Відміна</button>
+                        <button type="submit">Сплатити</button>
+                    </div>
                 </div>
-            </li>
-
-            <li>
-                <p>
-                    [[ 'ADDITIONAL_FEATURE5' | translate ]]
-                </p>
-            </li>
-
-            <li>
-                <p>
-                    [[ 'ADDITIONAL_FEATURE6' | translate ]]
-                </p>
-            </li>
-        </ul>
+            </div>
+        </form>
     </div>
 </div>

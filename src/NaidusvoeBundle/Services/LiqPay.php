@@ -22,11 +22,12 @@
  */
 /**
  * Payment method liqpay process
- *
- * @author      Liqpay <support@liqpay.com>
+ * @author Liqpay <support@liqpay.com>
  */
 
 namespace NaidusvoeBundle\Services;
+
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 class LiqPay
 {
@@ -35,16 +36,14 @@ class LiqPay
     protected $_supportedCurrencies = array('EUR','UAH','USD','RUB','RUR');
     private $_public_key;
     private $_private_key;
+
     /**
      * Constructor.
      *
      * @param string $public_key
      * @param string $private_key
-     *
-     * @throws InvalidArgumentException
      */
-    public function __construct($public_key, $private_key)
-    {
+    public function __construct($public_key, $private_key) {
         if (empty($public_key)) {
             throw new InvalidArgumentException('public_key is empty');
         }
@@ -57,13 +56,11 @@ class LiqPay
     /**
      * Call API
      *
-     * @param string $url
+     * @param string $path
      * @param array $params
-     *
      * @return string
      */
-    public function api($path, $params = array())
-    {
+    public function api($path, $params = array()) {
         if(!isset($params['version'])){
             throw new InvalidArgumentException('version is null');
         }
@@ -84,16 +81,13 @@ class LiqPay
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
         $server_output = curl_exec($ch);
         curl_close($ch);
+
         return json_decode($server_output);
     }
+
     /**
-     * cnb_form
-     *
      * @param array $params
-     *
      * @return string
-     *
-     * @throws InvalidArgumentException
      */
     public function cnb_form($params)
     {
@@ -118,31 +112,23 @@ class LiqPay
             $language
         );
     }
+
     /**
-     * cnb_signature
-     *
      * @param array $params
-     *
      * @return string
      */
-    public function cnb_signature($params)
-    {
+    public function cnb_signature($params) {
         $params      = $this->cnb_params($params);
         $private_key = $this->_private_key;
-        $json      = base64_encode( json_encode($params) );
-        $signature = $this->str_to_sign($private_key . $json . $private_key);
+        $json        = base64_encode( json_encode($params) );
+        $signature   = $this->str_to_sign($private_key . $json . $private_key);
         return $signature;
     }
     /**
-     * cnb_params
-     *
      * @param array $params
-     *
      * @return array $params
      */
-    private function cnb_params($params)
-    {
-
+    private function cnb_params($params) {
         $params['public_key'] = $this->_public_key;
         if (!isset($params['version'])) {
             throw new InvalidArgumentException('version is null');
@@ -162,18 +148,17 @@ class LiqPay
         if (!isset($params['description'])) {
             throw new InvalidArgumentException('description is null');
         }
+
         return $params;
     }
+
     /**
-     * str_to_sign
-     *
      * @param string $str
-     *
      * @return string
      */
-    public function str_to_sign($str)
-    {
+    public function str_to_sign($str) {
         $signature = base64_encode(sha1($str,1));
+
         return $signature;
     }
 }

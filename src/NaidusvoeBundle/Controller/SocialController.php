@@ -2,6 +2,7 @@
 
 namespace NaidusvoeBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -94,7 +95,8 @@ class SocialController extends Controller {
      */
     public function SocialRegisterAction(Request $request, $social_uid, $social_u_field)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
         $password = md5(uniqid(rand(), true));
         $parameters = array(
             $social_u_field => $social_uid,

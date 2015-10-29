@@ -81,7 +81,10 @@
             .when('/advertisements/:type', {
                 templateUrl: templates + 'advertisements.html'
             })
-            .when('/advertisement/:type/:adv_id', {
+            .when('/advertisement/:adv_id/additional-features', {
+                templateUrl: templates + 'additionalFeatures.html'
+            })
+            .when('/advertisement/:type/:adv-id', {
                 templateUrl: templates + 'advertisement.html'
             })
             .otherwise({
