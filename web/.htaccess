@@ -50,7 +50,7 @@ DirectoryIndex app.php
     </FilesMatch>
 </IfModule>
 
-# Caching for JS, CSS, Images...
-#<FilesMatch ".(flv|gif|jpg|jpeg|png|ico|swf|css|pdf|map|js|php)$">
-#    Header set Cache-Control "max-age=20000"
-#</FilesMatch>
+#Caching for JS, CSS, Images...
+<FilesMatch "(\.js\.gz|\.css\.gz|\.php\.gz|\.png\.gz|\.jpg\.gz|\.gif\.gz)$">
+    Header set Cache-Control "max-age=200000"
+</FilesMatch>

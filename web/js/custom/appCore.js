@@ -68,24 +68,17 @@
             .when('/add-adv', {
                 templateUrl: templates + 'addAdvertisment.html'
             })
-            .when('/features', {
-                templateUrl: templates + 'additionalFeatures.html'
-            })
-            .when('/test', {
-                'templateUrl': 'bundles/naidusvoe/templates/test.html',
-                'controller': 'TestController as test'
-            })
             .when('/adv/search/:slug', {
                 'templateUrl': templates + 'search.html'
             })
             .when('/advertisements/:type', {
                 templateUrl: templates + 'advertisements.html'
             })
-            .when('/advertisement/:adv_id/additional-features', {
-                templateUrl: templates + 'additionalFeatures.html'
-            })
-            .when('/advertisement/:type/:adv-id', {
+            .when('/advertisement/:type/:adv_id', {
                 templateUrl: templates + 'advertisement.html'
+            })
+            .when('/advertisement/:type/:adv_id/additional-features', {
+                templateUrl: templates + 'additionalFeatures.html'
             })
             .otherwise({
                 redirectTo: '/'

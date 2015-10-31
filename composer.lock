@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "93f6c1adb84f910e38c7c646a2af89da",
-    "content-hash": "0701806621188d575ee9201fc7240cde",
+    "hash": "53168eff98e41b6fb7fa9a022180cd19",
+    "content-hash": "8f595170a4cad63bc647dbf6b0bac942",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -77,16 +77,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "v1.4.2",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "8c434000f420ade76a07c64cbe08ca47e5c101ca"
+                "reference": "eb8a73619af4f1c8711e2ce482f5de3643258a1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/8c434000f420ade76a07c64cbe08ca47e5c101ca",
-                "reference": "8c434000f420ade76a07c64cbe08ca47e5c101ca",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/eb8a73619af4f1c8711e2ce482f5de3643258a1f",
+                "reference": "eb8a73619af4f1c8711e2ce482f5de3643258a1f",
                 "shasum": ""
             },
             "require": {
@@ -107,8 +107,8 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Doctrine\\Common\\Cache\\": "lib/"
+                "psr-4": {
+                    "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -143,7 +143,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2015-08-31 12:36:41"
+            "time": "2015-10-28 11:27:45"
         },
         {
             "name": "doctrine/collections",
@@ -1234,6 +1234,49 @@
             "time": "2015-06-25 17:26:56"
         },
         {
+            "name": "liqpay/liqpay",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/liqpay/sdk-php.git",
+                "reference": "0e09edcb7dc18bd35c36a5ad4436a4e26fe0a6c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/liqpay/sdk-php/zipball/0e09edcb7dc18bd35c36a5ad4436a4e26fe0a6c9",
+                "reference": "0e09edcb7dc18bd35c36a5ad4436a4e26fe0a6c9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "./LiqPay.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL 3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Liqpay",
+                    "email": "support@liqpay.com",
+                    "homepage": "https://www.liqpay.com/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "SDK for Liqpay",
+            "homepage": "https://github.com/liqpay/sdk-php",
+            "keywords": [
+                "liqpay",
+                "pay"
+            ],
+            "time": "2015-02-03 17:38:13"
+        },
+        {
             "name": "monolog/monolog",
             "version": "1.17.2",
             "source": {
@@ -1350,17 +1393,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v3.0.32",
+            "version": "v3.0.33",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "e46293aa6dd94f054c500ef990538d822c763ebd"
+                "reference": "63245e12c948bf50278383e70fd5d6841af17e17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/e46293aa6dd94f054c500ef990538d822c763ebd",
-                "reference": "e46293aa6dd94f054c500ef990538d822c763ebd",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/63245e12c948bf50278383e70fd5d6841af17e17",
+                "reference": "63245e12c948bf50278383e70fd5d6841af17e17",
                 "shasum": ""
             },
             "require": {
@@ -1406,7 +1449,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2015-10-20 06:53:22"
+            "time": "2015-10-27 18:46:42"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -2124,7 +2167,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "yucca/prerender-bundle": 20
+        "yucca/prerender-bundle": 20,
+        "liqpay/liqpay": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

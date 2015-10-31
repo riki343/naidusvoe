@@ -11,7 +11,7 @@
     <base href="/">
 
     {% block stylesheets %}
-        {% stylesheets '@css' filter='uglifycss' filter='cssrewrite' output='assets/css/all.css' %}
+        {% stylesheets '@css' filter='uglifycss' filter="uglifycss" filter='cssrewrite' output='assets/css/all.css' %}
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
         {% endstylesheets %}
     {% endblock %}
@@ -21,8 +21,8 @@
             var LANG = "{{ app.session.get('lang') }}";
         </script>
 
-        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-        <script src="{{ path('fos_js_routing_js', { 'callback': 'fos.Router.setData' }) }}"></script>
+        <script async defer src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script async defer src="{{ path('fos_js_routing_js', { 'callback': 'fos.Router.setData' }) }}"></script>
 
         {% javascripts
             '@vendors'
@@ -31,11 +31,10 @@
             '@models'
             '@controllers'
             '@directives'
-            output='assets/js/all.js'
+             output='assets/js/all.js'
         %}
-        {##}
-        {#filter='?uglifyjs2'#}
-            <script defer src="{{ asset_url }}"></script>
+        {#filter="uglifyjs2"#}
+            <script async defer src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
     {% endblock %}

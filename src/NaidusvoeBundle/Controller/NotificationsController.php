@@ -17,7 +17,7 @@ class NotificationsController extends Controller
      * @Route("/", name="get-notifications", options={"expose"=true})
      * @Method({"GET"})
      */
-    public function get() {
+    public function index() {
         
     }
 }

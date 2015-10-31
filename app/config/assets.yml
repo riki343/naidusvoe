@@ -21,11 +21,11 @@ assetic:
                 - 'js/vendor/AngularJS/angular-translate.js'
                 - 'js/vendor/AngularJS/angular-translate-loader-static-files.js'
                 - 'js/vendor/AngularJS/scrollglue.js'
-                #- 'js/vendor/lightbox/lightbox.js'
                 - 'js/vendor/angular-busy/angular-busy.js'
                 - 'js/vendor/angular-notify/angular-notify.js'
                 - 'js/vendor/tg-angular-validator/angular-validator.min.js'
                 - 'js/vendor/angular-no-captcha/angular-no-captcha.min.js'
+                - 'js/fos_js_routes.js'
         modules:
             inputs:
                 - 'js/custom/riki34.module.js'
