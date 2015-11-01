@@ -672,6 +672,7 @@ form.search > button:focus, form#povidom > button:focus {
 #the-best > .o-table > .o-column > .o-row > .o-cell.photo > img {
 	width: 118px;
 	height: auto;
+    overflow: hidden;
 }
 #the-best > .o-table > .o-column > .o-row > .o-cell.info {
 	width: 123px;
@@ -763,6 +764,9 @@ form.search > button:focus, form#povidom > button:focus {
 }
 .o-cell.info > h2 {
 	margin-bottom: 5px;
+    text-overflow: ellipsis;
+    height: 30px;
+    overflow: hidden;
 }
 .o-cell.info > h2.term {
 	float: left;
@@ -3096,6 +3100,9 @@ ul.pod-form > li.zagol > h2 {
 
     .o-cell.info > h2 {
         margin-bottom: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 30px;
     }
 
     .o-cell.info > h2.term {

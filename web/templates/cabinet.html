@@ -50,9 +50,10 @@
             <div class="info-box">
                 <div class="o-table width-50">
                     <div class="o-column">
-                        <advertisment ng-repeat="adv in cabinet.advs track by $index" class="o-row"
-                                      advert="adv" show-del-button="true"
-                                      ng-class="{ 'yellow': adv.advColor == true }">
+                        <advertisment ng-repeat="adv in cabinet.advs track by $index"
+                                      advert="adv"
+                                      show-del-from-fav-button="false"
+                                      show-del-button="true">
                         </advertisment>
                     </div>
                 </div>

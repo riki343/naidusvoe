@@ -198,6 +198,12 @@ class Advertisment
 
     /**
      * @var array
+     * @ORM\OneToMany(targetEntity="Favorites", mappedBy="advertisment", cascade={"remove"}, fetch="EXTRA_LAZY")
+     */
+    private $favorites;
+
+    /**
+     * @var array
      * @ORM\OneToMany(targetEntity="Order", mappedBy="advertisement", cascade={"remove"}, fetch="EXTRA_LAZY")
      */
     private $orders;
@@ -235,14 +241,14 @@ class Advertisment
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
             'type' => $this->getType()->getInArraySingle(),
-            'category' => ($this->dummy === false) ?  $this->getCategory()->getInArraySingle() : null,
+            'category' => (!$this->dummy) ?  $this->getCategory()->getInArraySingle() : null,
             'subCategory' => ($this->getSubCategory())
                 ? $this->getSubCategory()->getInArray()
                 : null,
             'attachments' => Functions::arrayToJson($this->getAttachments()),
             'userID' => $this->getUserID(),
             'price'         => $this->getPrice(),
-            'priceType'     => ($this->dummy === false) ?  $this->getPriceType()->getInArray() : null,
+            'priceType'     => (!$this->dummy) ?  $this->getPriceType()->getInArray() : null,
             'contactPerson' => $this->getContactPerson(),
             'email'         => $this->getEmail(),
             'telephoneNumber' => $this->getTelephoneNumber(),
@@ -253,7 +259,7 @@ class Advertisment
             'advTop' => $this->getCategoryTop(),
             'urgent' => $this->urgent,
             'city' => $this->city,
-            'region' => ($this->dummy === false) ? $this->region->getInArray() : null,
+            'region' => (!$this->dummy) ? $this->region->getInArray() : null,
             'date' => $this->date->format('m.d.Y'),
             'time' => $this->date->format('H:i:s'),
             'dummy' => $this->dummy,
@@ -1071,5 +1077,38 @@ class Advertisment
     public function setDummy($dummy)
     {
         $this->dummy = $dummy;
+    }
+
+    /**
+     * Add favorites
+     *
+     * @param \NaidusvoeBundle\Entity\Favorites $favorites
+     * @return Advertisment
+     */
+    public function addFavorite(\NaidusvoeBundle\Entity\Favorites $favorites)
+    {
+        $this->favorites[] = $favorites;
+
+        return $this;
+    }
+
+    /**
+     * Remove favorites
+     *
+     * @param \NaidusvoeBundle\Entity\Favorites $favorites
+     */
+    public function removeFavorite(\NaidusvoeBundle\Entity\Favorites $favorites)
+    {
+        $this->favorites->removeElement($favorites);
+    }
+
+    /**
+     * Get favorites
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFavorites()
+    {
+        return $this->favorites;
     }
 }

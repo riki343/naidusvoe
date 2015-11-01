@@ -24,11 +24,10 @@
             <div class="o-table width-50">
                 <div class="o-column">
                     <advertisment ng-repeat="fav in cabinet.favs track by $index"
-                                  advert="fav.advertisment" class="o-row"
+                                  advert="fav.advertisment"
                                   show-del-button="false"
                                   show-del-from-fav-button="true"
-                                  fav-id="fav.id"
-                                  ng-class="{ 'yellow': adv.advColor == true }">
+                                  fav-id="fav.id">
                     </advertisment>
                 </div>
             </div>
