@@ -3,11 +3,16 @@
 namespace NaidusvoeBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
+use NaidusvoeBundle\Entity\Order;
+use NaidusvoeBundle\Entity\Payment;
+use NaidusvoeBundle\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PayController extends Controller
 {
@@ -15,79 +20,127 @@ class PayController extends Controller
     private $private_key = '1Y7ztWA5pwkQYG1UhRBqRnNPizj9iruWV7Qas8Px';
 
     /**
-     * @Route("/pay/{ammount}/{pay_way}", name="get-pay-form")
+     * @Security("has_role('ROLE_USER')")
+     * @Route("/pay/add/{adv_id}", name="get-pay-form", options={"expose"=true})
      * @param Request $request
-     * @param integer $amount
-     * @param string $pay_way
-     * @return Response
+     * @param integer $adv_id
+     * @return JsonResponse
      */
-    public function payAction(Request $request, $amount = 1, $pay_way = 'card')
+    public function payAction(Request $request, $adv_id)
     {
         $data  = (object) json_decode($request->getContent(), true);
-        $total = 0;
 
-        if ($data->advOnMain->checked === true) {
-            switch ($data->advOnMain->period) {
-                case '3':  $total += 15; break;
-                case '7':  $total += 30; break;
-                case '15': $total += 50; break;
-            }
-        }
-
-        if ($data->advOnTop->checked === true) {
-            switch ($data->advOnTop->period) {
-                case '3':  $total += 15; break;
-                case '7':  $total += 30; break;
-                case '15': $total += 50; break;
-            }
-        }
-
-        if ($data->advFilled->checked === true) {
-            switch ($data->advFilled->period) {
-                case '3':  $total += 15; break;
-                case '7':  $total += 30; break;
-                case '15': $total += 50; break;
-            }
-        }
-
-        if ($data->advUrgent->checked === true) {
-            switch ($data->advUrgent->period) {
-                case '3':  $total += 15; break;
-                case '7':  $total += 30; break;
-                case '15': $total += 50; break;
-            }
-        }
-
-        if ($data->advUpdate->checked === true) {
-            $total += 15;
-        }
-
-        if ($data->advBlock->checked === true) {
-            switch ($data->advBlock->period) {
-                case '3':  $total += 15; break;
-                case '7':  $total += 30; break;
-                case '15': $total += 50; break;
-            }
-        }
+        /** @var User $user */
+        $user = $this->getUser();
 
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
-        $orderId = $em->getRepository('NaidusvoeBundle:PaymentRequest');
 
-        if ($total === $data->total) {
+        $user = $em->getReference('NaidusvoeBundle:User', $user->getId());
+        $adv  = $em->getReference('NaidusvoeBundle:Advertisment', $adv_id);
+        $order = new Order($user, $adv);
+        $hash = Order::generateHash($em, $user->getId(), $adv_id);
+        $result = Order::CheckForm($data, $order);
+
+        if ($result['correct'] === true) {
+            /** @var Order $order */
+            $order = $result['order'];
+            $order->setHash($hash);
+            $order->setStatus('new');
+
+            $em->persist($order);
+            $em->flush();
+
             $liqpay = new \LiqPay($this->public_key, $this->private_key);
             $html = $liqpay->cnb_form(array(
                 'version'        => '3',
-                'amount'         => $total,
+                'amount'         => $order->getAmount(),
                 'currency'       => 'UAH',
                 'description'    => 'Оплата додаткових послуг для сайту ZnaiduSvoe.com',
-                'order_id'       => 'order_id_1',
+                'order_id'       => $hash,
                 'sandbox'        => 1,
+                'pay_way'        => $order->getPayWay(),
+                'result_url'     => $this->generateUrl('confirm-payment', [ 'hash' => $hash ], UrlGeneratorInterface::ABSOLUTE_URL)
             ));
 
             return new JsonResponse([ 'status' => 'ok', 'form' => $html]);
         } else {
-            return new JsonResponse([ 'status' => 'error', 'message' => 'INCORRECT_DATA']);
+            return new JsonResponse([ 'status' => 'error', 'message' => 'PAYMENT_INCORRECT_DATA']);
+        }
+    }
+
+    /**
+     * @Route("/api/pay/confirm/{hash}", name="api-confirm-payment", options={"expose"=true})
+     * @param Request $request
+     * @param string $hash
+     * @return JsonResponse
+     */
+    public function confirmOrder(Request $request, $hash)
+    {
+        $liqpay = new \LiqPay($this->public_key, $this->private_key);
+        $res = $liqpay->api("payment/status", array(
+            'version' => '3',
+            'order_id' => $hash
+        ));
+
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var User $user */
+        $user = $this->getUser();
+        $order = $em->getRepository('NaidusvoeBundle:Order')->findOneBy(['hash' => $hash]);
+
+        if ($user->getId() !== $order->getUserId()) {
+            new JsonResponse([ 'status' => 'error', 'message' => 'NOT_ALLOWED' ]);
+        }
+
+        $payment = $em->getRepository('NaidusvoeBundle:Payment')->findOneBy(['hash' => $hash]);
+        if ($payment === null) {
+            switch ($res['status']) {
+                case 'success':
+                case 'sandbox':
+                    return $this->handleConfirmation($order, $res);
+                case 'failure':
+                case 'error':
+                case '3ds_verify':
+                case 'wait_secure':
+                case 'wait_accept':
+                case 'processing':
+            }
+        } else {
+            return new JsonResponse(['status' => 'ok', 'details' => $payment->getDetails()]);
+        }
+    }
+
+    /**
+     * @Route("/api/pay/confirm-callback/{hash}", name="confirm-payment-callback", options={"expose"=true})
+     * @param Request $request
+     * @param string $hash
+     */
+    public function callbackConfirmOrder(Request $request, $hash) {
+
+    }
+
+    /**
+     * @param Order $order
+     * @param array $details
+     * @return JsonResponse
+     */
+    private function handleConfirmation($order, $details) {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+        if ($order !== null) {
+            if ($order->getStatus() === 'new') {
+                $payment = new Payment($order, $details);
+                $em->persist($payment);
+                $order->setStatus('confirmed');
+                $em->persist($order);
+                $em->flush();
+            }
+
+            return new JsonResponse([ 'status' => 'ok', 'details' => $details ]);
+        } else {
+            return new JsonResponse([ 'status' => 'error', 'message' => 'ORDER_NOT_FOUND' ]);
         }
     }
 }

@@ -23,24 +23,29 @@ class Payment
 
     /**
      * @var integer
-     *
      * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="amount", type="float")
+     * @var User
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="payments")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $amount;
+    private $user;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="adv_id", type="integer")
+     * @ORM\Column(name="advertisement_id", type="integer")
      */
-    private $advId;
+    private $advertisementId;
+
+    /**
+     * @var Advertisment
+     * @ORM\ManyToOne(targetEntity="Advertisment", inversedBy="payments")
+     * @ORM\JoinColumn(name="advertisement_id", referencedColumnName="id")
+     */
+    private $advertisement;
 
     /**
      * @var integer
@@ -62,26 +67,22 @@ class Payment
     private $hash;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="pay_way", type="string", length=255)
+     * @var array
+     * @ORM\Column(name="details", type="array")
      */
-    private $payWay;
+    private $details;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="currency", type="string", length=255)
+     * @param Order $order
+     * @param array $details
      */
-    private $currency;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="confirmed", type="boolean")
-     */
-    private $confirmed;
-
+    public function __construct($order, $details) {
+        $this->order         = $order;
+        $this->user          = $order->getUser();
+        $this->advertisement = $order->getAdvertisement();
+        $this->details       = $details;
+        $this->hash          = $order->getHash();
+    }
 
     /**
      * Get id
@@ -117,49 +118,26 @@ class Payment
     }
 
     /**
-     * Set amount
+     * Set advertisementId
      *
-     * @param float $amount
+     * @param integer $advertisementId
      * @return Payment
      */
-    public function setAmount($amount)
+    public function setAdvertisementId($advertisementId)
     {
-        $this->amount = $amount;
+        $this->advertisementId = $advertisementId;
 
         return $this;
     }
 
     /**
-     * Get amount
-     *
-     * @return float 
-     */
-    public function getAmount()
-    {
-        return $this->amount;
-    }
-
-    /**
-     * Set advId
-     *
-     * @param integer $advId
-     * @return Payment
-     */
-    public function setAdvId($advId)
-    {
-        $this->advId = $advId;
-
-        return $this;
-    }
-
-    /**
-     * Get advId
+     * Get advertisementId
      *
      * @return integer 
      */
-    public function getAdvId()
+    public function getAdvertisementId()
     {
-        return $this->advId;
+        return $this->advertisementId;
     }
 
     /**
@@ -186,71 +164,117 @@ class Payment
     }
 
     /**
-     * Set payWay
+     * Set hash
      *
-     * @param string $payWay
+     * @param string $hash
      * @return Payment
      */
-    public function setPayWay($payWay)
+    public function setHash($hash)
     {
-        $this->payWay = $payWay;
+        $this->hash = $hash;
 
         return $this;
     }
 
     /**
-     * Get payWay
+     * Get hash
      *
      * @return string 
      */
-    public function getPayWay()
+    public function getHash()
     {
-        return $this->payWay;
+        return $this->hash;
     }
 
     /**
-     * Set currency
+     * Set details
      *
-     * @param string $currency
+     * @param array $details
      * @return Payment
      */
-    public function setCurrency($currency)
+    public function setDetails($details)
     {
-        $this->currency = $currency;
+        $this->details = $details;
 
         return $this;
     }
 
     /**
-     * Get currency
+     * Get details
      *
-     * @return string 
+     * @return array 
      */
-    public function getCurrency()
+    public function getDetails()
     {
-        return $this->currency;
+        return $this->details;
     }
 
     /**
-     * Set confirmed
+     * Set user
      *
-     * @param boolean $confirmed
+     * @param \NaidusvoeBundle\Entity\User $user
      * @return Payment
      */
-    public function setConfirmed($confirmed)
+    public function setUser(\NaidusvoeBundle\Entity\User $user = null)
     {
-        $this->confirmed = $confirmed;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get confirmed
+     * Get user
      *
-     * @return boolean 
+     * @return \NaidusvoeBundle\Entity\User 
      */
-    public function getConfirmed()
+    public function getUser()
     {
-        return $this->confirmed;
+        return $this->user;
+    }
+
+    /**
+     * Set advertisement
+     *
+     * @param \NaidusvoeBundle\Entity\Advertisment $advertisement
+     * @return Payment
+     */
+    public function setAdvertisement(\NaidusvoeBundle\Entity\Advertisment $advertisement = null)
+    {
+        $this->advertisement = $advertisement;
+
+        return $this;
+    }
+
+    /**
+     * Get advertisement
+     *
+     * @return \NaidusvoeBundle\Entity\Advertisment 
+     */
+    public function getAdvertisement()
+    {
+        return $this->advertisement;
+    }
+
+    /**
+     * Set order
+     *
+     * @param \NaidusvoeBundle\Entity\Order $order
+     * @return Payment
+     */
+    public function setOrder(\NaidusvoeBundle\Entity\Order $order = null)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return \NaidusvoeBundle\Entity\Order 
+     */
+    public function getOrder()
+    {
+        return $this->order;
     }
 }

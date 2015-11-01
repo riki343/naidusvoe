@@ -22,35 +22,35 @@ DirectoryIndex app.php
 </IfModule>
 
 # GZIP for CSS and JS files
-<IfModule mod_headers.c>
-    # CSS
-    RewriteCond "%{HTTP:Accept-encoding}" "gzip"
-    RewriteCond "%{REQUEST_FILENAME}\.gz" -s
-    RewriteRule "^(.*)\.css" "$1\.css\.gz" [QSA]
-
-    # JS
-    RewriteCond "%{HTTP:Accept-encoding}" "gzip"
-    RewriteCond "%{REQUEST_FILENAME}\.gz" -s
-    RewriteRule "^(.*)\.js" "$1\.js\.gz" [QSA]
-
-    # PHP
-    RewriteCond "%{HTTP:Accept-encoding}" "gzip"
-    RewriteCond "%{REQUEST_FILENAME}\.gz" -s
-    RewriteRule "^(.*)\.php" "$1\.php\.gz" [QSA]
-
-    # Prevent double gzip
-    RewriteRule "\.css\.gz$" "-" [T=text/css,E=no-gzip:1]
-    RewriteRule "\.js\.gz$" "-" [T=text/javascript,E=no-gzip:1]
-    RewriteRule "\.php\.gz$" "-" [T=text/html,E=no-gzip:1]
-
-    # Set headers
-    <FilesMatch "(\.js\.gz|\.css\.gz|\.php\.gz)$">
-      Header append Content-Encoding gzip
-      Header append Vary Accept-Encoding
-    </FilesMatch>
-</IfModule>
+#<IfModule mod_headers.c>
+#    # CSS
+#    RewriteCond "%{HTTP:Accept-encoding}" "gzip"
+#    RewriteCond "%{REQUEST_FILENAME}\.gz" -s
+#    RewriteRule "^(.*)\.css" "$1\.css\.gz" [QSA]
+#
+#    # JS
+#    RewriteCond "%{HTTP:Accept-encoding}" "gzip"
+#    RewriteCond "%{REQUEST_FILENAME}\.gz" -s
+#    RewriteRule "^(.*)\.js" "$1\.js\.gz" [QSA]
+#
+#    # PHP
+#    RewriteCond "%{HTTP:Accept-encoding}" "gzip"
+#    RewriteCond "%{REQUEST_FILENAME}\.gz" -s
+#    RewriteRule "^(.*)\.php" "$1\.php\.gz" [QSA]
+#
+#    # Prevent double gzip
+#    RewriteRule "\.css\.gz$" "-" [T=text/css,E=no-gzip:1]
+#    RewriteRule "\.js\.gz$" "-" [T=text/javascript,E=no-gzip:1]
+#    RewriteRule "\.php\.gz$" "-" [T=text/html,E=no-gzip:1]
+#
+#    # Set headers
+#    <FilesMatch "(\.js\.gz|\.css\.gz|\.php\.gz)$">
+#      Header append Content-Encoding gzip
+#      Header append Vary Accept-Encoding
+#    </FilesMatch>
+#</IfModule>
 
 #Caching for JS, CSS, Images...
-<FilesMatch "(\.js\.gz|\.css\.gz|\.php\.gz|\.png\.gz|\.jpg\.gz|\.gif\.gz)$">
-    Header set Cache-Control "max-age=200000"
-</FilesMatch>
+#<FilesMatch "(\.js\.gz|\.css\.gz|\.php\.gz|\.png\.gz|\.jpg\.gz|\.gif\.gz)$">
+#    Header set Cache-Control "max-age=200000"
+#</FilesMatch>

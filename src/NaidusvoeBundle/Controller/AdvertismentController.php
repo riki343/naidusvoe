@@ -159,9 +159,12 @@ class AdvertismentController extends Controller
         $categories = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')
             ->findBy(array('typeID' => $typeID));
 
+        $bests = $this->get('naidusvoe.advertisement')->getTopAdvs($typeID);
+
         return new JsonResponse(array(
             'advs' => $pager,
-            'categories' => Functions::arrayToJson($categories)
+            'categories' => Functions::arrayToJson($categories),
+            'bests' => Functions::arrayToJson($bests)
         ));
     }
 

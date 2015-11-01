@@ -1420,7 +1420,7 @@ ul.photo {
 	display: block;
 	float: left;
 	width: 746px;
-	height: 341px;
+	/*height: 341px;*/
 	overflow: hidden;
 	margin: 0;
 	padding: 0;
@@ -1429,7 +1429,7 @@ ul.photo > li#big-photo {
 	display: block;
 	float: left;
 	width: 746px;
-	height: 341px;
+	/*height: 341px;*/
 	overflow-y: hidden;
 }
 ul.photo > li#big-photo > img {
@@ -1441,7 +1441,7 @@ ul.photo > li#big-photo > ul {
 	display: block;
 	float: right;
 	width: 195px;
-	height: 341px;
+	height: 345px;
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -1452,7 +1452,7 @@ ul.photo > li#big-photo > ul > li#prev-1, ul.photo > li#big-photo > ul > li#prev
 	display: block;
 	float: left;
 	width: 195px;
-	height: 114px;
+	/*height: 114px;*/
 	overflow: hidden;
 }
 ul.photo > li#big-photo > ul > li#prev-1 > img, ul.photo > li#big-photo > ul > li#prev-2 > img, ul.photo > li#big-photo > ul > li#prev-3 > img {
@@ -3882,7 +3882,7 @@ ul.pod-form > li.zagol > h2 {
         display: inline-block;
         float: left;
         width: 33%;
-        height: 60px;
+        /*height: 60px;*/
         overflow: hidden;
     }
 

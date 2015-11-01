@@ -21,8 +21,8 @@
             var LANG = "{{ app.session.get('lang') }}";
         </script>
 
-        <script async defer src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-        <script async defer src="{{ path('fos_js_routing_js', { 'callback': 'fos.Router.setData' }) }}"></script>
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', { 'callback': 'fos.Router.setData' }) }}"></script>
 
         {% javascripts
             '@vendors'
@@ -34,7 +34,7 @@
              output='assets/js/all.js'
         %}
         {#filter="uglifyjs2"#}
-            <script async defer src="{{ asset_url }}"></script>
+            <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
     {% endblock %}

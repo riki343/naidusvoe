@@ -7,7 +7,7 @@
             <h2 class="orange">
                 1. Виберіть одну або більше послуг
             </h2>
-            <form id="oplata-form" name="additionalFeaturesForm">
+            <form id="oplata-form" name="additionalFeaturesForm" ng-submit="feature.confirmOrder();" novalidate>
                 <div class="o-table">
                     <div class="o-column">
                         <div class="row-p">
@@ -22,7 +22,7 @@
                                 <p>Оголошення на головній</p>
                             </div>
                             <div class="cell-p four">
-                                <a class="info" href="#"></a>
+                                <a href="javascript:void(0);" tabindex="0" class="info"  title="[[ 'INFORMATION' | translate ]]" data-content="Some content"></a>
                             </div>
                             <div class="cell-p five">
                                 <select name="advOnMainSelect" ng-change="feature.calculateTotal();" ng-model="feature.model.advOnMain.period">
@@ -48,7 +48,7 @@
                                 <p>Топ оголошення</p>
                             </div>
                             <div class="cell-p four">
-                                <a class="info" href="#"></a>
+                                <a href="javascript:void(0);" tabindex="0" class="info"  title="[[ 'INFORMATION' | translate ]]" data-content="Some content"></a>
                             </div>
                             <div class="cell-p five">
                                 <select ng-change="feature.calculateTotal();" ng-model="feature.model.advOnTop.period">
@@ -57,7 +57,9 @@
                                     <option value="14">- за 14 дні 50 грн.</option>
                                 </select>
                             </div>
-                            <div class="cell-p six"></div>
+                            <div class="cell-p six">
+                                <p>від 15 грн.</p>
+                            </div>
                         </div>
 
                         <div class="row-p">
@@ -72,7 +74,7 @@
                                 <p>Виділене оголошення</p>
                             </div>
                             <div class="cell-p four">
-                                <a class="info" href="#"></a>
+                                <a href="javascript:void(0);" tabindex="0" class="info"  title="[[ 'INFORMATION' | translate ]]" data-content="Some content"></a>
                             </div>
                             <div class="cell-p five">
                                 <select ng-change="feature.calculateTotal();" ng-model="feature.model.advFilled.period">
@@ -81,7 +83,9 @@
                                     <option value="14">- за 14 дні 50 грн.</option>
                                 </select>
                             </div>
-                            <div class="cell-p six"></div>
+                            <div class="cell-p six">
+                                <p>від 15 грн.</p>
+                            </div>
                         </div>
 
                         <div class="row-p">
@@ -96,7 +100,7 @@
                                 <p>Термінове оголошення</p>
                             </div>
                             <div class="cell-p four">
-                                <a class="info" href="#"></a>
+                                <a href="javascript:void(0);" tabindex="0" class="info"  title="[[ 'INFORMATION' | translate ]]" data-content="Some content"></a>
                             </div>
                             <div class="cell-p five">
                                 <select ng-change="feature.calculateTotal();" ng-model="feature.model.advUrgent.period">
@@ -105,7 +109,9 @@
                                     <option value="14">- за 14 дні 50 грн.</option>
                                 </select>
                             </div>
-                            <div class="cell-p six"></div>
+                            <div class="cell-p six">
+                                <p>від 15 грн.</p>
+                            </div>
                         </div>
 
                         <div class="row-p">
@@ -120,9 +126,11 @@
                                 <p>Підняти оголошення</p>
                             </div>
                             <div class="cell-p four">
-                                <a class="info" href="#"></a>
+                                <a href="javascript:void(0);" tabindex="0" class="info" title="[[ 'INFORMATION' | translate ]]" data-content="Some content"></a>
                             </div>
-                            <div class="cell-p six"></div>
+                            <div class="cell-p six">
+                                <p>15 грн.</p>
+                            </div>
                         </div>
 
                         <div class="row-p">
@@ -137,7 +145,7 @@
                                 <p>Блок оголошень</p>
                             </div>
                             <div class="cell-p four">
-                                <a class="info" href="#"></a>
+                                <a href="javascript:void(0);" tabindex="0" class="info"  title="[[ 'INFORMATION' | translate ]]" data-content="Some content"></a>
                             </div>
                             <div class="cell-p five">
                                 <select ng-change="feature.calculateTotal();" ng-model="feature.model.advBlock.period">
@@ -146,7 +154,9 @@
                                     <option value="14">- за 14 дні 50 грн.</option>
                                 </select>
                             </div>
-                            <div class="cell-p six"></div>
+                            <div class="cell-p six">
+                                <p>від 15 грн.</p>
+                            </div>
                         </div>
 
                         <h2 class="orange">
@@ -176,17 +186,21 @@
 
                         <div class="row-p buttons">
                             <p class="razom">
-                                Всього до сплати
+                                [[ 'TOTAL_PAYVAL' | translate ]]
                                 <span>[[ feature.model.total ]]</span> грн.
                             </p>
-                            <button type="reset">Відміна</button>
-                            <button type="submit">Підтвердити</button>
+                            <button class="btn btn-success" type="button" ng-click="feature.goBack();">[[ 'GO_BACK' | translate ]]</button>
+                            <button ng-disabled="feature.model.total === 0" class="btn btn-warning" type="submit">[[ 'ACCEPT' | translate ]]</button>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
 
-        <div ng-show="feature.payPhase === 2" ng-bind-html="feature.payForm"></div>
+        <div ng-show="feature.payPhase === 2">
+            <div ng-bind-html="feature.payForm"></div>
+            <br>
+            <button type="button" ng-click="feature.payPhase = 1;">[[ 'GO_BACK' | translate ]]</button>
+        </div>
     </div>
 </div>

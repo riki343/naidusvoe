@@ -56,6 +56,7 @@ class Attachment
      * @return array
      */
     public static function uploadImages(EntityManager $em, $imagesArray, $adv) {
+        $dummyImage = '/resources/images/adv-default.png';
         $basePath = 'uploads/' . $adv->getId();
         $uploadedImages = array();
         $adv = $em->getRepository('NaidusvoeBundle:Advertisment')->find($adv->getId());
@@ -80,6 +81,15 @@ class Attachment
                     $counter++;
                 }
             }
+        }
+
+        if ($counter === 1) {
+            $attachment = new Attachment();
+            $attachment->setAdvertisment($adv);
+            $attachment->setImage($dummyImage);
+            $em->persist($attachment);
+
+            $uploadedImages[] = $attachment;
         }
 
         return $uploadedImages;

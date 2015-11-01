@@ -6,10 +6,11 @@
         '$http',
         '$routeParams',
         'settingsService',
-        'spinner'
+        'spinner',
+        'navigatorService'
     ];
 
-    function Controller($scope, $http, $routeParams, settings, spinner) {
+    function Controller($scope, $http, $routeParams, settings, spinner, navigator) {
         var self = this;
         var initialised = false;
 
@@ -24,6 +25,7 @@
             self.advsView = data;
         });
         $scope.$on('PaginatorClicked', function (e, params) {
+            navigator.setLast(self.type, params.page);
             $scope.getAdvs(params);
         });
 
@@ -35,12 +37,16 @@
             options = (angular.isDefined(options) === false) ? {} : options;
             options.type = self.type;
             options.filter = $scope.filterID;
+            if (angular.isUndefined(options.page)) {
+                options.page = navigator.getLast(self.type);
+            }
 
             var promise = $http.get(Routing.generate('get-advs', options));
             spinner.addPromise(promise);
             promise.success(function (response) {
                 $scope.advs = response.advs.items;
                 $scope.data = response.advs.data;
+                self.bests  = response.bests;
                 $scope.categories = response.categories;
                 $scope.$broadcast('AdvsLoaded');
             });

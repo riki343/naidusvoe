@@ -85,6 +85,12 @@
                             <h3>Кращі в категорії</h3>
                         </div>
                     </div>
+
+                    <advertisment ng-repeat="adv in trade.bests" class="o-row"
+                                  advert="adv" show-del-button="false"
+                                  ng-class="{ 'yellow': adv.advColor == true }">
+                    </advertisment>
+
                     <div class="o-row">
                         <div class="o-cell photo">
                             <img src="skoda.jpg">
@@ -104,9 +110,12 @@
                             </ul>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
+
+
         <div id="info">
             <div ng-class="trade.advsView">
                 <div class="o-column">
