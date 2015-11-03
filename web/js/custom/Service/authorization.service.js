@@ -1,27 +1,34 @@
 (function (angular) {
     angular.module('NaiduSvoe').factory('authorizationService', Service);
 
-    Service.$inject = ['$http', '$rootScope', '$timeout', '$location', '$translate', 'notify', '$q'];
+    Service.$inject = ['$http', '$rootScope', '$timeout', '$location', '$translate', 'notify', '$q', 'redirectService'];
 
-    function Service($http, $rootScope, $timeout, $location, $translate, notify, $q) {
+    function Service($http, $rootScope, $timeout, $location, $translate, notify, $q, redirector) {
         var self = this;
         this.user = null;
         this.init = true;
 
         $rootScope.$on('SessionLogin', function (event, user) {
             self.user = user;
-            $location.path('/cabinet');
+            self.init = false;
+            $location.url('/cabinet');
         });
 
         $rootScope.$on('SessionLogout', function () {
-            $location.path('/');
+            $location.url('/');
+        });
+
+        $rootScope.$on('UserFetched', function (event, user) {
+            self.user = user;
+            self.init = false;
+            redirector.toggleRedirects();
         });
 
         $rootScope.$on('RegistrationSuccess', function () {
             $translate('USER_ADDED').then(function (val) {
                 notify(val);
             });
-            $location.path('/login');
+            $location.url('/login');
         });
 
         var factory = {
@@ -65,7 +72,11 @@
                 return defer.promise;
             },
             'getUserDirect': function () {
-                return self.user;
+                if (self.init === true) {
+                    return 'init';
+                } else {
+                    return self.user;
+                }
             }
         };
 
@@ -75,7 +86,7 @@
 
         function checkSession(recent) {
             var defer = $q.defer();
-            if (angular.isUndefined(recent)) {
+            if (angular.isUndefined(recent) || self.init === true) {
                 var promise = $http.get(Routing.generate('get-user'));
                 promise.success(function(response) {
                     checkResponse(response);
@@ -127,12 +138,10 @@
 
         function checkResponse(response) {
             if (self.user !== response.user) {
-                if (self.init === false) {
-                    if (response.user === null) {
-                        $rootScope.$broadcast('SessionLogout');
-                    } else {
-                        $rootScope.$broadcast('SessionLogin', response.user);
-                    }
+                if (response.user === null && self.user !== null && self.user !== 'init') {
+                    $rootScope.$broadcast('SessionLogout');
+                } else if (response.user !== null && (self.user === null || self.user === 'init' )) {
+                    $rootScope.$broadcast('UserFetched', response.user);
                 }
             }
         }

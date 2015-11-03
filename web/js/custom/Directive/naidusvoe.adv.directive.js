@@ -12,12 +12,25 @@
                 'advert': '=advert',
                 'favId': '=favId',
                 'showDelButton': '=showDelButton',
-                'showDelFromFavButton': '=showDelFromFavButton'
+                'showDelFromFavButton': '=showDelFromFavButton',
+                'mini': '=mini'
             }
         };
 
         function link($scope, $element, $attr) {
-            $scope.adv = $scope.advertisement;
+            $element.css('overflow', 'hidden');
+            $element.addClass('o-row');
+
+            $scope.adv = $scope.advert;
+            if ($scope.adv.dummy === true) {
+                $scope.adv.href = '/v_pizdu'
+            } else {
+                $scope.adv.href = '/advertisement/' + $scope.adv.type.slug + '/' + $scope.adv.id;
+            }
+
+            if ($scope.adv.advColor === true) {
+                $element.addClass('yellow');
+            }
 
             $scope.$watch('advert', function (val) {
                 $scope.adv = val;

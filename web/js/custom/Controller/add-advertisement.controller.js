@@ -84,10 +84,12 @@
 
             var promise = adv.save();
             spinner.addPromise(promise);
-            promise.then(handleResponse);
+            promise.then(function (response) {
+                handleResponse(response, adv);
+            });
         };
 
-        function handleResponse(response) {
+        function handleResponse(response, adv) {
             switch (response.status) {
                 case -1:
                     $translate('ERROR_CREDENTIALS').then(function (val) {

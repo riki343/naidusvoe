@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "93f6c1adb84f910e38c7c646a2af89da",
+    "hash": "53168eff98e41b6fb7fa9a022180cd19",
+    "content-hash": "8f595170a4cad63bc647dbf6b0bac942",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1233,6 +1234,49 @@
             "time": "2015-06-25 17:26:56"
         },
         {
+            "name": "liqpay/liqpay",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/liqpay/sdk-php.git",
+                "reference": "0e09edcb7dc18bd35c36a5ad4436a4e26fe0a6c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/liqpay/sdk-php/zipball/0e09edcb7dc18bd35c36a5ad4436a4e26fe0a6c9",
+                "reference": "0e09edcb7dc18bd35c36a5ad4436a4e26fe0a6c9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "./LiqPay.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL 3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Liqpay",
+                    "email": "support@liqpay.com",
+                    "homepage": "https://www.liqpay.com/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "SDK for Liqpay",
+            "homepage": "https://github.com/liqpay/sdk-php",
+            "keywords": [
+                "liqpay",
+                "pay"
+            ],
+            "time": "2015-02-03 17:38:13"
+        },
+        {
             "name": "monolog/monolog",
             "version": "1.17.2",
             "source": {
@@ -1916,16 +1960,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.23.0",
+            "version": "v1.22.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "5868cd822fd6cf626d5f805439575f9c323cee2a"
+                "reference": "ebfc36b7e77b0c1175afe30459cf943010245540"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/5868cd822fd6cf626d5f805439575f9c323cee2a",
-                "reference": "5868cd822fd6cf626d5f805439575f9c323cee2a",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ebfc36b7e77b0c1175afe30459cf943010245540",
+                "reference": "ebfc36b7e77b0c1175afe30459cf943010245540",
                 "shasum": ""
             },
             "require": {
@@ -1938,7 +1982,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.23-dev"
+                    "dev-master": "1.22-dev"
                 }
             },
             "autoload": {
@@ -1973,7 +2017,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-10-29 23:29:01"
+            "time": "2015-10-13 07:07:02"
         },
         {
             "name": "willdurand/jsonp-callback-validator",
@@ -2123,7 +2167,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "yucca/prerender-bundle": 20
+        "yucca/prerender-bundle": 20,
+        "liqpay/liqpay": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

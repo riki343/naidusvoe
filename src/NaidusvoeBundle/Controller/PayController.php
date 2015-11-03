@@ -2,35 +2,145 @@
 
 namespace NaidusvoeBundle\Controller;
 
-use NaidusvoeBundle\Services\LiqPay;
+use Doctrine\ORM\EntityManager;
+use NaidusvoeBundle\Entity\Order;
+use NaidusvoeBundle\Entity\Payment;
+use NaidusvoeBundle\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PayController extends Controller
 {
-    private $_public_key = 'i27412534007';
-    private $_private_key = 'SPRhLbVWgANFUXSe4vO5afMV8pN6MVTCZvE3HIiU';
+    private $public_key = 'i30946396380';
+    private $private_key = '1Y7ztWA5pwkQYG1UhRBqRnNPizj9iruWV7Qas8Px';
 
     /**
-     * @Route("/liqpay", name="liqpay")
-     * @param integer $amount
-     * @param string $description
-     * @param string $pay_way
-     * @return Response
+     * @Security("has_role('ROLE_USER')")
+     * @Route("/pay/add/{adv_id}", name="get-pay-form", options={"expose"=true})
+     * @param Request $request
+     * @param integer $adv_id
+     * @return JsonResponse
      */
-    public function LiqPAyAction($amount = 1, $description = '', $pay_way = 'privat24')
+    public function payAction(Request $request, $adv_id)
     {
-        $liqpay = new LiqPay($this->_public_key, $this->_private_key);
-        $html = $liqpay->cnb_form(array(
-            'version'        => '3',
-            'amount'         => $amount,
-            'currency'       => 'UAH',
-            'description'    => 'Покупка ' . $description,
-            'order_id'       => 'order_id_1',
-            'pay_way'        => $pay_way
+        $data  = (object) json_decode($request->getContent(), true);
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $em->getReference('NaidusvoeBundle:User', $user->getId());
+        $adv  = $em->getReference('NaidusvoeBundle:Advertisment', $adv_id);
+        $order = new Order($user, $adv);
+        $hash = Order::generateHash($em, $user->getId(), $adv_id);
+        $result = Order::CheckForm($data, $order);
+
+        if ($result['correct'] === true) {
+            /** @var Order $order */
+            $order = $result['order'];
+            $order->setHash($hash);
+            $order->setStatus('new');
+
+            $em->persist($order);
+            $em->flush();
+
+            $liqpay = new \LiqPay($this->public_key, $this->private_key);
+            $html = $liqpay->cnb_form(array(
+                'version'        => '3',
+                'amount'         => $order->getAmount(),
+                'currency'       => 'UAH',
+                'description'    => 'Оплата додаткових послуг для сайту ZnaiduSvoe.com',
+                'order_id'       => $hash,
+                'sandbox'        => 1,
+                'pay_way'        => $order->getPayWay(),
+                'result_url'     => $this->generateUrl('confirm-payment', [ 'hash' => $hash ], UrlGeneratorInterface::ABSOLUTE_URL)
+            ));
+
+            return new JsonResponse([ 'status' => 'ok', 'form' => $html]);
+        } else {
+            return new JsonResponse([ 'status' => 'error', 'message' => 'PAYMENT_INCORRECT_DATA']);
+        }
+    }
+
+    /**
+     * @Route("/api/pay/confirm/{hash}", name="api-confirm-payment", options={"expose"=true})
+     * @param Request $request
+     * @param string $hash
+     * @return JsonResponse
+     */
+    public function confirmOrder(Request $request, $hash)
+    {
+        $liqpay = new \LiqPay($this->public_key, $this->private_key);
+        $res = $liqpay->api("payment/status", array(
+            'version' => '3',
+            'order_id' => $hash
         ));
-        return new JsonResponse($html);
+
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var User $user */
+        $user = $this->getUser();
+        $order = $em->getRepository('NaidusvoeBundle:Order')->findOneBy(['hash' => $hash]);
+
+        if ($user->getId() !== $order->getUserId()) {
+            new JsonResponse([ 'status' => 'error', 'message' => 'NOT_ALLOWED' ]);
+        }
+
+        $payment = $em->getRepository('NaidusvoeBundle:Payment')->findOneBy(['hash' => $hash]);
+        if ($payment === null) {
+            switch ($res['status']) {
+                case 'success':
+                case 'sandbox':
+                    return $this->handleConfirmation($order, $res);
+                case 'failure':
+                case 'error':
+                case '3ds_verify':
+                case 'wait_secure':
+                case 'wait_accept':
+                case 'processing':
+            }
+        } else {
+            return new JsonResponse(['status' => 'ok', 'details' => $payment->getDetails()]);
+        }
+    }
+
+    /**
+     * @Route("/api/pay/confirm-callback/{hash}", name="confirm-payment-callback", options={"expose"=true})
+     * @param Request $request
+     * @param string $hash
+     */
+    public function callbackConfirmOrder(Request $request, $hash) {
+
+    }
+
+    /**
+     * @param Order $order
+     * @param array $details
+     * @return JsonResponse
+     */
+    private function handleConfirmation($order, $details) {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+        if ($order !== null) {
+            if ($order->getStatus() === 'new') {
+                $payment = new Payment($order, $details);
+                $em->persist($payment);
+                $order->setStatus('confirmed');
+                $em->persist($order);
+                $em->flush();
+            }
+
+            return new JsonResponse([ 'status' => 'ok', 'details' => $details ]);
+        } else {
+            return new JsonResponse([ 'status' => 'error', 'message' => 'ORDER_NOT_FOUND' ]);
+        }
     }
 }

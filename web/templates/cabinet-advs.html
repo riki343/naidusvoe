@@ -24,9 +24,10 @@
         <div class="info-box" ng-if="(cadvs.userAdvs) && (cadvs.userAdvs.length > 0)">
             <div class="o-table width-50">
                 <div class="o-column">
-                    <advertisment ng-repeat="adv in cadvs.userAdvs track by $index" class="o-row"
-                                  advert="adv" show-del-button="true"
-                                  ng-class="{ 'yellow': adv.advColor == true }">
+                    <advertisment ng-repeat="adv in cadvs.userAdvs track by $index"
+                                  advert="adv"
+                                  show-del-from-fav-button="false"
+                                  show-del-button="true">
                     </advertisment>
                 </div>
             </div>

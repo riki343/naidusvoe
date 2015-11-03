@@ -1,152 +1,206 @@
-<div id="content">
+<div id="content" ng-controller="additionalFeaturesController as feature">
     <div class="page-header">
         <h1>Оплата платних послуг</h1>
     </div>
     <div class="oplata">
-        <h2 class="orange">
-            1. Виберіть одну або більше послуг
-        </h2>
-        <form id="oplata-form">
-            <div class="o-table">
-                <div class="o-column">
-                    <div class="row-p">
-                        <div class="cell-p one">
-                            <input id="one" type="checkbox" name="first" checked="">
-                            <label for="one"></label>
+        <div ng-show="feature.payPhase === 1">
+            <h2 class="orange">
+                1. Виберіть одну або більше послуг
+            </h2>
+            <form id="oplata-form" name="additionalFeaturesForm" ng-submit="feature.confirmOrder();" novalidate>
+                <div class="o-table">
+                    <div class="o-column">
+                        <div class="row-p">
+                            <div class="cell-p one">
+                                <input id="one" type="checkbox" name="first" ng-change="feature.calculateTotal();" ng-model="feature.model.advOnMain.checked">
+                                <label for="one"></label>
+                            </div>
+                            <div class="cell-p twoo">
+                                <img src="/css/img/golovna-icon.png">
+                            </div>
+                            <div class="cell-p three">
+                                <p>Оголошення на головній</p>
+                            </div>
+                            <div class="cell-p four">
+                                <a href="javascript:void(0);" tabindex="0" class="info"  title="[[ 'INFORMATION' | translate ]]" data-content="Some content"></a>
+                            </div>
+                            <div class="cell-p five">
+                                <select name="advOnMainSelect" ng-change="feature.calculateTotal();" ng-model="feature.model.advOnMain.period">
+                                    <option value="3">- за 3 дні 15 грн.</option>
+                                    <option value="7">- за 7 днів 30 грн.</option>
+                                    <option value="14">- за 14 дні 50 грн.</option>
+                                </select>
+                            </div>
+                            <div class="cell-p six">
+                                <p>від 15 грн.</p>
+                            </div>
                         </div>
-                        <div class="cell-p twoo">
-                            <img src="img/golovna-icon.png">
+
+                        <div class="row-p">
+                            <div class="cell-p one">
+                                <input id="twoo" type="checkbox" name="twoo" ng-change="feature.calculateTotal();" ng-model="feature.model.advOnTop.checked">
+                                <label for="twoo"></label>
+                            </div>
+                            <div class="cell-p twoo">
+                                <img src="/css/img/top-icon.png">
+                            </div>
+                            <div class="cell-p three">
+                                <p>Топ оголошення</p>
+                            </div>
+                            <div class="cell-p four">
+                                <a href="javascript:void(0);" tabindex="0" class="info"  title="[[ 'INFORMATION' | translate ]]" data-content="Some content"></a>
+                            </div>
+                            <div class="cell-p five">
+                                <select ng-change="feature.calculateTotal();" ng-model="feature.model.advOnTop.period">
+                                    <option value="3">- за 3 дні 15 грн.</option>
+                                    <option value="7">- за 7 днів 30 грн.</option>
+                                    <option value="14">- за 14 дні 50 грн.</option>
+                                </select>
+                            </div>
+                            <div class="cell-p six">
+                                <p>від 15 грн.</p>
+                            </div>
                         </div>
-                        <div class="cell-p three">
-                            <p>Оголошення на головній</p>
+
+                        <div class="row-p">
+                            <div class="cell-p one">
+                                <input id="three" type="checkbox" name="three" ng-change="feature.calculateTotal();" ng-model="feature.model.advFilled.checked">
+                                <label for="three"></label>
+                            </div>
+                            <div class="cell-p twoo">
+                                <img src="/css/img/sel-icon.png">
+                            </div>
+                            <div class="cell-p three">
+                                <p>Виділене оголошення</p>
+                            </div>
+                            <div class="cell-p four">
+                                <a href="javascript:void(0);" tabindex="0" class="info"  title="[[ 'INFORMATION' | translate ]]" data-content="Some content"></a>
+                            </div>
+                            <div class="cell-p five">
+                                <select ng-change="feature.calculateTotal();" ng-model="feature.model.advFilled.period">
+                                    <option value="3">- за 3 дні 15 грн.</option>
+                                    <option value="7">- за 7 днів 30 грн.</option>
+                                    <option value="14">- за 14 дні 50 грн.</option>
+                                </select>
+                            </div>
+                            <div class="cell-p six">
+                                <p>від 15 грн.</p>
+                            </div>
                         </div>
-                        <div class="cell-p four">
-                            <a class="info" href="#"></a>
+
+                        <div class="row-p">
+                            <div class="cell-p one">
+                                <input id="four" type="checkbox" name="four" ng-change="feature.calculateTotal();" ng-model="feature.model.advUrgent.checked">
+                                <label for="four"></label>
+                            </div>
+                            <div class="cell-p twoo">
+                                <img src="/css/img/term-icon.png">
+                            </div>
+                            <div class="cell-p three">
+                                <p>Термінове оголошення</p>
+                            </div>
+                            <div class="cell-p four">
+                                <a href="javascript:void(0);" tabindex="0" class="info"  title="[[ 'INFORMATION' | translate ]]" data-content="Some content"></a>
+                            </div>
+                            <div class="cell-p five">
+                                <select ng-change="feature.calculateTotal();" ng-model="feature.model.advUrgent.period">
+                                    <option value="3">- за 3 дні 15 грн.</option>
+                                    <option value="7">- за 7 днів 30 грн.</option>
+                                    <option value="14">- за 14 дні 50 грн.</option>
+                                </select>
+                            </div>
+                            <div class="cell-p six">
+                                <p>від 15 грн.</p>
+                            </div>
                         </div>
-                        <div class="cell-p five">
-                            <select>
-                                <option>- за 3 дні 15 грн.</option>
-                                <option>- за 7 днів 30 грн.</option>
-                                <option>- за 14 дні 50 грн.</option>
-                            </select>
+
+                        <div class="row-p">
+                            <div class="cell-p one">
+                                <input id="five" type="checkbox" name="five" ng-change="feature.calculateTotal();" ng-model="feature.model.advUpdate.checked">
+                                <label for="five"></label>
+                            </div>
+                            <div class="cell-p twoo">
+                                <img src="/css/img/pid-icon.png">
+                            </div>
+                            <div class="cell-p three">
+                                <p>Підняти оголошення</p>
+                            </div>
+                            <div class="cell-p four">
+                                <a href="javascript:void(0);" tabindex="0" class="info" title="[[ 'INFORMATION' | translate ]]" data-content="Some content"></a>
+                            </div>
+                            <div class="cell-p six">
+                                <p>15 грн.</p>
+                            </div>
                         </div>
-                        <div class="cell-p six">
-                            <p>від 15 грн.</p>
+
+                        <div class="row-p">
+                            <div class="cell-p one">
+                                <input id="six" type="checkbox" name="six" ng-change="feature.calculateTotal();" ng-model="feature.model.advBlock.checked">
+                                <label for="six"></label>
+                            </div>
+                            <div class="cell-p twoo">
+                                <img src="/css/img/block-icon.png">
+                            </div>
+                            <div class="cell-p three">
+                                <p>Блок оголошень</p>
+                            </div>
+                            <div class="cell-p four">
+                                <a href="javascript:void(0);" tabindex="0" class="info"  title="[[ 'INFORMATION' | translate ]]" data-content="Some content"></a>
+                            </div>
+                            <div class="cell-p five">
+                                <select ng-change="feature.calculateTotal();" ng-model="feature.model.advBlock.period">
+                                    <option value="3">- за 3 дні 15 грн.</option>
+                                    <option value="7">- за 7 днів 30 грн.</option>
+                                    <option value="14">- за 14 дні 50 грн.</option>
+                                </select>
+                            </div>
+                            <div class="cell-p six">
+                                <p>від 15 грн.</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row-p">
-                        <div class="cell-p one">
-                            <input id="twoo" type="checkbox" name="twoo">
-                            <label for="twoo"></label>
+
+                        <h2 class="orange">
+                            2. Виберіть спосіб оплати
+                        </h2>
+                        <div class="row-p bank">
+                            <label for="kartka" class="cell-p bank" ng-class="{ 'active': feature.selectedPayWay === 'card' }" style="cursor:pointer;">
+                                <input id="kartka" type="radio" name="group" value="card" ng-model="feature.selectedPayWay">
+                                <span style="font-size: 14px;">Банківська карта</span>
+                            </label>
+
+                            <label for="privat-24" class="cell-p privat" ng-class="{ 'active': feature.selectedPayWay === 'privat24' }" style="cursor:pointer;">
+                                <input id="privat-24" type="radio" name="group" value="privat24" ng-model="feature.selectedPayWay">
+                                <span style="font-size: 14px;">Приват 24</span>
+                            </label>
+
+                            <!--<label for="terminal" class="cell-p terminal">-->
+                            <!--<input id="terminal" type="radio" name="group">-->
+                            <!--<span style="font-size: 14px;">Термінали, відділення банків</span>-->
+                            <!--</label>-->
+
+                            <!--<label for="kyivstar" class="cell-p kyivstar">-->
+                            <!--<input id="kyivstar" type="radio" name="group">-->
+                            <!--<span style="font-size: 14px;">Київстар Мобільні гроші</span>-->
+                            <!--</label>-->
                         </div>
-                        <div class="cell-p twoo">
-                            <img src="img/top-icon.png">
+
+                        <div class="row-p buttons">
+                            <p class="razom">
+                                [[ 'TOTAL_PAYVAL' | translate ]]
+                                <span>[[ feature.model.total ]]</span> грн.
+                            </p>
+                            <button class="btn btn-success" type="button" ng-click="feature.goBack();">[[ 'GO_BACK' | translate ]]</button>
+                            <button ng-disabled="feature.model.total === 0" class="btn btn-warning" type="submit">[[ 'ACCEPT' | translate ]]</button>
                         </div>
-                        <div class="cell-p three">
-                            <p>Топ оголошення</p>
-                        </div>
-                        <div class="cell-p four">
-                            <a class="info" href="#"></a>
-                        </div>
-                        <div class="cell-p six"></div>
-                    </div>
-                    <div class="row-p">
-                        <div class="cell-p one">
-                            <input id="three" type="checkbox" name="three">
-                            <label for="three"></label>
-                        </div>
-                        <div class="cell-p twoo">
-                            <img src="img/sel-icon.png">
-                        </div>
-                        <div class="cell-p three">
-                            <p>Виділене оголошення</p>
-                        </div>
-                        <div class="cell-p four">
-                            <a class="info" href="#"></a>
-                        </div>
-                        <div class="cell-p six"></div>
-                    </div>
-                    <div class="row-p">
-                        <div class="cell-p one">
-                            <input id="four" type="checkbox" name="four">
-                            <label for="four"></label>
-                        </div>
-                        <div class="cell-p twoo">
-                            <img src="img/term-icon.png">
-                        </div>
-                        <div class="cell-p three">
-                            <p>Термінове оголошення</p>
-                        </div>
-                        <div class="cell-p four">
-                            <a class="info" href="#"></a>
-                        </div>
-                        <div class="cell-p six"></div>
-                    </div>
-                    <div class="row-p">
-                        <div class="cell-p one">
-                            <input id="five" type="checkbox" name="five">
-                            <label for="five"></label>
-                        </div>
-                        <div class="cell-p twoo">
-                            <img src="img/pid-icon.png">
-                        </div>
-                        <div class="cell-p three">
-                            <p>Підняти оголошення</p>
-                        </div>
-                        <div class="cell-p four">
-                            <a class="info" href="#"></a>
-                        </div>
-                        <div class="cell-p six"></div>
-                    </div>
-                    <div class="row-p">
-                        <div class="cell-p one">
-                            <input id="six" type="checkbox" name="six">
-                            <label for="six"></label>
-                        </div>
-                        <div class="cell-p twoo">
-                            <img src="img/block-icon.png">
-                        </div>
-                        <div class="cell-p three">
-                            <p>Блок оголошень</p>
-                        </div>
-                        <div class="cell-p four">
-                            <a class="info" href="#"></a>
-                        </div>
-                        <div class="cell-p six"></div>
-                    </div>
-                    <h2 class="orange">
-                        2. Виберіть спосіб оплати
-                    </h2>
-                    <div class="row-p bank">
-                        <div class="cell-p bank active">
-                            <div></div>
-                            <input id="kartka" type="radio" name="group">
-                            <label for="kartka">Банківська карта</label>
-                        </div>
-                        <div class="cell-p privat">
-                            <div></div>
-                            <input id="privat-24" type="radio" name="group">
-                            <label for="privat-24">Приват 24</label>
-                        </div>
-                        <div class="cell-p terminal">
-                            <div></div>
-                            <input id="terminal" type="radio" name="group">
-                            <label for="terminal">Термінали, відділення банків</label>
-                        </div>
-                        <div class="cell-p kyivstar">
-                            <div></div>
-                            <input id="kyivstar" type="radio" name="group">
-                            <label for="kyivstar">Київстар Мобільні гроші</label>
-                        </div>
-                    </div>
-                    <div class="row-p buttons">
-                        <p class="razom">Всього до сплати <span>15</span> грн.</p>
-                        <div></div>
-                        <button type="reset">Відміна</button>
-                        <button type="submit">Сплатити</button>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
+
+        <div ng-show="feature.payPhase === 2">
+            <div ng-bind-html="feature.payForm"></div>
+            <br>
+            <button type="button" ng-click="feature.payPhase = 1;">[[ 'GO_BACK' | translate ]]</button>
+        </div>
     </div>
 </div>

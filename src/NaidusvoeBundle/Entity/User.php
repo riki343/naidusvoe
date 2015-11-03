@@ -180,6 +180,18 @@ class User implements UserInterface, \Serializable
     private $votes;
 
     /**
+     * @var array
+     * @ORM\OneToMany(targetEntity="Order", mappedBy="user")
+     */
+    private $orders;
+
+    /**
+     * @var array
+     * @ORM\OneToMany(targetEntity="Payment", mappedBy="user")
+     */
+    private $payments;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -192,6 +204,8 @@ class User implements UserInterface, \Serializable
         $this->advertisments = new ArrayCollection();
         $this->rating = 0;
         $this->votes = [];
+        $this->orders = [];
+        $this->payments = [];
         $this->avatar = '/css/img/icon-user-default.png';
     }
 
@@ -967,5 +981,71 @@ class User implements UserInterface, \Serializable
     public function getVotes()
     {
         return $this->votes;
+    }
+
+    /**
+     * Add orders
+     *
+     * @param \NaidusvoeBundle\Entity\Order $orders
+     * @return User
+     */
+    public function addOrder(\NaidusvoeBundle\Entity\Order $orders)
+    {
+        $this->orders[] = $orders;
+
+        return $this;
+    }
+
+    /**
+     * Remove orders
+     *
+     * @param \NaidusvoeBundle\Entity\Order $orders
+     */
+    public function removeOrder(\NaidusvoeBundle\Entity\Order $orders)
+    {
+        $this->orders->removeElement($orders);
+    }
+
+    /**
+     * Get orders
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrders()
+    {
+        return $this->orders;
+    }
+
+    /**
+     * Add payments
+     *
+     * @param \NaidusvoeBundle\Entity\Payment $payments
+     * @return User
+     */
+    public function addPayment(\NaidusvoeBundle\Entity\Payment $payments)
+    {
+        $this->payments[] = $payments;
+
+        return $this;
+    }
+
+    /**
+     * Remove payments
+     *
+     * @param \NaidusvoeBundle\Entity\Payment $payments
+     */
+    public function removePayment(\NaidusvoeBundle\Entity\Payment $payments)
+    {
+        $this->payments->removeElement($payments);
+    }
+
+    /**
+     * Get payments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPayments()
+    {
+        return $this->payments;
     }
 }

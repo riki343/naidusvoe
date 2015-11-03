@@ -9,7 +9,6 @@ imports:
     - { resource: doctrine.yml }
     - { resource: swiftmailer.yml }
     - { resource: knp_paginator.yml }
-#    - { resource: hwi_oauth.yml }
     - { resource: yucca_prerender.yml }
 
 

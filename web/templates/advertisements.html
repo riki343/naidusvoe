@@ -69,7 +69,6 @@
                 <li class="pdmp">   <a ng-click="selectCategory(48);" href="#">Потребую допомоги</a></li>
                 <li>                <a ng-click="selectCategory();" style="cursor: pointer;">[[ 'BUTTON_CATEGORIES_ALL' | translate ]]</a></li>
             </ul>
-
         </div>
     </div>
 
@@ -85,25 +84,13 @@
                             <h3>Кращі в категорії</h3>
                         </div>
                     </div>
-                    <div class="o-row">
-                        <div class="o-cell photo">
-                            <img src="skoda.jpg">
-                        </div>
-                        <div class="o-cell info">
-                            <h2><a href="#">Skoda Octavia</a></h2>
-                            <p>5-ти дверний ліфтбек класу "С". Третє покоління моделі "Octavia"</p>
-                            <h3><a href="#">Київ</a></h3>
-                        </div>
-                        <div class="o-cell price">
-                            <p>12000$</p>
-                            <ul class="reit">
-                                <li class="wote"></li>
-                                <li class="comment">
-                                    <a href="#"></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+
+                    <advertisment ng-repeat="adv in trade.bests"
+                                  advert="adv"
+                                  show-del-button="false"
+                                  show-del-from-fav-button="false"
+                                  mini="true">
+                    </advertisment>
                 </div>
             </div>
         </div>
@@ -124,9 +111,11 @@
 
                     <div id="element-to-scroll"></div>
 
-                    <advertisment ng-repeat="adv in advs" class="o-row"
-                                  advert="adv" show-del-button="false"
-                                  ng-class="{ 'yellow': adv.advColor == true }">
+                    <advertisment ng-repeat="adv in advs"
+                                  advert="adv"
+                                  show-del-button="false"
+                                  show-del-from-fav-button="false"
+                                  mini="[[ trade.advsView !== 'o-table width-50' ]]">
                     </advertisment>
 
                 </div>
@@ -135,7 +124,7 @@
             <div class="clearfix"></div>
 
             <div style="text-align: center; width: 100%; background-color: whitesmoke">
-                <paginator data="data" selected-color="gray"></paginator>
+                <paginator data="data"></paginator>
             </div>
         </div>
     </div>

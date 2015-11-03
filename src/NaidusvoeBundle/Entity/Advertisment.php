@@ -197,6 +197,26 @@ class Advertisment
     private $conversations;
 
     /**
+     * @var array
+     * @ORM\OneToMany(targetEntity="Favorites", mappedBy="advertisment", cascade={"remove"}, fetch="EXTRA_LAZY")
+     */
+    private $favorites;
+
+    /**
+     * @var array
+     * @ORM\OneToMany(targetEntity="Order", mappedBy="advertisement", cascade={"remove"}, fetch="EXTRA_LAZY")
+     */
+    private $orders;
+
+    /**
+     * @var array
+     * @ORM\OneToMany(targetEntity="Payment", mappedBy="advertisement", cascade={"remove"}, fetch="EXTRA_LAZY")
+     */
+    private $payments;
+
+    private $dummy;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -207,6 +227,10 @@ class Advertisment
         $this->advertismentOnMainPage = null;
         $this->colorHighlight = null;
         $this->urgent = null;
+        $this->orders = [];
+        $this->payments = [];
+        $this->conversations = [];
+        $this->dummy = false;
     }
 
     public function getInArray() {
@@ -217,27 +241,28 @@ class Advertisment
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
             'type' => $this->getType()->getInArraySingle(),
-            'category' => $this->getCategory()->getInArraySingle(),
+            'category' => (!$this->dummy) ?  $this->getCategory()->getInArraySingle() : null,
             'subCategory' => ($this->getSubCategory())
                 ? $this->getSubCategory()->getInArray()
                 : null,
             'attachments' => Functions::arrayToJson($this->getAttachments()),
             'userID' => $this->getUserID(),
-            'price' => $this->getPrice(),
-            'priceType' => $this->getPriceType()->getInArray(),
+            'price'         => $this->getPrice(),
+            'priceType'     => (!$this->dummy) ?  $this->getPriceType()->getInArray() : null,
             'contactPerson' => $this->getContactPerson(),
-            'email' => $this->getEmail(),
+            'email'         => $this->getEmail(),
             'telephoneNumber' => $this->getTelephoneNumber(),
-            'skype' => $this->getSkype(),
-            'advBlock' => $this->getAdvertismentBlock(),
+            'skype'         => $this->getSkype(),
+            'advBlock'      => $this->getAdvertismentBlock(),
             'advOnMain' => $this->getAdvertismentOnMainPage(),
             'advColor' => $this->getColorHighlight(),
             'advTop' => $this->getCategoryTop(),
             'urgent' => $this->urgent,
             'city' => $this->city,
-            'region' => $this->region->getInArray(),
+            'region' => (!$this->dummy) ? $this->region->getInArray() : null,
             'date' => $this->date->format('m.d.Y'),
             'time' => $this->date->format('H:i:s'),
+            'dummy' => $this->dummy,
         );
     }
 
@@ -970,5 +995,120 @@ class Advertisment
     public function getRegionId()
     {
         return $this->regionId;
+    }
+
+    /**
+     * Add orders
+     *
+     * @param \NaidusvoeBundle\Entity\Order $orders
+     * @return Advertisment
+     */
+    public function addOrder(\NaidusvoeBundle\Entity\Order $orders)
+    {
+        $this->orders[] = $orders;
+
+        return $this;
+    }
+
+    /**
+     * Remove orders
+     *
+     * @param \NaidusvoeBundle\Entity\Order $orders
+     */
+    public function removeOrder(\NaidusvoeBundle\Entity\Order $orders)
+    {
+        $this->orders->removeElement($orders);
+    }
+
+    /**
+     * Get orders
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrders()
+    {
+        return $this->orders;
+    }
+
+    /**
+     * Add payments
+     *
+     * @param \NaidusvoeBundle\Entity\Payment $payments
+     * @return Advertisment
+     */
+    public function addPayment(\NaidusvoeBundle\Entity\Payment $payments)
+    {
+        $this->payments[] = $payments;
+
+        return $this;
+    }
+
+    /**
+     * Remove payments
+     *
+     * @param \NaidusvoeBundle\Entity\Payment $payments
+     */
+    public function removePayment(\NaidusvoeBundle\Entity\Payment $payments)
+    {
+        $this->payments->removeElement($payments);
+    }
+
+    /**
+     * Get payments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPayments()
+    {
+        return $this->payments;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDummy()
+    {
+        return $this->dummy;
+    }
+
+    /**
+     * @param boolean $dummy
+     */
+    public function setDummy($dummy)
+    {
+        $this->dummy = $dummy;
+    }
+
+    /**
+     * Add favorites
+     *
+     * @param \NaidusvoeBundle\Entity\Favorites $favorites
+     * @return Advertisment
+     */
+    public function addFavorite(\NaidusvoeBundle\Entity\Favorites $favorites)
+    {
+        $this->favorites[] = $favorites;
+
+        return $this;
+    }
+
+    /**
+     * Remove favorites
+     *
+     * @param \NaidusvoeBundle\Entity\Favorites $favorites
+     */
+    public function removeFavorite(\NaidusvoeBundle\Entity\Favorites $favorites)
+    {
+        $this->favorites->removeElement($favorites);
+    }
+
+    /**
+     * Get favorites
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFavorites()
+    {
+        return $this->favorites;
     }
 }

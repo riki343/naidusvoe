@@ -45,7 +45,7 @@ class Favorites
 
     /**
      * @var int
-     * @ORM\ManyToOne(targetEntity="Advertisment")
+     * @ORM\ManyToOne(targetEntity="Advertisment", inversedBy="favorites")
      * @ORM\JoinColumn(name="advertisment_id", referencedColumnName="id")
      */
     private $advertisment;

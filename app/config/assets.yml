@@ -10,10 +10,8 @@ assetic:
                 - 'js/vendor/angular-notify/angular-notify.min.css'
         vendors:
             inputs:
-                - 'bundles/fosjsrouting/js/router.js'
-                - 'js/fos_js_routes.js'
                 - 'js/vendor/jQuery/jquery-2.1.3.js'
-                - 'js/vendor/jQuery/jquery-migrate-1.2.1.js'
+                #- 'js/vendor/jQuery/jquery-migrate-1.2.1.js'
                 - 'js/vendor/Bootstrap/bootstrap.min.js'
                 - 'js/vendor/AngularJS/angular.min.js'
                 - 'js/vendor/AngularJS/angular-route.min.js'
@@ -21,7 +19,6 @@ assetic:
                 - 'js/vendor/AngularJS/angular-translate.js'
                 - 'js/vendor/AngularJS/angular-translate-loader-static-files.js'
                 - 'js/vendor/AngularJS/scrollglue.js'
-                #- 'js/vendor/lightbox/lightbox.js'
                 - 'js/vendor/angular-busy/angular-busy.js'
                 - 'js/vendor/angular-notify/angular-notify.js'
                 - 'js/vendor/tg-angular-validator/angular-validator.min.js'
