@@ -30,7 +30,6 @@ class IndexController extends Controller
      * @Route("/advertisements/{type}")
      * @Route("/advertisement/{type}/{adv_id}", requirements={"adv_id"="\d+"})
      * @Route("/advertisement/{type}/{adv_id}/additional-features", requirements={"adv_id"="\d+"})
-     * @Route("/adv/search/{slug}", requirements={"adv_id"="\d+"})
      * @Route("/pay/confirm/{hash}", name="confirm-payment")
      * @return Response
      */

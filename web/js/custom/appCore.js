@@ -41,11 +41,10 @@
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|data):/);
 
         var templates = '/templates/';
-//
+
         $routeProvider
             .when('/', {
-                templateUrl: templates + 'index.html',
-                controller: 'indexController'
+                templateUrl: templates + 'index.html'
             })
             .when('/pay/confirm/:hash', {
                 templateUrl: templates + 'payment-status.html'
@@ -77,7 +76,7 @@
             .when('/add-adv', {
                 templateUrl: templates + 'addAdvertisment.html'
             })
-            .when('/adv/search/:slug', {
+            .when('/search/:slug/:region/:city', {
                 'templateUrl': templates + 'search.html'
             })
             .when('/advertisements/:type', {

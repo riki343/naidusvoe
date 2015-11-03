@@ -149,9 +149,21 @@ class Advertisment
 
     /**
      * @var \DateTime
+     * @ORM\Column(name="on_main_untill", type="datetime", nullable=true, options={"default"=null})
+     */
+    private $onMainUntill;
+
+    /**
+     * @var \DateTime
      * @ORM\Column(name="advertisment_block", type="datetime", nullable=true, options={"default"=null})
      */
     private $advertismentBlock;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="on_advertisement_block_untill", type="datetime", nullable=true, options={"default"=null})
+     */
+    private $onAdvertisementBlockUntill;
 
     /**
      * @var \DateTime
@@ -161,15 +173,33 @@ class Advertisment
 
     /**
      * @var \DateTime
+     * @ORM\Column(name="on_color_highlight_untill", type="datetime", nullable=true, options={"default"=null})
+     */
+    private $onColorHighlightUntill;
+
+    /**
+     * @var \DateTime
      * @ORM\Column(name="category_top", type="datetime", nullable=true, options={"default"=null})
      */
     private $categoryTop;
 
     /**
      * @var \DateTime
+     * @ORM\Column(name="on_category_top_untill", type="datetime", nullable=true, options={"default"=null})
+     */
+    private $onCategoryTopUntill;
+
+    /**
+     * @var \DateTime
      * @ORM\Column(name="urgent", type="datetime", nullable=true, options={"default"=null})
      */
     private $urgent;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="on_urgent_untill", type="datetime", nullable=true, options={"default"=null})
+     */
+    private $onUrgentUntill;
 
     /**
      * @var string
@@ -237,32 +267,30 @@ class Advertisment
         $now = new \DateTime();
 
         return array(
-            'id' => $this->getId(),
-            'title' => $this->getTitle(),
-            'description' => $this->getDescription(),
-            'type' => $this->getType()->getInArraySingle(),
-            'category' => (!$this->dummy) ?  $this->getCategory()->getInArraySingle() : null,
-            'subCategory' => ($this->getSubCategory())
-                ? $this->getSubCategory()->getInArray()
-                : null,
-            'attachments' => Functions::arrayToJson($this->getAttachments()),
-            'userID' => $this->getUserID(),
-            'price'         => $this->getPrice(),
-            'priceType'     => (!$this->dummy) ?  $this->getPriceType()->getInArray() : null,
-            'contactPerson' => $this->getContactPerson(),
-            'email'         => $this->getEmail(),
-            'telephoneNumber' => $this->getTelephoneNumber(),
-            'skype'         => $this->getSkype(),
-            'advBlock'      => $this->getAdvertismentBlock(),
-            'advOnMain' => $this->getAdvertismentOnMainPage(),
-            'advColor' => $this->getColorHighlight(),
-            'advTop' => $this->getCategoryTop(),
-            'urgent' => $this->urgent,
-            'city' => $this->city,
-            'region' => (!$this->dummy) ? $this->region->getInArray() : null,
-            'date' => $this->date->format('m.d.Y'),
-            'time' => $this->date->format('H:i:s'),
-            'dummy' => $this->dummy,
+            'id'                => $this->getId(),
+            'title'             => $this->getTitle(),
+            'description'       => $this->getDescription(),
+            'type'              => $this->getType()->getInArraySingle(),
+            'category'          => (!$this->dummy) ?  $this->getCategory()->getInArraySingle() : null,
+            'subCategory'       => ($this->getSubCategory()) ? $this->getSubCategory()->getInArray() : null,
+            'attachments'       => Functions::arrayToJson($this->getAttachments()),
+            'userID'            => $this->getUserID(),
+            'price'             => $this->getPrice(),
+            'priceType'         => (!$this->dummy) ?  $this->getPriceType()->getInArray() : null,
+            'contactPerson'     => $this->getContactPerson(),
+            'email'             => $this->getEmail(),
+            'telephoneNumber'   => $this->getTelephoneNumber(),
+            'skype'             => $this->getSkype(),
+            'advBlock'          => $this->getAdvertismentBlock(),
+            'advOnMain'         => $this->getAdvertismentOnMainPage(),
+            'advColor'          => $this->getColorHighlight(),
+            'advTop'            => $this->getCategoryTop(),
+            'urgent'            => $this->urgent,
+            'city'              => $this->city,
+            'region'            => (!$this->dummy) ? $this->region->getInArray() : null,
+            'date'              => $this->date->format('m.d.Y'),
+            'time'              => $this->date->format('H:i:s'),
+            'dummy'             => ($this->dummy),
         );
     }
 
@@ -1110,5 +1138,120 @@ class Advertisment
     public function getFavorites()
     {
         return $this->favorites;
+    }
+
+    /**
+     * Set onMainUntill
+     *
+     * @param \DateTime $onMainUntill
+     * @return Advertisment
+     */
+    public function setOnMainUntill($onMainUntill)
+    {
+        $this->onMainUntill = $onMainUntill;
+
+        return $this;
+    }
+
+    /**
+     * Get onMainUntill
+     *
+     * @return \DateTime 
+     */
+    public function getOnMainUntill()
+    {
+        return $this->onMainUntill;
+    }
+
+    /**
+     * Set onAdvertisementBlockUntill
+     *
+     * @param \DateTime $onAdvertisementBlockUntill
+     * @return Advertisment
+     */
+    public function setOnAdvertisementBlockUntill($onAdvertisementBlockUntill)
+    {
+        $this->onAdvertisementBlockUntill = $onAdvertisementBlockUntill;
+
+        return $this;
+    }
+
+    /**
+     * Get onAdvertisementBlockUntill
+     *
+     * @return \DateTime 
+     */
+    public function getOnAdvertisementBlockUntill()
+    {
+        return $this->onAdvertisementBlockUntill;
+    }
+
+    /**
+     * Set onColorHighlightUntill
+     *
+     * @param \DateTime $onColorHighlightUntill
+     * @return Advertisment
+     */
+    public function setOnColorHighlightUntill($onColorHighlightUntill)
+    {
+        $this->onColorHighlightUntill = $onColorHighlightUntill;
+
+        return $this;
+    }
+
+    /**
+     * Get onColorHighlightUntill
+     *
+     * @return \DateTime 
+     */
+    public function getOnColorHighlightUntill()
+    {
+        return $this->onColorHighlightUntill;
+    }
+
+    /**
+     * Set onCategoryTopUntill
+     *
+     * @param \DateTime $onCategoryTopUntill
+     * @return Advertisment
+     */
+    public function setOnCategoryTopUntill($onCategoryTopUntill)
+    {
+        $this->onCategoryTopUntill = $onCategoryTopUntill;
+
+        return $this;
+    }
+
+    /**
+     * Get onCategoryTopUntill
+     *
+     * @return \DateTime 
+     */
+    public function getOnCategoryTopUntill()
+    {
+        return $this->onCategoryTopUntill;
+    }
+
+    /**
+     * Set onUrgentUntill
+     *
+     * @param \DateTime $onUrgentUntill
+     * @return Advertisment
+     */
+    public function setOnUrgentUntill($onUrgentUntill)
+    {
+        $this->onUrgentUntill = $onUrgentUntill;
+
+        return $this;
+    }
+
+    /**
+     * Get onUrgentUntill
+     *
+     * @return \DateTime 
+     */
+    public function getOnUrgentUntill()
+    {
+        return $this->onUrgentUntill;
     }
 }

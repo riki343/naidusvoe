@@ -38,7 +38,21 @@ class UserVote
     /**
      * @var integer
      *
-     * @ORM\Column(name="vote_power", type="integer")
+     * @ORM\Column(name="voter_id", type="integer")
+     */
+    private $voterId;
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="givenVotes")
+     * @ORM\JoinColumn(name="voter_id", referencedColumnName="id")
+     */
+    private $voter;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="vote_power", type="float")
      */
     private $votePower;
 
@@ -47,6 +61,7 @@ class UserVote
             'id' => $this->id,
             'userID' => $this->getUserId(),
             'votePower' => $this->getVotePower(),
+            'voterID' => $this->getVoterId(),
         ];
     }
 
@@ -127,5 +142,51 @@ class UserVote
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set voterId
+     *
+     * @param integer $voterId
+     * @return UserVote
+     */
+    public function setVoterId($voterId)
+    {
+        $this->voterId = $voterId;
+
+        return $this;
+    }
+
+    /**
+     * Get voterId
+     *
+     * @return integer 
+     */
+    public function getVoterId()
+    {
+        return $this->voterId;
+    }
+
+    /**
+     * Set voter
+     *
+     * @param \NaidusvoeBundle\Entity\User $voter
+     * @return UserVote
+     */
+    public function setVoter(\NaidusvoeBundle\Entity\User $voter = null)
+    {
+        $this->voter = $voter;
+
+        return $this;
+    }
+
+    /**
+     * Get voter
+     *
+     * @return \NaidusvoeBundle\Entity\User 
+     */
+    public function getVoter()
+    {
+        return $this->voter;
     }
 }

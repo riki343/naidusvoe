@@ -1,7 +1,9 @@
 <div ng-controller="advertisementController as trade" ng-init="getAdv();">
     <div id="content">
         <p style="width: 100%;" ng-if="(trade.user !== null) && (trade.user.id !== advUser.id)">
-            <a ng-href="[[ '/advertisement/' + trade.type + '/' +  adv_id + '/additional-features' ]]">Additional</a>
+            <a ng-href="[[ '/advertisement/' + trade.type + '/' +  adv_id + '/additional-features' ]]">
+                [[ 'ADDITIONAL_FEATURES' | translate ]]
+            </a>
         </p>
         <div class="ogol-box">
             <div class="face">
@@ -21,11 +23,11 @@
 
                 <div class="reiting">
                     <ul>
-                        <li class="vote" ng-class="{ 'none': advUser.rating < 2 }"></li>
-                        <li class="vote" ng-class="{ 'none': advUser.rating < 4 }"></li>
-                        <li class="vote" ng-class="{ 'none': advUser.rating < 6 }"></li>
-                        <li class="vote" ng-class="{ 'none': advUser.rating < 8 }"></li>
-                        <li class="vote" ng-class="{ 'none': advUser.rating < 10 }"></li>
+                        <li class="vote" ng-mouseover="trade.hovered = 1" ng-click="trade.changeUserRating(2);" ng-mouseleave="trade.hovered = 0" ng-class="{ 'none': (advUser.rating < 2 ) && ((trade.hovered !== 1) && (trade.user.id !== advUser.id)) }"></li>
+                        <li class="vote" ng-mouseover="trade.hovered = 2" ng-click="trade.changeUserRating(4);" ng-mouseleave="trade.hovered = 0" ng-class="{ 'none': (advUser.rating < 4 ) && ((trade.hovered !== 2) && (trade.user.id !== advUser.id)) }"></li>
+                        <li class="vote" ng-mouseover="trade.hovered = 3" ng-click="trade.changeUserRating(6);" ng-mouseleave="trade.hovered = 0" ng-class="{ 'none': (advUser.rating < 6 ) && ((trade.hovered !== 3) && (trade.user.id !== advUser.id)) }"></li>
+                        <li class="vote" ng-mouseover="trade.hovered = 4" ng-click="trade.changeUserRating(8);" ng-mouseleave="trade.hovered = 0" ng-class="{ 'none': (advUser.rating < 8 ) && ((trade.hovered !== 4) && (trade.user.id !== advUser.id)) }"></li>
+                        <li class="vote" ng-mouseover="trade.hovered = 5" ng-click="trade.changeUserRating(10);" ng-mouseleave="trade.hovered = 0" ng-class="{ 'none': (advUser.rating < 10) && ((trade.hovered !== 5) && (trade.user.id !== advUser.id)) }"></li>
                     </ul>
                     <p>
                         [[ 'LABEL_RATING' | translate ]]
@@ -56,7 +58,7 @@
             <div class="ogolosh">
                 <div class="ogol-header">
                     <h1 class="zirka">[[ ::adv.title ]]</h1>
-                    <p class="add-date">Додане: <span id="time">14:03</span><span id="date"> 02.09.2015</span></p>
+                    <p class="add-date">[[ 'ADDED' | translate ]]: <span id="time">[[ adv.time ]]</span><span id="date"> [[ adv.date ]]</span></p>
                 </div>
                 <div class="gallery">
                     <ul class="photo">

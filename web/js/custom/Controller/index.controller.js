@@ -1,10 +1,29 @@
 (function (angular) {
-    angular.module('NaiduSvoe').controller('indexController', indexController);
+    angular.module('NaiduSvoe').controller('indexController', IndexController);
 
-    indexController.$inject = ['$scope', '$http'];
+    IndexController.$inject = ['$scope', '$http', 'spinner'];
+    function IndexController ($scope, $http, spinner) {
+        var self = this;
+        var dummyTrade = {
+            'title': '',
+            'description': '',
+            'attachments': [ { 'image': ''} ]
+        };
 
-    function indexController ($scope, $http) {
-        $scope.message = 'Hello!!!';
+        var dummyGift = {
+            'title': '',
+            'description': '',
+            'attachments': [ { 'image': ''} ]
+        };
+
+        var dummyFound = {
+            'title': '',
+            'description': '',
+            'attachments': [ { 'image': ''} ]
+        };
+
+        this.getMainAdvs = function () {
+
+        };
     }
-
 })(angular);

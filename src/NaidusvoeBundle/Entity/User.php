@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * User
- *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="NaidusvoeBundle\Entity\UserRepository")
  */
@@ -162,7 +161,7 @@ class User implements UserInterface, \Serializable
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Advertisment", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Advertisment", mappedBy="user", cascade={"remove"})
      * @ORM\OrderBy({"date" = "DESC"})
      */
     private $advertisments;
@@ -174,20 +173,26 @@ class User implements UserInterface, \Serializable
     private $rating;
 
     /**
+     * @var float
+     * @ORM\Column(name="votes_count", type="integer", options={"default"=0})
+     */
+    private $votesCount;
+
+    /**
      * @var array
-     * @ORM\OneToMany(targetEntity="UserVote", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="UserVote", mappedBy="user", cascade={"remove"})
      */
     private $votes;
 
     /**
      * @var array
-     * @ORM\OneToMany(targetEntity="Order", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Order", mappedBy="user", cascade={"remove"})
      */
     private $orders;
 
     /**
      * @var array
-     * @ORM\OneToMany(targetEntity="Payment", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Payment", mappedBy="user", cascade={"remove"})
      */
     private $payments;
 
@@ -465,6 +470,52 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * Set vk_id
+     *
+     * @param string $vkId
+     * @return User
+     */
+    public function setVkId($vkId)
+    {
+        $this->vk_id = $vkId;
+
+        return $this;
+    }
+
+    /**
+     * Get vk_id
+     *
+     * @return string 
+     */
+    public function getVkId()
+    {
+        return $this->vk_id;
+    }
+
+    /**
+     * Set fb_id
+     *
+     * @param string $fbId
+     * @return User
+     */
+    public function setFbId($fbId)
+    {
+        $this->fb_id = $fbId;
+
+        return $this;
+    }
+
+    /**
+     * Get fb_id
+     *
+     * @return string 
+     */
+    public function getFbId()
+    {
+        return $this->fb_id;
+    }
+
+    /**
      * Set username
      *
      * @param string $username
@@ -629,19 +680,6 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Add roles
-     *
-     * @param \NaidusvoeBundle\Entity\Role $roles
-     * @return User
-     */
-    public function addRole(\NaidusvoeBundle\Entity\Role $roles)
-    {
-        $this->roles[] = $roles;
-
-        return $this;
-    }
-
-    /**
      * Set languageid
      *
      * @param integer $languageid
@@ -662,29 +700,6 @@ class User implements UserInterface, \Serializable
     public function getLanguageid()
     {
         return $this->languageid;
-    }
-
-    /**
-     * Set language
-     *
-     * @param \NaidusvoeBundle\Entity\Language $language
-     * @return User
-     */
-    public function setLanguage(\NaidusvoeBundle\Entity\Language $language = null)
-    {
-        $this->language = $language;
-
-        return $this;
-    }
-
-    /**
-     * Get language
-     *
-     * @return \NaidusvoeBundle\Entity\Language 
-     */
-    public function getLanguage()
-    {
-        return $this->language;
     }
 
     /**
@@ -732,7 +747,30 @@ class User implements UserInterface, \Serializable
     {
         return $this->skype;
     }
-    
+
+    /**
+     * Set regionID
+     *
+     * @param integer $regionID
+     * @return User
+     */
+    public function setRegionID($regionID)
+    {
+        $this->regionID = $regionID;
+
+        return $this;
+    }
+
+    /**
+     * Get regionID
+     *
+     * @return integer 
+     */
+    public function getRegionID()
+    {
+        return $this->regionID;
+    }
+
     /**
      * Set city
      *
@@ -754,6 +792,88 @@ class User implements UserInterface, \Serializable
     public function getCity()
     {
         return $this->city;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     * @return User
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean 
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * Set rating
+     *
+     * @param float $rating
+     * @return User
+     */
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
+     * Get rating
+     *
+     * @return float 
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * Set votesCount
+     *
+     * @param integer $votesCount
+     * @return User
+     */
+    public function setVotesCount($votesCount)
+    {
+        $this->votesCount = $votesCount;
+
+        return $this;
+    }
+
+    /**
+     * Get votesCount
+     *
+     * @return integer 
+     */
+    public function getVotesCount()
+    {
+        return $this->votesCount;
+    }
+
+    /**
+     * Add roles
+     *
+     * @param \NaidusvoeBundle\Entity\Role $roles
+     * @return User
+     */
+    public function addRole(\NaidusvoeBundle\Entity\Role $roles)
+    {
+        $this->roles[] = $roles;
+
+        return $this;
     }
 
     /**
@@ -780,26 +900,26 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Set regionID
+     * Set language
      *
-     * @param integer $regionID
+     * @param \NaidusvoeBundle\Entity\Language $language
      * @return User
      */
-    public function setRegionID($regionID)
+    public function setLanguage(\NaidusvoeBundle\Entity\Language $language = null)
     {
-        $this->regionID = $regionID;
+        $this->language = $language;
 
         return $this;
     }
 
     /**
-     * Get regionID
+     * Get language
      *
-     * @return integer 
+     * @return \NaidusvoeBundle\Entity\Language 
      */
-    public function getRegionID()
+    public function getLanguage()
     {
-        return $this->regionID;
+        return $this->language;
     }
 
     /**
@@ -823,29 +943,6 @@ class User implements UserInterface, \Serializable
     public function getRegion()
     {
         return $this->region;
-    }
-
-    /**
-     * Set deleted
-     *
-     * @param boolean $deleted
-     * @return User
-     */
-    public function setDeleted($deleted)
-    {
-        $this->deleted = $deleted;
-
-        return $this;
-    }
-
-    /**
-     * Get deleted
-     *
-     * @return boolean 
-     */
-    public function getDeleted()
-    {
-        return $this->deleted;
     }
 
     /**
@@ -879,75 +976,6 @@ class User implements UserInterface, \Serializable
     public function getAdvertisments()
     {
         return $this->advertisments;
-    }
-
-    /**
-     * Set rating
-     *
-     * @param float $rating
-     * @return User
-     */
-    public function setRating($rating)
-    {
-        $this->rating = $rating;
-
-        return $this;
-    }
-
-    /**
-     * Get rating
-     *
-     * @return float 
-     */
-    public function getRating()
-    {
-        return $this->rating;
-    }
-
-    /**
-     * Set vk_id
-     *
-     * @param integer $vkId
-     * @return User
-     */
-    public function setVkId($vkId)
-    {
-        $this->vk_id = $vkId;
-
-        return $this;
-    }
-
-    /**
-     * Get vk_id
-     *
-     * @return integer 
-     */
-    public function getVkId()
-    {
-        return $this->vk_id;
-    }
-
-    /**
-     * Set fb_id
-     *
-     * @param string $fbId
-     * @return User
-     */
-    public function setFbId($fbId)
-    {
-        $this->fb_id = $fbId;
-
-        return $this;
-    }
-
-    /**
-     * Get fb_id
-     *
-     * @return string 
-     */
-    public function getFbId()
-    {
-        return $this->fb_id;
     }
 
     /**

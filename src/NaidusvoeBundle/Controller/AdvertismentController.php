@@ -7,7 +7,9 @@ use NaidusvoeBundle\Entity\Advertisment;
 use NaidusvoeBundle\Entity\Attachment;
 use NaidusvoeBundle\Entity\Favorites;
 use NaidusvoeBundle\Entity\Functions;
+use NaidusvoeBundle\Entity\Rating;
 use NaidusvoeBundle\Entity\User;
+use NaidusvoeBundle\Entity\UserVote;
 use NaidusvoeBundle\Model\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -169,38 +171,6 @@ class AdvertismentController extends Controller
     }
 
     /**
-     * @Route("/search/{slug}", name="search", options={"expose"=true})
-     * @param Request $request
-     * @param string $slug
-     * @return JsonResponse
-     */
-    public function searchAction(Request $request, $slug) {
-        /** @var EntityManager $em */
-        $em = $this->getDoctrine()->getManager();
-        $qb = $em->createQueryBuilder();
-        $slug = trim($slug);
-        $slug = str_replace(' ', '%', $slug);
-        $slug = str_replace('.', '%', $slug);
-        $slug = str_replace(',', '%', $slug);
-        $slug = str_replace(':', '%', $slug);
-
-        $advs = $qb
-            ->select('a')
-            ->from('NaidusvoeBundle:Advertisment', 'a')
-            ->where($qb->expr()->like('a.title', "%" . $slug . "%"))
-            ->orderBy('a.advertismentBlock', 'DESC')
-            ->addOrderBy('a.advertismentOnMainPage', 'DESC')
-            ->addOrderBy('a.categoryTop', 'DESC')
-            ->addOrderBy('a.colorHighlight', 'DESC')
-        ;
-
-        $paginator = new Paginator();
-        $pager = $paginator->getJsonResponse($advs, $request, 10);
-
-        return new JsonResponse($pager);
-    }
-
-    /**
      * @Route("/adv/add-to-fav/{adv_id}", name="add-to-fav", options={"expose"=true})
      * @param int $adv_id
      * @return JsonResponse
@@ -221,5 +191,60 @@ class AdvertismentController extends Controller
         } else {
             return new JsonResponse(false);
         }
+    }
+
+    /**
+     * @Security("has_role('ROLE_USER')")
+     * @Route("/adv/cahnge-user-rating/{adv_id}/{rating}", name="change-rating", options={"expose"=true})
+     * @param integer $adv_id
+     * @param float $rating
+     * @return JsonResponse
+     */
+    public function changeUserRating($adv_id, $rating) {
+        /** @var User $user */
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $adv = $em->find('NaidusvoeBundle:Advertisment', $adv_id);
+
+        if ($adv !== null) {
+            $vote = $em->getRepository('NaidusvoeBundle:UserVote')->findOneBy([
+                'userId'  => $adv->getUserID(),
+                'voterId' => $user->getId(),
+            ]);
+            if ($user->getId() !== $adv->getUserID()) {
+                if ($vote === null) {
+                    $vote = new UserVote();
+                    $vote->setVotePower($rating);
+                    $vote->setUser($adv->getUser());
+                    $vote->setVoter($user);
+                    $em->persist($vote);
+                } else if ($vote->getVotePower() !== $rating) {
+                    $vote->setVotePower($rating);
+                    $em->persist($vote);
+                }
+
+                $em->flush();
+
+                $advUser = $em->getRepository('NaidusvoeBundle:User')->find($vote->getUserId());
+                $user->setRating($this->calcRating($adv->getUser()));
+                $user->setVotesCount($user->getVotes()->count());
+                $em->persist($user);
+                $em->flush();
+                return new JsonResponse([ 'status' => 'ok', 'user' => $advUser->getInArray() ]);
+            }
+        }
+
+        return new JsonResponse([ 'status' => 'error', 'message' => 'UNKNOWN_ERROR' ]);
+    }
+
+    /**
+     * @param User $user
+     * @return float
+     */
+    private function calcRating($user) {
+        $div    = $user->getVotes()->count();
+        $rating = $user->getVotes()->count() / $div;
+
+        return $rating;
     }
 }

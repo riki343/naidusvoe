@@ -67,5 +67,13 @@
                 }
             });
         };
+
+        this.changeUserRating = function (rating) {
+            var promise = $http.get(Routing.generate('change-rating', { 'adv_id': $scope.adv_id, 'rating': rating }));
+            spinner.addPromise(promise);
+            promise.then(function (response) {
+                $scope.adv = response;
+            });
+        };
     }
 })(angular);

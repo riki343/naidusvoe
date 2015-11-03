@@ -1,183 +1,176 @@
-<div id="block-one">
-    <div class="o-button">
-        <a ng-href="/add-adv">+ Подати оголошення</a>
+<div ng-controller="indexController as index">
+    <div id="block-one">
+        <div class="o-button">
+            <a ng-href="/add-adv">+ Подати оголошення</a>
+        </div>
+
+        <div class="slogan"></div>
+        <site-search></site-search>
+
     </div>
 
-    <div class="slogan"></div>
-    <div class="poshuk">
-        <form class="misto">
-            <input type="text">
-            <button></button>
-        </form>
-        <form class="search">
-            <input type="text">
-            <button></button>
-        </form>
-    </div>
+    <div id="content">
+        <div class="rubryka">
+            <nav>
+                <ul class="menu">
+                    <li class="rub-1">
+                        <p>[[ ('TRADE_HEADER' | translate).substr(0, 100) ]]...</p>
+                        <a ng-href="/advertisements/trade">[[ 'MORE_INFO' | translate ]]</a>
+                    </li>
+                    <li class="rub-2">
+                        <p>[[ ('FOUND_HEADER' | translate).substr(0, 100) ]]...</p>
+                        <a ng-href="/advertisements/found">[[ 'MORE_INFO' | translate ]]</a>
+                    </li>
+                    <li class="rub-3">
+                        <p>[[ ('GIFT_HEADER' | translate).substr(0, 100) ]]...</p>
+                        <a ng-href="/advertisements/gift">[[ 'MORE_INFO' | translate ]]</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
-</div>
-
-<div id="content">
-    <div class="rubryka">
-        <nav>
-            <ul class="menu">
-                <li class="rub-1">
-                    <p>[[ 'TRADE_HEADER' | translate | limitTo: 100 ]]...</p>
-                    <a ng-href="/advertisements/trade">[[ 'MORE_INFO' | translate ]]</a>
-                </li>
-                <li class="rub-2">
-                    <p>[[ 'FOUND_HEADER' | translate | limitTo: 100 ]]...</p>
-                    <a ng-href="/advertisements/found">[[ 'MORE_INFO' | translate ]]</a>
-                </li>
-                <li class="rub-3">
-                    <p>[[ 'GIFT_HEADER' | translate | limitTo: 90 ]]...</p>
-                    <a ng-href="/advertisements/gift">[[ 'MORE_INFO' | translate ]]</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-
-    <div class="clearfix"></div>
-    <div class="anons">
-        <div class="anons-table">
-            <div class="t-column">
-                <div class="t-row">
-                    <div class="t-cell image">
-                        <img src="apple2.jpg">
+        <div class="clearfix"></div>
+        <div class="anons">
+            <div class="anons-table">
+                <div class="t-column">
+                    <div class="t-row">
+                        <div class="t-cell image">
+                            <img src="apple2.jpg">
+                        </div>
+                        <div class="t-cell">
+                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
+                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                        </div>
                     </div>
-                    <div class="t-cell">
-                        <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                        <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                    <div class="t-row">
+                        <div class="t-cell image">
+                            <img src="iphone.jpg">
+                        </div>
+                        <div class="t-cell">
+                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
+                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                        </div>
                     </div>
-                </div>
-                <div class="t-row">
-                    <div class="t-cell image">
-                        <img src="iphone.jpg">
+                    <div class="t-row">
+                        <div class="t-cell image">
+                            <img src="apple2.jpg">
+                        </div>
+                        <div class="t-cell">
+                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
+                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                        </div>
                     </div>
-                    <div class="t-cell">
-                        <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                        <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                    <div class="t-row">
+                        <div class="t-cell image">
+                            <img src="iphone.jpg">
+                        </div>
+                        <div class="t-cell">
+                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
+                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                        </div>
                     </div>
-                </div>
-                <div class="t-row">
-                    <div class="t-cell image">
-                        <img src="apple2.jpg">
-                    </div>
-                    <div class="t-cell">
-                        <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                        <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                    <div class="t-row">
+                        <div class="t-cell image">
+                            <img src="apple.jpg">
+                        </div>
+                        <div class="t-cell">
+                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
+                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                        </div>
                     </div>
                 </div>
-                <div class="t-row">
-                    <div class="t-cell image">
-                        <img src="iphone.jpg">
+                <div class="t-column">
+                    <div class="t-row">
+                        <div class="t-cell image">
+                            <img src="iphone.jpg">
+                        </div>
+                        <div class="t-cell">
+                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
+                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                        </div>
                     </div>
-                    <div class="t-cell">
-                        <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                        <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                    <div class="t-row">
+                        <div class="t-cell image">
+                            <img src="apple2.jpg">
+                        </div>
+                        <div class="t-cell">
+                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
+                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                        </div>
                     </div>
-                </div>
-                <div class="t-row">
-                    <div class="t-cell image">
-                        <img src="apple.jpg">
+                    <div class="t-row">
+                        <div class="t-cell image">
+                            <img src="apple2.jpg">
+                        </div>
+                        <div class="t-cell">
+                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
+                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                        </div>
                     </div>
-                    <div class="t-cell">
-                        <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                        <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                    <div class="t-row">
+                        <div class="t-cell image">
+                            <img src="apple.jpg">
+                        </div>
+                        <div class="t-cell">
+                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
+                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="t-column">
-                <div class="t-row">
-                    <div class="t-cell image">
-                        <img src="iphone.jpg">
-                    </div>
-                    <div class="t-cell">
-                        <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                        <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                    </div>
-                </div>
-                <div class="t-row">
-                    <div class="t-cell image">
-                        <img src="apple2.jpg">
-                    </div>
-                    <div class="t-cell">
-                        <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                        <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                    </div>
-                </div>
-                <div class="t-row">
-                    <div class="t-cell image">
-                        <img src="apple2.jpg">
-                    </div>
-                    <div class="t-cell">
-                        <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                        <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                    </div>
-                </div>
-                <div class="t-row">
-                    <div class="t-cell image">
-                        <img src="apple.jpg">
-                    </div>
-                    <div class="t-cell">
-                        <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                        <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                    <div class="t-row">
+                        <div class="t-cell image">
+                            <img src="apple2.jpg">
+                        </div>
+                        <div class="t-cell">
+                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
+                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                        </div>
                     </div>
                 </div>
-                <div class="t-row">
-                    <div class="t-cell image">
-                        <img src="apple2.jpg">
+                <div class="t-column n-margin">
+                    <div class="t-row">
+                        <div class="t-cell image">
+                            <img src="apple.jpg">
+                        </div>
+                        <div class="t-cell">
+                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
+                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                        </div>
                     </div>
-                    <div class="t-cell">
-                        <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                        <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                    <div class="t-row">
+                        <div class="t-cell image">
+                            <img src="iphone.jpg">
+                        </div>
+                        <div class="t-cell">
+                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
+                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="t-column n-margin">
-                <div class="t-row">
-                    <div class="t-cell image">
-                        <img src="apple.jpg">
+                    <div class="t-row">
+                        <div class="t-cell image">
+                            <img src="apple2.jpg">
+                        </div>
+                        <div class="t-cell">
+                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
+                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                        </div>
                     </div>
-                    <div class="t-cell">
-                        <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                        <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                    <div class="t-row">
+                        <div class="t-cell image">
+                            <img src="apple.jpg">
+                        </div>
+                        <div class="t-cell">
+                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
+                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                        </div>
                     </div>
-                </div>
-                <div class="t-row">
-                    <div class="t-cell image">
-                        <img src="iphone.jpg">
-                    </div>
-                    <div class="t-cell">
-                        <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                        <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                    </div>
-                </div>
-                <div class="t-row">
-                    <div class="t-cell image">
-                        <img src="apple2.jpg">
-                    </div>
-                    <div class="t-cell">
-                        <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                        <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                    </div>
-                </div>
-                <div class="t-row">
-                    <div class="t-cell image">
-                        <img src="apple.jpg">
-                    </div>
-                    <div class="t-cell">
-                        <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                        <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                    </div>
-                </div>
-                <div class="t-row">
-                    <div class="t-cell image">
-                        <img src="iphone.jpg">
-                    </div>
-                    <div class="t-cell">
-                        <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                        <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                    <div class="t-row">
+                        <div class="t-cell image">
+                            <img src="iphone.jpg">
+                        </div>
+                        <div class="t-cell">
+                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
+                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                        </div>
                     </div>
                 </div>
             </div>
