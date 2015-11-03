@@ -22,9 +22,10 @@ class SocialController extends Controller {
     {
         $VK_APP_ID = "5069614";
         $VK_SECRET_CODE = "9IclVVd4sqek1MZO9OhI";
-        $vk_oath_url = "https://oauth.vk.com/authorize?client_id=5069614&scope=1&redirect_uri=http://www.naidusvoe.dev/vk_login&response_type=code";
+        $vk_oath_url = "https://oauth.vk.com/authorize?client_id=5069614&scope=1&redirect_uri=http://naidusvoe.dev/login&response_type=code";
         $response = file_get_contents($vk_oath_url);
-        return $response;
+        $response_1 = json_decode($response, true);
+        return new JsonResponse(['code' => $response_1['code']]);
 
 
 
@@ -53,7 +54,7 @@ class SocialController extends Controller {
         }
         return $this->redirect("https://vk.com");
     }
-
+    // ладно я щас в себе подивлю
     /**
      * @Route("/login/fb_login", name="fb_login")
      * @param Request $request

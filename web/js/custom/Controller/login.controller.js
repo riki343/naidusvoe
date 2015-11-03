@@ -6,6 +6,7 @@
     ];
 
     function Controller($scope, $location, auth, spinner, $window, $http, notify) {
+
         var self = this;
         this.user = null;
 
@@ -40,25 +41,22 @@
         };
 
         this.vk_login = function() {
-            $http.get(Routing.generate('vk_login')).then(function (response) {
-                notify(response.code);
-            });
-            /*var vk_id = "5069614";
+            var vk_id = "5069614";
             var vk_secret = "9IclVVd4sqek1MZO9OhI";
             var vk_url = "https://oauth.vk.com/authorize?client_id=5069614&scope=1&redirect_uri=http://www.naidusvoe.dev/login&response_type=code";
-            $http.get(vk_url).then(function (response) {
+            $http.get(vk_url).success(function (response) {
                     if(response.data!=null)
                     {
                         var vk_grand_url = "https://api.vk.com/oauth/access_token?client_id=" + vk_id +  "&client_secret=" + vk_secret + "&code=" + response.data.code + "&redirect_uri=http://www.naidusvoe.dev/login";
                         $http.get(vk_grand_url).then(function (response1) {
-                            notify("My ID = " + response1.data.user_id);
+                            notify("My ID = " + response1.user_id);
                         });
                     }
                     else
                     {
                         $window.location.href="http://www.vk.com";
                     }
-                });*/
+                });
         };
 
         this.signup = function () {

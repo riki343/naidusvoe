@@ -11,7 +11,7 @@
     <base href="/">
 
     {% block stylesheets %}
-        {% stylesheets '@css' filter='uglifycss' filter="uglifycss" filter='cssrewrite' output='assets/css/all.css' %}
+        {% stylesheets '@css' filter='cssrewrite' output='assets/css/all.css' %}
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
         {% endstylesheets %}
     {% endblock %}

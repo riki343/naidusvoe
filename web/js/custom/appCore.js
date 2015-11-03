@@ -28,9 +28,12 @@
         $locationProvider, $compileProvider, $translateProvider,
         noCAPTCHAProvider
     ) {
+
+
         $interpolateProvider.startSymbol('[[');
         $interpolateProvider.endSymbol(']]');
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+
 
         noCAPTCHAProvider.setTheme('light');
         noCAPTCHAProvider.setSiteKey('6LeAmw8TAAAAABnJ-CyDKBVRYBe5_b4Mrrcx2XuE');
