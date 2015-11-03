@@ -5,6 +5,7 @@ namespace NaidusvoeBundle\Controller;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use NaidusvoeBundle\Entity\User;
@@ -13,20 +14,25 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class SocialController extends Controller {
     /**
-     * @Route("/login/vk_login", name="vk_login")
+     * @Route("/vkLoginAction", name="vk_login", options={"expose"=true})
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      */
-    public function VkLoginAction(Request $request)
+    public function vkLoginAction(Request $request)
     {
         $VK_APP_ID = "5069614";
         $VK_SECRET_CODE = "9IclVVd4sqek1MZO9OhI";
+        $vk_oath_url = "https://oauth.vk.com/authorize?client_id=5069614&scope=1&redirect_uri=http://www.naidusvoe.dev/vk_login&response_type=code";
+        $response = file_get_contents($vk_oath_url);
+        return $response;
+
+
 
         $val = $request->get('code');
 
         if(!empty($val)){
 
-            $vk_grand_url = "https://api.vk.com/oauth/access_token?client_id=" . $VK_APP_ID . "&client_secret=" . $VK_SECRET_CODE . "&code=" . $val . "&redirect_uri=http://127.0.0.1:8000/login/vk_login";
+            $vk_grand_url = "https://api.vk.com/oauth/access_token?client_id=" . $VK_APP_ID . "&client_secret=" . $VK_SECRET_CODE . "&code=" . $val . "&redirect_uri=http://naidusvoe.dev/vk_login";
             $resp = file_get_contents($vk_grand_url);
             $data = json_decode($resp, true);
             $vk_uid = $data['user_id'];
