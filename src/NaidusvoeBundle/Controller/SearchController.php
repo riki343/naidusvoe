@@ -14,10 +14,12 @@ class SearchController extends Controller
     /**
      * @Route("/adv/search", name="search", options={"expose"=true})
      * @param Request $request
-     * @param string $slug
      * @return JsonResponse
      */
-    public function searchAction(Request $request, $slug) {
+    public function searchAction(Request $request) {
+        $data = json_decode($request->getContent(), true);
+        $slug = $data['slug'];
+
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
         $qb = $em->createQueryBuilder();
