@@ -1,19 +1,19 @@
 (function(angular){
-    angular.module('Naidusvoe').controller('searchController', Controller);
+    angular.module('NaiduSvoe').controller('SearchController', SearchController);
 
-    Controller.$inject = [
-        '$scope', '$location', 'authorizationService', 'spinner', 'notify'
+    SearchController.$inject = [
+        '$scope', '$location', 'authorizationService', 'spinner', 'notify', '$routeParams', '$http'
     ];
 
-    function Controller($scope, $location, auth, spinner, notify){
+    function SearchController($scope, $location, auth, spinner, notify, $routeParams, $http){
         var self = this;
-        var searchResult = {};
-        var searchData = {condition: 'iPhone', region: 1, city: 'Uzh'};
+        this.searchData = {slug: $routeParams.slug, region: $routeParams.region, city: $routeParams.city};
+        this.searchResult = {};
 
-        this.search = function (data) {
-            var promise = $http.post(Routing.generate('search', data));
+        this.search = function () {
+            var promise = $http.post(Routing.generate('search'), self.searchData);
             promise.success(function (response) {
-                notify(response.data);
+                self.searchResult.advs = response;
             });
         }
     }

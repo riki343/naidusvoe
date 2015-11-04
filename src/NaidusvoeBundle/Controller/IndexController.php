@@ -26,7 +26,7 @@ class IndexController extends Controller
      * @Route("/features")
      * @Route("/login")
      * @Route("/signup")
-     * @Route("/search/{condition}/{region}/{city}", requirements={"region"="\d+"})
+     * @Route("/search/{condition}/{region}/{city}")
      * @Route("/advertisements/{type}")
      * @Route("/advertisement/{type}/{adv_id}", requirements={"adv_id"="\d+"})
      * @Route("/advertisement/{type}/{adv_id}/additional-features", requirements={"adv_id"="\d+"})
@@ -124,16 +124,6 @@ class IndexController extends Controller
      */
     public function logout(Request $request) {
         $this->get('security.token_storage')->setToken(null);
-        return new JsonResponse();
-    }
-
-    /**
-     * @Route("/search-action", name="search", options={"expose"=true})
-     * @param Request $request
-     * @return Response
-     */
-    public function search(Request $request)
-    {
         return new JsonResponse();
     }
 }

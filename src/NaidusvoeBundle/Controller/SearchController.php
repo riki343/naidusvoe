@@ -7,6 +7,7 @@ use NaidusvoeBundle\Model\Paginator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 class SearchController extends Controller
@@ -28,20 +29,35 @@ class SearchController extends Controller
         $slug = str_replace('.', '%', $slug);
         $slug = str_replace(',', '%', $slug);
         $slug = str_replace(':', '%', $slug);
-
-        $advs = $qb
+        $city = $data['city'];
+        $region = $data['region'];
+        //return new JsonResponse(['pager'=>$em->getRepository('NaidusvoeBundle:Advertisment')->findOneBy(['id'=>160])]);
+        $qb
             ->select('a')
             ->from('NaidusvoeBundle:Advertisment', 'a')
-            ->where($qb->expr()->like('a.title', "%" . $slug . "%"))
+            ->where('a.title LIKE :key')
+            ->setParameter('key', "%".$slug."%")
+            //->where($qb->expr()->like('a.title', "%" . $slug . "%"))
             ->orderBy('a.advertismentBlock', 'DESC')
             ->addOrderBy('a.advertismentOnMainPage', 'DESC')
             ->addOrderBy('a.categoryTop', 'DESC')
             ->addOrderBy('a.colorHighlight', 'DESC')
         ;
+        if($region != "none")
+        {
+            $qb->andWhere('a.regionId=:region')->setParameter('region', $region);
+        }
+        if($city != "none")
+        {
+            $qb->andWhere('a.city=:city')->setParameter('city', $city);
+        }
+
+        $advs = $qb->getQuery();
 
         $paginator = new Paginator();
         $pager = $paginator->getJsonResponse($advs, $request, 10);
-
         return new JsonResponse($pager);
+
+
     }
 }
