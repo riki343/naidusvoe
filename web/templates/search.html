@@ -1,7 +1,5 @@
 <div ng-controller="SearchController as ctrl" ng-init="ctrl.search();">
-    <p>Some fucking slug!!!</p>
-    <!--<p ng-show="ctrl.searchResult">[[ ctrl.searchResult]]</p>-->
-    <div ng-repeat="adv in ctrl.searchResult">
-        [[adv]]
+    <div ng-repeat="adv in ctrl.searchResult.advs">
+        <pre>[[ adv | json ]]</pre>
     </div>
 </div>

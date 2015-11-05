@@ -122,15 +122,14 @@
     function run($rootScope, auth, $location, redirector) {
         var routeChecked = false;
 
-
         // When route start change we would check next route through firewall
         $rootScope.$on('$routeChangeStart', function (event, next, current) {
             console.log('Route: ' + redirector.prepareRoute(next));
             if (routeChecked === false) {
                 switch (next.$$route.firewall) {
-                    case 'anonymous': break;
-                    case 'logged_in': loggedInFirewall(event, next, current); break;
-                    case     'login': loginFirewall(event, next, current);    break;
+                    case 'anonymous': anonymousFirewall(event, next, current); break;
+                    case 'logged_in': loggedInFirewall(event, next, current);  break;
+                    case     'login': loginFirewall(event, next, current);     break;
                 }
             } else {
                 routeChecked = false;
@@ -138,6 +137,7 @@
 
             $rootScope.$broadcast('SpinnerStart');
         });
+
         $rootScope.$on('$routeChangeSuccess', function() {
             $rootScope.$broadcast('SpinnerStop');
         });
@@ -158,10 +158,6 @@
             event.preventDefault();
         }
 
-        function anonymousFirewall(event, next, current) {
-
-        }
-
         function loggedInFirewall(event, next, current) {
             console.log('Matched loggedIn firewall');
             auth.getUser().then(function (user) {
@@ -177,6 +173,10 @@
                 }
             });
             event.preventDefault();
+        }
+
+        function anonymousFirewall(event, next, current) {
+            // There is nothing!
         }
     }
 })(angular);

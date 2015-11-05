@@ -19,37 +19,43 @@ class SearchController extends Controller
      */
     public function searchAction(Request $request) {
         $data = json_decode($request->getContent(), true);
-        $slug = $data['slug'];
 
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
         $qb = $em->createQueryBuilder();
+
+        $slug = $data['slug'];
+        $city = $data['city'];
+        $region = $data['region'];
+
         $slug = trim($slug);
         $slug = str_replace(' ', '%', $slug);
         $slug = str_replace('.', '%', $slug);
         $slug = str_replace(',', '%', $slug);
         $slug = str_replace(':', '%', $slug);
-        $city = $data['city'];
-        $region = $data['region'];
-        //return new JsonResponse(['pager'=>$em->getRepository('NaidusvoeBundle:Advertisment')->findOneBy(['id'=>160])]);
+
         $qb
             ->select('a')
             ->from('NaidusvoeBundle:Advertisment', 'a')
-            ->where('a.title LIKE :key')
-            ->setParameter('key', "%".$slug."%")
-            //->where($qb->expr()->like('a.title', "%" . $slug . "%"))
-            ->orderBy('a.advertismentBlock', 'DESC')
-            ->addOrderBy('a.advertismentOnMainPage', 'DESC')
-            ->addOrderBy('a.categoryTop', 'DESC')
-            ->addOrderBy('a.colorHighlight', 'DESC')
+            ->where($qb->expr()->like('a.title', "'%" . $slug . "%'"))
+            ->orderBy('a.advertismentBlock', 'ASC')
+            ->addOrderBy('a.advertismentOnMainPage', 'ASC')
+            ->addOrderBy('a.categoryTop', 'ASC')
+            ->addOrderBy('a.colorHighlight', 'ASC')
         ;
-        if($region != "none")
-        {
-            $qb->andWhere('a.regionId=:region')->setParameter('region', $region);
+
+        if ($region !== "none") {
+            $qb
+                ->andWhere('a.regionId = :region')
+                ->setParameter('region', $region)
+            ;
         }
-        if($city != "none")
-        {
-            $qb->andWhere('a.city=:city')->setParameter('city', $city);
+
+        if ($city !== "none") {
+            $qb
+                ->andWhere('a.city = :city')
+                ->setParameter('city', $city)
+            ;
         }
 
         $advs = $qb->getQuery();
@@ -57,7 +63,5 @@ class SearchController extends Controller
         $paginator = new Paginator();
         $pager = $paginator->getJsonResponse($advs, $request, 10);
         return new JsonResponse($pager);
-
-
     }
 }
