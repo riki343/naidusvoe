@@ -24,37 +24,35 @@ class SocialController extends Controller {
         $VK_SECRET_CODE = "9IclVVd4sqek1MZO9OhI";
         $vk_oath_url = "https://oauth.vk.com/authorize?client_id=5069614&scope=1&redirect_uri=http://naidusvoe.dev/login&response_type=code";
         $response = file_get_contents($vk_oath_url);
-        $response_1 = json_decode($response, true);
-        return new JsonResponse(['code' => $response_1['code']]);
+        return new JsonResponse($response);
+        //$response_1 = json_decode($response, true);
 
-
-
-        $val = $request->get('code');
-
-        if(!empty($val)){
-
+        if(!empty($val)) {
             $vk_grand_url = "https://api.vk.com/oauth/access_token?client_id=" . $VK_APP_ID . "&client_secret=" . $VK_SECRET_CODE . "&code=" . $val . "&redirect_uri=http://naidusvoe.dev/vk_login";
             $resp = file_get_contents($vk_grand_url);
             $data = json_decode($resp, true);
-            $vk_uid = $data['user_id'];
-
-            $user = $this->getDoctrine()->getRepository('NaidusvoeBundle:User')->findOneBy(array('vk_id' => $vk_uid));
-
-            if(empty($user))
-            {
-                return $this->render('@Naidusvoe/signup_Social.html.twig', array('social_uid' => $vk_uid, 'social_u_field' => "vk_id"));
-            }
-
-            $token = new UsernamePasswordToken($user, null, "secured_area", $user->getRoles());
-            $this->get('security.token_storage')->setToken($token);
-            $event = new InteractiveLoginEvent($request, $token);
-            $this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
-
-            return $this->redirectToRoute('naidusvoe_homepage');
+            return new JsonResponse($data);
+//            $vk_uid = $data['user_id'];
+//
+//            $user = $this->getDoctrine()->getRepository('NaidusvoeBundle:User')->findOneBy(array('vk_id' => $vk_uid));
+//
+//            if(empty($user))
+//            {
+//                return $this->render('@Naidusvoe/signup_Social.html.twig', array('social_uid' => $vk_uid, 'social_u_field' => "vk_id"));
+//            }
+//
+//            $token = new UsernamePasswordToken($user, null, "secured_area", $user->getRoles());
+//            $this->get('security.token_storage')->setToken($token);
+//            $event = new InteractiveLoginEvent($request, $token);
+//            $this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
+//
+//            return $this->redirectToRoute('naidusvoe_homepage');
         }
-        return $this->redirect("https://vk.com");
+
+        return new JsonResponse(['code' => $response_1['code']]);
+
     }
-    // ладно я щас в себе подивлю
+
     /**
      * @Route("/login/fb_login", name="fb_login")
      * @param Request $request

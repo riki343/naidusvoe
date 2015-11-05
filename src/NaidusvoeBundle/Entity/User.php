@@ -4,7 +4,7 @@ namespace NaidusvoeBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Query\Expr\Math;
+use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="NaidusvoeBundle\Entity\UserRepository")
  */
-class User implements UserInterface, \Serializable
+class User extends OAuthUser implements UserInterface, \Serializable
 {
     /**
      * @var integer
@@ -27,21 +27,24 @@ class User implements UserInterface, \Serializable
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="vk_id", type="string", nullable=true)
+     * @ORM\Column(name="facebook", type="string", length=255, nullable=true, options={"default"=null})
      */
-    private $vk_id;
+    private $facebook;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="fb_id", type="string", nullable=true)
+     * @ORM\Column(name="vkontakte", type="string", length=255, nullable=true, options={"default"=null})
      */
-    private $fb_id;
+    private $vkontakte;
 
     /**
      * @var string
-     *
+     * @ORM\Column(name="resource_id", type="string", nullable=true)
+     */
+    private $resourceId;
+
+    /**
+     * @var string
      * @ORM\Column(name="username", type="string", length=255, unique=true)
      */
     protected $username;
@@ -56,7 +59,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @ORM\Column(name="email", type="string", length=255, unique=true, nullable=true)
      */
     private $email;
 
@@ -96,6 +99,12 @@ class User implements UserInterface, \Serializable
      * @var ArrayCollection $roles
      */
     protected $roles;
+
+    /**
+     * @var string
+     * @ORM\Column(name="salt", type="string", length=1000)
+     */
+    private $salt;
 
     /**
      * @var UserSettings
@@ -201,6 +210,7 @@ class User implements UserInterface, \Serializable
      */
     public function __construct()
     {
+        parent::__construct(null);
         $this->roles = new ArrayCollection();
         $this->name = null;
         $this->language = null;
@@ -208,10 +218,12 @@ class User implements UserInterface, \Serializable
         $this->deleted = false;
         $this->advertisments = new ArrayCollection();
         $this->rating = 0;
+        $this->votesCount = 0;
         $this->votes = [];
         $this->orders = [];
         $this->payments = [];
         $this->avatar = '/css/img/icon-user-default.png';
+        $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
     }
 
     /**
@@ -242,6 +254,14 @@ class User implements UserInterface, \Serializable
         }
 
         return $rating;
+    }
+
+    public function setResource($resource, $id) {
+        $this->{$resource} = $id;
+    }
+
+    public function getResource($resource) {
+        return $this->{$resource};
     }
 
     /**
@@ -351,7 +371,7 @@ class User implements UserInterface, \Serializable
      */
     public function getSalt()
     {
-        return '7v8b6ghjb6834bdkjndsjb233409fjvsiu8892d';
+        return $this->salt;
     }
 
     /**
@@ -367,7 +387,14 @@ class User implements UserInterface, \Serializable
             $this->name,
             $this->registered,
             $this->lastactive,
-            $this->active
+            $this->active,
+            $this->salt,
+            $this->regionID,
+            $this->languageid,
+            $this->city,
+            $this->regionID,
+            $this->votesCount,
+            $this->skype
         ));
     }
 
@@ -384,23 +411,20 @@ class User implements UserInterface, \Serializable
             $this->name,
             $this->registered,
             $this->lastactive,
-            $this->active) = unserialize($serialized);
+            $this->active,
+            $this->salt,
+            $this->regionID,
+            $this->languageid,
+            $this->city,
+            $this->regionID,
+            $this->votesCount,
+            $this->skype) = unserialize($serialized);
     }
 
     /**
      * @inheritDoc
      */
     public function eraseCredentials() { }
-
-    /**
-     * Remove roles
-     *
-     * @param \NaidusvoeBundle\Entity\Role $roles
-     */
-    public function removeRole(\NaidusvoeBundle\Entity\Role $roles)
-    {
-        $this->roles->removeElement($roles);
-    }
 
     public static function generatePassword() {
         $now = new \DateTime();
@@ -420,44 +444,6 @@ class User implements UserInterface, \Serializable
         return $pass;
     }
 
-    /**
-     * @param EntityManager $em
-     * @param EncoderFactory $encoderFactory
-     * @param array $parameters
-     * @return User
-     */
-    public static function addUser($em, $encoderFactory, $parameters)
-    {
-        /** @var User $user */
-        $user = new User();
-        $encoder = $encoderFactory->getEncoder($user);
-        $user->setEmail($parameters['email']);
-        $user->setUsername($parameters['email']);
-        $user->setPassword($encoder->encodePassword($parameters['password'], $user->getSalt()));
-        $user->setRegistered(new \DateTime());
-        $user->setLastActive(new \DateTime());
-        $user->addRole(Role::getUserRole($em));
-        $user->setActive(false);
-
-        if(array_key_exists('vk_id', $parameters)) {
-            $user->setVkId($parameters['vk_id']);
-        } else if (array_key_exists('fb_id', $parameters)) {
-            $user->setFbId($parameters['fb_id']);
-        }
-
-        if (array_key_exists('name', $parameters)) {
-            $user->setName($parameters['name']);
-        }
-
-        $em->persist($user);
-
-        $settings = new UserSettings();
-        $settings->setUser($user);
-
-        $em->flush();
-        return $user;
-    }
-
 
     /**
      * Get id
@@ -470,49 +456,72 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Set vk_id
+     * Set facebook
      *
-     * @param string $vkId
+     * @param string $facebook
      * @return User
      */
-    public function setVkId($vkId)
+    public function setFacebook($facebook)
     {
-        $this->vk_id = $vkId;
+        $this->facebook = $facebook;
 
         return $this;
     }
 
     /**
-     * Get vk_id
+     * Get facebook
      *
      * @return string 
      */
-    public function getVkId()
+    public function getFacebook()
     {
-        return $this->vk_id;
+        return $this->facebook;
     }
 
     /**
-     * Set fb_id
+     * Set vkontakte
      *
-     * @param string $fbId
+     * @param string $vkontakte
      * @return User
      */
-    public function setFbId($fbId)
+    public function setVkontakte($vkontakte)
     {
-        $this->fb_id = $fbId;
+        $this->vkontakte = $vkontakte;
 
         return $this;
     }
 
     /**
-     * Get fb_id
+     * Get vkontakte
      *
      * @return string 
      */
-    public function getFbId()
+    public function getVkontakte()
     {
-        return $this->fb_id;
+        return $this->vkontakte;
+    }
+
+    /**
+     * Set resourceId
+     *
+     * @param string $resourceId
+     * @return User
+     */
+    public function setResourceId($resourceId)
+    {
+        $this->resourceId = $resourceId;
+
+        return $this;
+    }
+
+    /**
+     * Get resourceId
+     *
+     * @return string 
+     */
+    public function getResourceId()
+    {
+        return $this->resourceId;
     }
 
     /**
@@ -654,6 +663,19 @@ class User implements UserInterface, \Serializable
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     * @return User
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
     }
 
     /**
@@ -874,6 +896,16 @@ class User implements UserInterface, \Serializable
         $this->roles[] = $roles;
 
         return $this;
+    }
+
+    /**
+     * Remove roles
+     *
+     * @param \NaidusvoeBundle\Entity\Role $roles
+     */
+    public function removeRole(\NaidusvoeBundle\Entity\Role $roles)
+    {
+        $this->roles->removeElement($roles);
     }
 
     /**

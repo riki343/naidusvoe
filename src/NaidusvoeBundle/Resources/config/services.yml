@@ -17,3 +17,10 @@ services:
     naidusvoe.advertisement:
         class: NaidusvoeBundle\Services\AdvertisementService
         arguments: [@doctrine.orm.entity_manager]
+
+    naidusvoe.hwi:
+        class: NaidusvoeBundle\Services\OAuthUserProvider
+        arguments:
+            - @session
+            - @doctrine.orm.entity_manager
+            - @naidusvoe.user

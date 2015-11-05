@@ -1,26 +1,31 @@
 (function (angular) {
     angular.module('NaiduSvoe').factory('authorizationService', Service);
 
-    Service.$inject = ['$http', '$rootScope', '$timeout', '$location', '$translate', 'notify', '$q', 'redirectService'];
+    Service.$inject = ['$http', '$rootScope', '$timeout', '$location', '$translate', 'notify', '$q', 'redirectService', 'spinner'];
 
-    function Service($http, $rootScope, $timeout, $location, $translate, notify, $q, redirector) {
+    function Service($http, $rootScope, $timeout, $location, $translate, notify, $q, redirector, spinner) {
         var self = this;
         this.user = null;
         this.init = true;
+        this.authPromise = null;
 
         $rootScope.$on('SessionLogin', function (event, user) {
             self.user = user;
             self.init = false;
+            self.authPromise = null;
             $location.url('/cabinet');
         });
 
         $rootScope.$on('SessionLogout', function () {
+            self.init = true;
+            self.authPromise = null;
             $location.url('/');
         });
 
         $rootScope.$on('UserFetched', function (event, user) {
             self.user = user;
             self.init = false;
+            self.authPromise = null;
             redirector.toggleRedirects();
         });
 
@@ -36,8 +41,31 @@
                 return checkSession(true);
             },
             'login': function (data) {
-                var defer = $q.defer();
-                var promise = $http.post(Routing.generate('login'), data);
+                if (self.authPromise !== null) {
+                    return self.authPromise;
+                } else {
+                    var defer = $q.defer();
+                    var promise = $http.post(Routing.generate('login'), data);
+                    spinner.addPromise(promise);
+                    self.authPromise = promise;
+                    promise.success(function (response) {
+                        if (response.status === 'success') {
+                            defer.resolve(true);
+                            $rootScope.$broadcast('SessionLogin', response.user);
+                        } else {
+                            defer.resolve(false);
+                            handleError(response);
+                        }
+
+                        self.authPromise = null;
+                    });
+
+                    return defer.promise;
+                }
+            },
+            'loginOAuth': function (data) {
+                var promise = $http.post(Routing.generate('oauth-login'), data);
+                spinner.addPromise(promise);
                 promise.success(function (response) {
                     if (response.status === 'success') {
                         defer.resolve(true);
@@ -47,8 +75,6 @@
                         handleError(response);
                     }
                 });
-
-                return defer.promise;
             },
             'logout': function () {
                 var promise = $http.get(Routing.generate('logout'));
@@ -85,19 +111,35 @@
         return factory;
 
         function checkSession(recent) {
-            var defer = $q.defer();
-            if (angular.isUndefined(recent) || self.init === true) {
-                var promise = $http.get(Routing.generate('get-user'));
-                promise.success(function(response) {
-                    checkResponse(response);
-                    defer.resolve(response.user);
-                    self.init = false;
-                });
-            } else {
-                defer.resolve(self.user);
-            }
+            if (self.authPromise === null) {
+                var defer = $q.defer();
+                if (angular.isUndefined(recent) || self.init === true) {
+                    var promise = $http.get(Routing.generate('get-user'));
+                    self.authPromise = promise;
+                    promise.success(function(response) {
+                        checkResponse(response, true);
+                        defer.resolve(response.user);
+                        self.init = false;
+                        self.authPromise = null;
+                    });
+                } else {
+                    defer.resolve(self.user);
+                }
 
-            return defer.promise;
+                return defer.promise;
+            } else {
+                return self.authPromise;
+            }
+        }
+
+        function checkResponse(response, remote) {
+            if (self.user !== response.user) {
+                if (response.user === null && self.user !== null && remote === true) {
+                    $rootScope.$broadcast('SessionLogout');
+                } else if (response.user !== null && self.user === null && remote === true) {
+                    $rootScope.$broadcast('UserFetched', response.user);
+                }
+            }
         }
 
         function handleError(response) {
@@ -133,16 +175,6 @@
                         notify(val);
                     });
                     break;
-            }
-        }
-
-        function checkResponse(response) {
-            if (self.user !== response.user) {
-                if (response.user === null && self.user !== null && self.user !== 'init') {
-                    $rootScope.$broadcast('SessionLogout');
-                } else if (response.user !== null && (self.user === null || self.user === 'init' )) {
-                    $rootScope.$broadcast('UserFetched', response.user);
-                }
             }
         }
     }

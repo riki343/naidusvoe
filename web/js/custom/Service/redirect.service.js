@@ -30,7 +30,9 @@
             'prepareRoute': prepareRoute,
             'checkAuthRedirect': checkAuthRedirect,
             'checkRedirect': function () {
-                return self.redirector.hasRedirect === true && self.redirector.waitForAuth === false && self.redirector.inProg === false;
+                return self.redirector.hasRedirect === true
+                    && self.redirector.waitForAuth === false
+                    && self.redirector.inProg === false;
             },
             'setInProg': function () {
                 self.redirector.inProg = true;
@@ -48,7 +50,9 @@
         }
 
         function checkAuthRedirect() {
-            return self.redirector.hasRedirect === true && self.redirector.waitForAuth === true && self.redirector.inProg === false
+            return self.redirector.hasRedirect === true
+                && self.redirector.waitForAuth === true
+                && self.redirector.inProg === false;
         }
 
         function prepareRoute($route) {

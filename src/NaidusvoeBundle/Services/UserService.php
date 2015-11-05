@@ -3,6 +3,9 @@
 namespace NaidusvoeBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
+use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
+use HWI\Bundle\OAuthBundle\Security\OAuthUtils;
 use NaidusvoeBundle\Entity\Role;
 use NaidusvoeBundle\Entity\User;
 use NaidusvoeBundle\Entity\UserSettings;
@@ -56,7 +59,7 @@ class UserService {
         }
     }
 
-    public function signUp($email, $password = null, $name = null) {
+    public function signUp($email, $password = null, $name, $resource = null, $resource_id = null) {
         /** @var EntityManager $em */
         $em = $this->entityManager;
         $encoderFactory = $this->encoderFactory;
@@ -66,17 +69,23 @@ class UserService {
         $encoder = $encoderFactory->getEncoder($user);
         $user->setEmail($email);
         $user->setUsername($email);
-        if ($password === null) {
+        if ($password === null && $resource !== null && $resource_id !== null) {
             $password = User::generatePassword();
         }
         $user->setPassword($encoder->encodePassword($password, $user->getSalt()));
         $user->setRegistered(new \DateTime());
         $user->setLastActive(new \DateTime());
         $user->addRole(Role::getUserRole($em));
-        $user->setActive(false);
-        if ($name !== null) {
-            $user->setName($name);
+
+        $user->setName($name);
+
+        if ($resource !== null && $resource_id !== null) {
+            $password = $resource_id . $email;
+            $user->setPassword($encoder->encodePassword($password, $user->getSalt()));
+            $user->setResource($resource, $resource_id);
         }
+
+        $user->setActive(false);
         $em->persist($user);
 
         $settings = new UserSettings();
@@ -86,5 +95,21 @@ class UserService {
         $em->flush();
 
         return $user;
+    }
+
+    public function oAuthLogin(Request $request, $response) {
+        $user = $this->entityManager->getRepository('NaidusvoeBundle:User')->findOneBy([
+            $response['resource'] => $response['resourceId']
+        ]);
+
+        if ($user === null) {
+            $user = $this->signUp(
+                $response['email'], User::generatePassword(),
+                $response['name'], $response['resource'],
+                $response['resourceId']
+            );
+        }
+
+        return $this->forceSignIn($request, $user, $response['resourceId'] . $response['email']);
     }
 }

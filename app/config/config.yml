@@ -10,6 +10,5 @@ imports:
     - { resource: swiftmailer.yml }
     - { resource: knp_paginator.yml }
     - { resource: yucca_prerender.yml }
-
-
-
+    - { resource: hwi_oauth.yml }
+    - { resource: nelmio_cors.yml }

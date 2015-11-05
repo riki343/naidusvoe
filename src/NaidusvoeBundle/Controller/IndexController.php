@@ -126,4 +126,21 @@ class IndexController extends Controller
         $this->get('security.token_storage')->setToken(null);
         return new JsonResponse();
     }
+
+    /**
+     * @Route("/login-oauth", name="oauth-login", options={"expose"=true})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function facebookLogin(Request $request) {
+        $data = json_decode($request->getContent(), true);
+        /** @var User|null $user */
+        $user = $this->get('naidusvoe.user')->oAuthLogin($request, $data);
+
+        if ($user !== null) {
+            return new JsonResponse([ 'status' => 'ok', 'user' => $user->getInArray() ]);
+        } else {
+            return new JsonResponse([ 'status' => 'error', 'message' => 'AUTH_FAILED' ]);
+        }
+    }
 }

@@ -18,3 +18,7 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+    app_vk_id:  5133169
+    app_vk_key: xGRkodvYsmFRjSMfMRxN
+    app_fb_id:  401831443348487
+    app_fb_key: e672c040faaeff2775e97f534f87926a
