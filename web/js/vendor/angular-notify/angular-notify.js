@@ -9,7 +9,7 @@
 
         var startTop = 10;
         var verticalSpacing = 15;
-        var defaultDuration = 60000;
+        var defaultDuration = 6000;
         var defaultTemplateUrl = 'angular-notify.html';
         var position = 'center';
         var container = document.body;

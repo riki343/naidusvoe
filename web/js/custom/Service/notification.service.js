@@ -19,12 +19,23 @@
             self.checkHandler = null;
         });
 
+        $rootScope.$on('HttpError', function (event, data) {
+            $translate(data).then(function (val) {
+                notify(val);
+            });
+        });
+
         var factory = {
             'getNotifications': function () {
                 return self.notifications;
             },
             'removeNotification': function (notification) {
                 self.notifications.splice(self.notifications.indexOf(notification), 1);
+            },
+            'init': function () {
+                if (self.checkHandler === null) {
+                    self.checkHandler = $interval(checkNotifications, 10000);
+                }
             }
         };
 
@@ -46,7 +57,7 @@
         }
 
         function checkForUser() {
-            var promise = $http.get('check-notifications');
+            var promise = $http.get(Routing.generate('get-notifications'));
             promise.success(function (notifications) {
                 if (self.notifications.length === 0 || (notifications.length > 0 && notifications[0].id !== self.notifications[0].id)) {
                     angular.forEach(notifications, function (val) {

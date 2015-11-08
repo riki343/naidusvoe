@@ -1,23 +1,5 @@
 (function (angular) {
-    angular
-        .module('NaiduSvoe', [
-            'ngRoute',
-            'ngAnimate',
-            'luegg.directives',
-            'pascalprecht.translate',
-            'cgNotify',
-            'cgBusy',
-            'noCAPTCHA',
-            'riki34'
-        ])
-        .config(config)
-        .run(run)
-        .value('tradeLastPage', '1')
-        .value('foundLastPage', '1')
-        .value('giftLastPage', '1')
-        .value('fbApiKey', '401831443348487')
-        .value('vkApiKey', '5133169')
-    ;
+    angular.module('NaiduSvoe').config(config);
 
     config.$inject = [
         '$interpolateProvider', '$httpProvider', '$routeProvider',
@@ -34,6 +16,7 @@
         $interpolateProvider.endSymbol(']]');
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
         $httpProvider.defaults.useXDomain = true;
+        $httpProvider.interceptors.push('errorInterceptorService');
 
         noCAPTCHAProvider.setTheme('light');
         noCAPTCHAProvider.setSiteKey('6LeAmw8TAAAAABnJ-CyDKBVRYBe5_b4Mrrcx2XuE');
@@ -104,9 +87,9 @@
                 'firewall': 'logged_in'
             })
             .otherwise({
-                redirectTo: '/'
-            }
-        );
+                    redirectTo: '/'
+                }
+            );
 
         $locationProvider.html5Mode(true).hashPrefix('!');
 
@@ -116,67 +99,5 @@
         });
 
         $translateProvider.preferredLanguage('ua');
-    }
-
-    run.$inject = ['$rootScope', 'authorizationService', '$location', 'redirectService'];
-    function run($rootScope, auth, $location, redirector) {
-        var routeChecked = false;
-
-        // When route start change we would check next route through firewall
-        $rootScope.$on('$routeChangeStart', function (event, next, current) {
-            console.log('Route: ' + redirector.prepareRoute(next));
-            if (routeChecked === false) {
-                switch (next.$$route.firewall) {
-                    case 'anonymous': anonymousFirewall(event, next, current); break;
-                    case 'logged_in': loggedInFirewall(event, next, current);  break;
-                    case     'login': loginFirewall(event, next, current);     break;
-                }
-            } else {
-                routeChecked = false;
-            }
-
-            $rootScope.$broadcast('SpinnerStart');
-        });
-
-        $rootScope.$on('$routeChangeSuccess', function() {
-            $rootScope.$broadcast('SpinnerStop');
-        });
-
-        function loginFirewall(event, next, current) {
-            console.log('Matched login firewall');
-            auth.getUser().then(function (user) {
-                if (user !== null) {
-                    console.log('User in session');
-                    routeChecked = true;
-                    $location.path('/cabinet');
-                } else {
-                    console.log('User not in session');
-                    routeChecked = true;
-                    $location.path(redirector.prepareRoute(next));
-                }
-            });
-            event.preventDefault();
-        }
-
-        function loggedInFirewall(event, next, current) {
-            console.log('Matched loggedIn firewall');
-            auth.getUser().then(function (user) {
-                if (user !== null) {
-                    console.log('User in session');
-                    routeChecked = true;
-                    $location.path(redirector.prepareRoute(next));
-                } else {
-                    console.log('User not in session');
-                    routeChecked = true;
-                    redirector.setRedirect(next, true);
-                    $location.path('/login');
-                }
-            });
-            event.preventDefault();
-        }
-
-        function anonymousFirewall(event, next, current) {
-            // There is nothing!
-        }
     }
 })(angular);

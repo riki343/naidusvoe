@@ -69,26 +69,32 @@
         </div>
     </div>
 
-    <div class="modal fade" id="send_new_message" tabindex="-1">
+    <div class="modal fade" id="credentials-modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header label-primary">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">
-                        [[ 'SEND_MESSAGE_HEADER' | translate ]]
-                    </h4>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">Введіть додаткову інформацію</h4>
                 </div>
                 <div class="modal-body">
-                    <form novalidate class="modal-form">
-                        <label for="send-message-textarea">
-                            [[ 'SEND_MESSAGE_HEADER' | translate ]]
-                        </label>
-                        <textarea id="send-message-textarea" rows="10" ng-model="message" style="resize: vertical;" class="form-control"></textarea>
-                    </form>
+
+                    <ul class="pod-form" style="width: 100%; margin: 0 auto;">
+                        <li class="input" style="width: 100%;">
+                            <input type="email"
+                                   class="form-input"
+                                   ng-model="login.credentials.email"
+                                   required
+                                   placeholder="[[ 'EMAIL_PLACEHOLDER' | translate ]]"
+                                   name="email">
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
                 </div>
                 <div class="modal-footer">
-                    <button></button>
-                    <button></button>
+                    <button type="button" ng-click="login.signUpOAuth(login.credentials);" class="btn btn-warning">
+                        [[ 'ACCEPT' | translate ]]
+                    </button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">[[ 'CLOSE' | translate ]]</button>
                 </div>
             </div>
         </div>

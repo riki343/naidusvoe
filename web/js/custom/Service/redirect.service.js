@@ -55,10 +55,10 @@
                 && self.redirector.inProg === false;
         }
 
-        function prepareRoute($route) {
-            var route = $route.$$route.originalPath;
+        function prepareRoute(routeContainer) {
+            var route = routeContainer.$$route.originalPath;
 
-            angular.forEach($route.pathParams, function (val, key) {
+            angular.forEach(routeContainer.pathParams, function (val, key) {
                 route = route.replace(':' + key, val);
             });
 

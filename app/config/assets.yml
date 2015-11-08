@@ -11,7 +11,6 @@ assetic:
         vendors:
             inputs:
                 - 'js/vendor/jQuery/jquery-2.1.3.js'
-                #- 'js/vendor/jQuery/jquery-migrate-1.2.1.js'
                 - 'js/vendor/Bootstrap/bootstrap.min.js'
                 - 'js/vendor/AngularJS/angular.min.js'
                 - 'js/vendor/AngularJS/angular-route.min.js'
@@ -26,13 +25,16 @@ assetic:
         modules:
             inputs:
                 - 'js/custom/riki34.module.js'
-                - 'js/custom/appCore.js'
+                - 'js/custom/core.js'
         services:
             inputs:
                 - 'js/custom/Service/*'
         models:
             inputs:
                 - 'js/custom/Model/*'
+        config:
+            inputs:
+                - 'js/custom/core.config.js'
         controllers:
             inputs:
                 - 'js/custom/Controller/*'

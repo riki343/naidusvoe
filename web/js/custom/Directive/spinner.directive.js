@@ -6,8 +6,7 @@
     function Directive($timeout) {
         return {
             'restrict': 'A',
-            'link': Link,
-            'scope': {}
+            'link': Link
         };
 
         function Link($scope, $element, $attrs) {

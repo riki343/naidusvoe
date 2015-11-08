@@ -20,7 +20,11 @@ class Notifier
         $this->qb = $entityManager->createQueryBuilder();
     }
 
-    private function clearNewMessage() {
+    public function addNotification() {
+        
+    }
+
+    public function clearNewMessageNotifications() {
 
     }
 }

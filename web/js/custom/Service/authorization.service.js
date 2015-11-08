@@ -1,9 +1,9 @@
 (function (angular) {
     angular.module('NaiduSvoe').factory('authorizationService', Service);
 
-    Service.$inject = ['$http', '$rootScope', '$timeout', '$location', '$translate', 'notify', '$q', 'redirectService', 'spinner'];
+    Service.$inject = ['$http', '$rootScope', '$timeout', '$location', '$translate', 'notify', '$q', 'redirectService', 'spinner', '$route'];
 
-    function Service($http, $rootScope, $timeout, $location, $translate, notify, $q, redirector, spinner) {
+    function Service($http, $rootScope, $timeout, $location, $translate, notify, $q, redirector, spinner, $route) {
         var self = this;
         this.user = null;
         this.init = true;
@@ -13,13 +13,14 @@
             self.user = user;
             self.init = false;
             self.authPromise = null;
-            $location.url('/cabinet');
+            $route.reload();
         });
 
         $rootScope.$on('SessionLogout', function () {
             self.init = true;
             self.authPromise = null;
-            $location.url('/');
+            self.user = null;
+            $route.reload();
         });
 
         $rootScope.$on('UserFetched', function (event, user) {
@@ -41,10 +42,12 @@
                 return checkSession(true);
             },
             'login': function (data) {
+                var defer = $q.defer();
                 if (self.authPromise !== null) {
-                    return self.authPromise;
+                    self.authPromise.success(function (response) {
+                        defer.resolve(response.user);
+                    });
                 } else {
-                    var defer = $q.defer();
                     var promise = $http.post(Routing.generate('login'), data);
                     spinner.addPromise(promise);
                     self.authPromise = promise;
@@ -59,22 +62,24 @@
 
                         self.authPromise = null;
                     });
-
-                    return defer.promise;
                 }
+
+                return defer.promise;
             },
-            'loginOAuth': function (data) {
-                var promise = $http.post(Routing.generate('oauth-login'), data);
-                spinner.addPromise(promise);
+            'loginOAuth': function (data, credentials) {
+                var defer = $q.defer();
+                var post = { 'data': data, 'credentials': credentials };
+                var promise = $http.post(Routing.generate('oauth-login'), post);
                 promise.success(function (response) {
-                    if (response.status === 'success') {
-                        defer.resolve(true);
+                    if (response.status === 'ok') {
+                        defer.resolve(response);
                         $rootScope.$broadcast('SessionLogin', response.user);
-                    } else {
-                        defer.resolve(false);
-                        handleError(response);
+                    } else if (response.status === 'credential_required') {
+                        defer.resolve(response);
                     }
                 });
+
+                return defer.promise;
             },
             'logout': function () {
                 var promise = $http.get(Routing.generate('logout'));
@@ -111,8 +116,8 @@
         return factory;
 
         function checkSession(recent) {
+            var defer = $q.defer();
             if (self.authPromise === null) {
-                var defer = $q.defer();
                 if (angular.isUndefined(recent) || self.init === true) {
                     var promise = $http.get(Routing.generate('get-user'));
                     self.authPromise = promise;
@@ -125,11 +130,13 @@
                 } else {
                     defer.resolve(self.user);
                 }
-
-                return defer.promise;
             } else {
-                return self.authPromise;
+                self.authPromise.success(function (response) {
+                    defer.resolve(response.user);
+                });
             }
+
+            return defer.promise;
         }
 
         function checkResponse(response, remote) {

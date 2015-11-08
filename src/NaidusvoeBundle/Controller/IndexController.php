@@ -70,18 +70,18 @@ class IndexController extends Controller
 
         $response = $this->get('naidusvoe.recaptcha')->verify($publicKey, $data['captcha']);
         if ($response['success'] !== true) {
-            return new JsonResponse([ 'status' => 'failed', 'reason' => 'captcha' ]);
+            return new JsonResponse([ 'status' => 'error', 'message' => 'WRONG_CAPTCHA' ]);
         }
 
         $user = $em->getRepository('NaidusvoeBundle:User')->findOneBy(['email' => $data['email']]);
         if ($user === null) {
-            return new JsonResponse([ 'status' => 'failed', 'reason' => 'user not found' ]);
+            return new JsonResponse([ 'status' => 'error', 'message' => 'USER_NOT_FOUND' ]);
         } else if ($user->getActive() === false) {
-            return new JsonResponse([ 'status' => 'failed', 'reason' => 'user not active' ]);
+            return new JsonResponse([ 'status' => 'error', 'message' => 'USER_NOT_ACTIVE' ]);
         }
 
         if ($this->get('naidusvoe.user')->forceSignIn($request, $user, $data['password']) === false) {
-            return new JsonResponse([ 'status' => 'failed', 'reason' => 'wrong password' ]);
+            return new JsonResponse([ 'status' => 'error', 'message' => 'WRONG_PASSWORD' ]);
         } else {
             return new JsonResponse([ 'status' => 'success', 'user' => $user->getInArray() ]);
         }
@@ -101,16 +101,16 @@ class IndexController extends Controller
 
         $response = $this->get('naidusvoe.recaptcha')->verify($publicKey, $data['captcha']);
         if ($response['success'] !== true) {
-            return new JsonResponse([ 'status' => 'failed', 'reason' => 'captcha' ]);
+            return new JsonResponse([ 'status' => 'error', 'message' => 'WRONG_CAPTCHA' ]);
         }
 
         if ($data['pass'] !== $data['rpass']) {
-            return new JsonResponse([ 'status' => 'failed', 'reason' => 'password not match' ]);
+            return new JsonResponse([ 'status' => 'error', 'message' => 'PASSWORDS_NOT_MATCH' ]);
         }
 
         $user = $em->getRepository('NaidusvoeBundle:User')->findOneBy(['email' => $data['email']]);
         if ($user !== null) {
-            return new JsonResponse([ 'status' => 'failed', 'reason' => 'user exist' ]);
+            return new JsonResponse([ 'status' => 'error', 'message' => 'USER_ALREADY_EXIST' ]);
         } else {
             $this->get('naidusvoe.user')->signUp($data['email'], $data['pass'], $data['name']);
             return new JsonResponse([ 'status' => 'success']);
@@ -132,13 +132,17 @@ class IndexController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function facebookLogin(Request $request) {
+    public function oAuthLogin(Request $request) {
         $data = json_decode($request->getContent(), true);
         /** @var User|null $user */
-        $user = $this->get('naidusvoe.user')->oAuthLogin($request, $data);
+        $result = $this->get('naidusvoe.user')->oAuthLogin($request, $data);
 
-        if ($user !== null) {
+        if ($result === true) {
+            /** @var User $user */
+            $user = $this->get('security.token_storage')->getToken()->getUser();
             return new JsonResponse([ 'status' => 'ok', 'user' => $user->getInArray() ]);
+        } else if ($result === 'credentials') {
+            return new JsonResponse([ 'status' => 'credential_required' ]);
         } else {
             return new JsonResponse([ 'status' => 'error', 'message' => 'AUTH_FAILED' ]);
         }

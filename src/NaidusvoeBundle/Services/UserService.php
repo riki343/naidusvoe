@@ -43,10 +43,16 @@ class UserService {
      * @param Request $request
      * @param User $user
      * @param string $password
+     * @param boolean $oAuth
      * @return boolean
      */
-    public function forceSignIn(Request $request, User $user, $password) {
-        $password = $this->encoderFactory->getEncoder($user)->encodePassword($password, $user->getSalt());
+    public function forceSignIn(Request $request, User $user, $password, $oAuth = false) {
+        if ($oAuth === false) {
+            $password = $this->encoderFactory->getEncoder($user)->encodePassword($password, $user->getSalt());
+        } else {
+            $password = $user->getPassword();
+        }
+
         if ($password === $user->getPassword()) {
             $token = new UsernamePasswordToken($user, $user->getPassword(), "secured_area", $user->getRoles());
             $this->tokenStorage->setToken($token);
@@ -97,19 +103,25 @@ class UserService {
         return $user;
     }
 
-    public function oAuthLogin(Request $request, $response) {
+    public function oAuthLogin(Request $request, $data) {
+        $response = $data['data'];
+        $credentials = $data['credentials'];
         $user = $this->entityManager->getRepository('NaidusvoeBundle:User')->findOneBy([
             $response['resource'] => $response['resourceId']
         ]);
 
         if ($user === null) {
-            $user = $this->signUp(
-                $response['email'], User::generatePassword(),
-                $response['name'], $response['resource'],
-                $response['resourceId']
-            );
+            if ($credentials !== null) {
+                $user = $this->signUp(
+                    $credentials['email'], User::generatePassword(),
+                    $credentials['name'], $response['resource'],
+                    $response['resourceId']
+                );
+            } else {
+                return 'credentials';
+            }
         }
 
-        return $this->forceSignIn($request, $user, $response['resourceId'] . $response['email']);
+        return $this->forceSignIn($request, $user, null, true);
     }
 }
