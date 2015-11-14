@@ -1,14 +1,15 @@
 (function (angular) {
     angular.module('NaiduSvoe').controller('cabinetController', cabinetController);
 
-    cabinetController.$inject = [ '$scope', '$http', 'notify', '$translate', 'spinner' ];
+    cabinetController.$inject = [ '$scope', '$http', 'notify', '$translate', 'spinner', 'notificationsService' ];
 
-    function cabinetController ($scope, $http, notify, $translate, spinner) {
+    function cabinetController ($scope, $http, notify, $translate, spinner, notifications) {
         var self = this;
 
         this.user = {};
         this.advs = [];
         this.currentRating = 0;
+        this.notifications = {};
 
         $scope.$on('AdvDeleted', function (event, data) {
             self.advs.splice(self.advs.indexOf(data), 1);
@@ -21,6 +22,7 @@
                 self.user = response.user;
                 self.advs = response.advs;
             });
+            self.notifications = notifications.getNotifications();
         };
 
         $('#change-avatar-input').on('change', function (event) {

@@ -4,6 +4,7 @@ namespace NaidusvoeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * Notification
  *
@@ -12,6 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Notification
 {
+    const CONVERSATION_NOTIFICATION = "CONVERSATION_NOTIFICATION";
+    const SIMPLE_NOTIFICATION = "SIMPLE_NOTIFICATION";
+
     /**
      * @var integer
      *
@@ -24,7 +28,7 @@ class Notification
     /**
      * @var integer
      *
-     * @ORM\Column(name="initiator_id", type="integer")
+     * @ORM\Column(name="initiator_id", type="integer", nullable=true)
      */
     private $initiatorId;
 
@@ -38,28 +42,56 @@ class Notification
     /**
      * @var integer
      *
-     * @ORM\Column(name="conversation_id", type="integer")
+     * @ORM\Column(name="conversation_id", type="integer", nullable=true)
      */
     private $conversationId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="message_id", type="integer")
+     * @ORM\Column(name="message_id", type="integer", nullable=true)
      */
     private $messageId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content", type="string")
+     */
+    private $content;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string")
+     */
+    private $type;
 
     /**
      * @param User $user
      * @param User $initiator
      */
-    public function __construct(User $user = null, User $initiator = null) {
+    public function __construct($type, User $user = null, User $initiator = null) {
+        $this->type = $type;
         if ($user !== null) {
             $this->userId = $user->getId();
         }
         if ($initiator !== null) {
             $this->initiatorId = $initiator->getId();
         }
+    }
+
+    public function getInArray()
+    {
+        return [
+            'id' => $this->getId(),
+            'initiatorId' => $this->getInitiatorId(),
+            'userId' => $this->getUserId(),
+            'conversationId' => $this->getConversationId(),
+            'messageId' => $this->getMessageId(),
+            'content' => $this->getContent(),
+            'type' => $this->getType()
+        ];
     }
 
     /**
@@ -162,5 +194,51 @@ class Notification
     public function getMessageId()
     {
         return $this->messageId;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     * @return Notification
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string 
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Notification
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

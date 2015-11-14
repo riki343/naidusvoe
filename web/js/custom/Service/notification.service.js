@@ -72,7 +72,7 @@
 
         function dispatchNotification(notification) {
             switch (notification.type) {
-                case 1:
+                case "SIMPLE_NOTIFICATION":
                     $rootScope.$broadcast('NewMessageNotification', notification);
                     break;
                 default: break;
