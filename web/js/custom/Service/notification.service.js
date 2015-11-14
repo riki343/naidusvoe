@@ -15,7 +15,7 @@
         });
 
         $rootScope.$on('SessionLogout', function () {
-            self.checkHandler.clear();
+            $interval.cancel(self.checkHandler);
             self.checkHandler = null;
         });
 
@@ -50,7 +50,7 @@
                         self.checkHandler = $interval(checkNotifications, 10000);
                     }
                 } else if (self.checkHandler !== null) {
-                    self.checkHandler.clear();
+                     $interval.cancel(self.checkHandler);
                     self.checkHandler = null;
                 }
             });

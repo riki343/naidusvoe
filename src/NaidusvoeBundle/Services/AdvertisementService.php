@@ -2,12 +2,14 @@
 
 namespace NaidusvoeBundle\Services;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use NaidusvoeBundle\Entity\Advertisment;
 use NaidusvoeBundle\Entity\Attachment;
 
 class AdvertisementService
 {
+    const TOP_ADV_COUNT = 5;
     /** @var EntityManager $em */
     private $em;
 
@@ -16,12 +18,14 @@ class AdvertisementService
     }
 
     public function getTopAdvs($typeId) {
+
         $qb = $this->em->createQueryBuilder();
-        $best = $qb
+        /** @var array $advs */
+        $advs = $qb
             ->select('a')
             ->from('NaidusvoeBundle:Advertisment', 'a')
             ->where($qb->expr()->andX(
-                $qb->expr()->eq('a.categoryTop', 1),
+                $qb->expr()->isNotNull('a.onTopUntill'),
                 $qb->expr()->eq('a.typeID', $typeId)
             ))
             ->getQuery()
@@ -30,10 +34,10 @@ class AdvertisementService
 
         $type = $this->em->find('NaidusvoeBundle:AdvertismentType', $typeId);
 
-        if ($count = count($best) > 5) {
-            $best = $this->getRandom($best, 5);
-        } else if ($count = count($best) < 5) {
-            for ($i = 0; $i < 5 - $count; $i++) {
+        $advsCount = count($advs);
+        $best = $this->getRandom($advs, AdvertisementService::TOP_ADV_COUNT);
+        if ($advsCount < 5) {
+            for ($i = 0; $i < 5 - $advsCount; $i++) {
                 $newAdv = new Advertisment();
                 $newAdv->setTitle('Ваша реклама');
                 $attachment = new Attachment();
@@ -50,19 +54,17 @@ class AdvertisementService
         return $best;
     }
 
+    /**
+     * @param array $array
+     * @param integer $count
+     * @return array
+     */
     private function getRandom($array, $count) {
         $newBest = [];
-        $used    = [];
         srand((new \DateTime())->getTimestamp());
+        $count = (($arrayCount = count($array)) >= $count) ? $count : $arrayCount;
+        shuffle($array);
         for ($i = 0; $i < $count; $i++) {
-            $index = -1;
-            while(true) {
-                $index = rand(0, $count - 1);
-                if (!in_array($index, $used)) {
-                    $used[] = $index;
-                    break;
-                }
-            }
             $newBest[] = $array[$i];
         }
 

@@ -1,0 +1,9 @@
+{% extends '@Naidusvoe/email.html.twig' %}
+
+{% block emailMsg %}
+    <p>
+        Оплата додаткових послуг для оголошення
+        <a href="{{ url('advertisement-page', { 'type': adv.type.slug, 'adv_id': adv.id }) }}">{{ adv.title }}</a>,
+        виконана успішно. Вибрані вами послуги активовані.
+    </p>
+{% endblock %}

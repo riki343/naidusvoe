@@ -1,0 +1,12 @@
+{% extends '@Naidusvoe/email.html.twig' %}
+
+{% block emailMsg %}
+    <p>Вітаємо, ви успішно зареєструвались на <a href="{{ url('naidusvoe_homepage') }}">Znaidusvoe.com</a></p>
+    <br>
+    <p>Дані для входу на сайті</p>
+    <ul>
+        <li><b>Email:</b> {{ email }}</li>
+        <li><b>Пароль:</b> {{ password }}</li>
+    </ul>
+    <p>Якщо ви реєструвались за допомогою соціальних мереж, ви можете ввійти через одну з них</p>
+{% endblock %}

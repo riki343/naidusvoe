@@ -41,8 +41,7 @@
   "SEND_MESSAGE_HEADER": "Відправити повідомлення",
   "TRADER_HEADER": "Продавець",
   "LOGIN_HEADER": "Вхід",
-  "VK_HEADER": "Ввійти через Вконтакті",
-  "FACEBOOK_HEADER": "Ввійти через Facebook",
+  "SOCIAL_HEADER": "Ввійти через",
   "ADVERTISMENT_HEADER": "Оголошення",
   "NO_ADVERTISMENTS_HEADER": "У вас немає оголошень",
   "FAVORITES_HEADER": "Обране",
@@ -136,5 +135,7 @@
   "Loading...": "Зачекайте будь-ласка...",
   "TOTAL_PAYVAL": "Всього до сплати",
   "INFORMATION": "Інформація",
-  "ADDITIONAL_FEATURES": "Додаткові послуги"
+  "ADDITIONAL_FEATURES": "Додаткові послуги",
+  "RESTORE": "Відновити",
+  "RECOVER_PASSWORD_BEGIN": "На ваш email було відправлено посилланя за яким ви можете відновити свій пароль"
 }

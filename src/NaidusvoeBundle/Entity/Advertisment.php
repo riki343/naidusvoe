@@ -143,63 +143,33 @@ class Advertisment
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="advertisment_on_main_page", type="datetime", nullable=true, options={"default"=null})
-     */
-    private $advertismentOnMainPage;
-
-    /**
-     * @var \DateTime
      * @ORM\Column(name="on_main_untill", type="datetime", nullable=true, options={"default"=null})
      */
     private $onMainUntill;
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="advertisment_block", type="datetime", nullable=true, options={"default"=null})
+     * @ORM\Column(name="on_top_untill", type="datetime", nullable=true, options={"default"=null})
      */
-    private $advertismentBlock;
+    private $onTopUntill;
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="on_advertisement_block_untill", type="datetime", nullable=true, options={"default"=null})
+     * @ORM\Column(name="filled_untill", type="datetime", nullable=true, options={"default"=null})
      */
-    private $onAdvertisementBlockUntill;
+    private $filledUntill;
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="color_highlight", type="datetime", nullable=true, options={"default"=null})
+     * @ORM\Column(name="urgent_untill", type="datetime", nullable=true, options={"default"=null})
      */
-    private $colorHighlight;
+    private $urgentUntill;
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="on_color_highlight_untill", type="datetime", nullable=true, options={"default"=null})
+     * @ORM\Column(name="on_block_untill", type="datetime", nullable=true, options={"default"=null})
      */
-    private $onColorHighlightUntill;
-
-    /**
-     * @var \DateTime
-     * @ORM\Column(name="category_top", type="datetime", nullable=true, options={"default"=null})
-     */
-    private $categoryTop;
-
-    /**
-     * @var \DateTime
-     * @ORM\Column(name="on_category_top_untill", type="datetime", nullable=true, options={"default"=null})
-     */
-    private $onCategoryTopUntill;
-
-    /**
-     * @var \DateTime
-     * @ORM\Column(name="urgent", type="datetime", nullable=true, options={"default"=null})
-     */
-    private $urgent;
-
-    /**
-     * @var \DateTime
-     * @ORM\Column(name="on_urgent_untill", type="datetime", nullable=true, options={"default"=null})
-     */
-    private $onUrgentUntill;
+    private $onBlockUntill;
 
     /**
      * @var string
@@ -253,10 +223,6 @@ class Advertisment
         $this->skype = null;
         $this->date = new \DateTime();
         $this->attachments = new ArrayCollection();
-        $this->advertismentBlock = null;
-        $this->advertismentOnMainPage = null;
-        $this->colorHighlight = null;
-        $this->urgent = null;
         $this->orders = [];
         $this->payments = [];
         $this->conversations = [];
@@ -264,7 +230,11 @@ class Advertisment
     }
 
     public function getInArray() {
-        $now = new \DateTime();
+        $onMain = $this->getOnMainUntill();
+        $onTop  = $this->getOnTopUntill();
+        $filled = $this->getFilledUntill();
+        $urgent = $this->getUrgentUntill();
+        $block  = $this->getOnBlockUntill();
 
         return array(
             'id'                => $this->getId(),
@@ -281,16 +251,16 @@ class Advertisment
             'email'             => $this->getEmail(),
             'telephoneNumber'   => $this->getTelephoneNumber(),
             'skype'             => $this->getSkype(),
-            'advBlock'          => $this->getAdvertismentBlock(),
-            'advOnMain'         => $this->getAdvertismentOnMainPage(),
-            'advColor'          => $this->getColorHighlight(),
-            'advTop'            => $this->getCategoryTop(),
-            'urgent'            => $this->urgent,
             'city'              => $this->city,
             'region'            => (!$this->dummy) ? $this->region->getInArray() : null,
             'date'              => $this->date->format('m.d.Y'),
             'time'              => $this->date->format('H:i:s'),
             'dummy'             => ($this->dummy),
+            'onMain'            => ($onMain !== null) ? $onMain->format('d.m.Y') : null,
+            'onTop'             => ($onTop !== null)  ? $onTop->format('d.m.Y')  : null,
+            'filled'            => ($filled !== null) ? $filled->format('d.m.Y') : null,
+            'urgent'            => ($urgent !== null) ? $urgent->format('d.m.Y') : null,
+            'block'             => ($block !== null)  ? $block->format('d.m.Y')  : null,
         );
     }
 
@@ -349,6 +319,51 @@ class Advertisment
         }
         $query->orderBy('a.date', 'DESC');
         return $query->getQuery();
+    }
+
+    /**
+     * @param Order $order
+     * @return null|Advertisment
+     */
+    public function activateAdditionalFeatures(Order $order) {
+        $now = new \DateTime();
+        if ($order !== null) {
+            if ($order->getAdvOnMain() === true) {
+                $this->setOnMainUntill($now->modify('+' . $order->getAdvOnMainPeriod() . ' days'));
+            }
+
+            if ($order->getAdvOnTop() === true) {
+                $this->setOnTopUntill($now->modify('+' . $order->getAdvOnTopPeriod() . ' days'));
+            }
+
+            if ($order->getAdvFilled() === true) {
+                $this->setFilledUntill($now->modify('+' . $order->getAdvFilledPeriod() . ' days'));
+            }
+
+            if ($order->getAdvUrgent() === true) {
+                $this->setUrgentUntill($now->modify('+' . $order->getAdvUrgentPeriod() . ' days'));
+            }
+
+            if ($order->getAdvUpdate() === true) {
+                $this->setDate($now);
+            }
+
+            if ($order->getAdvBlock() === true) {
+                $this->setOnBlockUntill($now->modify('+' . $order->getAdvBlockPeriod() . ' days'));
+            }
+
+            return $this;
+        } else {
+            return null;
+        }
+    }
+
+    public function setDummy($isDummy) {
+        $this->dummy = $isDummy;
+    }
+
+    public function getDummy() {
+        return $this->dummy;
     }
 
     /**
@@ -428,6 +443,52 @@ class Advertisment
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set userID
+     *
+     * @param integer $userID
+     * @return Advertisment
+     */
+    public function setUserID($userID)
+    {
+        $this->userID = $userID;
+
+        return $this;
+    }
+
+    /**
+     * Get userID
+     *
+     * @return integer 
+     */
+    public function getUserID()
+    {
+        return $this->userID;
+    }
+
+    /**
+     * Set typeID
+     *
+     * @param integer $typeID
+     * @return Advertisment
+     */
+    public function setTypeID($typeID)
+    {
+        $this->typeID = $typeID;
+
+        return $this;
+    }
+
+    /**
+     * Get typeID
+     *
+     * @return integer 
+     */
+    public function getTypeID()
+    {
+        return $this->typeID;
     }
 
     /**
@@ -615,95 +676,187 @@ class Advertisment
     }
 
     /**
-     * Set advertismentOnMainPage
+     * Set onMainUntill
      *
-     * @param boolean $advertismentOnMainPage
+     * @param \DateTime $onMainUntill
      * @return Advertisment
      */
-    public function setAdvertismentOnMainPage($advertismentOnMainPage)
+    public function setOnMainUntill($onMainUntill)
     {
-        $this->advertismentOnMainPage = $advertismentOnMainPage;
+        $this->onMainUntill = $onMainUntill;
 
         return $this;
     }
 
     /**
-     * Get advertismentOnMainPage
+     * Get onMainUntill
      *
-     * @return boolean 
+     * @return \DateTime 
      */
-    public function getAdvertismentOnMainPage()
+    public function getOnMainUntill()
     {
-        return $this->advertismentOnMainPage;
+        return $this->onMainUntill;
     }
 
     /**
-     * Set advertismentBlock
+     * Set onTopUntill
      *
-     * @param boolean $advertismentBlock
+     * @param \DateTime $onTopUntill
      * @return Advertisment
      */
-    public function setAdvertismentBlock($advertismentBlock)
+    public function setOnTopUntill($onTopUntill)
     {
-        $this->advertismentBlock = $advertismentBlock;
+        $this->onTopUntill = $onTopUntill;
 
         return $this;
     }
 
     /**
-     * Get advertismentBlock
+     * Get onTopUntill
      *
-     * @return boolean 
+     * @return \DateTime 
      */
-    public function getAdvertismentBlock()
+    public function getOnTopUntill()
     {
-        return $this->advertismentBlock;
+        return $this->onTopUntill;
     }
 
     /**
-     * Set colorHighlight
+     * Set filledUntill
      *
-     * @param boolean $colorHighlight
+     * @param \DateTime $filledUntill
      * @return Advertisment
      */
-    public function setColorHighlight($colorHighlight)
+    public function setFilledUntill($filledUntill)
     {
-        $this->colorHighlight = $colorHighlight;
+        $this->filledUntill = $filledUntill;
 
         return $this;
     }
 
     /**
-     * Get colorHighlight
+     * Get filledUntill
      *
-     * @return boolean 
+     * @return \DateTime 
      */
-    public function getColorHighlight()
+    public function getFilledUntill()
     {
-        return $this->colorHighlight;
+        return $this->filledUntill;
     }
 
     /**
-     * Set categoryTop
+     * Set urgentUntill
      *
-     * @param boolean $categoryTop
+     * @param \DateTime $urgentUntill
      * @return Advertisment
      */
-    public function setCategoryTop($categoryTop)
+    public function setUrgentUntill($urgentUntill)
     {
-        $this->categoryTop = $categoryTop;
+        $this->urgentUntill = $urgentUntill;
 
         return $this;
     }
 
     /**
-     * Get categoryTop
+     * Get urgentUntill
      *
-     * @return boolean 
+     * @return \DateTime 
      */
-    public function getCategoryTop()
+    public function getUrgentUntill()
     {
-        return $this->categoryTop;
+        return $this->urgentUntill;
+    }
+
+    /**
+     * Set onBlockUntill
+     *
+     * @param \DateTime $onBlockUntill
+     * @return Advertisment
+     */
+    public function setOnBlockUntill($onBlockUntill)
+    {
+        $this->onBlockUntill = $onBlockUntill;
+
+        return $this;
+    }
+
+    /**
+     * Get onBlockUntill
+     *
+     * @return \DateTime 
+     */
+    public function getOnBlockUntill()
+    {
+        return $this->onBlockUntill;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     * @return Advertisment
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string 
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set regionId
+     *
+     * @param integer $regionId
+     * @return Advertisment
+     */
+    public function setRegionId($regionId)
+    {
+        $this->regionId = $regionId;
+
+        return $this;
+    }
+
+    /**
+     * Get regionId
+     *
+     * @return integer 
+     */
+    public function getRegionId()
+    {
+        return $this->regionId;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \NaidusvoeBundle\Entity\User $user
+     * @return Advertisment
+     */
+    public function setUser(\NaidusvoeBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \NaidusvoeBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 
     /**
@@ -832,127 +985,12 @@ class Advertisment
     }
 
     /**
-     * Set typeID
-     *
-     * @param integer $typeID
-     * @return Advertisment
-     */
-    public function setTypeID($typeID)
-    {
-        $this->typeID = $typeID;
-
-        return $this;
-    }
-
-    /**
-     * Get typeID
-     *
-     * @return integer 
-     */
-    public function getTypeID()
-    {
-        return $this->typeID;
-    }
-
-    /**
-     * Set userID
-     *
-     * @param integer $userID
-     * @return Advertisment
-     */
-    public function setUserID($userID)
-    {
-        $this->userID = $userID;
-
-        return $this;
-    }
-
-    /**
-     * Get userID
-     *
-     * @return integer 
-     */
-    public function getUserID()
-    {
-        return $this->userID;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \NaidusvoeBundle\Entity\User $user
-     * @return Advertisment
-     */
-    public function setUser(\NaidusvoeBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \NaidusvoeBundle\Entity\User 
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Set city
-     *
-     * @param string $city
-     * @return Advertisment
-     */
-    public function setCity($city)
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    /**
-     * Get city
-     *
-     * @return string 
-     */
-    public function getCity()
-    {
-        return $this->city;
-    }
-
-    /**
-     * Set urgent
-     *
-     * @param \DateTime $urgent
-     * @return Advertisment
-     */
-    public function setUrgent($urgent)
-    {
-        $this->urgent = $urgent;
-
-        return $this;
-    }
-
-    /**
-     * Get urgent
-     *
-     * @return \DateTime 
-     */
-    public function getUrgent()
-    {
-        return $this->urgent;
-    }
-
-    /**
      * Set region
      *
-     * @param string $region
+     * @param \NaidusvoeBundle\Entity\Region $region
      * @return Advertisment
      */
-    public function setRegion($region)
+    public function setRegion(\NaidusvoeBundle\Entity\Region $region = null)
     {
         $this->region = $region;
 
@@ -962,7 +1000,7 @@ class Advertisment
     /**
      * Get region
      *
-     * @return string 
+     * @return \NaidusvoeBundle\Entity\Region 
      */
     public function getRegion()
     {
@@ -1003,26 +1041,36 @@ class Advertisment
     }
 
     /**
-     * Set regionId
+     * Add favorites
      *
-     * @param integer $regionId
+     * @param \NaidusvoeBundle\Entity\Favorites $favorites
      * @return Advertisment
      */
-    public function setRegionId($regionId)
+    public function addFavorite(\NaidusvoeBundle\Entity\Favorites $favorites)
     {
-        $this->regionId = $regionId;
+        $this->favorites[] = $favorites;
 
         return $this;
     }
 
     /**
-     * Get regionId
+     * Remove favorites
      *
-     * @return integer 
+     * @param \NaidusvoeBundle\Entity\Favorites $favorites
      */
-    public function getRegionId()
+    public function removeFavorite(\NaidusvoeBundle\Entity\Favorites $favorites)
     {
-        return $this->regionId;
+        $this->favorites->removeElement($favorites);
+    }
+
+    /**
+     * Get favorites
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFavorites()
+    {
+        return $this->favorites;
     }
 
     /**
@@ -1089,169 +1137,5 @@ class Advertisment
     public function getPayments()
     {
         return $this->payments;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isDummy()
-    {
-        return $this->dummy;
-    }
-
-    /**
-     * @param boolean $dummy
-     */
-    public function setDummy($dummy)
-    {
-        $this->dummy = $dummy;
-    }
-
-    /**
-     * Add favorites
-     *
-     * @param \NaidusvoeBundle\Entity\Favorites $favorites
-     * @return Advertisment
-     */
-    public function addFavorite(\NaidusvoeBundle\Entity\Favorites $favorites)
-    {
-        $this->favorites[] = $favorites;
-
-        return $this;
-    }
-
-    /**
-     * Remove favorites
-     *
-     * @param \NaidusvoeBundle\Entity\Favorites $favorites
-     */
-    public function removeFavorite(\NaidusvoeBundle\Entity\Favorites $favorites)
-    {
-        $this->favorites->removeElement($favorites);
-    }
-
-    /**
-     * Get favorites
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getFavorites()
-    {
-        return $this->favorites;
-    }
-
-    /**
-     * Set onMainUntill
-     *
-     * @param \DateTime $onMainUntill
-     * @return Advertisment
-     */
-    public function setOnMainUntill($onMainUntill)
-    {
-        $this->onMainUntill = $onMainUntill;
-
-        return $this;
-    }
-
-    /**
-     * Get onMainUntill
-     *
-     * @return \DateTime 
-     */
-    public function getOnMainUntill()
-    {
-        return $this->onMainUntill;
-    }
-
-    /**
-     * Set onAdvertisementBlockUntill
-     *
-     * @param \DateTime $onAdvertisementBlockUntill
-     * @return Advertisment
-     */
-    public function setOnAdvertisementBlockUntill($onAdvertisementBlockUntill)
-    {
-        $this->onAdvertisementBlockUntill = $onAdvertisementBlockUntill;
-
-        return $this;
-    }
-
-    /**
-     * Get onAdvertisementBlockUntill
-     *
-     * @return \DateTime 
-     */
-    public function getOnAdvertisementBlockUntill()
-    {
-        return $this->onAdvertisementBlockUntill;
-    }
-
-    /**
-     * Set onColorHighlightUntill
-     *
-     * @param \DateTime $onColorHighlightUntill
-     * @return Advertisment
-     */
-    public function setOnColorHighlightUntill($onColorHighlightUntill)
-    {
-        $this->onColorHighlightUntill = $onColorHighlightUntill;
-
-        return $this;
-    }
-
-    /**
-     * Get onColorHighlightUntill
-     *
-     * @return \DateTime 
-     */
-    public function getOnColorHighlightUntill()
-    {
-        return $this->onColorHighlightUntill;
-    }
-
-    /**
-     * Set onCategoryTopUntill
-     *
-     * @param \DateTime $onCategoryTopUntill
-     * @return Advertisment
-     */
-    public function setOnCategoryTopUntill($onCategoryTopUntill)
-    {
-        $this->onCategoryTopUntill = $onCategoryTopUntill;
-
-        return $this;
-    }
-
-    /**
-     * Get onCategoryTopUntill
-     *
-     * @return \DateTime 
-     */
-    public function getOnCategoryTopUntill()
-    {
-        return $this->onCategoryTopUntill;
-    }
-
-    /**
-     * Set onUrgentUntill
-     *
-     * @param \DateTime $onUrgentUntill
-     * @return Advertisment
-     */
-    public function setOnUrgentUntill($onUrgentUntill)
-    {
-        $this->onUrgentUntill = $onUrgentUntill;
-
-        return $this;
-    }
-
-    /**
-     * Get onUrgentUntill
-     *
-     * @return \DateTime 
-     */
-    public function getOnUrgentUntill()
-    {
-        return $this->onUrgentUntill;
     }
 }

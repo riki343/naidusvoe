@@ -6,6 +6,9 @@ services:
             - @security.token_storage
             - @event_dispatcher
             - @doctrine.orm.entity_manager
+            - @mailer
+            - %system_mail%
+            - @twig
 
     naidusvoe.recaptcha:
         class: NaidusvoeBundle\Services\GoogleRecaptchaService

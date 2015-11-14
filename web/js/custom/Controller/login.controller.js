@@ -2,47 +2,22 @@
     angular.module('NaiduSvoe').controller('loginController', Controller);
 
     Controller.$inject = [
-        '$scope', '$location', 'authorizationService', 'spinner', '$window', '$timeout', 'vkApiKey', 'fbApiKey'
+        '$scope', '$location', 'authorizationService', 'spinner'
     ];
 
-    function Controller($scope, $location, auth, spinner, $window, $timeout, vkKey, fbKey) {
+    function Controller($scope, $location, auth, spinner) {
 
         var self = this;
         var currentSocial = null;
         var modalContainer = angular.element('body').find('div#credentials-modal');
-        var asyncContainer = angular.element('body').find('div#async-scripts');
+        var passwordModalContainer = angular.element('body').find('div#password-recovery-modal');
 
         if (angular.isUndefined(self.captcha)) {
             this.captcha = {};
         }
 
         this.credentials = { 'email': '', 'name': '', 'captcha': '' };
-
-        $window.vkAsyncInit = function() {
-            VK.init({ 'apiId': vkKey });
-        };
-
-        $window.fbAsyncInit = function() {
-            FB.init({ 'appId': fbKey, 'xfbml' : true, 'version' : 'v2.5' });
-        };
-
-        // Async load facebook API
-        $timeout(function() {
-            var facebook = angular.element("<script></script>");
-            facebook.attr('type', "text/javascript");
-            facebook.attr('src', "//connect.facebook.net/en_US/all.js");
-            facebook.attr('async', true);
-            asyncContainer.append(facebook);
-        }, 0);
-
-        // Async load vkontakte API
-        $timeout(function() {
-            var vk = angular.element("<script></script>");
-            vk.attr('type', "text/javascript");
-            vk.attr('src', "http://vk.com/js/api/openapi.js");
-            vk.attr('async', true);
-            asyncContainer.append(vk);
-        }, 0);
+        this.resetModel = { 'email': '' };
 
         this.login = function (data) {
             var promise = auth.login(data);
@@ -54,20 +29,39 @@
             });
         };
 
-        function generateFacebookAuthRequest(response) {
+        this.generateResetPasswordToken = function (model) {
+            var promise = auth.resetPassword(model.email);
+            promise.then(function (result) {
+                if (result === true) {
+                    passwordModalContainer.modal('hide');
+                }
+            });
+        };
+
+        function generateFacebookAuthRequest(session) {
             return {
                 'resource': 'facebook',
-                'resourceId': response.authResponse.userID
+                'resourceId': session.userID
             }
         }
 
         function checkFbResponse(response) {
             if (response.status === 'connected') {
-
+                var promise = auth.loginOAuth(generateFacebookAuthRequest(FB.getAuthResponse()), null);
+                promise.then(function (localResponse) {
+                    if (localResponse.status === 'credential_required') {
+                        $scope.$broadcast('FbCredentialsRequired');
+                    }
+                });
             } else {
                 FB.login(function(response) {
                     if (response.authResponse) {
-
+                        var promise = auth.loginOAuth(generateFacebookAuthRequest(FB.getAuthResponse()), null);
+                        promise.then(function (localResponse) {
+                            if (localResponse.status === 'credential_required') {
+                                $scope.$broadcast('FbCredentialsRequired');
+                            }
+                        });
                     }
                 }, {scope: 'email'});
             }
@@ -76,6 +70,33 @@
         this.fbLogin = function () {
             FB.getLoginStatus(checkFbResponse);
         };
+
+        $scope.$on('FbCredentialsRequired', function (event, data) {
+            var session = FB.getAuthResponse();
+            if (session) {
+                FB.api("/me",
+                    function (response) {
+                        if (response && !response.error) {
+                            var missingSomething = false;
+                            if (response.email) {
+                                self.credentials.email = response.email;
+                            } else {
+                                missingSomething = true;
+                            }
+
+                            self.credentials.name = response.name;
+                            currentSocial = 'facebook';
+
+                            if (missingSomething === true) {
+                                modalContainer.modal({'show': true, 'backdrop': 'static'});
+                            } else {
+                                self.signUpOAuth(self.credentials);
+                            }
+                        }
+                    }
+                );
+            }
+        });
 
         function generateVKAuthRequest(session) {
             return {
@@ -135,10 +156,19 @@
 
 
         this.signUpOAuth = function (credentials) {
-            if (currentSocial === 'vkontakte'){
-                request = generateVKAuthRequest(VK.Auth.getSession());
+            var request = null;
+            switch (currentSocial) {
+                case 'vkontakte':
+                    request = generateVKAuthRequest(VK.Auth.getSession());
+                    break;
+                case 'facebook':
+                    request = generateFacebookAuthRequest(FB.getAuthResponse());
+                    break;
             }
-            auth.loginOAuth(request, credentials);
+            var promise = auth.loginOAuth(request, credentials);
+            promise.then(function (response) {
+
+            });
         };
 
         this.signup = function () {

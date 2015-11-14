@@ -8,6 +8,7 @@ use NaidusvoeBundle\Entity\Payment;
 use NaidusvoeBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -60,6 +61,7 @@ class PayController extends Controller
                 'order_id'       => $hash,
                 'sandbox'        => 1,
                 'pay_way'        => $order->getPayWay(),
+                'server_url'     => $this->generateUrl('confirm-payment-callback', [ 'hash' => $hash ], UrlGeneratorInterface::ABSOLUTE_URL),
                 'result_url'     => $this->generateUrl('confirm-payment', [ 'hash' => $hash ], UrlGeneratorInterface::ABSOLUTE_URL)
             ));
 
@@ -105,8 +107,11 @@ class PayController extends Controller
                 case '3ds_verify':
                 case 'wait_secure':
                 case 'wait_accept':
-                case 'processing':
+                case 'processing':  break;
+                default:            break;
             }
+
+            return new JsonResponse(['status' => 'error', 'message' => 'PAYMENT_FAILED']);
         } else {
             return new JsonResponse(['status' => 'ok', 'details' => $payment->getDetails()]);
         }
@@ -116,9 +121,36 @@ class PayController extends Controller
      * @Route("/api/pay/confirm-callback/{hash}", name="confirm-payment-callback", options={"expose"=true})
      * @param Request $request
      * @param string $hash
+     * @return Response
      */
     public function callbackConfirmOrder(Request $request, $hash) {
+        $res = json_decode(base64_decode($request->request->get('data')), true);
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+        $order = $em->getRepository('NaidusvoeBundle:Order')->findOneBy(['hash' => $hash]);
+        if ($order !== null) {
+            $payment = $em->getRepository('NaidusvoeBundle:Payment')->findOneBy(['hash' => $hash]);
+            if ($payment === null) {
+                switch ($res['status']) {
+                    case 'success':
+                    case 'sandbox':
+                        return $this->handleConfirmation($order, $res);
+                    case 'failure':
+                    case 'error':
+                    case '3ds_verify':
+                    case 'wait_secure':
+                    case 'wait_accept':
+                    case 'processing':  break;
+                    default:            break;
+                }
 
+                return new JsonResponse(['status' => 'error', 'message' => 'PAYMENT_FAILED']);
+            } else {
+                return new JsonResponse(['status' => 'ok', 'details' => $payment->getDetails()]);
+            }
+        } else {
+            return new JsonResponse(null);
+        }
     }
 
     /**
@@ -135,8 +167,28 @@ class PayController extends Controller
                 $em->persist($payment);
                 $order->setStatus('confirmed');
                 $em->persist($order);
+
+                $adv = $em->find('NaidusvoeBundle:Advertisment', $order->getAdvertisementId());
+                $adv = $adv->activateAdditionalFeatures($order);
+
+                if ($adv !== null) {
+                    $em->persist($adv);
+                }
+
                 $em->flush();
             }
+
+            $mailer = $this->get('mailer');
+            /** @var \Swift_Message $message */
+            $message = $mailer->createMessage();
+            $message->setTo($order->getUser()->getEmail());
+            $message->setFrom($this->container->getParameter('system_mail'));
+            $message->setSubject('Оплата додаткових послуг на сайті Znaidusvoe.com');
+            $message->setBody($this->get('twig')->render(
+                '@Naidusvoe/payment-success.email.html.twig', [
+                'adv' => $order->getAdvertisement()
+            ]), 'text/html');
+            $mailer->send($message);
 
             return new JsonResponse([ 'status' => 'ok', 'details' => $details ]);
         } else {

@@ -2,68 +2,78 @@
     <h1 class="podaty" align="center">
         Увійти
     </h1>
-    <form ng-submit="login.login(login.credentials)" name="loginForm" id="pod-og" novalidate>
-        <ul class="pod-form">
-            <li class="value" style="line-height: 2.8em;">
-                Email:
-            </li>
-            <li class="input">
-                <input type="email"
-                       class="form-input"
-                       ng-model="login.credentials.email"
-                       required
-                       placeholder="[[ 'EMAIL_PLACEHOLDER' | translate ]]"
-                       name="username">
-            </li>
 
-            <li class="value" style="line-height: 2.8em;">
-                [[ 'PASSWORD' | translate ]]
-            </li>
-            <li class="input">
-                <input class="form-input" type="password"
-                       ng-model="login.credentials.password"
-                       ng-minlength="5"
-                       required
-                       placeholder="[[ 'PASSWORD_PLACEHOLDER' | translate ]]"
-                       name="password">
-            </li>
+    <div id="pod-og">
+        <form ng-submit="login.login(login.credentials)" name="loginForm" novalidate>
+            <ul class="pod-form">
+                <li class="value" style="line-height: 2.8em;">
+                    Email:
+                </li>
+                <li class="input">
+                    <input type="email"
+                           class="form-input"
+                           ng-model="login.credentials.email"
+                           required
+                           placeholder="[[ 'EMAIL_PLACEHOLDER' | translate ]]"
+                           name="username">
+                </li>
 
-            <li class="input sto" style="text-align: center;">
-                <div style="display: inline-block;">
-                    <no-captcha
-                            g-recaptcha-response="login.credentials.captcha"
-                            theme='light'
-                            control="login.captcha"
-                            site-key="6LeAmw8TAAAAABnJ-CyDKBVRYBe5_b4Mrrcx2XuE">
-                    </no-captcha>
-                </div>
-            </li>
+                <li class="value" style="line-height: 2.8em;">
+                    [[ 'PASSWORD' | translate ]]
+                </li>
+                <li class="input">
+                    <input class="form-input" type="password"
+                           ng-model="login.credentials.password"
+                           ng-minlength="5"
+                           required
+                           placeholder="[[ 'PASSWORD_PLACEHOLDER' | translate ]]"
+                           name="password">
+                </li>
 
-            <li class="input" style="text-align: center; width: 100%;">
-                <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-warning" name="login">[[ 'BUTTON_LOGIN' | translate ]]</button>
-                <button type="button" ng-click="login.signup();" class="btn btn-success">[[ 'BUTTON_SIGNUP' | translate ]]</button>
-            </li>
-        </ul>
-    </form>
+                <li class="input sto" style="text-align: center;">
+                    <div style="display: inline-block;">
+                        <no-captcha
+                                g-recaptcha-response="login.credentials.captcha"
+                                theme='light'
+                                control="login.captcha"
+                                site-key="6LeAmw8TAAAAABnJ-CyDKBVRYBe5_b4Mrrcx2XuE">
+                        </no-captcha>
+                    </div>
+                </li>
+
+                <li class="input" style="text-align: center; width: 100%;">
+                    <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-warning" name="login">[[ 'BUTTON_LOGIN' | translate ]]</button>
+                    <button type="button" ng-click="login.signup();" class="btn btn-success">[[ 'BUTTON_SIGNUP' | translate ]]</button>
+                    <button type="button" data-target="#password-recovery-modal" data-toggle="modal" class="btn btn-warning">Забув пароль</button>
+                </li>
+            </ul>
+        </form>
+    </div>
+
+    <div class="clearfix"></div>
 
     <div class="row">
         <div class="col-md-offset-3 col-md-6 col-xs-offset-2 col-xs-8">
             <div class="row">
-                <div class="col-xs-4">
-                    <p>[[ 'VK_HEADER' | translate ]]</p>
-                    <div class="btn-group">
-                        <a ng-click="login.vkLogin()" href="javascript:void(0);" class="btn btn-primary">
+                <div class="col-xs-12">
+
+                </div>
+
+                <div class="col-sm-4 col-xs-12">
+                    <p>
+                        [[ 'SOCIAL_HEADER' | translate ]]
+                        <a ng-click="login.vkLogin()" href="javascript:void(0);">
                             Vkontakte
                         </a>
-                    </div>
+                    </p>
                 </div>
-                <div class="col-xs-4">
-                    <p>[[ 'FB_HEADER' | translate ]]</p>
-                    <div class="btn-group">
-                        <a ng-click="login.fbLogin();" href="javascript:void(0);" class="btn btn-primary">
+                <div class="col-sm-4 col-xs-12">
+                    <p>
+                        [[ 'SOCIAL_HEADER' | translate ]]
+                        <a ng-click="login.fbLogin();" href="javascript:void(0);">
                             Facebook
                         </a>
-                    </div>
+                    </p>
                 </div>
             </div>
         </div>
@@ -94,7 +104,37 @@
                     <button type="button" ng-click="login.signUpOAuth(login.credentials);" class="btn btn-warning">
                         [[ 'ACCEPT' | translate ]]
                     </button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal">[[ 'CLOSE' | translate ]]</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">[[ 'BUTTON_CLOSE' | translate ]]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="password-recovery-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">Введіть свій email</h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="pod-form" style="width: 100%; margin: 0 auto;">
+                        <li class="input" style="width: 100%;">
+                            <input type="email"
+                                   class="form-input"
+                                   ng-model="login.resetModel.email"
+                                   required
+                                   placeholder="[[ 'EMAIL_PLACEHOLDER' | translate ]]"
+                                   name="email">
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" ng-click="login.generateResetPasswordToken(login.resetModel);" class="btn btn-warning">
+                        [[ 'RESTORE' | translate ]]
+                    </button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">[[ 'BUTTON_CLOSE' | translate ]]</button>
                 </div>
             </div>
         </div>

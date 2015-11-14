@@ -1,12 +1,16 @@
 <button title="[[ 'DELETE_ADV' | translate ]]" type="button" class="close" ng-show="showDelButton" ng-click="deleteUserAdv(adv);">&times;</button>
 <button title="[[ 'DELETE_FAV' | translate ]]" type="button" class="close" ng-show="showDelFromFavButton" ng-click="deleteFromFavs(adv);">&times;</button>
 
+<div class="o-cell date">
+    <p></p>
+</div>
+
 <div class="o-cell photo">
     <img ng-src="[[ ::adv.attachments[0].image ]]" alt="[[ ::adv.title ]]" style="height: 100px;">
 </div>
 
 <div class="o-cell info">
-    <h2>
+    <h2 ng-class="{ 'term': (adv.urgent !== null) }">
         <a ng-href="[[ ::adv.href ]]">
             [[ ::adv.title ]]
         </a>
@@ -17,10 +21,4 @@
 
 <div class="o-cell price">
     <p ng-show="adv.price">[[ adv.price + ' ' + adv.priceType.name ]]</p>
-    <!--<ul class="reit">-->
-        <!--<li class="wote"></li>-->
-        <!--<li class="comment">-->
-            <!--<a href="#"></a>-->
-        <!--</li>-->
-    <!--</ul>-->
 </div>

@@ -16,10 +16,12 @@
         $interpolateProvider.endSymbol(']]');
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
         $httpProvider.defaults.useXDomain = true;
+
+        // Register interceptor services
         $httpProvider.interceptors.push('errorInterceptorService');
 
         noCAPTCHAProvider.setTheme('light');
-        noCAPTCHAProvider.setSiteKey('6LeAmw8TAAAAABnJ-CyDKBVRYBe5_b4Mrrcx2XuE');
+        noCAPTCHAProvider.setSiteKey('6LeAmw8TAAAAAGyX-P1jTg13C_GMvdRdJOKNpacc');
 
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|data):/);
 

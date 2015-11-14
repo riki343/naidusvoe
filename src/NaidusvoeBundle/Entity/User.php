@@ -119,15 +119,8 @@ class User extends OAuthUser implements UserInterface, \Serializable
     private $avatar;
 
     /**
-     * @var int
-     * @ORM\Column(name="language_id", type="integer", nullable=true, options={"default" = null})
-     */
-    private $languageid;
-
-    /**
-     * @var Language
-     * @ORM\ManyToOne(targetEntity="Language")
-     * @ORM\JoinColumn(name="language_id", referencedColumnName="id")
+     * @var string
+     * @ORM\Column(name="language", type="string", length=5, options={"default" = "ua"})
      */
     private $language;
 
@@ -206,6 +199,12 @@ class User extends OAuthUser implements UserInterface, \Serializable
     private $payments;
 
     /**
+     * @var string
+     * @ORM\Column(name="confirmation_token", type="string", length=1000, nullable=true)
+     */
+    private $confirmationToken;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -213,8 +212,6 @@ class User extends OAuthUser implements UserInterface, \Serializable
         parent::__construct(null);
         $this->roles = new ArrayCollection();
         $this->name = null;
-        $this->language = null;
-        $this->languageid = null;
         $this->deleted = false;
         $this->advertisments = new ArrayCollection();
         $this->rating = 0;
@@ -222,8 +219,15 @@ class User extends OAuthUser implements UserInterface, \Serializable
         $this->votes = [];
         $this->orders = [];
         $this->payments = [];
-        $this->avatar = '/css/img/icon-user-default.png';
-        $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        if ($this->avatar === null) {
+            $this->avatar = '/css/img/icon-user-default.png';
+        }
+        $this->salt = User::generateToken();
+        $this->language = 'ua';
+    }
+
+    public static function generateToken() {
+        return base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
     }
 
     /**
@@ -390,7 +394,7 @@ class User extends OAuthUser implements UserInterface, \Serializable
             $this->active,
             $this->salt,
             $this->regionID,
-            $this->languageid,
+            $this->language,
             $this->city,
             $this->regionID,
             $this->votesCount,
@@ -414,7 +418,7 @@ class User extends OAuthUser implements UserInterface, \Serializable
             $this->active,
             $this->salt,
             $this->regionID,
-            $this->languageid,
+            $this->language,
             $this->city,
             $this->regionID,
             $this->votesCount,
@@ -434,16 +438,15 @@ class User extends OAuthUser implements UserInterface, \Serializable
         $numbers = '01234567899876543210';
 
         for ($i = 0; $i < 5; $i++) {
-            $pass .= $alhabet[rand(0, 42)];
+            $pass .= $alhabet[rand(0, strlen($alhabet) - 1)];
         }
 
         for ($i = 0; $i < 2; $i++) {
-            $pass .= $numbers[rand(0, 20)];
+            $pass .= $numbers[rand(0, strlen($numbers) - 1)];
         }
 
         return $pass;
     }
-
 
     /**
      * Get id
@@ -702,26 +705,26 @@ class User extends OAuthUser implements UserInterface, \Serializable
     }
 
     /**
-     * Set languageid
+     * Set language
      *
-     * @param integer $languageid
+     * @param string $language
      * @return User
      */
-    public function setLanguageid($languageid)
+    public function setLanguage($language)
     {
-        $this->languageid = $languageid;
+        $this->language = $language;
 
         return $this;
     }
 
     /**
-     * Get languageid
+     * Get language
      *
-     * @return integer 
+     * @return string 
      */
-    public function getLanguageid()
+    public function getLanguage()
     {
-        return $this->languageid;
+        return $this->language;
     }
 
     /**
@@ -886,6 +889,29 @@ class User extends OAuthUser implements UserInterface, \Serializable
     }
 
     /**
+     * Set confirmationToken
+     *
+     * @param string $confirmationToken
+     * @return User
+     */
+    public function setConfirmationToken($confirmationToken)
+    {
+        $this->confirmationToken = $confirmationToken;
+
+        return $this;
+    }
+
+    /**
+     * Get confirmationToken
+     *
+     * @return string 
+     */
+    public function getConfirmationToken()
+    {
+        return $this->confirmationToken;
+    }
+
+    /**
      * Add roles
      *
      * @param \NaidusvoeBundle\Entity\Role $roles
@@ -929,29 +955,6 @@ class User extends OAuthUser implements UserInterface, \Serializable
     public function getSettings()
     {
         return $this->settings;
-    }
-
-    /**
-     * Set language
-     *
-     * @param \NaidusvoeBundle\Entity\Language $language
-     * @return User
-     */
-    public function setLanguage(\NaidusvoeBundle\Entity\Language $language = null)
-    {
-        $this->language = $language;
-
-        return $this;
-    }
-
-    /**
-     * Get language
-     *
-     * @return \NaidusvoeBundle\Entity\Language 
-     */
-    public function getLanguage()
-    {
-        return $this->language;
     }
 
     /**

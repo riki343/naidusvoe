@@ -32,7 +32,7 @@
 
         $rootScope.$on('RegistrationSuccess', function () {
             $translate('USER_ADDED').then(function (val) {
-                notify(val);
+                notify({ 'message': val, 'duration': 15000 });
             });
             $location.url('/login');
         });
@@ -76,6 +76,9 @@
                         $rootScope.$broadcast('SessionLogin', response.user);
                     } else if (response.status === 'credential_required') {
                         defer.resolve(response);
+                    } else if (response.status === 'registered') {
+                        defer.resolve(response);
+                        $rootScope.$broadcast('RegistrationSuccess');
                     }
                 });
 
@@ -108,6 +111,24 @@
                 } else {
                     return self.user;
                 }
+            },
+            'resetPassword': function (email) {
+                var defer = $q.defer();
+                var promise = $http.get(Routing.generate('generate-reset-password-token',
+                    { 'email': email })
+                );
+                promise.success(function (response) {
+                    if (response.status === 'ok') {
+                        defer.resolve(true);
+                        $translate('RECOVER_PASSWORD_BEGIN').then(function (val) {
+                            notify({ 'message': val, 'duration': 10000});
+                        });
+                    } else {
+                        defer.resolve(false);
+                    }
+                });
+
+                return defer.promise;
             }
         };
 

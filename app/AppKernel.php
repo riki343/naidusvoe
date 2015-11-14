@@ -19,7 +19,6 @@ class AppKernel extends Kernel
 
             new Yucca\PrerenderBundle\YuccaPrerenderBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
 

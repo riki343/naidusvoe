@@ -1,0 +1,8 @@
+{% extends '@Naidusvoe/email.html.twig' %}
+
+{% block emailMsg %}
+    <p>
+        Для підтвердження вашого email перейдіть за наступним посиланням
+        <a href="{{ url('email-confirmation', { 'token': token }) }}">Підтвердити!</a>
+    </p>
+{% endblock %}

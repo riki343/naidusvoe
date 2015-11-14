@@ -21,6 +21,7 @@
             $element.css('overflow', 'hidden');
             $element.addClass('o-row');
 
+
             $scope.adv = $scope.advert;
             if ($scope.adv.dummy === true) {
                 $scope.adv.href = '/v_pizdu'
@@ -28,7 +29,7 @@
                 $scope.adv.href = '/advertisement/' + $scope.adv.type.slug + '/' + $scope.adv.id;
             }
 
-            if ($scope.adv.advColor === true) {
+            if ($scope.adv.filled !== null) {
                 $element.addClass('yellow');
             }
 
