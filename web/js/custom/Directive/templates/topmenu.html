@@ -9,7 +9,7 @@
             <li><a class="punkt-3" ng-href="/advertisements/found">[[ 'BUTTON_CATEGORY_FOUND' | translate ]]</a></li>
             <li><a class="punkt-4" ng-href="/advertisements/gift">[[ 'BUTTON_CATEGORY_GIFT' | translate ]]</a></li>
 
-            <li ng-show="user !== null"><a class="punkt-5" ng-href="/cabinet">[[ 'NAV_CABINET' | translate ]]</a></li>
+            <li ng-show="user !== null"><a class="punkt-5" ng-href="/cabinet">[[ 'NAV_CABINET' | translate ]] <span ng-show="notifications">[[notifications]]</span></a></li>
             <li ng-show="user !== null">
                 <a class="punkt-6" href="javascript:void(0);" ng-click="logout();">
                     [[ 'NAV_EXIT' | translate ]]

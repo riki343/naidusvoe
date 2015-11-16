@@ -63,7 +63,7 @@
                     angular.forEach(notifications, function (val) {
                         if (findById(val, this) !== null) {
                             dispatchNotification(val);
-                            this.push(val);
+                            self.notifications.push(val);
                         }
                     }, self.notifications);
                 }
@@ -71,8 +71,9 @@
         }
 
         function dispatchNotification(notification) {
+            console.log(notification.type);
             switch (notification.type) {
-                case "SIMPLE_NOTIFICATION":
+                case "CONVERSATION_NOTIFICATION":
                     $rootScope.$broadcast('NewMessageNotification', notification);
                     break;
                 default: break;
@@ -80,10 +81,12 @@
         }
 
         function findById(item, array) {
+            if(array.length === 0){
+                return item;
+            }
             var element = null;
-
             for (var i in array) {
-                if (array[i].id === item.id) {
+                if (array[i].id !== item.id) {
                     element = array[i];
                     break;
                 }

@@ -28,28 +28,28 @@ class Notification
     /**
      * @var integer
      *
-     * @ORM\Column(name="initiator_id", type="integer", nullable=true)
+     * @ORM\Column(name="initiatorId", type="integer", nullable=true)
      */
     private $initiatorId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Column(name="userId", type="integer")
      */
     private $userId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="conversation_id", type="integer", nullable=true)
+     * @ORM\Column(name="conversationId", type="integer", nullable=true)
      */
     private $conversationId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="message_id", type="integer", nullable=true)
+     * @ORM\Column(name="messageId", type="integer", nullable=true)
      */
     private $messageId;
 

@@ -12,9 +12,11 @@ parameters:
     mailer_password: "micro*org"
     mailer_auth_mode: login
     mailer_encryption: ssl
+    system_mail: ~
     locale: en
     secret: 33b4a86e3ae8872ff48f624cc386073211edda33
     app_vk_id: '5133169'
     app_vk_key: xGRkodvYsmFRjSMfMRxN
     app_fb_id: '401831443348487'
     app_fb_key: e672c040faaeff2775e97f534f87926a
+    recaptcha_key: '6LeAmw8TAAAAAGyX-P1jTg13C_GMvdRdJOKNpacc'

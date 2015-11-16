@@ -43,17 +43,17 @@ class Notifier
             {
                 $notification->setConversationId($notificationDetails['conversationId']);
                 $notification->setMessageId($notificationDetails['messageId']);
-                $notification->setContent("You get private message from user ");
-                $userInitiator = $notificationDetails['userInitiator'];
-                $initiator = $userInitiator->getUsername();
-                $notification->setInitiatorId($userInitiator->getId());
+                $notification->setContent("You got private message from user");
+                $userInitiatorId = $notificationDetails['userInitiatorId'];
+                $initiator = $this->em->find('NaidusvoeBundle::User', $userInitiatorId)->getUsername();
+                $notification->setInitiatorId($userInitiatorId);
             }
             $this->em->persist($notification);
             $this->em->flush();
             if($user->getSettings()->getNotificationsEmail())
             {
                 $message = \Swift_Message::newInstance()
-                    ->setSubject('Hello Email')
+                    ->setSubject('You have some new notification')
                     ->setFrom('send@example.com')
                     ->setTo($user->getEmail())
                     ->setBody(

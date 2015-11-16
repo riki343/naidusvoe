@@ -25,7 +25,7 @@ class NotificationsController extends Controller
     public function index() {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $data = $em->getRepository('NaidusvoeBundle:Notification')->findAll(['user_id'=>$user->getId()]);
+        $data = $em->getRepository('NaidusvoeBundle:Notification')->findBy(['userId'=>$user->getId()]);
         $result= [];
         foreach($data as $notification)
         {

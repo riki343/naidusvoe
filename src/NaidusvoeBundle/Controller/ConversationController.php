@@ -3,6 +3,7 @@
 namespace NaidusvoeBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
+use NaidusvoeBundle\Entity\Notification;
 use NaidusvoeBundle\Entity\Advertisment;
 use NaidusvoeBundle\Entity\Attachment;
 use NaidusvoeBundle\Entity\Conversation;
@@ -41,6 +42,16 @@ class ConversationController extends Controller {
         }
         try {
             $message = Message::addNewMessage($em, $conversation->getId(), $user->getId(), $message);
+            $userRecipient = $conversation->getUser2();
+            $this->get('naidusvoe.notifier')->addNotification(
+                [$userRecipient],
+                Notification::CONVERSATION_NOTIFICATION,
+                [
+                    'conversationId' => $conversation->getId(),
+                    'messageId' => $message->getId(),
+                    'userInitiatorId' => $user->getId()
+                ]
+            );
             Conversation::updateConversation($em, $conversation->getId());
         } catch (\Exception $ex) {
             $from = 'class: Message, function: addNewMessage';

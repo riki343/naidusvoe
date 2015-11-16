@@ -1,9 +1,10 @@
 (function (angular) {
     angular.module('NaiduSvoe').directive('topMenu', Directive);
 
-    Directive.$inject = ['authorizationService'];
+    Directive.$inject = ['authorizationService', '$rootScope'];
 
-    function Directive(auth) {
+    function Directive(auth, $rootScope) {
+        this.notifications = 0;
         return {
             'templateUrl': '/js/custom/Directive/templates/topmenu.html',
             'link': Link,
@@ -11,6 +12,7 @@
         };
 
         function Link($scope, $element, $attrs) {
+            $scope.notifications = 0;
             auth.getUser().then(function (response) {
                 $scope.user = response;
             });
@@ -25,6 +27,10 @@
 
             $scope.$on('SessionLogin', function (event, user) {
                 $scope.user = user;
+            });
+
+            $rootScope.$on('NewMessageNotification', function (event, notification) {
+                $scope.notifications = $scope.notifications + 1;
             });
         }
     }
