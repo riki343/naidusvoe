@@ -1,9 +1,9 @@
 (function (angular) {
     angular.module('NaiduSvoe').factory('notificationsService', Service);
 
-    Service.$inject = ['$rootScope', '$http', '$interval', 'authorizationService', '$translate', 'notify', '$timeout'];
+    Service.$inject = ['$rootScope', '$http', '$interval', 'authorizationService', '$translate', 'notify', '$timeout', '$q'];
 
-    function Service($rootScope, $http, $interval, auth, $translate, notify, $timeout) {
+    function Service($rootScope, $http, $interval, auth, $translate, notify, $timeout, $q) {
         var self = this;
         this.notifications = [];
         this.checkHandler = null;
@@ -45,18 +45,21 @@
             var promise = auth.getUser();
             promise.then(function (user) {
                 if (user !== null) {
-                    checkForUser();
-                    if (self.checkHandler === null) {
+                    var promise = checkForUser();
+                    promise.then(function () {
+                        $interval.cancel(self.checkHandler);
+                        self.checkHandler = null;
                         self.checkHandler = $timeout(checkNotifications, 20000);
-                    }
+                    });
                 } else if (self.checkHandler !== null) {
-                     $interval.cancel(self.checkHandler);
+                    $interval.cancel(self.checkHandler);
                     self.checkHandler = null;
                 }
             });
         }
 
         function checkForUser() {
+            var defer = $q.defer();
             var promise = $http.get(Routing.generate('get-notifications'));
             promise.success(function (notifications) {
                 if (self.notifications.length === 0 || (notifications.length > 0 && notifications[0].id !== self.notifications[0].id)) {
@@ -67,7 +70,9 @@
                         }
                     }, self.notifications);
                 }
+                defer.resolve();
             });
+            return defer.promise;
         }
 
         function dispatchNotification(notification) {

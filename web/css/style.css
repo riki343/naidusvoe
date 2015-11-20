@@ -225,18 +225,20 @@ header > nav > ul.menu > li > a:hover {
 	margin-right: 2px;
 }
 .rubryka > nav >ul.menu > li > p {
-	display: block;
-	width: 200px;
-	padding: 0 60px 0 60px;
-	margin: 0 0 15px 0;
-	font-size: 16px;
+    display: block;
+    width: 200px;
+    padding: 0 60px 0 60px;
+    margin: 15px 0;
+    font-size: 14px;
+    height: 56px;
+    text-overflow: ellipsis;
 }
 .rubryka > nav >ul.menu > li > a {
 	display: block;
 	width: 200px;
 	height: 24px;
 	margin: 0 auto;
-	padding-top: 3px;
+	padding-top: 7px;
 	text-align: center;
 	color: #fff;
 	font-weight: bold;
@@ -390,7 +392,8 @@ ul.profile-menu > li {
 ul.profile-menu > li > a {
 	display: block;
 	width: 100%;
-	font-size: 20px;
+	font-size: 14px;
+    line-height: 1.8em;
 	margin-top: 6px;
 	margin-right: 7px;
 	text-align: center;
@@ -1811,7 +1814,8 @@ ul.edit-menu > li.active, ul.edit-menu > li:hover {
 ul.edit-menu > li > a {
 	display: block;
 	width: 100%;
-	font-size: 22px;
+	font-size: 14px;
+    line-height: 2em;
 	color: #555555;
 }
 form#edit-kontakt, form#edit-passw, form#edit-mail, form#edit-emess, form#edit-sms, form#delite {
@@ -2269,7 +2273,7 @@ ul.pod-form > li.zagol > h2 {
         float: left;
         width: 100%;
         height: auto;
-
+        min-height: initial;
         background-image: none;
         background-position: bottom left;
         background-repeat: no-repeat;
@@ -2431,7 +2435,7 @@ ul.pod-form > li.zagol > h2 {
         float: left;
         width: 69%;
         height: auto;
-        min-height: 126px;
+        min-height: 175px;
         border: solid 0 transparent;
         box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
         padding: 0 0 0 31%;
@@ -2460,8 +2464,8 @@ ul.pod-form > li.zagol > h2 {
         display: block;
         width: 100%;
         padding: 0;
-        margin: 0;
-        font-size: 18px;
+        margin-top: 10px;
+        font-size: 16px;
     }
 
     .rubryka > nav > ul.menu > li > a {
@@ -2661,7 +2665,8 @@ ul.pod-form > li.zagol > h2 {
     ul.profile-menu > li > a {
         display: block;
         width: 100%;
-        font-size: 20px;
+        font-size: 14px;
+        line-height: 1.8em;
         margin-top: 6px;
         margin-right: 7px;
         text-align: center;
@@ -4310,7 +4315,8 @@ ul.pod-form > li.zagol > h2 {
     ul.edit-menu > li > a {
         display: block;
         width: 100%;
-        font-size: 22px;
+        font-size: 14px;
+        line-height: 2em;
         color: #555555;
     }
 

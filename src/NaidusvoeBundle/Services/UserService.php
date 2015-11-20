@@ -40,8 +40,6 @@ class UserService {
     /** @var Logger $logger */
     private $logger;
 
-    private $mailerLogger;
-
     /**
      * @param EncoderFactoryInterface $encoderFactory
      * @param TokenStorage $tokenStorage
@@ -64,9 +62,6 @@ class UserService {
         $this->systemMail       = $sysMail;
         $this->twig             = $twig;
         $this->logger           = $logger;
-        $mailLogger = new \Swift_Plugins_Loggers_EchoLogger();
-        $this->mailerLogger = new \Swift_Plugins_LoggerPlugin($mailLogger);
-        $this->mailer->registerPlugin($this->mailerLogger);
     }
 
     /**
@@ -306,6 +301,8 @@ class UserService {
     }
 
     private function sendMail($message) {
+        ob_start();
         $this->mailer->send($message);
+        ob_get_clean();
     }
 }

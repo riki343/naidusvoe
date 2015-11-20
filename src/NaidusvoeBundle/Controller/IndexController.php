@@ -37,7 +37,8 @@ class IndexController extends Controller
      * @Route("/advertisement/{type}/{adv_id}/additional-features", requirements={"adv_id"="\d+"})
      * @Route("/pay/confirm/{hash}", name="confirm-payment")
      * @Route("/email-confirm-success", name="email-confirm-success")
-     * @Route("/email-confirm-failed" , name="email-confirm-failed" )
+     * @Route("/email-confirm-failed" , name="email-confirm-failed")
+     * @Route("/set-new-password"     , name="set-new-password")
      * @return Response
      */
     public function indexAction()
@@ -205,8 +206,8 @@ class IndexController extends Controller
         ]);
 
         if ($user !== null) {
-            $user->setConfirmationToken(User::generateToken());
-            return new JsonResponse(['status' => 'ok']);
+            $this->get('naidusvoe.user')->generatePasswordResetToken($user);
+            return new JsonResponse(['status' => 'ok'], 200, []);
         } else {
             return new JsonResponse([
                 'status' => 'error', 'message' => 'USER_NOT_FOUND'
@@ -224,7 +225,7 @@ class IndexController extends Controller
         $user = $this->getDoctrine()->getManager()->getRepository('NaidusvoeBundle:User')->findOneBy([
             'confirmationToken' => $token
         ]);
-        if ($user === true) {
+        if ($user !== null) {
             $this->get('session')->set('password-token', $token);
             return $this->redirectToRoute('set-new-password');
         } else {
@@ -233,7 +234,7 @@ class IndexController extends Controller
     }
 
     /**
-     * @Route("/confirm/reset-password", name="set-new-pass")
+     * @Route("/confirm/reset-password", name="set-new-pass", options={"expose"=true})
      * @param Request $request
      * @return JsonResponse
      */
