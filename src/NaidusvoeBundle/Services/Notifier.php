@@ -72,19 +72,17 @@ class Notifier
         }
     }
 
-    public function RemoveNotifications($user, $notificationType, $notificationDetails){
+    public function removeNotifications($user, $notificationType, $notificationDetails){
         if($notificationType===Notification::CONVERSATION_NOTIFICATION)
         {
             $conversationId = $notificationDetails['conversation_id'];
-            $messageId = $notificationDetails['message_id'];
-            $this->qb->delete('Notification', 'n')
-                ->where('n.user_id=:uid')
+            $query = $this->qb->delete('NaidusvoeBundle:Notification', 'n')
+                ->where('n.userId=:uid')
                 ->setParameter('uid',$user->getId())
-                ->andWhere('n.conversation_id=:convid')
+                ->andWhere('n.conversationId=:convid')
                 ->setParameter('convid', $conversationId)
-                ->andWhere('n.message_id=:message_id')
-                ->setParameter('message_id',$messageId)
                 ->getQuery();
+            $query->execute();
         }
     }
 }

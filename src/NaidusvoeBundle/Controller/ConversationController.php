@@ -84,10 +84,16 @@ class ConversationController extends Controller {
         $user = $this->getUser();
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
+        /** @var Conversation $conversation */
         $conversation = $em->find('NaidusvoeBundle:Conversation', $conv_id);
         if ($conversation->getUser1ID() == $user->getId() || $conversation->getUser2ID() == $user->getId()) {
             $jsonConv = $conversation->getInArray($user);
             Conversation::setViewed($em, $conversation->getMessages(), $user);
+            $this->get('naidusvoe.notifier')->removeNotifications(
+                $user,
+                Notification::CONVERSATION_NOTIFICATION,
+                ['conversation_id'=>$conversation->getId()]
+            );
             return new JsonResponse([ 'conversation' => $jsonConv, 'user' => $user->getInArray()]);
         } else {
             return new JsonResponse(false);

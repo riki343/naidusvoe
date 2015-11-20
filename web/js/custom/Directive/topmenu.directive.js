@@ -30,7 +30,14 @@
             });
 
             $rootScope.$on('NewMessageNotification', function (event, notification) {
-                $scope.notifications = $scope.notifications + 1;
+                if(notification!=null)
+                {
+                    $scope.notifications = $scope.notifications + 1;
+                }
+                else
+                {
+                    $scope.notifications = 0;
+                }
             });
         }
     }

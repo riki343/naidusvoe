@@ -70,6 +70,10 @@
                         }
                     }, self.notifications);
                 }
+                else
+                {
+                    $rootScope.$broadcast('NewMessageNotification',null);
+                }
                 defer.resolve();
             });
             return defer.promise;
