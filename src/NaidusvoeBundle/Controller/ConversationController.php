@@ -42,7 +42,9 @@ class ConversationController extends Controller {
         }
         try {
             $message = Message::addNewMessage($em, $conversation->getId(), $user->getId(), $message);
-            $userRecipient = $conversation->getUser2();
+            $userRecipient = $conversation->getUser1();
+            if($userRecipient->getId()===$user->getId())
+                $userRecipient = $conversation->getUser2();
             $this->get('naidusvoe.notifier')->addNotification(
                 [$userRecipient],
                 Notification::CONVERSATION_NOTIFICATION,

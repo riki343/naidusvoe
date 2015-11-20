@@ -29,12 +29,14 @@ class Notifier
         $this->templating = $container->get('templating');
     }
 
+
     public function addNotification($users, $notificationType, $notificationDetails) {
         /** @var User $user */
         foreach($users as $user)
         {
             $initiator = null;
             $notification = new Notification($notificationType, $user);
+            $notification->setUserId($user->getId());
             if($notificationType===Notification::SIMPLE_NOTIFICATION)
             {
                 $notification->setContent($notificationDetails['content']);
