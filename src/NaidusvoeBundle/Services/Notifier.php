@@ -30,6 +30,7 @@ class Notifier
     }
 
     public function addNotification($users, $notificationType, $notificationDetails) {
+        /** @var User $user */
         foreach($users as $user)
         {
             $initiator = null;
@@ -39,20 +40,21 @@ class Notifier
                 $notification->setContent($notificationDetails['content']);
                 $initiator = "Naidusvoe";
             }
-            if($notificationType===Notification::CONVERSATION_NOTIFICATION)
+            if($notificationType === Notification::CONVERSATION_NOTIFICATION)
             {
                 $notification->setConversationId($notificationDetails['conversationId']);
                 $notification->setMessageId($notificationDetails['messageId']);
                 $notification->setContent("You got private message from user");
                 $userInitiatorId = $notificationDetails['userInitiatorId'];
-                $initiator = $this->em->find('NaidusvoeBundle::User', $userInitiatorId)->getUsername();
+                $initiator = $this->em->find('NaidusvoeBundle:User', $userInitiatorId)->getUsername();
                 $notification->setInitiatorId($userInitiatorId);
             }
             $this->em->persist($notification);
             $this->em->flush();
             if($user->getSettings()->getNotificationsEmail())
             {
-                $message = \Swift_Message::newInstance()
+                /** @var \Swift_Message $message */
+                $message = $this->mailer->createMessage()
                     ->setSubject('You have some new notification')
                     ->setFrom('send@example.com')
                     ->setTo($user->getEmail())

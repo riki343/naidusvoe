@@ -38,7 +38,7 @@ class PayController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $user = $em->getReference('NaidusvoeBundle:User', $user->getId());
-        $adv  = $em->getReference('NaidusvoeBundle:Advertisment', $adv_id);
+        $adv  = $em->find('NaidusvoeBundle:Advertisment', $adv_id);
         $order = new Order($user, $adv);
         $hash = Order::generateHash($em, $user->getId(), $adv_id);
         $result = Order::CheckForm($data, $order);
@@ -62,7 +62,9 @@ class PayController extends Controller
                 'sandbox'        => 1,
                 'pay_way'        => $order->getPayWay(),
                 'server_url'     => $this->generateUrl('confirm-payment-callback', [ 'hash' => $hash ], UrlGeneratorInterface::ABSOLUTE_URL),
-                'result_url'     => $this->generateUrl('confirm-payment', [ 'hash' => $hash ], UrlGeneratorInterface::ABSOLUTE_URL)
+                'result_url'     => $this->generateUrl('advertisement-page', [
+                    'type' => $adv->getType()->getSlug(), 'adv_id' => $adv->getId()
+                ], UrlGeneratorInterface::ABSOLUTE_URL)
             ));
 
             return new JsonResponse([ 'status' => 'ok', 'form' => $html]);

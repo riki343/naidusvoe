@@ -1,16 +1,16 @@
 (function (angular) {
     angular.module('NaiduSvoe').factory('notificationsService', Service);
 
-    Service.$inject = ['$rootScope', '$http', '$interval', 'authorizationService', '$translate', 'notify'];
+    Service.$inject = ['$rootScope', '$http', '$interval', 'authorizationService', '$translate', 'notify', '$timeout'];
 
-    function Service($rootScope, $http, $interval, auth, $translate, notify) {
+    function Service($rootScope, $http, $interval, auth, $translate, notify, $timeout) {
         var self = this;
         this.notifications = [];
         this.checkHandler = null;
 
         $rootScope.$on('SessionLogin', function () {
             if (self.checkHandler === null) {
-                self.checkHandler = $interval(checkNotifications, 10000);
+                self.checkHandler = $timeout(checkNotifications, 20000);
             }
         });
 
@@ -34,7 +34,7 @@
             },
             'init': function () {
                 if (self.checkHandler === null) {
-                    self.checkHandler = $interval(checkNotifications, 10000);
+                    self.checkHandler = $timeout(checkNotifications, 20000);
                 }
             }
         };
@@ -47,7 +47,7 @@
                 if (user !== null) {
                     checkForUser();
                     if (self.checkHandler === null) {
-                        self.checkHandler = $interval(checkNotifications, 10000);
+                        self.checkHandler = $timeout(checkNotifications, 20000);
                     }
                 } else if (self.checkHandler !== null) {
                      $interval.cancel(self.checkHandler);

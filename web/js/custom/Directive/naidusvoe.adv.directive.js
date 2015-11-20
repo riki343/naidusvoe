@@ -13,24 +13,62 @@
                 'favId': '=favId',
                 'showDelButton': '=showDelButton',
                 'showDelFromFavButton': '=showDelFromFavButton',
-                'mini': '=mini'
+                'mini': '=mini',
+                'showUrgent': '=',
+                'showColor':  '=',
+                'titleSize':  '@',
+                'titleLineHeight': '@',
+                'descriptionSize': '@',
+                'citySize':  '@',
+                'imgWidth':  '@',
+                'infoWidth': '@',
+                'blockSize': '@'
             }
         };
 
         function link($scope, $element, $attr) {
-            $element.css('overflow', 'hidden');
             $element.addClass('o-row');
+            $element.css('overflow', 'hidden');
 
+            if (angular.isDefined($scope.blockSize)) {
+                $element.css('height', $scope.blockSize);
+            }
 
             $scope.adv = $scope.advert;
             if ($scope.adv.dummy === true) {
-                $scope.adv.href = '/v_pizdu'
+                $scope.adv.href = '#'
             } else {
                 $scope.adv.href = '/advertisement/' + $scope.adv.type.slug + '/' + $scope.adv.id;
             }
 
-            if ($scope.adv.filled !== null) {
+            if ($scope.adv.filled !== null && $scope.showColor === true) {
                 $element.addClass('yellow');
+            }
+
+            if (angular.isDefined($scope.titleSize)) {
+                $element.find('h2').css('font-size', $scope.titleSize);
+            }
+
+            if (angular.isDefined($scope.titleLineHeight)) {
+                $element.find('h2').css('line-height', $scope.titleLineHeight);
+            }
+
+            if (angular.isDefined($scope.descriptionSize)) {
+                $element.find('p.description').css('font-size', $scope.descriptionSize);
+            }
+
+            if (angular.isDefined($scope.imgWidth)) {
+                var imgContainer = $element.find('div.o-cell.photo');
+                imgContainer.css('width', $scope.imgWidth);
+                var newWidth = imgContainer.width() + 'px';
+                imgContainer.css('height', newWidth);
+                var img = $element.find('img');
+                img.css('width', newWidth);
+                img.css('height', newWidth);
+            }
+
+            if (angular.isDefined($scope.infoWidth)) {
+                $element.find('div.o-cell.info').css('width', $scope.infoWidth);
             }
 
             $scope.$watch('advert', function (val) {

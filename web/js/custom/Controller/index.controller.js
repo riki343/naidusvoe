@@ -1,29 +1,25 @@
 (function (angular) {
     angular.module('NaiduSvoe').controller('indexController', IndexController);
 
-    IndexController.$inject = ['$scope', '$http', 'spinner'];
-    function IndexController ($scope, $http, spinner) {
+    IndexController.$inject = ['$scope', '$http', 'spinner', '$location'];
+    function IndexController ($scope, $http, spinner, $location) {
         var self = this;
-        var dummyTrade = {
-            'title': '',
-            'description': '',
-            'attachments': [ { 'image': ''} ]
-        };
 
-        var dummyGift = {
-            'title': '',
-            'description': '',
-            'attachments': [ { 'image': ''} ]
-        };
-
-        var dummyFound = {
-            'title': '',
-            'description': '',
-            'attachments': [ { 'image': ''} ]
+        this.advs = {
+            'trade': [],
+            'find':  [],
+            'gift':  []
         };
 
         this.getMainAdvs = function () {
-
+            var promise = $http.get(Routing.generate('get-main-advs'));
+            promise.success(function (response) {
+                self.advs = response;
+            });
         };
+
+        this.goTo = function (category) {
+            $location.path(/advertisements/ + category);
+        }
     }
 })(angular);

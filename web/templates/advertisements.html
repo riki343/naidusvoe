@@ -89,11 +89,19 @@
                                   advert="adv"
                                   show-del-button="false"
                                   show-del-from-fav-button="false"
+                                  title-size="11px"
+                                  title-line-height="1.6em"
+                                  img-width="20%"
+                                  info-width="80%"
+                                  description-size="9px"
                                   mini="true">
                     </advertisment>
                 </div>
             </div>
         </div>
+
+        <div id="element-to-scroll"></div>
+
         <div id="info">
             <div ng-class="trade.advsView">
                 <div class="o-column">
@@ -109,21 +117,24 @@
                         </div>
                     </div>
 
-                    <div id="element-to-scroll"></div>
-
                     <advertisment ng-repeat="adv in advs"
                                   advert="adv"
                                   show-del-button="false"
                                   show-del-from-fav-button="false"
+                                  title-size="16px"
+                                  description-size="13px"
+                                  city-size="13px"
+                                  show-urgent="true"
+                                  show-color="true"
+                                  block-size="160px"
                                   mini="[[ trade.advsView !== 'o-table width-50' ]]">
                     </advertisment>
-
                 </div>
             </div>
 
             <div class="clearfix"></div>
 
-            <div style="text-align: center; width: 100%; background-color: whitesmoke">
+            <div style="text-align: center; width: 100%;">
                 <paginator data="data"></paginator>
             </div>
         </div>

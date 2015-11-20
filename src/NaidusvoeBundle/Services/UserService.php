@@ -3,6 +3,7 @@
 namespace NaidusvoeBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Monolog\Logger;
 use NaidusvoeBundle\Entity\Role;
 use NaidusvoeBundle\Entity\User;
 use NaidusvoeBundle\Entity\UserSettings;
@@ -36,6 +37,11 @@ class UserService {
     /** @var TwigEngine $twig */
     private $twig;
 
+    /** @var Logger $logger */
+    private $logger;
+
+    private $mailerLogger;
+
     /**
      * @param EncoderFactoryInterface $encoderFactory
      * @param TokenStorage $tokenStorage
@@ -44,10 +50,11 @@ class UserService {
      * @param \Swift_Mailer $mailer
      * @param string $sysMail
      * @param TwigEngine $twig
+     * @param Logger $logger
      */
     public function __construct(
         $encoderFactory, $tokenStorage, $eventDispatcher,
-        $entityManager, $mailer, $sysMail, $twig
+        $entityManager, $mailer, $sysMail, $twig, $logger
     ) {
         $this->encoderFactory   = $encoderFactory;
         $this->tokenStorage     = $tokenStorage;
@@ -56,6 +63,10 @@ class UserService {
         $this->mailer           = $mailer;
         $this->systemMail       = $sysMail;
         $this->twig             = $twig;
+        $this->logger           = $logger;
+        $mailLogger = new \Swift_Plugins_Loggers_EchoLogger();
+        $this->mailerLogger = new \Swift_Plugins_LoggerPlugin($mailLogger);
+        $this->mailer->registerPlugin($this->mailerLogger);
     }
 
     /**
@@ -73,6 +84,7 @@ class UserService {
         }
 
         if ($password === $user->getPassword()) {
+            $request->request->set('_remember_me', true);
             $token = new UsernamePasswordToken($user, $user->getPassword(), "secured_area", $user->getRoles());
             $this->tokenStorage->setToken($token);
             $event = new InteractiveLoginEvent($request, $token);
@@ -223,7 +235,7 @@ class UserService {
             )
         ;
 
-        $this->mailer->send($message);
+        $this->sendMail($message);
     }
 
     /**
@@ -247,7 +259,7 @@ class UserService {
             )
         ;
 
-        $this->mailer->send($message);
+        $this->sendMail($message);
     }
 
     /**
@@ -267,7 +279,7 @@ class UserService {
             )
         ;
 
-        $this->mailer->send($message);
+        $this->sendMail($message);
     }
 
     /**
@@ -290,6 +302,10 @@ class UserService {
             )
         ;
 
+        $this->sendMail($message);
+    }
+
+    private function sendMail($message) {
         $this->mailer->send($message);
     }
 }

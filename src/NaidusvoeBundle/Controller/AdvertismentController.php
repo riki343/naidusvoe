@@ -7,7 +7,6 @@ use NaidusvoeBundle\Entity\Advertisment;
 use NaidusvoeBundle\Entity\Attachment;
 use NaidusvoeBundle\Entity\Favorites;
 use NaidusvoeBundle\Entity\Functions;
-use NaidusvoeBundle\Entity\Rating;
 use NaidusvoeBundle\Entity\User;
 use NaidusvoeBundle\Entity\UserVote;
 use NaidusvoeBundle\Model\Paginator;
@@ -15,11 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class AdvertismentController extends Controller
 {
@@ -119,6 +114,7 @@ class AdvertismentController extends Controller
     }
 
     /**
+     * // TODO: check for expiration
      * @Route("/adv/get/{adv_id}", name="get-adv", options={"expose"=true})
      * @param int $adv_id
      * @return JsonResponse
@@ -138,6 +134,7 @@ class AdvertismentController extends Controller
     }
 
     /**
+     * // TODO: check for expiration
      * @Route("/get-advs/{type}/{filter}", name="get-advs", options={"expose"=true})
      * @param Request $request
      * @param string $type
@@ -161,7 +158,7 @@ class AdvertismentController extends Controller
         $categories = $em->getRepository('NaidusvoeBundle:AdvertismentCategory')
             ->findBy(array('typeID' => $typeID));
 
-        $bests = $this->get('naidusvoe.advertisement')->getTopAdvs($typeID);
+        $bests = $this->get('naidusvoe.advertisement')->getBestAdvs($typeID);
 
         return new JsonResponse(array(
             'advs' => $pager,
@@ -235,6 +232,19 @@ class AdvertismentController extends Controller
         }
 
         return new JsonResponse([ 'status' => 'error', 'message' => 'UNKNOWN_ERROR' ]);
+    }
+
+    /**
+     * @Route("/api/get-main-advs", name="get-main-advs", options={"expose" = true})
+     * @return JsonResponse
+     */
+    public function getAdvsOnMain() {
+        $advs = $this->get('naidusvoe.advertisement')->getMainAdvs();
+        $advs['trade'] = Functions::arrayToJson($advs['trade']);
+        $advs['find']  = Functions::arrayToJson($advs['find']);
+        $advs['gift']  = Functions::arrayToJson($advs['gift']);
+
+        return new JsonResponse($advs);
     }
 
     /**

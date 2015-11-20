@@ -9,6 +9,7 @@ services:
             - @mailer
             - %system_mail%
             - @twig
+            - @monolog.logger
 
     naidusvoe.recaptcha:
         class: NaidusvoeBundle\Services\GoogleRecaptchaService

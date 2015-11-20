@@ -1,4 +1,4 @@
-<div ng-controller="indexController as index">
+<div ng-controller="indexController as index" ng-init="index.getMainAdvs();">
     <div id="block-one">
         <div class="o-button">
             <a ng-href="/add-adv">+ Подати оголошення</a>
@@ -13,15 +13,15 @@
         <div class="rubryka">
             <nav>
                 <ul class="menu">
-                    <li class="rub-1">
+                    <li class="rub-1" ng-click="index.goTo('trade');" style="cursor:pointer;">
                         <p>[[ ('TRADE_HEADER' | translate).substr(0, 100) ]]...</p>
-                        <a ng-href="/advertisements/trade">[[ 'MORE_INFO' | translate ]]</a>
+                        <a>[[ 'MORE_INFO' | translate ]]</a>
                     </li>
-                    <li class="rub-2">
+                    <li class="rub-2" ng-click="index.goTo('found');" style="cursor:pointer;">
                         <p>[[ ('FOUND_HEADER' | translate).substr(0, 100) ]]...</p>
                         <a ng-href="/advertisements/found">[[ 'MORE_INFO' | translate ]]</a>
                     </li>
-                    <li class="rub-3">
+                    <li class="rub-3" ng-click="index.goTo('gift');" style="cursor:pointer;">
                         <p>[[ ('GIFT_HEADER' | translate).substr(0, 100) ]]...</p>
                         <a ng-href="/advertisements/gift">[[ 'MORE_INFO' | translate ]]</a>
                     </li>
@@ -33,143 +33,37 @@
         <div class="anons">
             <div class="anons-table">
                 <div class="t-column">
-                    <div class="t-row">
+                    <div class="t-row" ng-repeat="adv in index.advs.trade">
                         <div class="t-cell image">
-                            <img src="apple2.jpg">
+                            <img ng-src="[[ adv.attachments[0].image ]]">
                         </div>
                         <div class="t-cell">
-                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                        </div>
-                    </div>
-                    <div class="t-row">
-                        <div class="t-cell image">
-                            <img src="iphone.jpg">
-                        </div>
-                        <div class="t-cell">
-                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                        </div>
-                    </div>
-                    <div class="t-row">
-                        <div class="t-cell image">
-                            <img src="apple2.jpg">
-                        </div>
-                        <div class="t-cell">
-                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                        </div>
-                    </div>
-                    <div class="t-row">
-                        <div class="t-cell image">
-                            <img src="iphone.jpg">
-                        </div>
-                        <div class="t-cell">
-                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                        </div>
-                    </div>
-                    <div class="t-row">
-                        <div class="t-cell image">
-                            <img src="apple.jpg">
-                        </div>
-                        <div class="t-cell">
-                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                            <a ng-href="/advertisement/trade/[[ adv.id ]]">[[ ::adv.title ]]</a>
+                            <p>[[ ::adv.description.substr(0, 50) ]]</p>
                         </div>
                     </div>
                 </div>
+
                 <div class="t-column">
-                    <div class="t-row">
+                    <div class="t-row" ng-repeat="adv in index.advs.find">
                         <div class="t-cell image">
-                            <img src="iphone.jpg">
+                            <img ng-src="[[ adv.attachments[0].image ]]">
                         </div>
                         <div class="t-cell">
-                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                        </div>
-                    </div>
-                    <div class="t-row">
-                        <div class="t-cell image">
-                            <img src="apple2.jpg">
-                        </div>
-                        <div class="t-cell">
-                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                        </div>
-                    </div>
-                    <div class="t-row">
-                        <div class="t-cell image">
-                            <img src="apple2.jpg">
-                        </div>
-                        <div class="t-cell">
-                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                        </div>
-                    </div>
-                    <div class="t-row">
-                        <div class="t-cell image">
-                            <img src="apple.jpg">
-                        </div>
-                        <div class="t-cell">
-                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                        </div>
-                    </div>
-                    <div class="t-row">
-                        <div class="t-cell image">
-                            <img src="apple2.jpg">
-                        </div>
-                        <div class="t-cell">
-                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                            <a ng-href="/advertisement/found/[[ adv.id ]]">[[ ::adv.title ]]</a>
+                            <p>[[ ::adv.description.substr(0, 50) ]]</p>
                         </div>
                     </div>
                 </div>
+
                 <div class="t-column n-margin">
-                    <div class="t-row">
+                    <div class="t-row" ng-repeat="adv in index.advs.gift">
                         <div class="t-cell image">
-                            <img src="apple.jpg">
+                            <img ng-src="[[ adv.attachments[0].image ]]">
                         </div>
                         <div class="t-cell">
-                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                        </div>
-                    </div>
-                    <div class="t-row">
-                        <div class="t-cell image">
-                            <img src="iphone.jpg">
-                        </div>
-                        <div class="t-cell">
-                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                        </div>
-                    </div>
-                    <div class="t-row">
-                        <div class="t-cell image">
-                            <img src="apple2.jpg">
-                        </div>
-                        <div class="t-cell">
-                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                        </div>
-                    </div>
-                    <div class="t-row">
-                        <div class="t-cell image">
-                            <img src="apple.jpg">
-                        </div>
-                        <div class="t-cell">
-                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
-                        </div>
-                    </div>
-                    <div class="t-row">
-                        <div class="t-cell image">
-                            <img src="iphone.jpg">
-                        </div>
-                        <div class="t-cell">
-                            <a href="#">Apple iPhone 6 Plus 16GB Silver</a>
-                            <p>Екран 5.5' Retina (1920x1080, сенсорний ємнісний Multi-Touch)</p>
+                            <a ng-href="/advertisement/gift/[[ adv.id ]]">[[ ::adv.title ]]</a>
+                            <p>[[ ::adv.description.substr(0, 50) ]]</p>
                         </div>
                     </div>
                 </div>

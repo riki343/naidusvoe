@@ -14,6 +14,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Advertisment
 {
+    const TRADE = 1;
+    const FIND  = 2;
+    const GIFT  = 3;
+
     /**
      * @var integer
      * @ORM\Column(name="id", type="integer")
@@ -317,7 +321,8 @@ class Advertisment
             $query->andWhere('a.categoryID = :param');
             $query->setParameter('param', $filter);
         }
-        $query->orderBy('a.date', 'DESC');
+        $query->orderBy('a.onTopUntill', 'DESC');
+        $query->addOrderBy('a.date', 'DESC');
         return $query->getQuery();
     }
 
@@ -355,6 +360,25 @@ class Advertisment
             return $this;
         } else {
             return null;
+        }
+    }
+
+    public function checkForExpire() {
+        $now = new \DateTime();
+        if (($time = $this->getOnMainUntill()) !== null && $now->getTimestamp() - $time->getTimestamp() > 0) {
+            $this->setOnMainUntill(null);
+        }
+
+        if (($time = $this->getOnTopUntill()) !== null && $now->getTimestamp() - $time->getTimestamp() > 0) {
+            $this->setOnTopUntill(null);
+        }
+
+        if (($time = $this->getFilledUntill()) !== null && $now->getTimestamp() - $time->getTimestamp() > 0) {
+            $this->setFilledUntill(null);
+        }
+
+        if (($time = $this->getOnBlockUntill()) !== null && $now->getTimestamp() - $time->getTimestamp() > 0) {
+            $this->setOnBlockUntill(null);
         }
     }
 

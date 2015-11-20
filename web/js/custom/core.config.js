@@ -32,6 +32,22 @@
                 'templateUrl': templates + 'index.html',
                 'firewall': 'anonymous'
             })
+            .when('/terms-of-use', {
+                'templateUrl': templates + 'terms-of-use.html',
+                'firewall': 'anonymous'
+            })
+            .when('/additional-features', {
+                'templateUrl': templates + 'additional-features.html',
+                'firewall': 'anonymous'
+            })
+            .when('/privacy-and-policy', {
+                'templateUrl': templates + 'privacy-and-policy.html',
+                'firewall': 'anonymous'
+            })
+            .when('/about', {
+                'templateUrl': templates + 'about.html',
+                'firewall': 'anonymous'
+            })
             .when('/pay/confirm/:hash', {
                 'templateUrl': templates + 'payment-status.html',
                 'firewall': 'logged_in'

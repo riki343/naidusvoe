@@ -116,12 +116,17 @@
             } else {
                 VK.Auth.login(function(response) {
                     if (response.session) {
-                        var promise = auth.loginOAuth(generateVKAuthRequest(VK.Auth.getSession()), null);
+                        var promise = auth.loginOAuth(generateVKAuthRequest(response.session), null);
                         promise.then(function (localResponse) {
                             if (localResponse.status === 'credential_required') {
-                                self.OAuthRequest = response;
-                                self.credentials.name = response.user.first_name;
-                                modalContainer.modal({'show': true, 'backdrop': 'static'});
+                                VK.Api.call('users.get', {uids: response.session.mid }, function(r) {
+                                    if(r.response) {
+                                        var credentials = r.response[0];
+                                        self.OAuthRequest = response;
+                                        self.credentials.name = credentials.first_name;
+                                        modalContainer.modal({'show': true, 'backdrop': 'static'});
+                                    }
+                                });
                             }
                         });
                     }

@@ -1,7 +1,9 @@
 (function (angular) {
     angular.module('NaiduSvoe').directive('advImage', advImage);
 
-    function advImage() {
+    advImage.$inject = ['$translate', 'notify'];
+
+    function advImage($translate, notify) {
         return {
             'restrict': 'E',
             'link': link,
@@ -23,6 +25,12 @@
             var input = $element.find('input');
             input.on('change', function (event) {
                 var src = (event.srcElement || event.target).files[0];
+                if (src.size / 1048576 > 2) {
+                    $translate('MAX_FILE_SIZE_2').then(function (val) {
+                        notify(val);
+                    });
+                    return;
+                }
                 var fileReader = new FileReader();
                 var image = null;
                 fileReader.onload = function (event) {

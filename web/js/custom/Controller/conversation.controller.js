@@ -6,6 +6,14 @@
     function Controller($http, $routeParams, spinner) {
         var self = this;
 
+        this.conv = {};
+        this.user = {
+            'avatar':   '',
+            'name':     '',
+            'email':    '',
+            'username': ''
+        };
+
         if (angular.isDefined($routeParams.conv_id)) {
             this.conversation_id = $routeParams.conv_id;
         }
@@ -16,7 +24,8 @@
             );
             spinner.addPromise(promise);
             promise.success(function (response) {
-                self.conv = response;
+                self.conv = response.conversation;
+                self.user = response.user;
                 var msgs = self.conv.messages;
                 for (var i = msgs.length - 1; i > 0; i--) {
                     msgs[i].first = (

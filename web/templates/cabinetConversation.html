@@ -21,29 +21,21 @@
                         <form id="chat" novalidate ng-submit="conversation.sendNewMessage(conversation.message);">
 
                             <div class="chat-mess" scroll-glue>
-                                <div ng-repeat="message in conversation.conv.messages">
-
-                                    <div ng-if="message.first" class="col-xs-offset-1 col-xs-10">
-                                        <h5 align="center" class="text-info">[[ 'LABEL_NEW_MESSAGES_CONVERSATION' | translate ]]</h5>
-                                        <hr style="margin-top: 5px;"/>
-                                    </div>
-
-                                    <div class="mess-guest" ng-if="message.user.id != conversation.conv.myself.id">
-                                        <span>[[ ::message.user.username ]]</span>
-                                        <img ng-src="[[ ::message.user.avatar ]]" alt="[[ ::conversation.conv.advertismentTitle ]]">
-                                        <p>[[ ::message.message ]]</p>
-                                    </div>
-
-                                    <div class="mess-user" ng-if="message.user.id == conversation.conv.myself.id">
-                                        <span>[[ ::message.user.username ]]</span>
-                                        <img ng-src="[[ ::message.user.avatar ]]" alt="[[ ::conversation.conv.advertismentTitle ]]">
-                                        <p>[[ ::message.message ]]</p>
-                                    </div>
-                                </div>
+                                <conversation-message
+                                        ng-repeat="message in conversation.conv.messages"
+                                        message="message"
+                                        conversation="conversation.conv">
+                                </conversation-message>
                             </div>
 
                             <div class="chat-vidp">
-                                <img src="icon-user-default.png">
+                                <adaptive-image
+                                        style="float: left;"
+                                        img-src="conversation.user.avatar"
+                                        img-alt="conversation.user.username"
+                                        img-width="60px"
+                                        img-height="60px">
+                                </adaptive-image>
                                 <textarea ng-model="conversation.message"></textarea>
                                 <button type="submit">[[ 'BUTTON_SEND_MESSAGE' | translate ]]</button>
                             </div>
@@ -54,35 +46,3 @@
         </div>
     </div>
 </div>
-
-<!--<div class="panel panel-default" ng-if="(!spinner)">-->
-    <!--<div class="panel-heading">-->
-        <!--<h4 align="center">[[ 'CONVERSATION_HEADER' | translate ]]</h4>-->
-    <!--</div>-->
-    <!--<div class="conversation-block panel-body" >-->
-
-        <!--<div class="col-xs-12" ng-repeat="message in conv.messages">-->
-
-            <!--<div class="col-xs-11" ng-class="{'col-xs-offset-1': message.user.id == user.id }">-->
-                <!--<div class="row">-->
-                    <!--<div class="col-sm-2 col-xs-3" ng-if="message.user.id != user.id">-->
-                        <!--<div class="pull-right">-->
-                            <!--<img ng-src="[[ message.user.avatar ]]" class="img-circle img-responsive msg-avatar hidden-xs" alt="user" />-->
-                            <!--<p class="msg-nick">[[ message.user.username ]]</p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-sm-10 col-xs-9">-->
-                        <!--<div class="user-msg">-->
-                            <!--[[ message.message ]]-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-sm-2 col-xs-3" ng-if="message.user.id == user.id">-->
-                        <!--<div class="pull-left">-->
-                            <!--<img ng-src="[[ message.user.avatar ]]" class="img-circle img-responsive msg-avatar hidden-xs" alt="user" />-->
-                            <!--<p class="msg-nick">[[ message.user.username ]]</p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->

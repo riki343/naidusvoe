@@ -1,0 +1,16 @@
+<div ng-if="message.first" class="col-xs-offset-1 col-xs-10">
+    <h5 align="center" class="text-info">[[ 'LABEL_NEW_MESSAGES_CONVERSATION' | translate ]]</h5>
+    <hr style="margin-top: 5px;"/>
+</div>
+
+<div class="mess-guest" ng-if="message.user.id != conversation.myself.id">
+    <span>[[ message.user.name ]]</span>
+    <img ng-src="[[ message.user.avatar ]]" alt="[[ conversation.advertismentTitle ]]">
+    <p>[[ message.message ]]</p>
+</div>
+
+<div class="mess-user" ng-if="message.user.id == conversation.myself.id">
+    <span>[[ message.user.name ]]</span>
+    <img ng-src="[[ message.user.avatar ]]" alt="[[ conversation.advertismentTitle ]]">
+    <p>[[ message.message ]]</p>
+</div>

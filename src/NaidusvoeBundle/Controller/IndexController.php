@@ -17,6 +17,10 @@ class IndexController extends Controller
 {
     /**
      * @Route("/", name="naidusvoe_homepage")
+     * @Route("/terms-of-use")
+     * @Route("/additional-features")
+     * @Route("/privacy-and-policy")
+     * @Route("/about")
      * @Route("/cabinet")
      * @Route("/cabinet/advs")
      * @Route("/cabinet/messages")

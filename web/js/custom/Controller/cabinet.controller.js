@@ -28,9 +28,15 @@
         $('#change-avatar-input').on('change', function (event) {
             $scope.$apply(function () {
                 var src = (event.srcElement || event.target).files[0];
+                if (src.size / 1048576 > 1) {
+                    $translate('MAX_FILE_SIZE_1').then(function (val) {
+                        notify(val);
+                    });
+                    return;
+                }
                 var fileReader = new FileReader();
                 fileReader.onload = function () {
-                    $scope.$broadcast('FileLoad', fileReader.result);
+                    $scope.$broadcast('FileLoaded', fileReader.result);
                     $scope.$apply();
                 };
                 fileReader.readAsDataURL(src);
@@ -38,7 +44,7 @@
         });
 
         $scope.$on('FileLoaded', function (event, data) {
-            self.user.avatar = data.result;
+            self.user.avatar = data;
             var promise = $http.post(Routing.generate('change-avatar'), self.user.avatar);
             promise.success(function (response) {
                 if (response !== null) {

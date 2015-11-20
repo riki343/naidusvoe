@@ -90,7 +90,7 @@ class ConversationController extends Controller {
         if ($conversation->getUser1ID() == $user->getId() || $conversation->getUser2ID() == $user->getId()) {
             $jsonConv = $conversation->getInArray($user);
             Conversation::setViewed($em, $conversation->getMessages(), $user);
-            return new JsonResponse($jsonConv);
+            return new JsonResponse([ 'conversation' => $jsonConv, 'user' => $user->getInArray()]);
         } else {
             return new JsonResponse(false);
         }

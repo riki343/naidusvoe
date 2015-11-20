@@ -26,20 +26,6 @@ security:
             anonymous: ~
 
         secured_area:
-            remember_me:
-                key:      "%secret%"
-                lifetime: 31536000
-                path:     /
-                always_remember_me: true
-            #oauth:
-            #    remember_me: true
-            #    resource_owners:
-            #        facebook: "/login/check-facebook"
-            #        vkontakte: "/login/check-vkontakte"
-            #    login_path:        /login
-            #    failure_path:      /login
-            #    oauth_user_provider:
-            #        service: naidusvoe.hwi
             pattern:    ^/
             anonymous: ~
             form_login:
@@ -49,3 +35,10 @@ security:
             logout:
                 path:   /logout
                 target: /
+            remember_me:
+                key:      znaidusvoe_365_cookie_key
+                lifetime: 31536000
+                always_remember_me: true
+                remember_me_parameter: _remember_me
+                path: /
+                domain: ~
