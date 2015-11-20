@@ -39,8 +39,9 @@ class NotificationsController extends Controller
      */
     public function testAction()
     {
-        $user = $this->getUser();
-        $this->get('naidusvoe.notifier')->addNotification([$user], Notification::SIMPLE_NOTIFICATION, ['content' => "Some notification"]);
-        return $this->redirectToRoute('naidusvoe_homepage');
+        return $this->render('@Naidusvoe/mail.html.twig', [
+            'content'=>"content",
+            'Initiator'=>"initiator"
+        ]);
     }
 }

@@ -70,7 +70,7 @@
                         }
                     }, self.notifications);
                 }
-                else
+                if (notifications.length === 0)
                 {
                     $rootScope.$broadcast('NewMessageNotification',null);
                 }

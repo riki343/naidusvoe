@@ -46,7 +46,7 @@ class Notifier
             {
                 $notification->setConversationId($notificationDetails['conversationId']);
                 $notification->setMessageId($notificationDetails['messageId']);
-                $notification->setContent("You got private message from user");
+                $notification->setContent("Ви отримали особисте повідомлення");
                 $userInitiatorId = $notificationDetails['userInitiatorId'];
                 $initiator = $this->em->find('NaidusvoeBundle:User', $userInitiatorId)->getUsername();
                 $notification->setInitiatorId($userInitiatorId);
